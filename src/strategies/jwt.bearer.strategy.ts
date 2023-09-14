@@ -1,14 +1,16 @@
-import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
+import {Strategy as JwtStrategy, ExtractJwt} from 'passport-jwt';
 import jwksRsa from 'jwks-rsa';
-import env from 'var';
-import { logDebug, logError } from '../operations/common/logging';
-import { isTrue } from '../utils/isTrue';
+import {logDebug, logError} from '../utils/logging';
+import {isTrue} from '../utils/isTrue';
 import async from 'async';
 import superagent from 'superagent';
-import { Issuer } from 'openid-client';
-import { IncomingMessage } from 'http';
-import { JSONWebKey } from 'jwks-rsa';
-import { Issuer as OpenIdIssuer, BaseClient, UserinfoResponse, UnknownObject } from 'openid-client';
+import {Issuer} from 'openid-client';
+import {IncomingMessage} from 'http';
+import {JSONWebKey} from 'jwks-rsa';
+import {Issuer as OpenIdIssuer, BaseClient, UserinfoResponse, UnknownObject} from 'openid-client';
+import ConfigManager from "../utils/configManager";
+
+const configManager = new ConfigManager();
 
 const requiredJWTFields: string[] = [
     'custom:bwellFhirPersonId',
@@ -23,8 +25,8 @@ const getExternalJwksByUrlAsync = async (jwksUrl: string): Promise<JSONWebKey[]>
 };
 
 const getExternalJwksAsync = async (): Promise<JSONWebKey[]> => {
-    if (env.EXTERNAL_AUTH_JWKS_URLS.length > 0) {
-        const extJwksUrls: string[] = env.EXTERNAL_AUTH_JWKS_URLS.split(',');
+    if (configManager.EXTERNAL_AUTH_JWKS_URLS.length > 0) {
+        const extJwksUrls: string[] = configManager.EXTERNAL_AUTH_JWKS_URLS.split(',');
         const keysArray: JSONWebKey[][] = await async.map(
             extJwksUrls,
             async (extJwksUrl: string) => await getExternalJwksByUrlAsync(extJwksUrl.trim())
@@ -39,26 +41,27 @@ let openIdClientIssuer: OpenIdIssuer<BaseClient> | null = null;
 
 const getOrCreateOpenIdClientIssuerAsync = async (): Promise<OpenIdIssuer<BaseClient>> => {
     if (!openIdClientIssuer) {
-        if (!env.AUTH_ISSUER) {
+        if (!configManager.AUTH_ISSUER) {
             logError('AUTH_ISSUER environment variable is not set', {});
         }
-        const issuerUrl = env.AUTH_ISSUER;
+        const issuerUrl = configManager.AUTH_ISSUER;
         openIdClientIssuer = await Issuer.discover(issuerUrl);
     }
     return openIdClientIssuer;
 };
 
-const getUserInfoAsync = async (accessToken: string): Promise<UserinfoResponse<Object | undefined, UnknownObject> | undefined> => {
+const getUserInfoAsync = async (accessToken: string): Promise<
+    UserinfoResponse<Object, UnknownObject> | undefined> => {
     const issuer = await getOrCreateOpenIdClientIssuerAsync();
     if (!issuer) {
         return undefined;
     }
-    if (!env.AUTH_CODE_FLOW_CLIENT_ID) {
+    if (!configManager.AUTH_CODE_FLOW_CLIENT_ID) {
         logError('AUTH_CODE_FLOW_CLIENT_ID environment variable is not set', {});
     }
 
     const client: BaseClient = new issuer.Client({
-        client_id: env.AUTH_CODE_FLOW_CLIENT_ID,
+        client_id: configManager.AUTH_CODE_FLOW_CLIENT_ID,
     });
 
     if (!client) {
@@ -69,7 +72,9 @@ const getUserInfoAsync = async (accessToken: string): Promise<UserinfoResponse<O
 
 const cookieExtractor = function (req: IncomingMessage): string | null {
     let token: string | null = null;
+    // @ts-ignore
     if (req && req.cookies) {
+        // @ts-ignore
         token = req.cookies['jwt'];
         logDebug('Found cookie jwt', {user: '', args: {token: token}});
     } else {
@@ -78,10 +83,23 @@ const cookieExtractor = function (req: IncomingMessage): string | null {
     return token;
 };
 
-type RequestCallback = (user: Object, info: Object, details?: Object) => void;
 
-function parseUserInfoFromPayload({username, subject, isUser, jwt_payload, done, client_id, scope}: {username: string, subject: string, isUser: boolean, jwt_payload: Object, done: RequestCallback, client_id: string, scope: string | null}): Object {
-    const context: {[key: string]: any} = {};
+type RequestCallback = (user: Object| null,
+                        info: Object,
+                        details?: Object) => number;
+
+interface ParseUserInfoResult {
+    username: string;
+    subject: string;
+    isUser: boolean;
+    jwt_payload: Record<string, string>;
+    done: RequestCallback;
+    client_id: string;
+    scope: string | null;
+}
+
+function parseUserInfoFromPayload({username, subject, isUser, jwt_payload, done, client_id, scope}: ParseUserInfoResult): Object {
+    const context: { [key: string]: any } = {};
     if (username) {
         context['username'] = username;
     }
@@ -115,17 +133,18 @@ function parseUserInfoFromPayload({username, subject, isUser, jwt_payload, done,
     return done(null, {id: client_id, isUser, name: username, username: username}, {scope, context});
 }
 
-const verify = (request: IncomingMessage, jwt_payload: Object, done: RequestCallback): any => {
+const verify = (request: IncomingMessage, jwt_payload: Record<string, string>, done: RequestCallback): any => {
     if (jwt_payload) {
         let isUser = false;
         if (jwt_payload['cognito:username']) {
             isUser = true;
         }
-        const client_id = jwt_payload.client_id ? jwt_payload.client_id : jwt_payload[env.AUTH_CUSTOM_CLIENT_ID];
-        let scope = jwt_payload.scope ? jwt_payload.scope : jwt_payload[env.AUTH_CUSTOM_SCOPE];
-        const groups = jwt_payload[env.AUTH_CUSTOM_GROUP] ? jwt_payload[env.AUTH_CUSTOM_GROUP] : '';
+        const client_id = jwt_payload.client_id ? jwt_payload.client_id : jwt_payload[configManager.AUTH_CUSTOM_CLIENT_ID];
+        let scope = jwt_payload.scope ? jwt_payload.scope : jwt_payload[configManager.AUTH_CUSTOM_SCOPE];
+        // @ts-ignore
+        const groups: string[] = jwt_payload[configManager.AUTH_CUSTOM_GROUP] ? jwt_payload[configManager.AUTH_CUSTOM_GROUP] : '';
         const username = jwt_payload.username ? jwt_payload.username : jwt_payload['cognito:username'];
-        const subject = jwt_payload.subject ? jwt_payload.subject : jwt_payload[env.AUTH_CUSTOM_SUBJECT];
+        const subject = jwt_payload.subject ? jwt_payload.subject : jwt_payload[configManager.AUTH_CUSTOM_SUBJECT];
         const tokenUse = jwt_payload.token_use ? jwt_payload.token_use : null;
 
         if (groups.length > 0) {
@@ -140,11 +159,13 @@ const verify = (request: IncomingMessage, jwt_payload: Object, done: RequestCall
             tokenUse === 'access'
         ) {
             isUser = true;
+            // @ts-ignore
             const authorizationHeader = request.header('Authorization');
             const accessToken = authorizationHeader ? authorizationHeader.split(' ').pop() : cookieExtractor(request);
             if (accessToken) {
                 return getUserInfoAsync(accessToken).then(
                     (id_token_payload) => {
+                        // @ts-ignore
                         return parseUserInfoFromPayload(
                             {
                                 username, subject, isUser, jwt_payload: id_token_payload, done, client_id, scope
@@ -174,6 +195,7 @@ class MyJwtStrategy extends JwtStrategy {
 
     authenticate(req: any, options: any) {
         const self = this;
+        // @ts-ignore
         const token = self._jwtFromRequest(req);
         const resourceUrl = req.originalUrl ? Buffer.from(req.originalUrl).toString('base64') : '';
         if (
@@ -181,13 +203,13 @@ class MyJwtStrategy extends JwtStrategy {
             req.accepts('text/html') &&
             req.useragent &&
             req.useragent.isDesktop &&
-            isTrue(env.REDIRECT_TO_LOGIN) &&
+            isTrue(configManager.REDIRECT_TO_LOGIN) &&
             (req.method === 'GET' ||
                 (req.method === 'POST' && resourceUrl && resourceUrl.includes('_search')))
         ) {
-            const httpProtocol = env.ENVIRONMENT === 'local' ? 'http' : 'https';
-            const redirectUrl = `${env.AUTH_CODE_FLOW_URL}/login?` +
-                `response_type=code&client_id=${env.AUTH_CODE_FLOW_CLIENT_ID}` +
+            const httpProtocol = configManager.ENVIRONMENT === 'local' ? 'http' : 'https';
+            const redirectUrl = `${configManager.AUTH_CODE_FLOW_URL}/login?` +
+                `response_type=code&client_id=${configManager.AUTH_CODE_FLOW_CLIENT_ID}` +
                 `&redirect_uri=${httpProtocol}://${req.headers.host}/authcallback&state=${resourceUrl}`;
             logDebug('Redirecting', {user: '', args: {redirect: redirectUrl}});
             return self.redirect(redirectUrl);
@@ -203,7 +225,7 @@ export const strategy = new MyJwtStrategy(
             cache: true,
             rateLimit: true,
             jwksRequestsPerMinute: 5,
-            jwksUri: env.AUTH_JWKS_URL,
+            jwksUri: configManager.AUTH_JWKS_URL,
             getKeysInterceptor: async () => {
                 return await getExternalJwksAsync();
             },
