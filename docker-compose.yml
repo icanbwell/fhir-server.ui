@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  fhir-ui:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NODE_ENV: development
+    env_file:
+      - .env
+    #        mem_limit: 1g  # Set a memory limit of 1GB
+    environment:
+      SERVER_PORT: 3000
+      AUTH_SERVER_URI: http://myauthzserver.com
+      CLIENT_ID: client
+      CLIENT_SECRET: secret
+      AUTH_CONFIGURATION_URI: https://cognito-idp.us-east-1.amazonaws.com/us-east-1_yV7wvD4xD/.well-known/openid-configuration
+      AUTH_JWKS_URL: https://cognito-idp.us-east-1.amazonaws.com/us-east-1_yV7wvD4xD/.well-known/jwks.json
+      AUTH_ISSUER: https://cognito-idp.us-east-1.amazonaws.com/us-east-1_yV7wvD4xD
+      AUTH_CODE_FLOW_URL: https://bwell-dev.auth.us-east-1.amazoncognito.com
+      AUTH_ENABLED: 1
+      REDIRECT_TO_LOGIN: 1
+      EXTERNAL_AUTH_JWKS_URLS: 'https://cognito-idp.us-east-1.amazonaws.com/us-east-1_e4iVm1J4X/.well-known/jwks.json'
+      AUTH_CUSTOM_GROUP: "cognito:groups"
+      AUTH_CUSTOM_SCOPE: "custom:scope"
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./src:/srv/src/src
+      - ./package.json:/srv/src/package.json
+      - ./yarn.lock:/srv/src/yarn.lock
+    command: yarn run dev
+    healthcheck:
+      test: [ 'CMD-SHELL', 'curl --silent --fail localhost:3000/health || exit 1' ]

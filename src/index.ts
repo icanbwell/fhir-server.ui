@@ -9,6 +9,7 @@ import {handleAdminReact} from "./routeHandlers/adminReact";
 const app = express();
 const PORT = 3000;
 
+app.get('/health', (req, res) => res.json({status: "OK"}));
 // serve react js and css files
 app.use('/static', express.static(path.join(__dirname, './web/build/static')));
 
