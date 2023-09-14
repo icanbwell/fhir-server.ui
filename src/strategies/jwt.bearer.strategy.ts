@@ -84,7 +84,7 @@ const cookieExtractor = function (req: IncomingMessage): string | null {
 };
 
 
-type RequestCallback = (user: Object| null,
+type RequestCallback = (user: Object | null,
                         info: Object,
                         details?: Object) => number;
 
@@ -166,9 +166,10 @@ const verify = (request: IncomingMessage, jwt_payload: Record<string, string>, d
                 return getUserInfoAsync(accessToken).then(
                     (id_token_payload) => {
                         // @ts-ignore
+                        const jwt_payload: Record<string, string> = id_token_payload;
                         return parseUserInfoFromPayload(
                             {
-                                username, subject, isUser, jwt_payload: id_token_payload, done, client_id, scope
+                                username, subject, isUser, jwt_payload: jwt_payload, done, client_id, scope
                             }
                         );
                     }

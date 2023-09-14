@@ -1,4 +1,7 @@
 class ConfigManager {
+    get authEnabled(): string {
+        return process.env.AUTH_ENABLED || "";
+    }
     get EXTERNAL_AUTH_JWKS_URLS(): string {
         return process.env.EXTERNAL_AUTH_JWKS_URLS || "";
     }
