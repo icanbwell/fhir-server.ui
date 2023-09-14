@@ -35,5 +35,19 @@
     "npm-check-updates": "^16.14.2",
     "supertest": "^6.3.3",
     "typescript": "^5.2.2"
+  },
+  "jest": {
+    "watchman": false,
+    "watchPathIgnorePatterns": [
+      "globalConfig"
+    ],
+    "testEnvironment": "node",
+    "testPathIgnorePatterns": [
+      "<rootDir>/node_modules/",
+      "<rootDir>/src/web"
+    ],
+    "setupFiles": [
+      "<rootDir>/jest/setEnvVars.js"
+    ]
   }
 }
