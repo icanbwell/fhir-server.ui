@@ -10,10 +10,10 @@ describe('GET /hello', () => {
      */
     it('responds with Hello, World!', async () => {
         const response: request.Response = await request(app)
-            .get('/hello')
+            .get('/health')
             .expect('Content-Type', /json/)
             .expect(200);
 
-        expect(response.body.message).toBe('Hello, World!');
+        expect(response.body.status).toBe('OK');
     });
 });
