@@ -1,5 +1,5 @@
 import nock from 'nock';
-import jose from 'jose';
+import * as jose from 'jose'
 import async from 'async';
 
 /**
@@ -17,10 +17,8 @@ export function jwksEndpoint(host: string, path: string, certs: { pub: string, k
             async.map(
                 certs,
                 async (cert: { pub: string, kid: string }) => {
-                    // @ts-ignore
-                    const parsed = await jose.JWK.asKey(cert.pub, 'ES256');
-                    // @ts-ignore
-                    const publicJwk = await jose.JWK.asKey(parsed);
+                    const parsed = await jose.importSPKI(cert.pub, 'ES256');
+                    const publicJwk = await jose.exportJWK(parsed);
                     return {
                         alg: 'RS256',
                         e: publicJwk.e,
@@ -56,11 +54,6 @@ export function jwksDiscoveryEndpoint(host: string): nock.Scope {
 
 /**
  * creates a mock endpoint for /.well-known/openid-configuration
- * @param {string} host
- * @param {string} token
- * @param {string} patientId
- * @param {string} personId
- * @return {nock.Scope}
  */
 export function jwksUserInfoEndpoint({host, token, patientId, personId}: {
     host: string,
@@ -68,6 +61,7 @@ export function jwksUserInfoEndpoint({host, token, patientId, personId}: {
     patientId: string,
     personId: string
 }): nock.Scope {
+    // noinspection SpellCheckingInspection
     return nock(
         host,
         {
