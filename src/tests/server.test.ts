@@ -29,9 +29,10 @@ describe('GET /hello', () => {
     });
     it('/admin responds properly', async () => {
         const response: request.Response = await request(app)
-            .get('/admin')
+            .get('/admin/')
             .set(getHtmlHeadersWithAdminToken())
             .expect(200);
+        expect(response.body.status).toBe('OK');
     });
     server.close();
 });
