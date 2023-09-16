@@ -25,7 +25,7 @@
 
 "@babel/core@^7.11.6", "@babel/core@^7.12.3", "@babel/core@^7.22.19":
   version "7.22.19"
-  resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.22.19.tgz#b38162460a6f3baf2a424bda720b24a8aafea241"
+  resolved "https://registry.npmjs.org/@babel/core/-/core-7.22.19.tgz"
   integrity sha512-Q8Yj5X4LHVYTbLCKVz0//2D2aDmHF4xzCdEttYvKOnWvErGsa6geHXD6w46x64n5tP69VfeH+IfSrdyH3MLhwA==
   dependencies:
     "@ampproject/remapping" "^2.2.0"

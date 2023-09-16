@@ -32,7 +32,8 @@ describe('GET /hello', () => {
             .get('/admin/')
             .set(getHtmlHeadersWithAdminToken())
             .expect(200);
-        expect(response.body.status).toBe('OK');
+        const startText = "<!doctype html>"
+        expect(response.text).toMatch(new RegExp(`^${startText}?`));
     });
     server.close();
 });
