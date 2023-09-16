@@ -1,8 +1,10 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Button, TextField, Container, Typography, Box, Select, MenuItem, FormControl, InputLabel} from '@mui/material';
 import AdminApi from "../utils/adminApi";
+import EnvironmentContext from "../EnvironmentContext";
 
 const PersonMatchPage: React.FC = () => {
+        const {fhirUrl} = useContext(EnvironmentContext);
     const [sourceId, setSourceId] = useState<string>('');
     const [sourceType, setSourceType] = useState<string>('Patient');
     const [targetId, setTargetId] = useState<string>('');
@@ -10,7 +12,7 @@ const PersonMatchPage: React.FC = () => {
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        const response = new AdminApi().runPersonMatch(
+        const response = new AdminApi(fhirUrl).runPersonMatch(
             {
                 sourceId, sourceType, targetId, targetType
             }

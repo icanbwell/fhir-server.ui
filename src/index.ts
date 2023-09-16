@@ -18,6 +18,13 @@ app.get('/', (req, res) => {
     res.send('Hello from Express and TypeScript!');
 });
 
+app.get('/api/env', (req, res) => {
+    // Send only the environment variables you want to expose
+    res.json({
+        FHIR_SERVER_URL: process.env.FHIR_SERVER_URL,
+    });
+});
+
 const configManager = new ConfigManager();
 
 if (isTrue(configManager.authEnabled)) {

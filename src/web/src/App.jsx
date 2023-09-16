@@ -1,5 +1,5 @@
 import './App.css';
-import React from 'react';
+import React, {useState} from 'react';
 import {
     Routes,
     Route,
@@ -22,10 +22,12 @@ import PersonPatientLinkPage from "./admin/personPatientLink";
 import SearchLogsPage from "./admin/searchLogs";
 import SearchPage from "./pages/SearchPage";
 import IndexPage from "./pages/IndexPage";
+import EnvironmentContext from './EnvironmentContext';
 
 // import ErrorPage from "./error-page";
 
 function App() {
+    const [fhirUrl, setFhirUrl] = useState("");
     const router = createBrowserRouter(
         [
             {path: "*", Component: Root},
@@ -57,8 +59,9 @@ function App() {
     }
 
     return (
-        // https://reactrouter.com/en/main/start/overview
-        <RouterProvider router={router}/>
+        <EnvironmentContext.Provider value={fhirUrl}>
+            <RouterProvider router={router}/>
+        </EnvironmentContext.Provider>
     );
 }
 

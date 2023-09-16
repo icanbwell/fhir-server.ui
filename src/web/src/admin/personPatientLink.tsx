@@ -1,8 +1,10 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Button, TextField, Container, Typography} from '@mui/material';
 import AdminApi from "../utils/adminApi";
+import EnvironmentContext from "../EnvironmentContext";
 
 const PersonPatientLinkPage: React.FC = () => {
+        const {fhirUrl} = useContext(EnvironmentContext);
     const [bwellPersonId, setBwellPersonId] = useState('');
     const [externalPersonId, setExternalPersonId] = useState('');
     const [patientId, setPatientId] = useState('');
@@ -10,27 +12,27 @@ const PersonPatientLinkPage: React.FC = () => {
 
     const handleShowLinkGraph = async (event: React.FormEvent) => {
         event.preventDefault();
-        await new AdminApi().showPersonToPersonLink(bwellPersonId);
+        await new AdminApi(fhirUrl).showPersonToPersonLink(bwellPersonId);
     };
 
     const handleCreatePersonToPersonLink = async (event: React.FormEvent) => {
         event.preventDefault();
-        await new AdminApi().createPersonToPersonLink(bwellPersonId, externalPersonId);
+        await new AdminApi(fhirUrl).createPersonToPersonLink(bwellPersonId, externalPersonId);
     };
 
     const handleRemovePersonToPersonLink = async (event: React.FormEvent) => {
         event.preventDefault();
-        await new AdminApi().removePersonToPersonLink(bwellPersonId, externalPersonId);
+        await new AdminApi(fhirUrl).removePersonToPersonLink(bwellPersonId, externalPersonId);
     };
 
     const handleCreatePersonToPatientLink = async (event: React.FormEvent) => {
         event.preventDefault();
-        await new AdminApi().createPersonToPatientLink(externalPersonId, patientId);
+        await new AdminApi(fhirUrl).createPersonToPatientLink(externalPersonId, patientId);
     };
 
     const handleDeletePerson = async (event: React.FormEvent) => {
         event.preventDefault();
-        await new AdminApi().deletePerson(personId);
+        await new AdminApi(fhirUrl).deletePerson(personId);
     };
 
     return (

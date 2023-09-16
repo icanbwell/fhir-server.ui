@@ -1,13 +1,15 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {Button, TextField} from '@mui/material';
 import AdminApi from "../utils/adminApi";
+import EnvironmentContext from "../EnvironmentContext";
 
 const SearchLogsPage: React.FC = () => {
+    const {fhirUrl} = useContext(EnvironmentContext);
     const [id, setId] = useState<string>('');
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        await new AdminApi().searchLogs(id);
+        await new AdminApi(fhirUrl).searchLogs(id);
     };
 
     return (

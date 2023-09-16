@@ -22,7 +22,7 @@ async function handleAdminReact(
 
     if (!configManager.authEnabled || adminScopes.length > 0) {
         const path1 = path.join(__dirname, '../web/build', 'index.html');
-        console.log(`Route: /runPersonMatch/*: ${path1}`);
+        // console.log(`Route: /runPersonMatch/*: ${path1}`);
         return res.sendFile(path1);
     }
     return next();
