@@ -1,5 +1,5 @@
 import './App.css';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     Routes,
     Route,
@@ -34,6 +34,29 @@ function App() {
         ],
         {basename: "/"}
     );
+
+    useEffect(() => {
+        // Fetching environment data from server using async/await
+        const fetchEnvData = async () => {
+            try {
+                const response = await fetch('/api/env');
+                if (!response.ok) {
+                // noinspection ExceptionCaughtLocallyJS
+                    throw new Error("Network response was not ok");
+                }
+
+                const data = await response.json();
+                setFhirUrl(data.fhirUrl);
+                console.log(`Setting fhirUrl to ${fhirUrl}`);
+            } catch (error) {
+                console.error("There was a problem with the fetch operation:", error.message);
+            }
+        };
+
+        // React does not support async calls here and recommends we just call the function
+        // noinspection JSIgnoredPromiseFromCall
+        fetchEnvData();
+    }, []);
 
     // 1️Changed from App to Root
     function Root() {
