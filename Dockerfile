@@ -61,7 +61,7 @@ COPY --chown=node:node package.json /srv/src/package.json
 COPY --chown=node:node yarn.lock /srv/src/yarn.lock
 
 # Copy the remaining application code.ß
-COPY --chown=node:node . /srv/src
+# COPY --chown=node:node . /srv/src
 
 # Copy code from multi-stage build above
 COPY --from=build_react /srv/src/src/web/build /srv/src/src/web/build
