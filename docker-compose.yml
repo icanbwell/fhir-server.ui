@@ -19,19 +19,22 @@ services:
       AUTH_JWKS_URL: https://cognito-idp.us-east-1.amazonaws.com/us-east-1_yV7wvD4xD/.well-known/jwks.json
       AUTH_ISSUER: https://cognito-idp.us-east-1.amazonaws.com/us-east-1_yV7wvD4xD
       AUTH_CODE_FLOW_URL: https://bwell-dev.auth.us-east-1.amazoncognito.com
+      AUTH_CODE_FLOW_CLIENT_ID: 5et51l3beeahp016i4qe6hurtr
       AUTH_ENABLED: 0
       REDIRECT_TO_LOGIN: 1
       EXTERNAL_AUTH_JWKS_URLS: 'https://cognito-idp.us-east-1.amazonaws.com/us-east-1_e4iVm1J4X/.well-known/jwks.json'
       AUTH_CUSTOM_GROUP: "cognito:groups"
       AUTH_CUSTOM_SCOPE: "custom:scope"
+      LOG_DEBUG: 1
     ports:
       - '5051:3000'
     volumes:
       - ./src:/srv/src/src
+      - ./dist:/srv/src/dist
       - ./package.json:/srv/src/package.json
       - ./yarn.lock:/srv/src/yarn.lock
       - ./tsconfig.json:/srv/src/tsconfig.json
-      - ./babel.config.json:/srv/src/babel.config.json
+      - ./babel.config.js:/srv/src/babel.config.js
     command: yarn run dev
     healthcheck:
       test: [ 'CMD-SHELL', 'curl --silent --fail localhost:3000/health || exit 1' ]
