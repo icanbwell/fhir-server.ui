@@ -4,9 +4,11 @@
   "description": "UI to display FHIR resources in a web browser",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "yarn clean && tsc && yarn copy-files",
+    "clean": "rm -rf ./dist",
     "start": "node dist/index.js",
-    "dev": "node dist/index.js"
+    "dev": "node dist/index.js",
+    "copy-files": "cp ./src/oauth/*.html ./dist/oauth/"
   },
   "keywords": [],
   "author": "",

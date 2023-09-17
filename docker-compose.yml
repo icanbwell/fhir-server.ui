@@ -26,6 +26,8 @@ services:
       AUTH_CUSTOM_GROUP: "cognito:groups"
       AUTH_CUSTOM_SCOPE: "custom:scope"
       LOG_DEBUG: 1
+      ENV: local
+      ENVIRONMENT: local
     ports:
       - '5051:3000'
     volumes:

@@ -25,6 +25,22 @@ app.get('/api/env', (req, res) => {
     });
 });
 
+// handles when the user is redirected by the OpenIDConnect/OAuth provider
+app.get('/authcallback', (req, res) => {
+    const configManager = new ConfigManager();
+    const httpProtocol = configManager.ENVIRONMENT === 'local' ? 'http' : 'https';
+    // @ts-ignore
+    const state: string = req.query.state ;
+    const resourceUrl = state ?
+        encodeURIComponent(Buffer.from(state, 'base64').toString('ascii')) : '';
+    const redirectUrl = `${httpProtocol}`.concat('://', `${req.headers.host}`, '/authcallback');
+    res.redirect(
+        `/callback.html?code=${req.query.code}&resourceUrl=${resourceUrl}` +
+        `&clientId=${configManager.AUTH_CODE_FLOW_CLIENT_ID}&redirectUri=${redirectUrl}` +
+        `&tokenUrl=${configManager.AUTH_CODE_FLOW_URL}/oauth2/token`
+    );
+});
+
 const configManager = new ConfigManager();
 
 if (isTrue(configManager.authEnabled)) {
