@@ -9,6 +9,10 @@ import {handleAdminReact} from "./routeHandlers/adminReact";
 const app = express();
 
 app.get('/health', (req, res) => res.json({status: "OK"}));
+
+// seve oauth static files
+app.use(express.static(path.join(__dirname, 'oauth')));
+
 // serve react js and css files
 app.use('/static', express.static(path.join(__dirname, './web/build/static')));
 
@@ -30,15 +34,15 @@ app.get('/authcallback', (req, res) => {
     const configManager = new ConfigManager();
     const httpProtocol = configManager.ENVIRONMENT === 'local' ? 'http' : 'https';
     // @ts-ignore
-    const state: string = req.query.state ;
+    const state: string = req.query.state;
     const resourceUrl = state ?
         encodeURIComponent(Buffer.from(state, 'base64').toString('ascii')) : '';
     const redirectUrl = `${httpProtocol}`.concat('://', `${req.headers.host}`, '/authcallback');
-    res.redirect(
-        `/callback.html?code=${req.query.code}&resourceUrl=${resourceUrl}` +
+    let fullRedirectUrl = `/callback.html?code=${req.query.code}&resourceUrl=${resourceUrl}` +
         `&clientId=${configManager.AUTH_CODE_FLOW_CLIENT_ID}&redirectUri=${redirectUrl}` +
-        `&tokenUrl=${configManager.AUTH_CODE_FLOW_URL}/oauth2/token`
-    );
+        `&tokenUrl=${configManager.AUTH_CODE_FLOW_URL}/oauth2/token`;
+    console.log(`AuthCallback Redirecting to ${fullRedirectUrl}`);
+    res.redirect(fullRedirectUrl);
 });
 
 const configManager = new ConfigManager();
