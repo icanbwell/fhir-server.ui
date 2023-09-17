@@ -86,7 +86,7 @@ fix-lint:
 
 .PHONY:shell
 shell: ## Brings up the bash shell in dev docker
-	docker compose -p fhir-dev-ui -f docker-compose.yml run --rm --name fhir fhir /bin/sh
+	docker compose -p fhir-dev-ui -f docker-compose.yml run --rm --name fhir-ui fhir-ui /bin/sh
 
 .PHONY:clean-pre-commit
 clean-pre-commit: ## removes pre-commit hook

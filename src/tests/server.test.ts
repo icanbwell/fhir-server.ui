@@ -1,6 +1,7 @@
 import request from 'supertest';
-import {app, server} from '../index';
+import {server} from '../index';
 import {commonAfterEach, commonBeforeEach, getHtmlHeadersWithAdminToken} from "./common";
+import {app} from "../app";
 
 /**
  * @description Test suite for GET /hello endpoint

@@ -1,53 +1,11 @@
-import express from 'express';
-import path from "path";
-import ConfigManager from "./utils/configManager";
-import {isTrue} from "./utils/isTrue";
-import passport from "passport";
-import {strategy} from "./strategies/jwt.bearer.strategy";
-import {handleAdminReact} from "./routeHandlers/adminReact";
+import http from "http";
+import {app} from "./app";
 
-const app = express();
-const PORT = 3000;
-
-app.get('/health', (req, res) => res.json({status: "OK"}));
-// serve react js and css files
-app.use('/static', express.static(path.join(__dirname, './web/build/static')));
-
-
-app.get('/', (req, res) => {
-    res.send('Hello from Express and TypeScript!');
-});
-
-app.get('/api/env', (req, res) => {
-    // Send only the environment variables you want to expose
-    res.json({
-        FHIR_SERVER_URL: process.env.FHIR_SERVER_URL,
+const server = http
+    .createServer(app)
+    .listen(3000, undefined, undefined, async () => {
+        // const image = process.env.DOCKER_IMAGE || '';
+        console.log(`Server has started on port 3000`);
     });
-});
 
-const configManager = new ConfigManager();
-
-if (isTrue(configManager.authEnabled)) {
-    // Set up admin routes
-    passport.use('adminStrategy', strategy);
-    // app.use(cors(fhirServerConfig.server.corsOptions));
-}
-
-const adminRouter = express.Router({mergeParams: true});
-if (isTrue(configManager.authEnabled)) {
-    adminRouter.use(passport.initialize());
-    adminRouter.use(passport.authenticate('adminStrategy', {session: false}, undefined));
-}
-adminRouter.get('/admin/:op?',
-    (req, res, next) => handleAdminReact(
-        req, res, next
-    )
-);
-app.use(adminRouter);
-
-
-const server = app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-});
-
-export {app, server};
+export {server};
