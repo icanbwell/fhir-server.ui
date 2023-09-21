@@ -1,12 +1,22 @@
 import express from 'express';
 import path from "path";
 import ConfigManager from "./utils/configManager";
-import {isTrue} from "./utils/isTrue";
 import passport from "passport";
 import {strategy} from "./strategies/jwt.bearer.strategy";
 import {handleAdminReact} from "./routeHandlers/adminReact";
+import useragent from "express-useragent";
+import cookieParser from "cookie-parser";
 
 const app = express();
+
+// middleware to parse cookies
+app.use(cookieParser());
+
+// middleware to parse user agent string
+app.use(useragent.express());
+
+// middleware for oAuth
+app.use(passport.initialize());
 
 app.get('/health', (req, res) => res.json({status: "OK"}));
 

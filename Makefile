@@ -14,7 +14,7 @@ publish:
 up:
 	docker compose -f docker-compose.yml  -p fhir-dev-ui build --parallel && \
 	docker compose -p fhir-dev-ui -f docker-compose.yml up --detach && \
-	echo FHIR server: http://localhost:5051
+	echo FHIR server: http://localhost:5051/admin
 
 .PHONY:up-offline
 up-offline:

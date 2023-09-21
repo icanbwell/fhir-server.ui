@@ -33,9 +33,6 @@ export const commonBeforeEach = async (): Promise<void> => {
 
 /**
  * sets up mock OpenId server
- * @param {string} token
- * @param {string} patientId
- * @param {string} personId
  */
 export const setupMockOpenIdServer = ({token, patientId, personId}: {
     token: string,
@@ -67,17 +64,27 @@ export const commonAfterEach = async (): Promise<void> => {
 };
 
 
-export const getTokenWithAdminClaims = () => {
+export function getTokenWithAdminClaims(): string {
     return createToken(privateKey, '123', {
         custom_client_id: 'my_custom_client_id',
         groups: ['admin/*.*'],
     });
-};
+}
 
-export const getHtmlHeadersWithAdminToken = () => {
+const htmlAcceptHeader: string = 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9';
+const htmlUserAgent: string = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36';
+
+export function getHtmlHeadersWithAdminToken(): Object {
     return {
-        Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+        Accept: htmlAcceptHeader,
         Authorization: `Bearer ${getTokenWithAdminClaims()}`,
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36'
+        'User-Agent': htmlUserAgent
     };
-};
+}
+
+export function getHtmlHeadersWithoutToken(): Object {
+    return {
+        Accept: htmlAcceptHeader,
+        'User-Agent': htmlUserAgent
+    };
+}
