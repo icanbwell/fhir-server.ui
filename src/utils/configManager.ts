@@ -1,6 +1,8 @@
+import {isTrue} from "./isTrue";
+
 class ConfigManager {
-    get authEnabled(): string {
-        return process.env.AUTH_ENABLED || "";
+    get authEnabled(): boolean {
+        return isTrue(process.env.AUTH_ENABLED);
     }
     get EXTERNAL_AUTH_JWKS_URLS(): string {
         return process.env.EXTERNAL_AUTH_JWKS_URLS || "";
@@ -38,8 +40,8 @@ class ConfigManager {
         return process.env.AUTH_CUSTOM_SUBJECT || "";
     }
 
-    get REDIRECT_TO_LOGIN(): string {
-        return process.env.REDIRECT_TO_LOGIN || "";
+    get REDIRECT_TO_LOGIN(): boolean {
+        return isTrue(process.env.REDIRECT_TO_LOGIN);
     }
 
     get ENVIRONMENT(): string {

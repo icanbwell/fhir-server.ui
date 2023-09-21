@@ -99,6 +99,7 @@ interface ParseUserInfoResult {
 }
 
 function parseUserInfoFromPayload({username, subject, isUser, jwt_payload, done, client_id, scope}: ParseUserInfoResult): Object {
+    console.log(`JwtBearerStrategy parseUserInfoFromPayload: ${jwt_payload}`)
     const context: { [key: string]: any } = {};
     if (username) {
         context['username'] = username;
@@ -134,6 +135,7 @@ function parseUserInfoFromPayload({username, subject, isUser, jwt_payload, done,
 }
 
 const verify = (request: IncomingMessage, jwt_payload: Record<string, string>, done: RequestCallback): any => {
+    console.log(`JwtBearerStrategy verify: ${jwt_payload}`);
     if (jwt_payload) {
         let isUser = false;
         if (jwt_payload['cognito:username']) {
@@ -213,6 +215,7 @@ class MyJwtStrategy extends JwtStrategy {
                 `response_type=code&client_id=${configManager.AUTH_CODE_FLOW_CLIENT_ID}` +
                 `&redirect_uri=${httpProtocol}://${req.headers.host}/authcallback&state=${resourceUrl}`;
             logDebug('Redirecting', {user: '', args: {redirect: redirectUrl}});
+            console.log(`JwtBearerStrategy redirecting to ${redirectUrl}`);
             return self.redirect(redirectUrl);
         }
 

@@ -10,7 +10,7 @@ const app = express();
 
 app.get('/health', (req, res) => res.json({status: "OK"}));
 
-// seve oauth static files
+// save oauth static files
 app.use(express.static(path.join(__dirname, 'oauth')));
 
 // serve react js and css files
@@ -33,6 +33,8 @@ app.get('/api/env', (req, res) => {
 app.get('/authcallback', (req, res) => {
     const configManager = new ConfigManager();
     const httpProtocol = configManager.ENVIRONMENT === 'local' ? 'http' : 'https';
+    console.log(`Request: ${req.query}`);
+    console.log(`Code: ${req.query.code}`);
     // @ts-ignore
     const state: string = req.query.state;
     const resourceUrl = state ?
@@ -47,14 +49,15 @@ app.get('/authcallback', (req, res) => {
 
 const configManager = new ConfigManager();
 
-if (isTrue(configManager.authEnabled)) {
+if (configManager.authEnabled) {
     // Set up admin routes
+    console.log("Setting up passport routes");
     passport.use('adminStrategy', strategy);
     // app.use(cors(fhirServerConfig.server.corsOptions));
 }
 
 const adminRouter = express.Router({mergeParams: true});
-if (isTrue(configManager.authEnabled)) {
+if (configManager.authEnabled) {
     adminRouter.use(passport.initialize());
     adminRouter.use(passport.authenticate('adminStrategy', {session: false}, undefined));
 }

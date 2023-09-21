@@ -17,6 +17,9 @@ $(document).ready(function () {
 
   const querystring = $.param(data);
 
+  console.log('tokenUrl', tokenUrl);
+  console.log('querystring', querystring);
+
   axios
       .request({
           url: tokenUrl,

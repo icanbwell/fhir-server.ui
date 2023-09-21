@@ -27,9 +27,13 @@ async function handleAdminReact(
         console.log(`Route: /runPersonMatch/*: ${path1}`);
         return res.sendFile(path1);
     } else {
+        console.log(req);
         console.log("No Auth found");
         // Redirect to login page
 
+        // can't just urlencode per https://docs.aws.amazon.com/cognito/latest/developerguide/authorization-endpoint.html
+        // "You can't set the value of a state parameter to a URL-encoded JSON string. To pass a string that matches
+        // this format in a state parameter, encode the string to Base64, then decode it in your app.
         // @ts-ignore
         const resourceUrl = req.originalUrl ? Buffer.from(req.originalUrl).toString('base64') : '';
 
