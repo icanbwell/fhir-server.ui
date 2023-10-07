@@ -1,5 +1,5 @@
 import httpContext from 'express-http-context';
-import {RESPONSE_NONCE} from '../constants';
+import {constants} from '../constants';
 import ConfigManager from "../utils/configManager";
 
 /**
@@ -10,7 +10,7 @@ import ConfigManager from "../utils/configManager";
  */
 export function handleSecurityPolicy(req: Express.Request, res: Express.Response, next: Function): void {
     // get the nonce id for current request
-    const nonce = httpContext.get(RESPONSE_NONCE);
+    const nonce = httpContext.get(constants.RESPONSE_NONCE);
 
     const configManager = new ConfigManager();
 
