@@ -1,5 +1,4 @@
-import React from 'react';
-import {makeStyles} from '@mui/styles';
+import {makeStyles} from '@mui//styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -12,7 +11,7 @@ const useStyles = makeStyles({
     table: {},
 });
 
-function Meta({meta, resource}) {
+function Meta({meta, resourceType, id}) {
     const classes = useStyles();
     if (!meta) {
         return null;
@@ -28,20 +27,20 @@ function Meta({meta, resource}) {
                     <Typography variant="body1">
                         <b>Last Updated:</b> {meta.lastUpdated}
                         <Link
-                            title={`Get ${resource.resourceType} resources on this date`}
-                            href={`/4_0_0/${resource.resourceType}?_lastUpdated=${formatDate(meta.lastUpdated).substring(0, 10)}`}
+                            title={`Get ${resourceType} resources on this date`}
+                            href={`/4_0_0/${resourceType}?_lastUpdated=eq.${formatDate(meta.lastUpdated).substring(0, 10)}`}
                         >
                             [On This Date]
                         </Link>
                         <Link
-                            title={`Get ${resource.resourceType} resources before this date`}
-                            href={`/4_0_0/${resource.resourceType}?_lastUpdated=lt${formatDate(meta.lastUpdated).split('.')[0] + 'Z'}`}
+                            title={`Get ${resourceType} resources before this date`}
+                            href={`/4_0_0/${resourceType}?_lastUpdated=lt${formatDate(meta.lastUpdated).split('.')[0] + 'Z'}`}
                         >
                             [Before This]
                         </Link>
                         <Link
-                            title={`Get ${resource.resourceType} resources after this date`}
-                            href={`/4_0_0/${resource.resourceType}?_lastUpdated=gt${formatDate(meta.lastUpdated).split('.')[0] + 'Z'}`}
+                            title={`Get ${resourceType} resources after this date`}
+                            href={`/4_0_0/${resourceType}?_lastUpdated=gt${formatDate(meta.lastUpdated).split('.')[0] + 'Z'}`}
                         >
                             [After This]
                         </Link>
@@ -53,7 +52,7 @@ function Meta({meta, resource}) {
                     <b>Version:</b> {meta.versionId}
                     <Link
                         title="Show history for this resource"
-                        href={`/4_0_0/${resource.resourceType}/${resource.id}/_history`}
+                        href={`/4_0_0/${resourceType}/${id}/_history`}
                     >
                         [History]
                     </Link>
@@ -63,8 +62,8 @@ function Meta({meta, resource}) {
                 <Typography variant="body1">
                     <b>Source:</b>
                     <Link
-                        title={`Filter ${resource.resourceType} by ${meta.source}`}
-                        href={`/4_0_0/${resource.resourceType}?source=${meta.source}`}
+                        title={`Filter ${resourceType} by ${meta.source}`}
+                        href={`/4_0_0/${resourceType}?source=${meta.source}`}
                     >
                         {meta.source}
                     </Link>
@@ -86,8 +85,8 @@ function Meta({meta, resource}) {
                                 <TableCell>{security.id}</TableCell>
                                 <TableCell>
                                     <Link
-                                        title={`Filter ${resource.resourceType} by ${security.code}`}
-                                        href={`/4_0_0/${resource.resourceType}?_security=${security.system}|${security.code}`}
+                                        title={`Filter ${resourceType} by ${security.code}`}
+                                        href={`/4_0_0/${resourceType}?_security=${security.system}|${security.code}`}
                                     >
                                         {security.code}
                                     </Link>

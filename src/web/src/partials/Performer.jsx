@@ -1,7 +1,6 @@
-import React from "react";
 import {Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Link, Box} from "@mui/material";
 
-function Performer({performers, name}) {
+function Performer({reference: performers, name}) {
     // Ensure performers is always an array
     const normalizedPerformers = Array.isArray(performers) ? performers : [performers];
 

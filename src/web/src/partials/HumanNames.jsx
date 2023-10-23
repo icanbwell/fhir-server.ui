@@ -1,4 +1,3 @@
-import React from 'react';
 import {Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography} from '@mui/material';
 import {Link} from 'react-router-dom';
 

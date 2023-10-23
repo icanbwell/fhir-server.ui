@@ -1,12 +1,11 @@
-import React from 'react';
 import {Typography} from '@mui/material';
 
-const Decimal = ({name, value}) => {
-    if (!value) return null;
+const Decimal = ({name, decimal}) => {
+    if (!decimal) return null;
 
     return (
         <Typography component="div">
-            <b>{name}:</b>&nbsp;{value}
+            <b>{name}:</b>&nbsp;{decimal}
         </Typography>
     );
 };

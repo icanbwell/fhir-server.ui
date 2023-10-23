@@ -1,4 +1,3 @@
-import React from 'react';
 import {Typography, Table, TableHead, TableBody, TableRow, TableCell, Link, Box} from '@mui/material';
 
 const Participant = ({ name, participants }) => {

@@ -1,11 +1,10 @@
-import React from 'react';
 import {Typography, Box} from '@mui/material';
 
-const Markdown = ({name, value}) => {
-    if (value !== undefined) {
+const Markdown = ({name, markdown}) => {
+    if (markdown !== undefined) {
         return (
             <Box>
-                <Typography variant="body1" component="div"><b>{name}:</b>&nbsp;{value}</Typography>
+                <Typography variant="body1" component="div"><b>{name}:</b>&nbsp;{markdown}</Typography>
             </Box>
         )
     }

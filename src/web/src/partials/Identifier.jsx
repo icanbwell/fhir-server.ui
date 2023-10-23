@@ -12,7 +12,7 @@ const useStyles = makeStyles({
     table: {},
 });
 
-function Identifier({identifiers, resourceType, name}) {
+function Identifier({identifier: identifiers, resourceType, name}) {
     const classes = useStyles();
 
     if (!identifiers || identifiers.length === 0) {
@@ -34,7 +34,7 @@ function Identifier({identifiers, resourceType, name}) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {identifiers && identifiers.map(identifier => {
+                        {identifiers && identifiers.map((identifier) => {
                             if (identifier) {
                                 return (
                                     <TableRow key={identifier.id}>
@@ -46,13 +46,13 @@ function Identifier({identifiers, resourceType, name}) {
                                         <TableCell>{identifier.system}</TableCell>
                                         <TableCell>
                                             {identifier.type && identifier.type.coding &&
-                                                identifier.type.coding.map(coding => <span
+                                                identifier.type.coding.map((coding) => <span
                                                     key={coding.code}>{coding.code} &nbsp;</span>)
                                             }
                                         </TableCell>
                                         <TableCell>
                                             {identifier.type && identifier.type.coding &&
-                                                identifier.type.coding.map(coding => <span
+                                                identifier.type.coding.map((coding) => <span
                                                     key={coding.system}>{coding.system} &nbsp;</span>)
                                             }
                                         </TableCell>

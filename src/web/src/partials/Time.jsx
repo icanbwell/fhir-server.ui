@@ -1,12 +1,11 @@
-import React from 'react';
 import { Typography, Box } from '@mui/material';
 
-const Time = ({ name, value }) => {
-    if (value) {
+const Time = ({ name, time }) => {
+    if (time) {
         return (
             <Box>
                 <Typography variant="body1" component="div">
-                    <b>{name}:</b>&nbsp;{value}
+                    <b>{name}:</b>&nbsp;{time}
                 </Typography>
             </Box>
         );

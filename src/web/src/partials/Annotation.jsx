@@ -1,10 +1,9 @@
-import React from 'react';
-import {Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Box} from '@mui/material';
+import { Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Box } from '@mui/material';
 
-const Annotation = ({annotations}) => {
+const Annotation = ({ annotation }) => {
 
     // Check if annotations is not an array and convert it to an array
-    let normalizedAnnotations = Array.isArray(annotations) ? annotations : [annotations];
+    let normalizedAnnotations = Array.isArray(annotation) ? annotation : [annotation];
 
     // Filter out any null or undefined annotations
     normalizedAnnotations = normalizedAnnotations.filter(annotation => !!annotation);

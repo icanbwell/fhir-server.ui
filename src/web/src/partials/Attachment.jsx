@@ -1,9 +1,11 @@
-import React, {useState, useEffect} from "react";
-import {Accordion, AccordionSummary, AccordionDetails, Typography, Box} from '@mui/material';
+import { useState, useEffect } from "react";
+import { Accordion, AccordionSummary, AccordionDetails, Typography, Box } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Buffer } from "buffer";
 
-const Attachment = ({value}) => {
-    const [items, setItems] = useState([]);
+const Attachment = ({ attachment }) => {
+    const { value } = attachment;
+    const [items, setItems] = useState<any>([]);
 
     useEffect(() => {
         if (value && !Array.isArray(value)) {
@@ -27,7 +29,7 @@ const Attachment = ({value}) => {
             {items && items.length > 0 && items[0] && items.map((item, index) => (
                 <Accordion key={index}>
                     <AccordionSummary
-                        expandIcon={<ExpandMoreIcon/>}
+                        expandIcon={<ExpandMoreIcon />}
                         aria-controls={`panel${index}-content`}
                         id={`panel${index}-header`}
                     >

@@ -1,7 +1,6 @@
-import React from 'react';
 import { Typography, Link, Box } from '@mui/material';
 
-function Reference({ references = [], name }) {
+function Reference({ reference: references = [], name }) {
     // Ensure that references is an array
     if (!Array.isArray(references)) {
         references = [references];

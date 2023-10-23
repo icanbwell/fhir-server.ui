@@ -28,6 +28,7 @@ services:
       LOG_DEBUG: 1
       ENV: local
       ENVIRONMENT: local
+      FHIR_SERVER_URL: http://localhost:3000
     ports:
       - '5051:3000'
     volumes:

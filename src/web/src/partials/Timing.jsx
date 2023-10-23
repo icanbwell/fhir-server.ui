@@ -1,6 +1,5 @@
-import React from 'react';
 import {Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Box} from '@mui/material';
-import CodeableConcept from '../partials/CodeableConcept';
+import CodeableConcept from './CodeableConcept';
 
 function Timing({ timing, name }) {
   // Convert timing to array if it's not

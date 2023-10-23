@@ -1,13 +1,12 @@
-import React from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
-const Boolean = ({name, value}) => {
-    if (value !== undefined) {
+const Boolean = ({boolean, name}) => {
+    if (boolean !== undefined) {
         return (
             <Box>
                 <Typography variant="body1">
-                    <b>{name}:</b>&nbsp;{value ? 'True' : 'False'}
+                    <b>{name}:</b>&nbsp;{boolean ? 'True' : 'False'}
                 </Typography>
             </Box>
         );

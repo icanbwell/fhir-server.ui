@@ -1,13 +1,12 @@
-import React from 'react';
-import {Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography} from '@mui/material';
+import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 
-const Address = ({addresses, name, resourceType}) => {
-    if (!Array.isArray(addresses)) {
-        addresses = [addresses];
+const Address = ({ address, name, resourceType }) => {
+    if (!Array.isArray(address)) {
+        address = [address];
     }
 
     return (
-        addresses && addresses.length > 0 && addresses[0] ? (
+        address && address.length > 0 && address[0] ? (
             <Box>
                 <Typography variant="h4">{name}</Typography>
                 <TableContainer>
@@ -24,7 +23,7 @@ const Address = ({addresses, name, resourceType}) => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {addresses.map((address) => {
+                            {address.map((address) => {
                                 return (
                                     address ? (
                                         <TableRow key={address.id}>
