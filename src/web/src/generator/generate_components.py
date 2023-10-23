@@ -73,7 +73,7 @@ def main() -> int:
                 template_contents = file.read()
                 from jinja2 import Template
 
-                file_path = pages_folder.joinpath(f"{entity_file_name}.tsx")
+                file_path = pages_folder.joinpath(f"{entity_file_name}.jsx")
                 print(f"Writing domain resource: {entity_file_name} to {file_path}...")
                 template = Template(
                     template_contents, trim_blocks=True, lstrip_blocks=True

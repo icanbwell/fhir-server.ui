@@ -5,7 +5,7 @@ import { Buffer } from "buffer";
 
 const Attachment = ({ attachment }) => {
     const { value } = attachment;
-    const [items, setItems] = useState<any>([]);
+    const [items, setItems] = useState([]);
 
     useEffect(() => {
         if (value && !Array.isArray(value)) {

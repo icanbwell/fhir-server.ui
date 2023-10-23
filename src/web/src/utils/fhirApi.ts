@@ -21,7 +21,7 @@ interface GetBundleAsyncParams {
 }
 
 interface GetUrlParams {
-    baseUrl: string;
+    baseUrl: string|undefined;
     resourceType: string;
     id?: string;
     queryString?: string;
@@ -93,7 +93,7 @@ class FhirApi {
         queryParameters,
         operation,
     }: GetUrlParams): URL {
-        let urlString = `${baseUrl}/4_0_0/${resourceType}`;
+        let urlString = `${baseUrl ? baseUrl : ''}/4_0_0/${resourceType}`;
         if (id) {
             urlString += `/${id}`;
         }
