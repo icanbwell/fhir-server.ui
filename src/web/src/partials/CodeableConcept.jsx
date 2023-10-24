@@ -1,7 +1,7 @@
 import React from 'react';
-import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Link} from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, Link } from '@mui/material';
 
-function CodeableConcept({codeableConcepts, name, resourceType, searchParameter}) {
+function CodeableConcept({ codeableConcept: codeableConcepts, name, resourceType, searchParameter }) {
     if (!Array.isArray(codeableConcepts)) {
         codeableConcepts = [codeableConcepts];
     }
@@ -51,7 +51,8 @@ function CodeableConcept({codeableConcepts, name, resourceType, searchParameter}
                         </TableHead>
                         <TableBody>
                             {codeableConcepts.flatMap((codeableConcept, index) =>
-                                    codeableConcept.coding && codeableConcept.coding.map((coding, index2) => (
+                                <>
+                                    {codeableConcept.coding && codeableConcept.coding.map((coding, index2) => (
                                         <TableRow key={`${index}.${index2}`}>
                                             <TableCell>{coding.id}</TableCell>
                                             <TableCell>{codeableConcept.text || coding.display}</TableCell>
@@ -64,13 +65,13 @@ function CodeableConcept({codeableConcepts, name, resourceType, searchParameter}
                                                         </Link>
                                                     </TableCell>
                                                     <TableCell>
-                                                        <Link href={getLink(coding.system, coding.code)}>
+                                                        {(coding.system && coding.code) ? <Link href={getLink(coding.system, coding.code)}>
                                                             {coding.code}
-                                                        </Link>
+                                                        </Link> : <>{coding.code}</>}
                                                         [<Link
-                                                        href={`/4_0_0/${resourceType}?${searchParameter}=${coding.system}|${coding.code}`}>
-                                                        Search
-                                                    </Link>]
+                                                            href={`/4_0_0/${resourceType}?${searchParameter}=${coding.system || ''}|${coding.code}`}>
+                                                            Search
+                                                        </Link>]
                                                     </TableCell>
                                                 </>
                                             ) : (
@@ -84,7 +85,16 @@ function CodeableConcept({codeableConcepts, name, resourceType, searchParameter}
                                                 </>
                                             )}
                                         </TableRow>
-                                    ))
+                                    ))}
+                                    {codeableConcept.text && (
+                                        <TableRow>
+                                            <TableCell></TableCell>
+                                            <TableCell>{codeableConcept.text}</TableCell>
+                                            <TableCell></TableCell>
+                                            <TableCell></TableCell>
+                                        </TableRow>
+                                    )}
+                                </>
                             )}
                         </TableBody>
                     </Table>

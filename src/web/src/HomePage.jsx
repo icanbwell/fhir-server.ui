@@ -5,8 +5,8 @@ import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconBu
 import DescriptionIcon from '@mui/icons-material/Description';
 
 import {makeStyles} from '@mui/styles';
-import Header from './partials/Header';
-import Footer from './partials/Footer';
+import Header from './components/Header';
+import Footer from './components/Footer';
 import {useNavigate} from 'react-router-dom';
 
 

@@ -26,7 +26,7 @@ export function handleSecurityPolicy(req: Express.Request, res: Express.Response
             "script-src 'self' " + `'nonce-${nonce}' ` + 'https://ajax.googleapis.com/ https://cdnjs.cloudflare.com http://cdn.jsdelivr.net https://embeddable-sandbox.cdn.apollographql.com https://apollo-server-landing-page.cdn.apollographql.com ' + configManager.AUTH_CODE_FLOW_URL + ';' +
             "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com/ http://cdn.jsdelivr.net https://embeddable-sandbox.cdn.apollographql.com https://apollo-server-landing-page.cdn.apollographql.com " + configManager.AUTH_CODE_FLOW_URL + ';' +
             "frame-src 'self' https://embeddable-sandbox.cdn.apollographql.com https://sandbox.embed.apollographql.com/; " +
-            "connect-src 'self' " + configManager.AUTH_CODE_FLOW_URL + '/oauth2/token;' +
+            "connect-src 'self' "+ configManager.FHIR_SERVER_URL + " " + configManager.AUTH_CODE_FLOW_URL + '/oauth2/token;' +
             "form-action 'self' https://embeddable-sandbox.cdn.apollographql.com https://sandbox.embed.apollographql.com/  https://apollo-server-landing-page.cdn.apollographql.com " + configManager.AUTH_CODE_FLOW_URL + ';' +
             "frame-ancestors 'self' https://embeddable-sandbox.cdn.apollographql.com https://sandbox.embed.apollographql.com/  https://apollo-server-landing-page.cdn.apollographql.com " + configManager.AUTH_CODE_FLOW_URL + ';'
         );

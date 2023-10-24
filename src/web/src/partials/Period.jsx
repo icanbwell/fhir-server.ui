@@ -1,7 +1,6 @@
-import React from 'react';
 import {Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Box} from '@mui/material';
 
-const Period = ({ periods, name }) => {
+const Period = ({ period: periods, name }) => {
   // Ensure periods is always an array
   if (!Array.isArray(periods)) {
     periods = [periods];

@@ -55,8 +55,7 @@ update:down
 	yarn install --no-optional && \
 	cd src/web && \
 	rm -f yarn.lock && \
-	yarn install --no-optional && \
-	npm i --package-lock-only
+	yarn install --no-optional
 
 # https://www.npmjs.com/package/npm-check-updates
 .PHONY:upgrade_packages
@@ -99,3 +98,9 @@ setup-pre-commit:
 .PHONY:run-pre-commit
 run-pre-commit: setup-pre-commit
 	./.git/hooks/pre-commit
+
+.PHONY:generate
+generate:
+	. ${NVM_DIR}/nvm.sh && nvm use && \
+	docker run --rm -it --name pythongenerator --mount type=bind,source="${PWD}"/src,target=/src python:3.8-slim-buster sh -c "pip install lxml jinja2 && python3 src/web/src/generator/generate_components.py" \
+	eslint --fix "src/web/src/pages/resources/**/*.tsx"

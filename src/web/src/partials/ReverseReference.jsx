@@ -1,4 +1,3 @@
-import React from 'react';
 import {Typography, Link, Box} from '@mui/material';
 
 function ReverseReference({name, id, reverseReferences}) {

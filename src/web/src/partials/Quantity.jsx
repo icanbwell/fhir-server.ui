@@ -1,7 +1,6 @@
-import React from 'react';
 import {Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Box} from '@mui/material';
 
-function Quantity({value = [], name = ''}) {
+function Quantity({quantity: value = [], name = ''}) {
     if (!Array.isArray(value)) {
         value = [value];
     }

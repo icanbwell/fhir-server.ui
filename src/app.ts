@@ -104,12 +104,6 @@ app.use(express.static(path.join(__dirname, 'oauth')));
 // serve react js and css files
 app.use('/static', express.static(path.join(__dirname, './web/build/static')));
 
-
-app.get('/', (req, res) => {
-    console.log('Hello from Express and TypeScript!');
-    res.send('Hello from Express and TypeScript!');
-});
-
 app.get('/api/env', (req, res) => {
     // Send only the environment variables you want to expose
     res.json({
@@ -164,6 +158,10 @@ app.get('/robots.txt', (req, res) => {
     // Your logic for the route goes here
     // If the resource is not found, send a 404 response
     res.status(404).send('Not Found');
+});
+
+app.get('/*', (req, res) => {
+    res.sendFile(path.join(__dirname + '/web/build/index.html'));
 });
 
 // enables access to reverse proxy information

@@ -1,9 +1,9 @@
 import {Typography, Box} from '@mui/material';
-import NameValue from '../partials/NameValue';
-import CodeableConcept from '../partials/CodeableConcept';
-import Timing from '../partials/Timing';
+import NameValue from './NameValue';
+import CodeableConcept from './CodeableConcept';
+import Timing from './Timing';
 
-const Dosage = ({dosages, name}) => {
+const Dosage = ({dosage: dosages, name}) => {
     return (
         <>
             {dosages && dosages.length > 0 && dosages[0] && (

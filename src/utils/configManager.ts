@@ -47,6 +47,10 @@ class ConfigManager {
     get ENVIRONMENT(): string {
         return process.env.ENVIRONMENT || "";
     }
+
+    get FHIR_SERVER_URL(): string {
+        return process.env.FHIR_SERVER_URL || "";
+    }
 }
 
 export default ConfigManager;

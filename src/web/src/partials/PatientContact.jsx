@@ -2,12 +2,12 @@ import React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 // import your partials as components
-import CodeableConcept from "../partials/CodeableConcept";
-import HumanNames from "../partials/HumanNames";
+import CodeableConcept from "./CodeableConcept";
+import HumanNames from "./HumanNames";
 
-const PatientContact = ({value, name, resourceType}) => {
+const PatientContact = ({patientContact, name, resourceType}) => {
     // Ensure 'value' is always an array
-    const values = Array.isArray(value) ? value : [value];
+    const values = Array.isArray(patientContact) ? patientContact : [patientContact];
 
     return (
         <>

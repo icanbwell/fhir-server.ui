@@ -1,13 +1,12 @@
-import React from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
-const Instant = ({name, value}) => {
+const Instant = ({name, instant}) => {
     return (
-        value ? (
+        instant ? (
             <Box>
                 <Typography variant="body1">
-                    <b>{name}:</b>&nbsp;{value}
+                    <b>{name}:</b>&nbsp;{instant}
                 </Typography>
             </Box>
         ) : null

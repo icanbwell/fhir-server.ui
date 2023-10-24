@@ -46,7 +46,7 @@ function App() {
                 }
 
                 const data = await response.json();
-                setFhirUrl(data.fhirUrl);
+                setFhirUrl(data.FHIR_SERVER_URL);
                 console.log(`Setting fhirUrl to ${fhirUrl}`);
             } catch (error) {
                 console.error("There was a problem with the fetch operation:", error.message);
@@ -70,8 +70,8 @@ function App() {
                 <Route path="/observationGraph" element={<ObservationGraph/>}/>
                 <Route path="/observationTimeline" element={<ObservationTimeline/>}/>
                 <Route path="/4_0_0/:resourceType/_search/*" element={<SearchPage/>}/>
-                <Route path="/4_0_0/:resourceType/:id?/:operation?/*" element={<IndexPage/>}/>
-                <Route path="/4_0_0/:resourceType/:operation?/*" element={<IndexPage/>}/>
+                <Route path="/4_0_0/:resourceType/:id?/:operation?/*" element={<IndexPage fhirUrl={fhirUrl} />}/>
+                <Route path="/4_0_0/:resourceType/:operation?/*" element={<IndexPage fhirUrl={fhirUrl} />}/>
                 <Route path="/admin" element={<AdminIndexPage/>}/>
                 <Route path="/admin/personMatch/*" element={<PersonMatchPage/>}/>
                 <Route path="/admin/patientData/*" element={<PatientDataPage/>}/>

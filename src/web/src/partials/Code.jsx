@@ -1,10 +1,9 @@
-import React from 'react';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
-import {Box} from '@mui/material';
+import { Box } from '@mui/material';
 
-const Code = ({name, value}) => {
-    if (!value) {
+const Code = ({ code, name }) => {
+    if (!code) {
         return null;
     }
 
@@ -13,8 +12,8 @@ const Code = ({name, value}) => {
             <Typography variant="body1" component="span">
                 <b>{name}:</b>&nbsp;
             </Typography>
-            <Link href={value}>
-                {value}
+            <Link href={code}>
+                {code}
             </Link>
         </Box>
     );

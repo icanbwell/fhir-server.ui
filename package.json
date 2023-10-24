@@ -2,13 +2,13 @@
   "name": "fhir-server-ui",
   "version": "1.0.0",
   "description": "UI to display FHIR resources in a web browser",
-  "main": "index.js",
+  "main": "src/index.ts",
   "scripts": {
     "build": "tsc && yarn copy-files",
     "build-clean": "yarn clean && tsc && yarn copy-files",
     "clean": "rm -rf ./dist",
     "start": "node dist/index.js",
-    "dev": "node dist/index.js",
+    "dev": "nodemon",
     "copy-files": "cp ./src/oauth/*.html ./dist/oauth/"
   },
   "keywords": [],
@@ -47,8 +47,10 @@
     "jest-matcher-utils": "^29.7.0",
     "jose": "^4.14.6",
     "nock": "^13.3.3",
+    "nodemon": "^3.0.1",
     "npm-check-updates": "^16.14.2",
     "supertest": "^6.3.3",
+    "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   },
   "jest": {

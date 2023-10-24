@@ -1,12 +1,11 @@
-import React from 'react';
 import {Typography} from '@mui/material';
 
-const DateTime = ({name, value}) => {
-    if (!value) return null;
+const DateTime = ({name, dateTime}) => {
+    if (!dateTime) return null;
 
     return (
         <Typography component="div">
-            <b>{name}:</b>&nbsp;{value}
+            <b>{name}:</b>&nbsp;{dateTime}
         </Typography>
     );
 };

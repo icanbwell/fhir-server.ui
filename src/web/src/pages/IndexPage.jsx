@@ -1,29 +1,29 @@
-import React, {useEffect, useState} from 'react';
-import {useLocation, useNavigate, useParams} from 'react-router-dom';
-import {Accordion, Alert, AlertTitle, Box, Container, LinearProgress} from '@mui/material';
-import Header from '../partials/Header';
-import Footer from '../partials/Footer';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Accordion, Alert, AlertTitle, Box, Container, LinearProgress } from '@mui/material';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Typography from '@mui/material/Typography';
-import ResourceCard from './ResourceCard';
+import ResourceCard from '../components/ResourceCard';
 import FhirApi from '../utils/fhirApi';
-import SearchContainer from '../partials/SearchContainer';
+import SearchContainer from '../components/SearchContainer';
 
 /**
- * IndexPage
+ * IndexPage/home/ubuntu/Documents/code/EFS/fhir-server/src/web/src/pages/SearchPage.jsx
  * Note: Any route parameters are available via useParams()
  * @returns {Element}
  * @constructor
  */
-const IndexPage = ({search}) => {
-    const [resources, setResources] = useState('');
+const IndexPage = ({ search, fhirUrl }) => {
+    const [resources, setResources] = useState(undefined);
     const [bundle, setBundle] = useState('');
     const [status, setStatus] = useState('');
     const [loading, setLoading] = useState(false);
 
-    const {id, resourceType, operation} = useParams();
+    const { id, resourceType = '', operation } = useParams();
 
     const [searchTabExpanded, setSearchTabExpanded] = useState(false);
     const [resourceCardExpanded, setResourceCardExpanded] = useState(false);
@@ -39,7 +39,7 @@ const IndexPage = ({search}) => {
 
     function getBox() {
         if (loading) {
-            return <LinearProgress/>;
+            return <LinearProgress />;
         }
         if (parseInt(status) === 401) {
             return <Box>Login Expired</Box>;
@@ -47,36 +47,47 @@ const IndexPage = ({search}) => {
         if (parseInt(status) !== 200 && parseInt(status) !== 404) {
             return <Box>{status}</Box>;
         }
-        if (resources.length === 0) {
+        if (resources && resources.length === 0) {
             return <Box>No Results Found</Box>;
         }
         // If narrative is returned then show it at top level
-        return <>
-            {/* if we have a single resource*/}
-            {resources && resources.length === 1 && resources[0].text?.div &&
-                <Alert severity="success">
-                    <AlertTitle>Answer</AlertTitle>
-                    <Box dangerouslySetInnerHTML={{__html: resources[0].text?.div}}/>
-                </Alert>
-            }
-            {/*if we have a list of resources*/}
-            {resources && resources.length === 1 && resources[0].resource?.text?.div &&
-                <Alert severity="success">
-                    <AlertTitle>Answer</AlertTitle>
-                    <Box dangerouslySetInnerHTML={{__html: resources[0].resource?.text?.div}}/>
-                </Alert>
-            }
-            {resources.map((fullResource, index) => {
-                const resource = fullResource.resource || fullResource;
-                return (
-                    <ResourceCard key={index} index={index} resource={resource} expanded={resourceCardExpanded}/>
-                );
-            })}
-        </>;
+        return (
+            <>
+                {/* if we have a single resource*/}
+                {resources && resources.length === 1 && resources[0].text?.div && (
+                    <Alert severity="success">
+                        <AlertTitle>Answer</AlertTitle>
+                        <Box dangerouslySetInnerHTML={{ __html: resources[0].text?.div }} />
+                    </Alert>
+                )}
+                {/*if we have a list of resources*/}
+                {resources && resources.length === 1 && resources[0].resource?.text?.div && (
+                    <Alert severity="success">
+                        <AlertTitle>Answer</AlertTitle>
+                        <Box
+                            dangerouslySetInnerHTML={{ __html: resources[0].resource?.text?.div }}
+                        />
+                    </Alert>
+                )}
+                {resources.map((fullResource, index) => {
+                    const resource = fullResource.resource || fullResource;
+                    return (
+                        <ResourceCard
+                            key={index}
+                            index={index}
+                            resource={resource}
+                            expanded={resourceCardExpanded}
+                        />
+                    );
+                })}
+            </>
+        );
     }
 
-    console.log(`id: ${id}, resourceType: ${resourceType}, queryString: ${queryString},` +
-        ` search: ${search}, operation: ${operation}`);
+    console.log(
+        `id: ${id}, resourceType: ${resourceType}, queryString: ${queryString},` +
+        ` search: ${search}, operation: ${operation}`
+    );
 
     useEffect(() => {
         if (id) {
@@ -90,24 +101,26 @@ const IndexPage = ({search}) => {
             }
             try {
                 setLoading(true);
+
                 const fhirApi = new FhirApi();
-                const {json, status} = await fhirApi.getBundleAsync(
-                    {
-                        resourceType,
-                        id,
-                        queryString,
-                        operation,
-                    }
-                );
+                const { json, status } = await fhirApi.getBundleAsync({
+                    baseUrl: fhirUrl,
+                    resourceType,
+                    id,
+                    queryString,
+                    operation,
+                });
                 if (status === 401) {
                     window.location.reload();
                 }
                 // noinspection JSCheckFunctionSignatures
-                setStatus(status);
+                setStatus(String(status));
                 if (json.entry) {
                     setResources(json.entry);
                     setBundle(json);
-                    document.title = resourceType;
+                    if (resourceType) {
+                        document.title = resourceType;
+                    }
                 } else {
                     // noinspection JSCheckFunctionSignatures
                     setResources(json ? [json] : []);
@@ -150,10 +163,10 @@ const IndexPage = ({search}) => {
 
     return (
         <Container maxWidth={false}>
-            <Header resources={resources}/>
+            <Header />
             <Accordion expanded={searchTabExpanded} onChange={handleExpand}>
                 <AccordionSummary
-                    expandIcon={<ExpandMoreIcon/>}
+                    expandIcon={<ExpandMoreIcon />}
                     aria-controls={`searchCollapse`}
                     id={`searchAccordion`}
                 >
@@ -163,10 +176,8 @@ const IndexPage = ({search}) => {
                     <SearchContainer onSearch={handleSearch} id={id}></SearchContainer>
                 </AccordionDetails>
             </Accordion>
-            <Box my={2}>
-                {getBox()}
-            </Box>
-            {bundle && <Footer url={bundle.url} meta={bundle.meta}/>}
+            <Box my={2}>{getBox()}</Box>
+            {bundle && <Footer url={bundle.url} meta={bundle.meta} />}
         </Container>
     );
 };

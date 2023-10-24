@@ -1,7 +1,6 @@
-import React from 'react';
 import {Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Link, Box} from '@mui/material';
 
-const Coding = ({codings, name, resourceType, searchParameter}) => {
+const Coding = ({coding: codings, name, resourceType, searchParameter}) => {
 
     // Ensure codings is always an array
     if (!Array.isArray(codings)) {
