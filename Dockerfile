@@ -16,6 +16,7 @@ COPY yarn.lock /srv/src/yarn.lock
 COPY tsconfig.json /srv/src/tsconfig.json
 COPY babel.config.json /srv/src/babel.config.json
 COPY src/ /srv/src/src/
+RUN cd srv/src && rm -r src/tests
 
 RUN echo "$NODE_ENV"
 # RUN if [ "$NODE_ENV" = "development" ] ; then echo 'building development' && cd /srv/src && yarn install --no-optional && npm run build; else echo 'building production' && cd /srv/src && yarn cache clean && yarn config delete proxy && yarn config delete https-proxy && yarn config delete registry && yarn install --no-optional --production=true --network-timeout 1000000 && npm run build; fi
@@ -40,7 +41,7 @@ COPY yarn.lock /srv/src/yarn.lock
 COPY tsconfig.json /srv/src/tsconfig.json
 COPY babel.config.json /srv/src/babel.config.json
 COPY src/ /srv/src/src/
-RUN cd srv/src && rm -r src/config && rm -r src/scripts && rm -r src/src && rm -r src/public
+RUN cd srv/src && rm -r src/config && rm -r src/scripts && rm -r src/src && rm -r src/public && rm -r src/tests
 
 RUN echo "$NODE_ENV"
 # RUN if [ "$NODE_ENV" = "development" ] ; then echo 'building development' && cd /srv/src && yarn install --no-optional && npm run build; else echo 'building production' && cd /srv/src && yarn cache clean && yarn config delete proxy && yarn config delete https-proxy && yarn config delete registry && yarn install --no-optional --production=true --network-timeout 1000000 && npm run build; fi
