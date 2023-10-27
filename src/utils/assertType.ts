@@ -1,18 +1,18 @@
-import {RethrownError} from './rethrownError';
-import {getCircularReplacer} from './getCircularReplacer';
+import { RethrownError } from './rethrownError';
+import { getCircularReplacer } from './getCircularReplacer';
 
 /**
  * Class for assertion errors
  */
 class AssertionError extends Error {
-    /**
-     * Constructor
-     * @param {string} message
-     */
-    constructor(message: string) {
-        super(message);
-        this.name = this.constructor.name;
-    }
+  /**
+   * Constructor
+   * @param {string} message
+   */
+  constructor(message: string) {
+    super(message);
+    this.name = this.constructor.name;
+  }
 }
 
 /**
@@ -22,23 +22,27 @@ class AssertionError extends Error {
  * @param {string|undefined} [message]
  * @throws {AssertionError}
  */
-function assertTypeEquals(obj: object | null | undefined, type: any, message?: string): void {
-    if (!obj) {
-        /**
-         * @type {string}
-         */
-        const message1: string = message ?
-            message :
-            `obj of type ${type.name} is null or undefined`;
-        throw new AssertionError(message1);
-    }
-    if (!(obj instanceof type)) {
-        throw new AssertionError(
-            message ?
-                message :
-                `Type of obj ${typeof obj} is not the expected type ${type.name}`
-        );
-    }
+function assertTypeEquals(
+  obj: object | null | undefined,
+  type: any,
+  message?: string,
+): void {
+  if (!obj) {
+    /**
+     * @type {string}
+     */
+    const message1: string = message
+      ? message
+      : `obj of type ${type.name} is null or undefined`;
+    throw new AssertionError(message1);
+  }
+  if (!(obj instanceof type)) {
+    throw new AssertionError(
+      message
+        ? message
+        : `Type of obj ${typeof obj} is not the expected type ${type.name}`,
+    );
+  }
 }
 
 /**
@@ -48,9 +52,9 @@ function assertTypeEquals(obj: object | null | undefined, type: any, message?: s
  * @throws {AssertionError}
  */
 function assertIsValid(obj: object | boolean, message?: string): void {
-    if (!obj) {
-        throw new AssertionError(message ? message : 'obj is null or undefined');
-    }
+  if (!obj) {
+    throw new AssertionError(message ? message : 'obj is null or undefined');
+  }
 }
 
 /**
@@ -60,23 +64,29 @@ function assertIsValid(obj: object | boolean, message?: string): void {
  * @param {Object} args
  * @param {Error|undefined} [error]
  */
-function assertFail({source, message, args, error}: { source: string, message: string, args: object, error?: Error }): void {
-    /**
-     * @type {string}
-     */
-    let text: string = `${source}: ${message}`;
-    if (error) {
-        throw new RethrownError({message: text, error});
-    } else {
-        if (args) {
-            text += ' | ' + JSON.stringify(args, getCircularReplacer());
-        }
-        throw new AssertionError(text);
+function assertFail({
+  source,
+  message,
+  args,
+  error,
+}: {
+  source: string;
+  message: string;
+  args: object;
+  error?: Error;
+}): void {
+  /**
+   * @type {string}
+   */
+  let text: string = `${source}: ${message}`;
+  if (error) {
+    throw new RethrownError({ message: text, error });
+  } else {
+    if (args) {
+      text += ' | ' + JSON.stringify(args, getCircularReplacer());
     }
+    throw new AssertionError(text);
+  }
 }
 
-export {
-    assertTypeEquals,
-    assertIsValid,
-    assertFail
-};
+export { assertTypeEquals, assertIsValid, assertFail };

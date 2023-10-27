@@ -5,5 +5,5 @@
  * @returns {Promise<void>}
  */
 export const handleAlert = async (): Promise<void> => {
-    console.log('Test Message from FHIR Server', {source: 'handleAlert'});
+  console.log('Test Message from FHIR Server', { source: 'handleAlert' });
 };

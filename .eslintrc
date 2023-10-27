@@ -8,23 +8,15 @@
   },
   "parserOptions": {
     "ecmaVersion": 2022,
-    "project": "./tsconfig.json"
+    "project": "./tsconfig.json",
+    "sourceType": "module"
   },
-  "plugins": [
-    "security",
-    "jest"
-  ],
-  "extends": [
-    "eslint:recommended",
-    "plugin:security/recommended",
-    "plugin:node/recommended"
-  ],
+  "plugins": ["security"],
+  "extends": ["plugin:security/recommended"],
+  "parser": "@typescript-eslint/parser",
+  "ignorePatterns": ["src/config", "src/scripts", "*.config.js"],
   "rules": {
-    "quotes": [
-      2,
-      "single",
-      "avoid-escape"
-    ],
+    "quotes": [2, "single", "avoid-escape"],
     "no-compare-neg-zero": 0,
     "no-console": 0,
     "no-debugger": 2,
@@ -69,10 +61,7 @@
     "no-use-before-define": 2,
     "no-with": 2,
     "comma-spacing": 2,
-    "curly": [
-      2,
-      "all"
-    ],
+    "curly": [2, "all"],
     "dot-notation": [
       0,
       {
@@ -80,10 +69,7 @@
       }
     ],
     "eol-last": 2,
-    "no-extra-parens": [
-      2,
-      "functions"
-    ],
+    "no-extra-parens": [2, "functions"],
     "eqeqeq": 2,
     "key-spacing": [
       2,
@@ -92,7 +78,6 @@
         "afterColon": true
       }
     ],
-    "new-cap": 2,
     "new-parens": 2,
     "semi": 2,
     "semi-spacing": [
@@ -116,16 +101,14 @@
     //      2,
     //      "global"
     //    ],
-    "yoda": [
-      2,
-      "never"
-    ],
+    "yoda": [2, "never"],
     "no-process-exit": "off",
     //    "require-await": "error",
     "security/detect-non-literal-fs-filename": "off",
     "node/no-unpublished-require": "off",
     "no-undef": "error",
     // https://blog.appsignal.com/2020/05/06/avoiding-memory-leaks-in-nodejs-best-practices-for-performance.html
-    "no-invalid-this": "error"
+    "no-invalid-this": "error",
+    "@typescript-eslint/no-explicit-any": "off"
   }
 }

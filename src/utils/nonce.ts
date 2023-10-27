@@ -1,5 +1,5 @@
 import crypto from 'node:crypto';
-import {assertIsValid} from './assertType';
+import { assertIsValid } from './assertType';
 
 /**
  * Generates a nonce of a given size.
@@ -7,6 +7,6 @@ import {assertIsValid} from './assertType';
  * @returns {string} The generated nonce.
  */
 export function generateNonce(size: number = 16): string {
-    assertIsValid(Number.isInteger(size));
-    return crypto.randomBytes(size).toString('base64');
+  assertIsValid(Number.isInteger(size));
+  return crypto.randomBytes(size).toString('base64');
 }
