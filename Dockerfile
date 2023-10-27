@@ -36,7 +36,7 @@ COPY src/ /srv/src/src/
 
 RUN echo "$NODE_ENV"
 # RUN if [ "$NODE_ENV" = "development" ] ; then echo 'building development' && cd /srv/src && yarn install --no-optional && npm run build; else echo 'building production' && cd /srv/src && yarn cache clean && yarn config delete proxy && yarn config delete https-proxy && yarn config delete registry && yarn install --no-optional --production=true --network-timeout 1000000 && npm run build; fi
-RUN cd /srv/src && yarn install --no-optional && npm run build
+RUN cd /srv/src && yarn install --no-optional
 
 FROM node:18.17.1-bookworm-slim
 # set our node environment, either development or production
@@ -72,4 +72,3 @@ COPY --from=build_node /srv/src/dist /srv/src/dist
 
 # this gets replaced by the command in docker-compose
 CMD ["tail", "-f", "/dev/null"]
-
