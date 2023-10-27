@@ -19,8 +19,7 @@ COPY src/ /srv/src/src/
 RUN cd srv/src && rm -r src/tests
 
 RUN echo "$NODE_ENV"
-# RUN if [ "$NODE_ENV" = "development" ] ; then echo 'building development' && cd /srv/src && yarn install --no-optional && npm run build; else echo 'building production' && cd /srv/src && yarn cache clean && yarn config delete proxy && yarn config delete https-proxy && yarn config delete registry && yarn install --no-optional --production=true --network-timeout 1000000 && npm run build; fi
-RUN cd /srv/src && yarn install --no-optional
+RUN if [ "$NODE_ENV" = "development" ] ; then echo 'building development' && cd /srv/src && yarn install --no-optional; else echo 'building production' && cd /srv/src && yarn cache clean && yarn config delete proxy && yarn config delete https-proxy && yarn config delete registry && yarn install --no-optional --production=true --network-timeout 1000000; fi
 RUN cd /srv/src && npm run build_react
 
 FROM node:18.17.1-bookworm-slim as build_node
@@ -44,8 +43,8 @@ COPY src/ /srv/src/src/
 RUN cd srv/src && rm -r src/config && rm -r src/scripts && rm -r src/src && rm -r src/public && rm -r src/tests
 
 RUN echo "$NODE_ENV"
-# RUN if [ "$NODE_ENV" = "development" ] ; then echo 'building development' && cd /srv/src && yarn install --no-optional && npm run build; else echo 'building production' && cd /srv/src && yarn cache clean && yarn config delete proxy && yarn config delete https-proxy && yarn config delete registry && yarn install --no-optional --production=true --network-timeout 1000000 && npm run build; fi
-RUN cd /srv/src && yarn install --no-optional
+RUN if [ "$NODE_ENV" = "development" ] ; then echo 'building development' && cd /srv/src && yarn install --no-optional; else echo 'building production' && cd /srv/src && yarn cache clean && yarn config delete proxy && yarn config delete https-proxy && yarn config delete registry && yarn install --no-optional --production=true --network-timeout 1000000; fi
+
 RUN cd /srv/src && npm run build
 
 FROM node:18.17.1-bookworm-slim
