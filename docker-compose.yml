@@ -23,8 +23,8 @@ services:
       AUTH_ENABLED: 1
       REDIRECT_TO_LOGIN: 1
       EXTERNAL_AUTH_JWKS_URLS: 'https://cognito-idp.us-east-1.amazonaws.com/us-east-1_e4iVm1J4X/.well-known/jwks.json'
-      AUTH_CUSTOM_GROUP: "cognito:groups"
-      AUTH_CUSTOM_SCOPE: "custom:scope"
+      AUTH_CUSTOM_GROUP: 'cognito:groups'
+      AUTH_CUSTOM_SCOPE: 'custom:scope'
       LOG_DEBUG: 1
       ENV: local
       ENVIRONMENT: local

@@ -1,0 +1,9 @@
+node_modules# Ignore artifacts:
+build
+dist
+coverage
+src/scripts
+src/config
+.github
+.idea
+jest
