@@ -15,4 +15,3 @@ Dockerfile
 src/admin/scripts/.env*
 .npmrc
 build
-src/tests
