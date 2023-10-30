@@ -34,10 +34,11 @@ services:
     volumes:
       - ./src:/srv/src/src
       - ./dist:/srv/src/dist
+      - ./build:/srv/src/build
       - ./package.json:/srv/src/package.json
       - ./yarn.lock:/srv/src/yarn.lock
       - ./tsconfig.json:/srv/src/tsconfig.json
-      - ./babel.config.js:/srv/src/babel.config.js
+      - ./babel.config.json:/srv/src/babel.config.json
     command: yarn run dev
     healthcheck:
       test: [ 'CMD-SHELL', 'curl --silent --fail localhost:3000/health || exit 1' ]

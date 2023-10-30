@@ -1,16 +1,17 @@
 import httpContext from 'express-http-context';
 import { constants } from '../constants';
 import ConfigManager from '../utils/configManager';
+import { Request, Response } from 'express';
 
 /**
  * This route handler sets the headers for content security policy
- * @param {Express.Request} req - Express request object
- * @param {Express.Response} res - Express response object
+ * @param {Request} req - Express request object
+ * @param {Response} res - Express response object
  * @param {Function} next - Express next middleware function
  */
 export function handleSecurityPolicy(
-  req: Express.Request,
-  res: Express.Response,
+  req: Request,
+  res: Response,
   next: Function,
 ): void {
   // get the nonce id for current request
@@ -56,13 +57,13 @@ export function handleSecurityPolicy(
 
 /**
  * This route handler sets the headers for content security policy for graphql
- * @param {Express.Request} req - Express request object
- * @param {Express.Response} res - Express response object
+ * @param {Request} req - Express request object
+ * @param {Response} res - Express response object
  * @param {Function} next - Express next middleware function
  */
 export function handleSecurityPolicyGraphql(
-  req: Express.Request,
-  res: Express.Response,
+  req: Request,
+  res: Response,
   next: Function,
 ): void {
   const configManager = new ConfigManager();

@@ -42,8 +42,8 @@ COPY babel.config.json /srv/src/babel.config.json
 COPY src/ /srv/src/src/
 RUN cd srv/src && rm -r src/config && rm -r src/scripts && rm -r src/src && rm -r src/public && rm -r src/tests
 
-RUN echo "$NODE_ENV"
-RUN if [ "$NODE_ENV" = "development" ] ; then echo 'building development' && cd /srv/src && yarn install --no-optional; else echo 'building production' && cd /srv/src && yarn cache clean && yarn config delete proxy && yarn config delete https-proxy && yarn config delete registry && yarn install --no-optional --production=true --network-timeout 1000000; fi
+# copy node_modules from react_build to avoid downloading node_modules again
+COPY --from=build_react srv/src/node_modules srv/src/node_modules
 
 RUN cd /srv/src && npm run build
 
@@ -74,7 +74,7 @@ COPY --chown=node:node yarn.lock /srv/src/yarn.lock
 
 # Copy code from multi-stage build above
 COPY --from=build_react /srv/src/build /srv/src/build
-COPY --from=build_node /srv/src/node_modules /srv/src/node_modules
+COPY --from=build_react /srv/src/node_modules /srv/src/node_modules
 COPY --from=build_node /srv/src/dist /srv/src/dist
 #COPY --from=build /srv/src/rds-combined-ca-bundle.pem /srv/src/rds-combined-ca-bundle.pem
 
