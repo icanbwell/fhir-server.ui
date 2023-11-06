@@ -52,18 +52,12 @@ update:down
 	. ${NVM_DIR}/nvm.sh && nvm use && \
 	npm install --location=global yarn && \
 	rm -f yarn.lock && \
-	yarn install --no-optional && \
-	cd src/web && \
-	rm -f yarn.lock && \
 	yarn install --no-optional
 
 # https://www.npmjs.com/package/npm-check-updates
 .PHONY:upgrade_packages
 upgrade_packages:down
 	. ${NVM_DIR}/nvm.sh && nvm use && \
-	yarn install --no-optional && \
-	ncu -u --reject @sentry/node && \
-	cd src/web && \
 	yarn install --no-optional && \
 	ncu -u --reject @sentry/node
 
@@ -102,5 +96,5 @@ run-pre-commit: setup-pre-commit
 .PHONY:generate
 generate:
 	. ${NVM_DIR}/nvm.sh && nvm use && \
-	docker run --rm -it --name pythongenerator --mount type=bind,source="${PWD}"/src,target=/src python:3.8-slim-buster sh -c "pip install lxml jinja2 && python3 src/web/src/generator/generate_components.py" \
-	eslint --fix "src/web/src/pages/resources/**/*.tsx"
+	docker run --rm -it --name pythongenerator --mount type=bind,source="${PWD}"/src,target=/src python:3.8-slim-buster sh -c "pip install lxml jinja2 && python3 src/src/generator/generate_components.py" \
+	eslint --fix "src/src/pages/resources/**/*.tsx"

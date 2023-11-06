@@ -1,5 +1,4 @@
-import axios from 'axios';
-import { requestInterceptor } from './requestInterceptor';
+import BaseApi from './baseApi';
 
 interface GetPatientEverythingAsyncParams {
     patientId: string;
@@ -29,28 +28,20 @@ interface GetUrlParams {
     operation?: string;
 }
 
-class FhirApi {
-    fhirUrl: string;
-
-    constructor({ fhirUrl }: { fhirUrl: string }) {
-        this.fhirUrl = fhirUrl;
-        axios.interceptors.request.use(requestInterceptor);
-    }
-
+class FhirApi extends BaseApi {
     async getPatientEverythingAsync({
         patientId,
         question,
     }: GetPatientEverythingAsyncParams) {
         const urlEncodedQuestion = encodeURIComponent(question);
-        const url = `${this.fhirUrl}/4_0_0/Patient/${patientId}/$everything?_question=${urlEncodedQuestion}`;
-        const response = await axios.get(url);
-        return response.data;
+        const urlString = `/4_0_0/Patient/${patientId}/$everything?_question=${urlEncodedQuestion}`;
+
+        return await this.getData({urlString});
     }
 
     async getResource({ id, resourceType }: GetResourceParams) {
-        const url = `${this.fhirUrl}/4_0_0/${resourceType}/${id}/`;
-        const response = await axios.get(url);
-        return response.data;
+        const urlString = `/4_0_0/${resourceType}/${id}/`;
+        return await this.getData({urlString});
     }
 
     async getBundleAsync({
@@ -67,13 +58,7 @@ class FhirApi {
             queryParameters,
             operation,
         });
-        const response = await axios.get(url.toString());
-        const status = response.status;
-        if (status === 404 || status === 401) {
-            return { status, json: {} };
-        }
-        const responseJson = response.data;
-        return { status, json: responseJson };
+        return await this.getData({urlString: url.toString()});
     }
 
     getUrl({
@@ -83,7 +68,7 @@ class FhirApi {
         queryParameters,
         operation,
     }: GetUrlParams): URL {
-        let urlString = `${this.fhirUrl}/4_0_0/${resourceType}`;
+        let urlString = `/4_0_0/${resourceType}`;
         if (id) {
             urlString += `/${id}`;
         }

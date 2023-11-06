@@ -8,7 +8,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Typography from '@mui/material/Typography';
 import ResourceCard from '../components/ResourceCard';
-import FhirApi from '../utils/fhirApi';
+import FhirApi from '../api/fhirApi';
 import SearchContainer from '../components/SearchContainer';
 import EnvironmentContext from '../EnvironmentContext';
 
@@ -19,7 +19,7 @@ import EnvironmentContext from '../EnvironmentContext';
  * @constructor
  */
 const IndexPage = ({ search }) => {
-    const fhirUrl = useContext(EnvironmentContext);
+    const { fhirUrl } = useContext(EnvironmentContext);
     const [resources, setResources] = useState(undefined);
     const [bundle, setBundle] = useState('');
     const [status, setStatus] = useState('');

@@ -68,7 +68,7 @@ function App() {
     }, []);
 
     return (
-        <EnvironmentContext.Provider value={fhirUrl}>
+        <EnvironmentContext.Provider value={{fhirUrl}}>
             <RouterProvider router={router} />
         </EnvironmentContext.Provider>
     );

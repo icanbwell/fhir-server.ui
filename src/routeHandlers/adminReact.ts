@@ -24,7 +24,7 @@ async function handleAdminReact(
   const configManager: ConfigManager = new ConfigManager();
 
   if (!configManager.authEnabled || adminScopes.length > 0) {
-    const path1 = path.join(__dirname, '../web/build', 'index.html');
+    const path1 = path.join(__dirname, '../../build', 'index.html');
     console.log(`Route: /runPersonMatch/*: ${path1}`);
     return res.sendFile(path1);
   } else {
@@ -38,8 +38,7 @@ async function handleAdminReact(
     // @ts-ignore
     const resourceUrl = req.originalUrl ? Buffer.from(req.originalUrl).toString('base64') : '';
 
-    const httpProtocol =
-      configManager.ENVIRONMENT === 'local' ? 'http' : 'https';
+    const httpProtocol = configManager.ENVIRONMENT === 'local' ? 'http' : 'https';
     const redirectUrl =
       `${configManager.AUTH_CODE_FLOW_URL}/login?` +
       `response_type=code&client_id=${configManager.AUTH_CODE_FLOW_CLIENT_ID}` +
