@@ -10,49 +10,33 @@ import { Request, Response } from 'express';
  * @param {Function} next - Express next middleware function
  */
 export function handleSecurityPolicy(
-  req: Request,
-  res: Response,
-  next: Function,
+    req: Request,
+    res: Response,
+    next: Function,
 ): void {
-  // get the nonce id for current request
-  const nonce = httpContext.get(constants.RESPONSE_NONCE);
+    // get the nonce id for current request
+    const nonce = httpContext.get(constants.RESPONSE_NONCE);
 
-  const configManager = new ConfigManager();
+    const configManager = new ConfigManager();
 
-  // @ts-ignore
-  if (!res.headersSent) {
     // @ts-ignore
-    res.setHeader(
-      'Content-Security-Policy',
-      "default-src 'self' embeddable-sandbox.cdn.apollographql.com apollo-server-landing-page.cdn.apollographql.com; " +
-        "object-src data: 'unsafe-eval'; " +
-        "font-src 'self' https://fonts.gstatic.com; " +
-        "img-src 'self' 'unsafe-inline' 'unsafe-hashes' 'unsafe-eval' data: http://cdn.jsdelivr.net https://embeddable-sandbox.cdn.apollographql.com https://apollo-server-landing-page.cdn.apollographql.com " +
-        configManager.AUTH_CODE_FLOW_URL +
-        ';' +
-        "script-src 'self' " +
-        `'nonce-${nonce}' ` +
-        'https://ajax.googleapis.com/ https://cdnjs.cloudflare.com http://cdn.jsdelivr.net https://embeddable-sandbox.cdn.apollographql.com https://apollo-server-landing-page.cdn.apollographql.com ' +
-        configManager.AUTH_CODE_FLOW_URL +
-        ';' +
-        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com/ http://cdn.jsdelivr.net https://embeddable-sandbox.cdn.apollographql.com https://apollo-server-landing-page.cdn.apollographql.com " +
-        configManager.AUTH_CODE_FLOW_URL +
-        ';' +
-        "frame-src 'self' https://embeddable-sandbox.cdn.apollographql.com https://sandbox.embed.apollographql.com/; " +
-        "connect-src 'self' " +
-        configManager.FHIR_SERVER_URL +
-        ' ' +
-        configManager.AUTH_CODE_FLOW_URL +
-        '/oauth2/token;' +
-        "form-action 'self' https://embeddable-sandbox.cdn.apollographql.com https://sandbox.embed.apollographql.com/  https://apollo-server-landing-page.cdn.apollographql.com " +
-        configManager.AUTH_CODE_FLOW_URL +
-        ';' +
-        "frame-ancestors 'self' https://embeddable-sandbox.cdn.apollographql.com https://sandbox.embed.apollographql.com/  https://apollo-server-landing-page.cdn.apollographql.com " +
-        configManager.AUTH_CODE_FLOW_URL +
-        ';',
-    );
-  }
-  next();
+    if (!res.headersSent) {
+        // @ts-ignore
+        res.setHeader(
+            'Content-Security-Policy',
+            "default-src 'self' embeddable-sandbox.cdn.apollographql.com apollo-server-landing-page.cdn.apollographql.com; " +
+            "object-src data: 'unsafe-eval'; " +
+            "font-src 'self' https://fonts.gstatic.com; " +
+            "img-src 'self' 'unsafe-inline' 'unsafe-hashes' 'unsafe-eval' data: http://cdn.jsdelivr.net https://embeddable-sandbox.cdn.apollographql.com https://apollo-server-landing-page.cdn.apollographql.com " + configManager.AUTH_CODE_FLOW_URL + ';' +
+            "script-src 'self' " + `'nonce-${nonce}' ` + 'https://ajax.googleapis.com/ https://cdnjs.cloudflare.com http://cdn.jsdelivr.net https://embeddable-sandbox.cdn.apollographql.com https://apollo-server-landing-page.cdn.apollographql.com ' + configManager.AUTH_CODE_FLOW_URL + ';' +
+            "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com/ http://cdn.jsdelivr.net https://embeddable-sandbox.cdn.apollographql.com https://apollo-server-landing-page.cdn.apollographql.com " + configManager.AUTH_CODE_FLOW_URL + ';' +
+            "frame-src 'self' https://embeddable-sandbox.cdn.apollographql.com https://sandbox.embed.apollographql.com/; " +
+            "connect-src 'self' " + configManager.FHIR_SERVER_URL + ' ' + configManager.AUTH_CODE_FLOW_URL + '/oauth2/token;' +
+            "form-action 'self' https://embeddable-sandbox.cdn.apollographql.com https://sandbox.embed.apollographql.com/  https://apollo-server-landing-page.cdn.apollographql.com " + configManager.AUTH_CODE_FLOW_URL + ';' +
+            "frame-ancestors 'self' https://embeddable-sandbox.cdn.apollographql.com https://sandbox.embed.apollographql.com/  https://apollo-server-landing-page.cdn.apollographql.com " + configManager.AUTH_CODE_FLOW_URL + ';',
+        );
+    }
+    next();
 }
 
 /**
@@ -62,40 +46,26 @@ export function handleSecurityPolicy(
  * @param {Function} next - Express next middleware function
  */
 export function handleSecurityPolicyGraphql(
-  req: Request,
-  res: Response,
-  next: Function,
+    req: Request,
+    res: Response,
+    next: Function,
 ): void {
-  const configManager = new ConfigManager();
-  // @ts-ignore
-  if (!res.headersSent) {
+    const configManager = new ConfigManager();
     // @ts-ignore
-    res.setHeader(
-      'Content-Security-Policy',
-      "default-src 'self' embeddable-sandbox.cdn.apollographql.com apollo-server-landing-page.cdn.apollographql.com; " +
-        "object-src data: 'unsafe-eval'; " +
-        "font-src 'self' https://fonts.gstatic.com; " +
-        "img-src 'self' 'unsafe-inline' 'unsafe-hashes' 'unsafe-eval' data: http://cdn.jsdelivr.net https://embeddable-sandbox.cdn.apollographql.com https://apollo-server-landing-page.cdn.apollographql.com " +
-        configManager.AUTH_CODE_FLOW_URL +
-        ';' +
-        "script-src 'self' " +
-        "'unsafe-inline' " +
-        'https://ajax.googleapis.com/ https://cdnjs.cloudflare.com http://cdn.jsdelivr.net https://embeddable-sandbox.cdn.apollographql.com https://apollo-server-landing-page.cdn.apollographql.com ' +
-        configManager.AUTH_CODE_FLOW_URL +
-        ';' +
-        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com/ http://cdn.jsdelivr.net https://embeddable-sandbox.cdn.apollographql.com https://apollo-server-landing-page.cdn.apollographql.com " +
-        configManager.AUTH_CODE_FLOW_URL +
-        ';' +
-        "frame-src 'self' https://embeddable-sandbox.cdn.apollographql.com https://sandbox.embed.apollographql.com/; connect-src 'self' " +
-        configManager.AUTH_CODE_FLOW_URL +
-        '/oauth2/token;' +
-        "form-action 'self' https://embeddable-sandbox.cdn.apollographql.com https://sandbox.embed.apollographql.com/  https://apollo-server-landing-page.cdn.apollographql.com " +
-        configManager.AUTH_CODE_FLOW_URL +
-        ';' +
-        "frame-ancestors 'self' https://embeddable-sandbox.cdn.apollographql.com https://sandbox.embed.apollographql.com/  https://apollo-server-landing-page.cdn.apollographql.com " +
-        configManager.AUTH_CODE_FLOW_URL +
-        ';',
-    );
-  }
-  next();
+    if (!res.headersSent) {
+        // @ts-ignore
+        res.setHeader(
+            'Content-Security-Policy',
+            "default-src 'self' embeddable-sandbox.cdn.apollographql.com apollo-server-landing-page.cdn.apollographql.com; " +
+            "object-src data: 'unsafe-eval'; " +
+            "font-src 'self' https://fonts.gstatic.com; " +
+            "img-src 'self' 'unsafe-inline' 'unsafe-hashes' 'unsafe-eval' data: http://cdn.jsdelivr.net https://embeddable-sandbox.cdn.apollographql.com https://apollo-server-landing-page.cdn.apollographql.com " + configManager.AUTH_CODE_FLOW_URL + ';' +
+            "script-src 'self' " + "'unsafe-inline' " + 'https://ajax.googleapis.com/ https://cdnjs.cloudflare.com http://cdn.jsdelivr.net https://embeddable-sandbox.cdn.apollographql.com https://apollo-server-landing-page.cdn.apollographql.com ' + configManager.AUTH_CODE_FLOW_URL + ';' +
+            "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com/ http://cdn.jsdelivr.net https://embeddable-sandbox.cdn.apollographql.com https://apollo-server-landing-page.cdn.apollographql.com " + configManager.AUTH_CODE_FLOW_URL + ';' +
+            "frame-src 'self' https://embeddable-sandbox.cdn.apollographql.com https://sandbox.embed.apollographql.com/; connect-src 'self' " + configManager.AUTH_CODE_FLOW_URL + '/oauth2/token;' +
+            "form-action 'self' https://embeddable-sandbox.cdn.apollographql.com https://sandbox.embed.apollographql.com/  https://apollo-server-landing-page.cdn.apollographql.com " + configManager.AUTH_CODE_FLOW_URL + ';' +
+            "frame-ancestors 'self' https://embeddable-sandbox.cdn.apollographql.com https://sandbox.embed.apollographql.com/  https://apollo-server-landing-page.cdn.apollographql.com " + configManager.AUTH_CODE_FLOW_URL + ';',
+        );
+    }
+    next();
 }

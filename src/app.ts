@@ -83,11 +83,7 @@ app.get('/health', (req, res) => res.json({ status: 'OK' }));
 app.get('/version', handleVersion);
 app.get('/logout', handleLogout);
 app.get('/logout_action', (req, res) => {
-  const returnUrl = `${httpProtocol}`.concat(
-    '://',
-    `${req.headers.host}`,
-    '/logout',
-  );
+  const returnUrl = `${httpProtocol}`.concat('://', `${req.headers.host}`, '/logout');
   const configManager = new ConfigManager();
   const logoutUrl = `${configManager.AUTH_CODE_FLOW_URL}/logout?client_id=${configManager.AUTH_CODE_FLOW_CLIENT_ID}&logout_uri=${returnUrl}`;
   res.redirect(logoutUrl);
@@ -97,10 +93,7 @@ app.get('/alert', handleAlert);
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
-app.use(
-  '/favicon.ico',
-  express.static(path.join(__dirname, 'images/favicon.ico')),
-);
+app.use('/favicon.ico', express.static(path.join(__dirname, 'images/favicon.ico')));
 
 // save oauth static files
 app.use(express.static(path.join(__dirname, 'oauth')));
@@ -110,28 +103,19 @@ app.use('/static', express.static(path.join(__dirname, './../build/static')));
 
 app.get('/api/env', (req, res) => {
   // Send only the environment variables you want to expose
-  res.json({
-    FHIR_SERVER_URL: process.env.FHIR_SERVER_URL,
-  });
+  res.json({ FHIR_SERVER_URL: process.env.FHIR_SERVER_URL });
 });
 
 // handles when the user is redirected by the OpenIDConnect/OAuth provider
 app.get('/authcallback', (req, res) => {
   const configManager = new ConfigManager();
-  const httpProtocol1 =
-    configManager.ENVIRONMENT === 'local' ? 'http' : 'https';
+  const httpProtocol1 = configManager.ENVIRONMENT === 'local' ? 'http' : 'https';
   console.log(`Request: ${req.query}`);
   console.log(`Code: ${req.query.code}`);
   // @ts-ignore
   const state: string = req.query.state;
-  const resourceUrl = state
-    ? encodeURIComponent(Buffer.from(state, 'base64').toString('ascii'))
-    : '';
-  const redirectUrl = `${httpProtocol1}`.concat(
-    '://',
-    `${req.headers.host}`,
-    '/authcallback',
-  );
+  const resourceUrl = state ? encodeURIComponent(Buffer.from(state, 'base64').toString('ascii')) : '';
+  const redirectUrl = `${httpProtocol1}`.concat('://', `${req.headers.host}`, '/authcallback');
   let fullRedirectUrl =
     `/callback.html?code=${req.query.code}&resourceUrl=${resourceUrl}` +
     `&clientId=${configManager.AUTH_CODE_FLOW_CLIENT_ID}&redirectUri=${redirectUrl}` +
@@ -152,9 +136,7 @@ if (configManager.authEnabled) {
 const adminRouter = express.Router({ mergeParams: true });
 if (configManager.authEnabled) {
   adminRouter.use(passport.initialize());
-  adminRouter.use(
-    passport.authenticate('adminStrategy', { session: false }, undefined),
-  );
+  adminRouter.use(passport.authenticate('adminStrategy', { session: false }, undefined));
 }
 adminRouter.get('/admin/:op?', (req, res, next) =>
   handleAdminReact(req, res, next),
