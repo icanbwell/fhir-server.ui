@@ -9,106 +9,113 @@ SpecimenDefinition
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import {Link} from '@mui/material';
 
 // Import all the partial resource
 import Partials from '../../partials';
 
 const SpecimenDefinition = ({ resource }) => {
-  return (
-    <>
-      <Link
-        title="Direct link to Resource"
-        href={`/4_0_0/${resource.resourceType}/${resource.id}`}
-      >
-        {resource.resourceType}/{resource.id}
-      </Link>
-      {resource.meta && (
-        <Partials.Meta
-          meta={resource.meta}
-          name="Meta"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="meta"
-        />
-      )}
-      {resource.implicitRules && (
-        <Partials.Uri
-          uri={resource.implicitRules}
-          name="Implicit Rules"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="implicit-rules"
-        />
-      )}
-      {resource.language && (
-        <Partials.Code code={resource.language} name="Language" />
-      )}
-      {resource.text && (
-        <Partials.Narrative
-          narrative={resource.text}
-          name="Text"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="text"
-        />
-      )}
-      {resource.extension && (
-        <Partials.Extension
-          extension={resource.extension}
-          name="Extension"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="extension"
-        />
-      )}
-      {resource.modifierExtension && (
-        <Partials.Extension
-          extension={resource.modifierExtension}
-          name="Modifier Extension"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="modifier-extension"
-        />
-      )}
-      {resource.identifier && (
-        <Partials.Identifier
-          identifier={resource.identifier}
-          name="Identifier"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="identifier"
-        />
-      )}
-      {resource.typeCollected && (
-        <Partials.CodeableConcept
-          codeableConcept={resource.typeCollected}
-          name="Type Collected"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="type-collected"
-        />
-      )}
-      {resource.patientPreparation && (
-        <Partials.CodeableConcept
-          codeableConcept={resource.patientPreparation}
-          name="Patient Preparation"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="patient-preparation"
-        />
-      )}
-      {resource.collection && (
-        <Partials.CodeableConcept
-          codeableConcept={resource.collection}
-          name="Collection"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="collection"
-        />
-      )}
-    </>
-  );
+    return (
+        <>
+            <Link title="Direct link to Resource" href={`/4_0_0/${resource.resourceType}/${resource.id}`}>
+                {resource.resourceType}/{resource.id}
+            </Link>
+            {
+                resource.meta &&
+                <Partials.Meta
+                    meta={resource.meta}
+                    name='Meta'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='meta'
+                />
+            }
+            {
+                resource.implicitRules &&
+                <Partials.Uri
+                    uri={resource.implicitRules}
+                    name='Implicit Rules'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='implicit-rules'
+                />
+            }
+            {
+                resource.language &&
+                <Partials.Code code={resource.language} name='Language'/>
+            }
+            {
+                resource.text &&
+                <Partials.Narrative
+                    narrative={resource.text}
+                    name='Text'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='text'
+                />
+            }
+            {
+                resource.extension &&
+                <Partials.Extension
+                    extension={resource.extension}
+                    name='Extension'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='extension'
+                />
+            }
+            {
+                resource.modifierExtension &&
+                <Partials.Extension
+                    extension={resource.modifierExtension}
+                    name='Modifier Extension'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='modifier-extension'
+                />
+            }
+            {
+                resource.identifier &&
+                <Partials.Identifier
+                    identifier={resource.identifier}
+                    name='Identifier'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='identifier'
+                />
+            }
+            {
+                resource.typeCollected &&
+                <Partials.CodeableConcept
+                    codeableConcept={resource.typeCollected}
+                    name='Type Collected'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='type-collected'
+                />
+            }
+            {
+                resource.patientPreparation &&
+                <Partials.CodeableConcept
+                    codeableConcept={resource.patientPreparation}
+                    name='Patient Preparation'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='patient-preparation'
+                />
+            }
+            {
+                resource.collection &&
+                <Partials.CodeableConcept
+                    codeableConcept={resource.collection}
+                    name='Collection'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='collection'
+                />
+            }
+        </>
+    );
 };
 
 export default SpecimenDefinition;

@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 // import your partials as components
 import CodeableConcept from './CodeableConcept';
-import HumanNames from './HumanNames';
+import HumanNames from './HumanName';
 
 const PatientContact = ({ patientContact, name, resourceType }) => {
   // Ensure 'value' is always an array

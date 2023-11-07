@@ -11,154 +11,167 @@ QuestionnaireResponse
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import {Link} from '@mui/material';
 
 // Import all the partial resource
 import Partials from '../../partials';
 
 const QuestionnaireResponse = ({ resource }) => {
-  return (
-    <>
-      <Link
-        title="Direct link to Resource"
-        href={`/4_0_0/${resource.resourceType}/${resource.id}`}
-      >
-        {resource.resourceType}/{resource.id}
-      </Link>
-      {resource.meta && (
-        <Partials.Meta
-          meta={resource.meta}
-          name="Meta"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="meta"
-        />
-      )}
-      {resource.implicitRules && (
-        <Partials.Uri
-          uri={resource.implicitRules}
-          name="Implicit Rules"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="implicit-rules"
-        />
-      )}
-      {resource.language && (
-        <Partials.Code code={resource.language} name="Language" />
-      )}
-      {resource.text && (
-        <Partials.Narrative
-          narrative={resource.text}
-          name="Text"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="text"
-        />
-      )}
-      {resource.extension && (
-        <Partials.Extension
-          extension={resource.extension}
-          name="Extension"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="extension"
-        />
-      )}
-      {resource.modifierExtension && (
-        <Partials.Extension
-          extension={resource.modifierExtension}
-          name="Modifier Extension"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="modifier-extension"
-        />
-      )}
-      {resource.identifier && (
-        <Partials.Identifier
-          identifier={resource.identifier}
-          name="Identifier"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="identifier"
-        />
-      )}
-      {resource.basedOn && (
-        <Partials.Reference
-          reference={resource.basedOn}
-          name="Based On"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="based-on"
-        />
-      )}
-      {resource.partOf && (
-        <Partials.Reference
-          reference={resource.partOf}
-          name="Part Of"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="part-of"
-        />
-      )}
-      {resource.questionnaire && (
-        <Partials.Canonical
-          canonical={resource.questionnaire}
-          name="Questionnaire"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="questionnaire"
-        />
-      )}
-      {resource.status && (
-        <Partials.Code code={resource.status} name="Status" />
-      )}
-      {resource.subject && (
-        <Partials.Reference
-          reference={resource.subject}
-          name="Subject"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="subject"
-        />
-      )}
-      {resource.encounter && (
-        <Partials.Reference
-          reference={resource.encounter}
-          name="Encounter"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="encounter"
-        />
-      )}
-      {resource.authored && (
-        <Partials.DateTime
-          dateTime={resource.authored}
-          name="Authored"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="authored"
-        />
-      )}
-      {resource.author && (
-        <Partials.Reference
-          reference={resource.author}
-          name="Author"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="author"
-        />
-      )}
-      {resource.source && (
-        <Partials.Reference
-          reference={resource.source}
-          name="Source"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="source"
-        />
-      )}
-    </>
-  );
+    return (
+        <>
+            <Link title="Direct link to Resource" href={`/4_0_0/${resource.resourceType}/${resource.id}`}>
+                {resource.resourceType}/{resource.id}
+            </Link>
+            {
+                resource.meta &&
+                <Partials.Meta
+                    meta={resource.meta}
+                    name='Meta'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='meta'
+                />
+            }
+            {
+                resource.implicitRules &&
+                <Partials.Uri
+                    uri={resource.implicitRules}
+                    name='Implicit Rules'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='implicit-rules'
+                />
+            }
+            {
+                resource.language &&
+                <Partials.Code code={resource.language} name='Language'/>
+            }
+            {
+                resource.text &&
+                <Partials.Narrative
+                    narrative={resource.text}
+                    name='Text'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='text'
+                />
+            }
+            {
+                resource.extension &&
+                <Partials.Extension
+                    extension={resource.extension}
+                    name='Extension'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='extension'
+                />
+            }
+            {
+                resource.modifierExtension &&
+                <Partials.Extension
+                    extension={resource.modifierExtension}
+                    name='Modifier Extension'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='modifier-extension'
+                />
+            }
+            {
+                resource.identifier &&
+                <Partials.Identifier
+                    identifier={resource.identifier}
+                    name='Identifier'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='identifier'
+                />
+            }
+            {
+                resource.basedOn &&
+                <Partials.Reference
+                    reference={resource.basedOn}
+                    name='Based On'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='based-on'
+                />
+            }
+            {
+                resource.partOf &&
+                <Partials.Reference
+                    reference={resource.partOf}
+                    name='Part Of'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='part-of'
+                />
+            }
+            {
+                resource.questionnaire &&
+                <Partials.Canonical
+                    canonical={resource.questionnaire}
+                    name='Questionnaire'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='questionnaire'
+                />
+            }
+            {
+                resource.status &&
+                <Partials.Code code={resource.status} name='Status'/>
+            }
+            {
+                resource.subject &&
+                <Partials.Reference
+                    reference={resource.subject}
+                    name='Subject'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='subject'
+                />
+            }
+            {
+                resource.encounter &&
+                <Partials.Reference
+                    reference={resource.encounter}
+                    name='Encounter'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='encounter'
+                />
+            }
+            {
+                resource.authored &&
+                <Partials.DateTime
+                    dateTime={resource.authored}
+                    name='Authored'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='authored'
+                />
+            }
+            {
+                resource.author &&
+                <Partials.Reference
+                    reference={resource.author}
+                    name='Author'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='author'
+                />
+            }
+            {
+                resource.source &&
+                <Partials.Reference
+                    reference={resource.source}
+                    name='Source'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='source'
+                />
+            }
+        </>
+    );
 };
 
 export default QuestionnaireResponse;

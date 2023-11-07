@@ -9,62 +9,67 @@ Bundle
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import {Link} from '@mui/material';
 
 // Import all the partial resource
 import Partials from '../../partials';
 
 const Bundle = ({ resource }) => {
-  return (
-    <>
-      <Link
-        title="Direct link to Resource"
-        href={`/4_0_0/${resource.resourceType}/${resource.id}`}
-      >
-        {resource.resourceType}/{resource.id}
-      </Link>
-      {resource.meta && (
-        <Partials.Meta
-          meta={resource.meta}
-          name="Meta"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="meta"
-        />
-      )}
-      {resource.implicitRules && (
-        <Partials.Uri
-          uri={resource.implicitRules}
-          name="Implicit Rules"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="implicit-rules"
-        />
-      )}
-      {resource.language && (
-        <Partials.Code code={resource.language} name="Language" />
-      )}
-      {resource.identifier && (
-        <Partials.Identifier
-          identifier={resource.identifier}
-          name="Identifier"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="identifier"
-        />
-      )}
-      {resource.type && <Partials.Code code={resource.type} name="Type" />}
-      {resource.timestamp && (
-        <Partials.Instant
-          instant={resource.timestamp}
-          name="Timestamp"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="timestamp"
-        />
-      )}
-    </>
-  );
+    return (
+        <>
+            <Link title="Direct link to Resource" href={`/4_0_0/${resource.resourceType}/${resource.id}`}>
+                {resource.resourceType}/{resource.id}
+            </Link>
+            {
+                resource.meta &&
+                <Partials.Meta
+                    meta={resource.meta}
+                    name='Meta'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='meta'
+                />
+            }
+            {
+                resource.implicitRules &&
+                <Partials.Uri
+                    uri={resource.implicitRules}
+                    name='Implicit Rules'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='implicit-rules'
+                />
+            }
+            {
+                resource.language &&
+                <Partials.Code code={resource.language} name='Language'/>
+            }
+            {
+                resource.identifier &&
+                <Partials.Identifier
+                    identifier={resource.identifier}
+                    name='Identifier'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='identifier'
+                />
+            }
+            {
+                resource.type &&
+                <Partials.Code code={resource.type} name='Type'/>
+            }
+            {
+                resource.timestamp &&
+                <Partials.Instant
+                    instant={resource.timestamp}
+                    name='Timestamp'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='timestamp'
+                />
+            }
+        </>
+    );
 };
 
 export default Bundle;

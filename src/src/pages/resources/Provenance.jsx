@@ -17,142 +17,153 @@ Provenance
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import {Link} from '@mui/material';
 
 // Import all the partial resource
 import Partials from '../../partials';
 
 const Provenance = ({ resource }) => {
-  return (
-    <>
-      <Link
-        title="Direct link to Resource"
-        href={`/4_0_0/${resource.resourceType}/${resource.id}`}
-      >
-        {resource.resourceType}/{resource.id}
-      </Link>
-      {resource.meta && (
-        <Partials.Meta
-          meta={resource.meta}
-          name="Meta"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="meta"
-        />
-      )}
-      {resource.implicitRules && (
-        <Partials.Uri
-          uri={resource.implicitRules}
-          name="Implicit Rules"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="implicit-rules"
-        />
-      )}
-      {resource.language && (
-        <Partials.Code code={resource.language} name="Language" />
-      )}
-      {resource.text && (
-        <Partials.Narrative
-          narrative={resource.text}
-          name="Text"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="text"
-        />
-      )}
-      {resource.extension && (
-        <Partials.Extension
-          extension={resource.extension}
-          name="Extension"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="extension"
-        />
-      )}
-      {resource.modifierExtension && (
-        <Partials.Extension
-          extension={resource.modifierExtension}
-          name="Modifier Extension"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="modifier-extension"
-        />
-      )}
-      {resource.target && (
-        <Partials.Reference
-          reference={resource.target}
-          name="Target"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="target"
-        />
-      )}
-      {resource.occurredPeriod && (
-        <Partials.Period
-          period={resource.occurredPeriod}
-          name="Occurred Period"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="occurred-period"
-        />
-      )}
-      {resource.occurredDateTime && (
-        <Partials.DateTime
-          dateTime={resource.occurredDateTime}
-          name="Occurred Date Time"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="occurred-date-time"
-        />
-      )}
-      {resource.recorded && (
-        <Partials.Instant
-          instant={resource.recorded}
-          name="Recorded"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="recorded"
-        />
-      )}
-      {resource.policy && (
-        <Partials.Uri
-          uri={resource.policy}
-          name="Policy"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="policy"
-        />
-      )}
-      {resource.location && (
-        <Partials.Reference
-          reference={resource.location}
-          name="Location"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="location"
-        />
-      )}
-      {resource.reason && (
-        <Partials.CodeableConcept
-          codeableConcept={resource.reason}
-          name="Reason"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="reason"
-        />
-      )}
-      {resource.activity && (
-        <Partials.CodeableConcept
-          codeableConcept={resource.activity}
-          name="Activity"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="activity"
-        />
-      )}
-    </>
-  );
+    return (
+        <>
+            <Link title="Direct link to Resource" href={`/4_0_0/${resource.resourceType}/${resource.id}`}>
+                {resource.resourceType}/{resource.id}
+            </Link>
+            {
+                resource.meta &&
+                <Partials.Meta
+                    meta={resource.meta}
+                    name='Meta'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='meta'
+                />
+            }
+            {
+                resource.implicitRules &&
+                <Partials.Uri
+                    uri={resource.implicitRules}
+                    name='Implicit Rules'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='implicit-rules'
+                />
+            }
+            {
+                resource.language &&
+                <Partials.Code code={resource.language} name='Language'/>
+            }
+            {
+                resource.text &&
+                <Partials.Narrative
+                    narrative={resource.text}
+                    name='Text'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='text'
+                />
+            }
+            {
+                resource.extension &&
+                <Partials.Extension
+                    extension={resource.extension}
+                    name='Extension'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='extension'
+                />
+            }
+            {
+                resource.modifierExtension &&
+                <Partials.Extension
+                    extension={resource.modifierExtension}
+                    name='Modifier Extension'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='modifier-extension'
+                />
+            }
+            {
+                resource.target &&
+                <Partials.Reference
+                    reference={resource.target}
+                    name='Target'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='target'
+                />
+            }
+            {
+                resource.occurredPeriod &&
+                <Partials.Period
+                    period={resource.occurredPeriod}
+                    name='Occurred Period'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='occurred-period'
+                />
+            }
+            {
+                resource.occurredDateTime &&
+                <Partials.DateTime
+                    dateTime={resource.occurredDateTime}
+                    name='Occurred Date Time'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='occurred-date-time'
+                />
+            }
+            {
+                resource.recorded &&
+                <Partials.Instant
+                    instant={resource.recorded}
+                    name='Recorded'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='recorded'
+                />
+            }
+            {
+                resource.policy &&
+                <Partials.Uri
+                    uri={resource.policy}
+                    name='Policy'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='policy'
+                />
+            }
+            {
+                resource.location &&
+                <Partials.Reference
+                    reference={resource.location}
+                    name='Location'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='location'
+                />
+            }
+            {
+                resource.reason &&
+                <Partials.CodeableConcept
+                    codeableConcept={resource.reason}
+                    name='Reason'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='reason'
+                />
+            }
+            {
+                resource.activity &&
+                <Partials.CodeableConcept
+                    codeableConcept={resource.activity}
+                    name='Activity'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='activity'
+                />
+            }
+        </>
+    );
 };
 
 export default Provenance;

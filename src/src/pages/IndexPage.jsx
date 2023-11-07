@@ -167,7 +167,7 @@ const IndexPage = ({ search }) => {
 
     return (
         <Container maxWidth={false}>
-            <Header />
+            <Header fhirUrl={fhirUrl} />
             <Accordion expanded={searchTabExpanded} onChange={handleExpand}>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}

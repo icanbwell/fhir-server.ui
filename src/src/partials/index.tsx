@@ -12,7 +12,7 @@ import Decimal from './Decimal';
 import DispenseRequest from './DispenseRequest';
 import Dosage from './Dosage';
 import Extension from './Extension';
-import HumanNames from './HumanNames';
+import HumanName from './HumanName';
 import Identifier from './Identifier';
 import Instant from './Instant';
 import Integer from './Integer';
@@ -29,7 +29,6 @@ import Position from './Position';
 import Quantity from './Quantity';
 import Ratio from './Ratio';
 import Reference from './Reference';
-import ResourceHeader from '../components/ResourceHeader';
 import RevereseReference from './ReverseReference';
 import Time from './Time';
 import Timing from './Timing';
@@ -50,7 +49,7 @@ export default {
   DispenseRequest,
   Dosage,
   Extension,
-  HumanNames,
+  HumanName,
   Identifier,
   Instant,
   Integer,
@@ -67,7 +66,6 @@ export default {
   Quantity,
   Ratio,
   Reference,
-  ResourceHeader,
   RevereseReference,
   Time,
   Timing,

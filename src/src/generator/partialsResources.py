@@ -14,7 +14,7 @@ available_partial_resources = [
   'DispenseRequest',
   'Dosage',
   'Extension',
-  'HumanNames',
+  'HumanName',
   'Identifier',
   'Instant',
   'Integer',

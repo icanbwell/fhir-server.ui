@@ -133,3 +133,7 @@ out
 /.idea/
 !.idea/codestyles/
 !.idea/inspectionProfiles/
+
+# pycache files
+__pycache__/
+*.py[cod]

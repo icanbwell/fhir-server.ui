@@ -1,5 +1,4 @@
 import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
 import { Box } from '@mui/material';
 
 const Code = ({ code, name }) => {
@@ -10,9 +9,8 @@ const Code = ({ code, name }) => {
   return (
     <Box>
       <Typography variant="body1" component="span">
-        <b>{name}:</b>&nbsp;
+        <b>{name}:</b>&nbsp;{code}
       </Typography>
-      <Link href={code}>{code}</Link>
     </Box>
   );
 };
