@@ -9,7 +9,7 @@ import {
   Typography,
 } from '@mui/material';
 
-function ContactPoint({ contacts, name, resourceType }) {
+function ContactPoint({ contactPoint: contacts, name, resourceType }) {
   // Ensuring contacts is an array
   if (!Array.isArray(contacts)) {
     contacts = [contacts];

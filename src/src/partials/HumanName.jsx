@@ -10,18 +10,18 @@ import {
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 
-function HumanNames({ names, resourceType }) {
-  if (!Array.isArray(names)) {
-    names = [names];
+function HumanName({ humanName, resourceType }) {
+  if (!Array.isArray(humanName)) {
+    humanName = [humanName];
   }
 
-  if (!names || names.length === 0 || !names[0]) {
+  if (!humanName || humanName.length === 0 || !humanName[0]) {
     return null;
   }
 
   return (
     <Box>
-      <Typography variant="h4">Names</Typography>
+      <Typography variant="h4">Name</Typography>
       <TableContainer>
         <Table>
           <TableHead>
@@ -36,7 +36,7 @@ function HumanNames({ names, resourceType }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {names.map(
+            {humanName.map(
               (name, i) =>
                 name && (
                   <TableRow key={i}>
@@ -75,4 +75,4 @@ function HumanNames({ names, resourceType }) {
   );
 }
 
-export default HumanNames;
+export default HumanName;

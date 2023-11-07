@@ -1,5 +1,4 @@
 import { Button, Card, CardContent, CardHeader, Collapse } from '@mui/material';
-import ResourceHeader from './ResourceHeader';
 import ResourceItem from './ResourceItem';
 import Json from './Json';
 import React, { useEffect, useState } from 'react';
@@ -37,7 +36,6 @@ const ResourceCard = ({ index, resource, expanded }) => {
       ></CardHeader>
       <Collapse in={open}>
         <CardContent>
-          <ResourceHeader resource={resource} />
           <ResourceItem
             resourceType={resource.resourceType}
             resource={resource}

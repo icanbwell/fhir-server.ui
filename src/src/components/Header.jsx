@@ -19,6 +19,7 @@ class Header extends React.Component {
       deployEnvironment: 'Your Deploy Environment',
       environment: 'Your Environment',
       resources: [],
+      fhirUrl: props.fhirUrl
     };
   }
 
@@ -51,14 +52,9 @@ class Header extends React.Component {
       name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
   }
 
-  switchToOldUI = () => {
-    this.deleteCookie('web2');
-    window.location.reload();
-  };
-
   render() {
     // eslint-disable-next-line no-unused-vars
-    const { deployEnvironment, environment, resources } = this.state;
+    const { deployEnvironment, environment, resources, fhirUrl } = this.state;
     return (
       <React.Fragment>
         <AppBar position="static">
@@ -94,8 +90,10 @@ class Header extends React.Component {
         <Alert
           severity="info"
           action={
-            <Button color="inherit" size="small" onClick={this.switchToOldUI}>
-              Switch to Old UI
+            <Button color="inherit" size="small">
+                <Link target='_blank' rel='noreferrer' to={`${fhirUrl}${window.location.pathname}`}>
+                    Switch to Old UI
+                </Link>
             </Button>
           }
         >

@@ -30,235 +30,257 @@ MedicationStatement
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import {Link} from '@mui/material';
 
 // Import all the partial resource
 import Partials from '../../partials';
 
 const MedicationStatement = ({ resource }) => {
-  return (
-    <>
-      <Link
-        title="Direct link to Resource"
-        href={`/4_0_0/${resource.resourceType}/${resource.id}`}
-      >
-        {resource.resourceType}/{resource.id}
-      </Link>
-      {resource.meta && (
-        <Partials.Meta
-          meta={resource.meta}
-          name="Meta"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="meta"
-        />
-      )}
-      {resource.implicitRules && (
-        <Partials.Uri
-          uri={resource.implicitRules}
-          name="Implicit Rules"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="implicit-rules"
-        />
-      )}
-      {resource.language && (
-        <Partials.Code code={resource.language} name="Language" />
-      )}
-      {resource.text && (
-        <Partials.Narrative
-          narrative={resource.text}
-          name="Text"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="text"
-        />
-      )}
-      {resource.extension && (
-        <Partials.Extension
-          extension={resource.extension}
-          name="Extension"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="extension"
-        />
-      )}
-      {resource.modifierExtension && (
-        <Partials.Extension
-          extension={resource.modifierExtension}
-          name="Modifier Extension"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="modifier-extension"
-        />
-      )}
-      {resource.identifier && (
-        <Partials.Identifier
-          identifier={resource.identifier}
-          name="Identifier"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="identifier"
-        />
-      )}
-      {resource.basedOn && (
-        <Partials.Reference
-          reference={resource.basedOn}
-          name="Based On"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="based-on"
-        />
-      )}
-      {resource.partOf && (
-        <Partials.Reference
-          reference={resource.partOf}
-          name="Part Of"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="part-of"
-        />
-      )}
-      {resource.status && (
-        <Partials.Code code={resource.status} name="Status" />
-      )}
-      {resource.statusReason && (
-        <Partials.CodeableConcept
-          codeableConcept={resource.statusReason}
-          name="Status Reason"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="status-reason"
-        />
-      )}
-      {resource.category && (
-        <Partials.CodeableConcept
-          codeableConcept={resource.category}
-          name="Category"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="category"
-        />
-      )}
-      {resource.medicationCodeableConcept && (
-        <Partials.CodeableConcept
-          codeableConcept={resource.medicationCodeableConcept}
-          name="Medication Codeable Concept"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="medication-codeable-concept"
-        />
-      )}
-      {resource.medicationReference && (
-        <Partials.Reference
-          reference={resource.medicationReference}
-          name="Medication Reference"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="medication-reference"
-        />
-      )}
-      {resource.subject && (
-        <Partials.Reference
-          reference={resource.subject}
-          name="Subject"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="subject"
-        />
-      )}
-      {resource.context && (
-        <Partials.Reference
-          reference={resource.context}
-          name="Context"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="context"
-        />
-      )}
-      {resource.effectiveDateTime && (
-        <Partials.DateTime
-          dateTime={resource.effectiveDateTime}
-          name="Effective Date Time"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="effective-date-time"
-        />
-      )}
-      {resource.effectivePeriod && (
-        <Partials.Period
-          period={resource.effectivePeriod}
-          name="Effective Period"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="effective-period"
-        />
-      )}
-      {resource.dateAsserted && (
-        <Partials.DateTime
-          dateTime={resource.dateAsserted}
-          name="Date Asserted"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="date-asserted"
-        />
-      )}
-      {resource.informationSource && (
-        <Partials.Reference
-          reference={resource.informationSource}
-          name="Information Source"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="information-source"
-        />
-      )}
-      {resource.derivedFrom && (
-        <Partials.Reference
-          reference={resource.derivedFrom}
-          name="Derived From"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="derived-from"
-        />
-      )}
-      {resource.reasonCode && (
-        <Partials.CodeableConcept
-          codeableConcept={resource.reasonCode}
-          name="Reason Code"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="reason-code"
-        />
-      )}
-      {resource.reasonReference && (
-        <Partials.Reference
-          reference={resource.reasonReference}
-          name="Reason Reference"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="reason-reference"
-        />
-      )}
-      {resource.note && (
-        <Partials.Annotation
-          annotation={resource.note}
-          name="Note"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="note"
-        />
-      )}
-      {resource.dosage && (
-        <Partials.Dosage
-          dosage={resource.dosage}
-          name="Dosage"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="dosage"
-        />
-      )}
-    </>
-  );
+    return (
+        <>
+            <Link title="Direct link to Resource" href={`/4_0_0/${resource.resourceType}/${resource.id}`}>
+                {resource.resourceType}/{resource.id}
+            </Link>
+            {
+                resource.meta &&
+                <Partials.Meta
+                    meta={resource.meta}
+                    name='Meta'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='meta'
+                />
+            }
+            {
+                resource.implicitRules &&
+                <Partials.Uri
+                    uri={resource.implicitRules}
+                    name='Implicit Rules'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='implicit-rules'
+                />
+            }
+            {
+                resource.language &&
+                <Partials.Code code={resource.language} name='Language'/>
+            }
+            {
+                resource.text &&
+                <Partials.Narrative
+                    narrative={resource.text}
+                    name='Text'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='text'
+                />
+            }
+            {
+                resource.extension &&
+                <Partials.Extension
+                    extension={resource.extension}
+                    name='Extension'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='extension'
+                />
+            }
+            {
+                resource.modifierExtension &&
+                <Partials.Extension
+                    extension={resource.modifierExtension}
+                    name='Modifier Extension'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='modifier-extension'
+                />
+            }
+            {
+                resource.identifier &&
+                <Partials.Identifier
+                    identifier={resource.identifier}
+                    name='Identifier'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='identifier'
+                />
+            }
+            {
+                resource.basedOn &&
+                <Partials.Reference
+                    reference={resource.basedOn}
+                    name='Based On'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='based-on'
+                />
+            }
+            {
+                resource.partOf &&
+                <Partials.Reference
+                    reference={resource.partOf}
+                    name='Part Of'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='part-of'
+                />
+            }
+            {
+                resource.status &&
+                <Partials.Code code={resource.status} name='Status'/>
+            }
+            {
+                resource.statusReason &&
+                <Partials.CodeableConcept
+                    codeableConcept={resource.statusReason}
+                    name='Status Reason'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='status-reason'
+                />
+            }
+            {
+                resource.category &&
+                <Partials.CodeableConcept
+                    codeableConcept={resource.category}
+                    name='Category'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='category'
+                />
+            }
+            {
+                resource.medicationCodeableConcept &&
+                <Partials.CodeableConcept
+                    codeableConcept={resource.medicationCodeableConcept}
+                    name='Medication Codeable Concept'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='medication-codeable-concept'
+                />
+            }
+            {
+                resource.medicationReference &&
+                <Partials.Reference
+                    reference={resource.medicationReference}
+                    name='Medication Reference'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='medication-reference'
+                />
+            }
+            {
+                resource.subject &&
+                <Partials.Reference
+                    reference={resource.subject}
+                    name='Subject'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='subject'
+                />
+            }
+            {
+                resource.context &&
+                <Partials.Reference
+                    reference={resource.context}
+                    name='Context'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='context'
+                />
+            }
+            {
+                resource.effectiveDateTime &&
+                <Partials.DateTime
+                    dateTime={resource.effectiveDateTime}
+                    name='Effective Date Time'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='effective-date-time'
+                />
+            }
+            {
+                resource.effectivePeriod &&
+                <Partials.Period
+                    period={resource.effectivePeriod}
+                    name='Effective Period'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='effective-period'
+                />
+            }
+            {
+                resource.dateAsserted &&
+                <Partials.DateTime
+                    dateTime={resource.dateAsserted}
+                    name='Date Asserted'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='date-asserted'
+                />
+            }
+            {
+                resource.informationSource &&
+                <Partials.Reference
+                    reference={resource.informationSource}
+                    name='Information Source'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='information-source'
+                />
+            }
+            {
+                resource.derivedFrom &&
+                <Partials.Reference
+                    reference={resource.derivedFrom}
+                    name='Derived From'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='derived-from'
+                />
+            }
+            {
+                resource.reasonCode &&
+                <Partials.CodeableConcept
+                    codeableConcept={resource.reasonCode}
+                    name='Reason Code'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='reason-code'
+                />
+            }
+            {
+                resource.reasonReference &&
+                <Partials.Reference
+                    reference={resource.reasonReference}
+                    name='Reason Reference'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='reason-reference'
+                />
+            }
+            {
+                resource.note &&
+                <Partials.Annotation
+                    annotation={resource.note}
+                    name='Note'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='note'
+                />
+            }
+            {
+                resource.dosage &&
+                <Partials.Dosage
+                    dosage={resource.dosage}
+                    name='Dosage'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='dosage'
+                />
+            }
+        </>
+    );
 };
 
 export default MedicationStatement;

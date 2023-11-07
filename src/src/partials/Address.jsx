@@ -9,7 +9,7 @@ import {
   Typography,
 } from '@mui/material';
 
-const Address = ({ addresses, name, resourceType }) => {
+const Address = ({ address: addresses, name, resourceType }) => {
   if (!Array.isArray(addresses)) {
     addresses = [addresses];
   }

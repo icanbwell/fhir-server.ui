@@ -11,133 +11,141 @@ Endpoint
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import {Link} from '@mui/material';
 
 // Import all the partial resource
 import Partials from '../../partials';
 
 const Endpoint = ({ resource }) => {
-  return (
-    <>
-      <Link
-        title="Direct link to Resource"
-        href={`/4_0_0/${resource.resourceType}/${resource.id}`}
-      >
-        {resource.resourceType}/{resource.id}
-      </Link>
-      {resource.meta && (
-        <Partials.Meta
-          meta={resource.meta}
-          name="Meta"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="meta"
-        />
-      )}
-      {resource.implicitRules && (
-        <Partials.Uri
-          uri={resource.implicitRules}
-          name="Implicit Rules"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="implicit-rules"
-        />
-      )}
-      {resource.language && (
-        <Partials.Code code={resource.language} name="Language" />
-      )}
-      {resource.text && (
-        <Partials.Narrative
-          narrative={resource.text}
-          name="Text"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="text"
-        />
-      )}
-      {resource.extension && (
-        <Partials.Extension
-          extension={resource.extension}
-          name="Extension"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="extension"
-        />
-      )}
-      {resource.modifierExtension && (
-        <Partials.Extension
-          extension={resource.modifierExtension}
-          name="Modifier Extension"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="modifier-extension"
-        />
-      )}
-      {resource.identifier && (
-        <Partials.Identifier
-          identifier={resource.identifier}
-          name="Identifier"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="identifier"
-        />
-      )}
-      {resource.status && (
-        <Partials.Code code={resource.status} name="Status" />
-      )}
-      {resource.connectionType && (
-        <Partials.Coding
-          coding={resource.connectionType}
-          name="Connection Type"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="connection-type"
-        />
-      )}
-      {resource.managingOrganization && (
-        <Partials.Reference
-          reference={resource.managingOrganization}
-          name="Managing Organization"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="managing-organization"
-        />
-      )}
-      {resource.contact && (
-        <Partials.ContactPoint
-          contactPoint={resource.contact}
-          name="Contact"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="contact"
-        />
-      )}
-      {resource.period && (
-        <Partials.Period
-          period={resource.period}
-          name="Period"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="period"
-        />
-      )}
-      {resource.payloadType && (
-        <Partials.CodeableConcept
-          codeableConcept={resource.payloadType}
-          name="Payload Type"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="payload-type"
-        />
-      )}
-      {resource.payloadMimeType && (
-        <Partials.Code
-          code={resource.payloadMimeType}
-          name="Payload Mime Type"
-        />
-      )}
-    </>
-  );
+    return (
+        <>
+            <Link title="Direct link to Resource" href={`/4_0_0/${resource.resourceType}/${resource.id}`}>
+                {resource.resourceType}/{resource.id}
+            </Link>
+            {
+                resource.meta &&
+                <Partials.Meta
+                    meta={resource.meta}
+                    name='Meta'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='meta'
+                />
+            }
+            {
+                resource.implicitRules &&
+                <Partials.Uri
+                    uri={resource.implicitRules}
+                    name='Implicit Rules'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='implicit-rules'
+                />
+            }
+            {
+                resource.language &&
+                <Partials.Code code={resource.language} name='Language'/>
+            }
+            {
+                resource.text &&
+                <Partials.Narrative
+                    narrative={resource.text}
+                    name='Text'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='text'
+                />
+            }
+            {
+                resource.extension &&
+                <Partials.Extension
+                    extension={resource.extension}
+                    name='Extension'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='extension'
+                />
+            }
+            {
+                resource.modifierExtension &&
+                <Partials.Extension
+                    extension={resource.modifierExtension}
+                    name='Modifier Extension'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='modifier-extension'
+                />
+            }
+            {
+                resource.identifier &&
+                <Partials.Identifier
+                    identifier={resource.identifier}
+                    name='Identifier'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='identifier'
+                />
+            }
+            {
+                resource.status &&
+                <Partials.Code code={resource.status} name='Status'/>
+            }
+            {
+                resource.connectionType &&
+                <Partials.Coding
+                    coding={resource.connectionType}
+                    name='Connection Type'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='connection-type'
+                />
+            }
+            {
+                resource.managingOrganization &&
+                <Partials.Reference
+                    reference={resource.managingOrganization}
+                    name='Managing Organization'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='managing-organization'
+                />
+            }
+            {
+                resource.contact &&
+                <Partials.ContactPoint
+                    contactPoint={resource.contact}
+                    name='Contact'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='contact'
+                />
+            }
+            {
+                resource.period &&
+                <Partials.Period
+                    period={resource.period}
+                    name='Period'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='period'
+                />
+            }
+            {
+                resource.payloadType &&
+                <Partials.CodeableConcept
+                    codeableConcept={resource.payloadType}
+                    name='Payload Type'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='payload-type'
+                />
+            }
+            {
+                resource.payloadMimeType &&
+                <Partials.Code code={resource.payloadMimeType} name='Payload Mime Type'/>
+            }
+        </>
+    );
 };
 
 export default Endpoint;

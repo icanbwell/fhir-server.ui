@@ -9,154 +9,167 @@ Slot
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import {Link} from '@mui/material';
 
 // Import all the partial resource
 import Partials from '../../partials';
 
 const Slot = ({ resource }) => {
-  return (
-    <>
-      <Link
-        title="Direct link to Resource"
-        href={`/4_0_0/${resource.resourceType}/${resource.id}`}
-      >
-        {resource.resourceType}/{resource.id}
-      </Link>
-      {resource.meta && (
-        <Partials.Meta
-          meta={resource.meta}
-          name="Meta"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="meta"
-        />
-      )}
-      {resource.implicitRules && (
-        <Partials.Uri
-          uri={resource.implicitRules}
-          name="Implicit Rules"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="implicit-rules"
-        />
-      )}
-      {resource.language && (
-        <Partials.Code code={resource.language} name="Language" />
-      )}
-      {resource.text && (
-        <Partials.Narrative
-          narrative={resource.text}
-          name="Text"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="text"
-        />
-      )}
-      {resource.extension && (
-        <Partials.Extension
-          extension={resource.extension}
-          name="Extension"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="extension"
-        />
-      )}
-      {resource.modifierExtension && (
-        <Partials.Extension
-          extension={resource.modifierExtension}
-          name="Modifier Extension"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="modifier-extension"
-        />
-      )}
-      {resource.identifier && (
-        <Partials.Identifier
-          identifier={resource.identifier}
-          name="Identifier"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="identifier"
-        />
-      )}
-      {resource.serviceCategory && (
-        <Partials.CodeableConcept
-          codeableConcept={resource.serviceCategory}
-          name="Service Category"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="service-category"
-        />
-      )}
-      {resource.serviceType && (
-        <Partials.CodeableConcept
-          codeableConcept={resource.serviceType}
-          name="Service Type"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="service-type"
-        />
-      )}
-      {resource.specialty && (
-        <Partials.CodeableConcept
-          codeableConcept={resource.specialty}
-          name="Specialty"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="specialty"
-        />
-      )}
-      {resource.appointmentType && (
-        <Partials.CodeableConcept
-          codeableConcept={resource.appointmentType}
-          name="Appointment Type"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="appointment-type"
-        />
-      )}
-      {resource.schedule && (
-        <Partials.Reference
-          reference={resource.schedule}
-          name="Schedule"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="schedule"
-        />
-      )}
-      {resource.status && (
-        <Partials.Code code={resource.status} name="Status" />
-      )}
-      {resource.start && (
-        <Partials.Instant
-          instant={resource.start}
-          name="Start"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="start"
-        />
-      )}
-      {resource.end && (
-        <Partials.Instant
-          instant={resource.end}
-          name="End"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="end"
-        />
-      )}
-      {resource.overbooked && (
-        <Partials.Boolean
-          boolean={resource.overbooked}
-          name="Overbooked"
-          resourceType={resource.resourceType}
-          id={resource.id}
-          searchParameter="overbooked"
-        />
-      )}
-    </>
-  );
+    return (
+        <>
+            <Link title="Direct link to Resource" href={`/4_0_0/${resource.resourceType}/${resource.id}`}>
+                {resource.resourceType}/{resource.id}
+            </Link>
+            {
+                resource.meta &&
+                <Partials.Meta
+                    meta={resource.meta}
+                    name='Meta'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='meta'
+                />
+            }
+            {
+                resource.implicitRules &&
+                <Partials.Uri
+                    uri={resource.implicitRules}
+                    name='Implicit Rules'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='implicit-rules'
+                />
+            }
+            {
+                resource.language &&
+                <Partials.Code code={resource.language} name='Language'/>
+            }
+            {
+                resource.text &&
+                <Partials.Narrative
+                    narrative={resource.text}
+                    name='Text'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='text'
+                />
+            }
+            {
+                resource.extension &&
+                <Partials.Extension
+                    extension={resource.extension}
+                    name='Extension'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='extension'
+                />
+            }
+            {
+                resource.modifierExtension &&
+                <Partials.Extension
+                    extension={resource.modifierExtension}
+                    name='Modifier Extension'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='modifier-extension'
+                />
+            }
+            {
+                resource.identifier &&
+                <Partials.Identifier
+                    identifier={resource.identifier}
+                    name='Identifier'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='identifier'
+                />
+            }
+            {
+                resource.serviceCategory &&
+                <Partials.CodeableConcept
+                    codeableConcept={resource.serviceCategory}
+                    name='Service Category'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='service-category'
+                />
+            }
+            {
+                resource.serviceType &&
+                <Partials.CodeableConcept
+                    codeableConcept={resource.serviceType}
+                    name='Service Type'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='service-type'
+                />
+            }
+            {
+                resource.specialty &&
+                <Partials.CodeableConcept
+                    codeableConcept={resource.specialty}
+                    name='Specialty'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='specialty'
+                />
+            }
+            {
+                resource.appointmentType &&
+                <Partials.CodeableConcept
+                    codeableConcept={resource.appointmentType}
+                    name='Appointment Type'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='appointment-type'
+                />
+            }
+            {
+                resource.schedule &&
+                <Partials.Reference
+                    reference={resource.schedule}
+                    name='Schedule'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='schedule'
+                />
+            }
+            {
+                resource.status &&
+                <Partials.Code code={resource.status} name='Status'/>
+            }
+            {
+                resource.start &&
+                <Partials.Instant
+                    instant={resource.start}
+                    name='Start'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='start'
+                />
+            }
+            {
+                resource.end &&
+                <Partials.Instant
+                    instant={resource.end}
+                    name='End'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='end'
+                />
+            }
+            {
+                resource.overbooked &&
+                <Partials.Boolean
+                    boolean={resource.overbooked}
+                    name='Overbooked'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='overbooked'
+                />
+            }
+        </>
+    );
 };
 
 export default Slot;
