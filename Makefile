@@ -94,7 +94,7 @@ run-pre-commit: setup-pre-commit
 	./.git/hooks/pre-commit
 
 .PHONY:generate_components
-generate:
+generate_components:
 	. ${NVM_DIR}/nvm.sh && nvm use && \
 	docker run --rm -it --name pythongenerator --mount type=bind,source="${PWD}"/src,target=/src python:3.8-slim-buster sh -c "pip install lxml jinja2 && python3 src/src/generator/generate_components.py" \
 	eslint --fix "src/src/pages/resources/**/*.jsx"
