@@ -18,6 +18,9 @@ function Identifier({ identifier: identifiers, resourceType, name }) {
   if (!identifiers || identifiers.length === 0) {
     return <></>;
   }
+  if (!Array.isArray(identifiers)) {
+    identifiers = [identifiers];
+  }
 
   return (
     <React.Fragment>
