@@ -5,7 +5,7 @@ const Canonical = ({ canonical, name }) => {
     canonical && (
       <Box>
         <Typography variant="body1" component="b">
-          {`${name}:`}&nbsp;
+            <b>{`${name}:`}</b>&nbsp;
         </Typography>
         <Link href={canonical}>{canonical}</Link>
       </Box>
