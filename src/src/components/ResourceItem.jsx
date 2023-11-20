@@ -3,12 +3,14 @@ import Patient from '../pages/resources/Patient';
 import Account from '../pages/resources/Account';
 import ActivityDefinition from '../pages/resources/ActivityDefinition';
 import AllergyIntolerance from '../pages/resources/AllergyIntolerance';
+import ChargeItem from '../pages/resources/ChargeItem';
 import CareTeam from '../pages/resources/CareTeam';
 import Appointment from '../pages/resources/Appointment';
 import AuditEvent from '../pages/resources/AuditEvent';
 import Communication from '../pages/resources/Communication';
 import Encounter from '../pages/resources/Encounter';
 import InsurancePlan from '../pages/resources/InsurancePlan';
+import Invoice from '../pages/resources/Invoice';
 import Library from '../pages/resources/Library';
 import Measure from '../pages/resources/Measure';
 import Medication from '../pages/resources/Medication';
@@ -54,6 +56,8 @@ function ResourceItem({ resourceType, resource, index }) {
       return <AuditEvent resource={resource} index={index} />;
     case 'CareTeam':
       return <CareTeam resource={resource} index={index} />;
+    case 'ChargeItem':
+      return <ChargeItem resource={resource} index={index} />;
     case 'Communication':
       return <Communication resource={resource} index={index} />;
     case 'Condition':
@@ -72,6 +76,8 @@ function ResourceItem({ resourceType, resource, index }) {
       return <Immunization resource={resource} index={index} />;
     case 'InsurancePlan':
       return <InsurancePlan resource={resource} index={index} />;
+    case 'Invoice':
+      return <Invoice resource={resource} index={index} />;
     case 'Library':
       return <Library resource={resource} index={index} />;
     case 'Location':

@@ -234,6 +234,16 @@ const Claim = ({ resource }) => {
                     searchParameter='facility'
                 />
             }
+            {
+                resource.total &&
+                <Partials.Money
+                    money={resource.total}
+                    name='Total'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='total'
+                />
+            }
         </>
     );
 };

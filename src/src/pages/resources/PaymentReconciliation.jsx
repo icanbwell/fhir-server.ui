@@ -144,6 +144,16 @@ const PaymentReconciliation = ({ resource }) => {
                 <Partials.Code code={resource.outcome} name='Outcome'/>
             }
             {
+                resource.paymentAmount &&
+                <Partials.Money
+                    money={resource.paymentAmount}
+                    name='Payment Amount'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='payment-amount'
+                />
+            }
+            {
                 resource.paymentIdentifier &&
                 <Partials.Identifier
                     identifier={resource.paymentIdentifier}

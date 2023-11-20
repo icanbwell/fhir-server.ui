@@ -150,6 +150,45 @@ const Invoice = ({ resource }) => {
                 />
             }
             {
+                resource.lineItem &&
+                <Partials.InvoiceLineItem
+                    invoiceLineItem={resource.lineItem}
+                    name='Line Item'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='line-item'
+                />
+            }
+            {
+                resource.totalPriceComponent &&
+                <Partials.InvoicePriceComponent
+                    invoicePriceComponent={resource.totalPriceComponent}
+                    name='Total Price Component'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='total-price-component'
+                />
+            }
+            {
+                resource.totalNet &&
+                <Partials.Money
+                    money={resource.totalNet}
+                    name='Total Net'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='total-net'
+                />
+            }
+            {
+                resource.totalGross &&
+                <Partials.Money
+                    money={resource.totalGross}
+                    name='Total Gross'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='total-gross'
+                />
+            }            {
                 resource.paymentTerms &&
                 <Partials.Markdown
                     markdown={resource.paymentTerms}
