@@ -3,7 +3,7 @@ import {Typography, Table, TableHead, TableBody, TableRow, TableCell, Box} from 
 import CodeableConcept from '../partials/CodeableConcept';
 import Money from '../partials/Money';
 
-const InvoicePriceComponent = ({ name, invoicePriceComponent: priceComponents }) => {
+const InvoicePriceComponent = ({ name, invoicePriceComponent: priceComponents, resourceType }) => {
     if (!Array.isArray(priceComponents)) {
         priceComponents = [priceComponents];
     }
@@ -27,7 +27,7 @@ const InvoicePriceComponent = ({ name, invoicePriceComponent: priceComponents })
                                         <TableCell>{priceComponent.id}</TableCell>
                                         <TableCell>{priceComponent.type}</TableCell>
                                         <TableCell>
-                                            <CodeableConcept resourceType="" codeableConcept={priceComponent.code} name="Code" searchParameter="" />
+                                            <CodeableConcept resourceType={resourceType} codeableConcept={priceComponent.code} name="Code" searchParameter="" />
                                         </TableCell>
                                         <TableCell>
                                             <Money name="" money={priceComponent.amount.value} />

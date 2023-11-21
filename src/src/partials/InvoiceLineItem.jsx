@@ -28,13 +28,17 @@ const InvoiceLineItem = ({ invoiceLineItem: lineItems, name }) => {
                     <TableBody>
                         {lineItems.map((lineItem) => {
                             return (
-                                <TableRow key={lineItem.chargeItemReference.reference}>
-                                    <TableCell>{lineItem.chargeItemReference.reference}</TableCell>
+                                <TableRow>
                                     <TableCell>
-                                        <CodeableConcept resourceType="" codeableConcept={lineItem.chargeItemCodeableConcept} name="Code" searchParameter="" />
+                                        <Link href={`/4_0_0/${lineItem.chargeItemReference.reference}`} >
+                                            {lineItem.chargeItemReference.reference}
+                                        </Link>
                                     </TableCell>
                                     <TableCell>
-                                        <InvoicePriceComponent name="" invoicePriceComponent={lineItem.priceComponent} />
+                                        <CodeableConcept resourceType="Invoice" codeableConcept={lineItem.chargeItemCodeableConcept} name="Code" searchParameter="" />
+                                    </TableCell>
+                                    <TableCell>
+                                        <InvoicePriceComponent resourceType="Invoice" name="" invoicePriceComponent={lineItem.priceComponent} />
                                     </TableCell>
                                 </TableRow>
                             );
