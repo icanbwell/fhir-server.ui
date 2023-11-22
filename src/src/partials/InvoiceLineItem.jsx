@@ -2,14 +2,8 @@ import React from 'react';
 import {Typography, Table, TableHead, TableBody, TableRow, TableCell, Box, Link} from '@mui/material';
 import CodeableConcept from '../partials/CodeableConcept';
 import InvoicePriceComponent from './InvoicePriceComponent';
-import {makeStyles} from "@mui/styles";
-
-const useStyles = makeStyles({
-  table: {},
-});
 
 const InvoiceLineItem = ({ invoiceLineItem: lineItems, name }) => {
-    const classes = useStyles();
     if (!Array.isArray(lineItems)) {
         lineItems = [lineItems];
     }

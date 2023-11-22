@@ -30,11 +30,11 @@ const InvoicePriceComponent = ({ name, invoicePriceComponent: priceComponents, r
                                             <CodeableConcept resourceType={resourceType} codeableConcept={priceComponent.code} name="Code" searchParameter="" />
                                         </TableCell>
                                         <TableCell>
-                                            <Money name="" money={priceComponent.amount.value} />
+                                            <Money name="" money={priceComponent.amount} />
                                         </TableCell>
                                     </TableRow>
                                 );
-                        })};
+                        })}
                     </TableBody>
                 </Table>
             </Box>

@@ -9,7 +9,7 @@ const Money = ({ name, money }) => {
     return (
     <Box>
       <Typography variant="body1" component="div">
-        '$' + {money}
+        ${money.value}
       </Typography>
     </Box>
     );
@@ -17,7 +17,7 @@ const Money = ({ name, money }) => {
   return (
     <Box>
       <Typography variant="body1" component="div">
-        <b>{name}:</b>&nbsp;'$' + {money}
+        <b>{name}:</b>&nbsp;${money.value}
       </Typography>
     </Box>
     );

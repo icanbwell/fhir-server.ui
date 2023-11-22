@@ -188,7 +188,8 @@ const Invoice = ({ resource }) => {
                     id={resource.id}
                     searchParameter='total-gross'
                 />
-            }            {
+            }
+           {
                 resource.paymentTerms &&
                 <Partials.Markdown
                     markdown={resource.paymentTerms}
