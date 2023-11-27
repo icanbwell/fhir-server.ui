@@ -243,6 +243,16 @@ const ChargeItem = ({ resource }) => {
                 />
             }
             {
+                resource.priceOverride &&
+                <Partials.Money
+                    money={resource.priceOverride}
+                    name='Price Override'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='price-override'
+                />
+            }
+            {
                 resource.enterer &&
                 <Partials.Reference
                     reference={resource.enterer}

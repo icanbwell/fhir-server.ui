@@ -160,6 +160,16 @@ const PaymentNotice = ({ resource }) => {
                 />
             }
             {
+                resource.amount &&
+                <Partials.Money
+                    money={resource.amount}
+                    name='Amount'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='amount'
+                />
+            }
+            {
                 resource.paymentStatus &&
                 <Partials.CodeableConcept
                     codeableConcept={resource.paymentStatus}

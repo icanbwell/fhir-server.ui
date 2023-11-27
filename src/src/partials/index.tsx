@@ -16,8 +16,11 @@ import HumanName from './HumanName';
 import Identifier from './Identifier';
 import Instant from './Instant';
 import Integer from './Integer';
+import InvoiceLineItem from './InvoiceLineItem';
+import InvoicePriceComponent from './InvoicePriceComponent';
 import Markdown from './Markdown';
 import Meta from './Meta';
+import Money from './Money';
 import NameValue from './NameValue';
 import Narrative from './Narrative';
 import ObservationReferenceRange from './ObservationReferenceRange';
@@ -53,8 +56,11 @@ export default {
   Identifier,
   Instant,
   Integer,
+  InvoiceLineItem,
+  InvoicePriceComponent,
   Markdown,
   Meta,
+  Money,
   NameValue,
   Narrative,
   ObservationReferenceRange,
