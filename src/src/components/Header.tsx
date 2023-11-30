@@ -12,25 +12,25 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { Link } from 'react-router-dom';
 import BwellIcon from '../dist/images/bwell.png';
 
-class Header extends React.Component {
-  constructor(props) {
+class Header extends React.Component<any> {
+  constructor({fhirUrl, ...props}: { fhirUrl: String, props: any}) {
     super(props);
     this.state = {
       deployEnvironment: 'Your Deploy Environment',
       environment: 'Your Environment',
       resources: [],
-      fhirUrl: props.fhirUrl
+      fhirUrl
     };
   }
 
-  setCookie(name, value, days) {
+  setCookie(name: string, value: string, days: number) {
     const date = new Date();
     date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
     const expires = 'expires=' + date.toUTCString();
     document.cookie = name + '=' + value + ';' + expires + ';path=/';
   }
 
-  getCookie(name) {
+  getCookie(name: string) {
     const cookieName = name + '=';
     const decodedCookie = decodeURIComponent(document.cookie);
     const cookies = decodedCookie.split(';');
@@ -46,7 +46,7 @@ class Header extends React.Component {
     return '';
   }
 
-  deleteCookie(name) {
+  deleteCookie(name: string) {
     console.log(`deleteCookie(${name})`);
     document.cookie =
       name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
@@ -54,7 +54,7 @@ class Header extends React.Component {
 
   render() {
     // eslint-disable-next-line no-unused-vars
-    const { deployEnvironment, environment, resources, fhirUrl } = this.state;
+    const { deployEnvironment, environment, resources, fhirUrl }: any = this.state;
     return (
       <React.Fragment>
         <AppBar position="static">

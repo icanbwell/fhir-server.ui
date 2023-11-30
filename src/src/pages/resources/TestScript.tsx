@@ -16,7 +16,7 @@ import { TTestScript } from '../../types/resources/TestScript';
 // Import all the partial resource
 import Partials from '../../partials';
 
-const TestScript = ({ resource }: { resource: TTestScript }) => {
+const TestScript = ({ resource }: { resource: TTestScript }): React.ReactElement => {
     return (
         <>
             <Link title="Direct link to Resource" href={`/4_0_0/${resource.resourceType}/${resource.id}`}>

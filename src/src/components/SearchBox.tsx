@@ -6,10 +6,10 @@ import Grid from '@mui/material/Grid';
 import SearchFormQuery from '../utils/searchFormQuery';
 
 // eslint-disable-next-line no-unused-vars
-export default function SearchBox({ onSearch, resourceType }) {
+export default function SearchBox({ onSearch }: { onSearch: any }) {
   const [searchText, setSearchText] = React.useState('');
 
-  const handleTextChange = (setText) => (event) => {
+  const handleTextChange = (setText: any) => (event: any) => {
     setText(event.target.value);
   };
 

@@ -16,7 +16,7 @@ import { TEnrollmentRequest } from '../../types/resources/EnrollmentRequest';
 // Import all the partial resource
 import Partials from '../../partials';
 
-const EnrollmentRequest = ({ resource }: { resource: TEnrollmentRequest }) => {
+const EnrollmentRequest = ({ resource }: { resource: TEnrollmentRequest }): React.ReactElement => {
     return (
         <>
             <Link title="Direct link to Resource" href={`/4_0_0/${resource.resourceType}/${resource.id}`}>

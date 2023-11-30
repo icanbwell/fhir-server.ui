@@ -16,7 +16,7 @@ import { TCoverage } from '../../types/resources/Coverage';
 // Import all the partial resource
 import Partials from '../../partials';
 
-const Coverage = ({ resource }: { resource: TCoverage }) => {
+const Coverage = ({ resource }: { resource: TCoverage }): React.ReactElement => {
     return (
         <>
             <Link title="Direct link to Resource" href={`/4_0_0/${resource.resourceType}/${resource.id}`}>

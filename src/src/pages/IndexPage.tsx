@@ -19,10 +19,10 @@ import EnvironmentContext from '../EnvironmentContext';
  * @returns {Element}
  * @constructor
  */
-const IndexPage = ({ search }) => {
+const IndexPage = ({ search }: { search?: boolean }) => {
     const { fhirUrl } = useContext(EnvironmentContext);
-    const [resources, setResources] = useState(undefined);
-    const [bundle, setBundle] = useState('');
+    const [resources, setResources] = useState<any>(undefined);
+    const [bundle, setBundle] = useState<any>('');
     const [status, setStatus] = useState('');
     const [loading, setLoading] = useState(false);
 
@@ -74,7 +74,7 @@ const IndexPage = ({ search }) => {
                         />
                     </Alert>
                 )}
-                {resources.map((fullResource, index) => {
+                {resources.map((fullResource: any, index: number) => {
                     const resource = fullResource.resource || fullResource;
                     return (
                         <ResourceCard
@@ -150,7 +150,7 @@ const IndexPage = ({ search }) => {
      * Handle search event from child component
      * @param {SearchFormQuery} searchFormQuery
      */
-    const handleSearch = (searchFormQuery) => {
+    const handleSearch = (searchFormQuery: any) => {
         const fhirApi = new FhirApi({ fhirUrl });
 
         /**
@@ -184,7 +184,7 @@ const IndexPage = ({ search }) => {
                     <Typography variant="h5">Search</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <SearchContainer onSearch={handleSearch} id={id}></SearchContainer>
+                    <SearchContainer onSearch={handleSearch}></SearchContainer>
                 </AccordionDetails>
             </Accordion>
             <Box my={2}>{getBox()}</Box>

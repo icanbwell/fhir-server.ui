@@ -16,7 +16,7 @@ import { TPatient } from '../../types/resources/Patient';
 // Import all the partial resource
 import Partials from '../../partials';
 
-const Patient = ({ resource }: { resource: TPatient }) => {
+const Patient = ({ resource }: { resource: TPatient }): React.ReactElement => {
     return (
         <>
             <Link title="Direct link to Resource" href={`/4_0_0/${resource.resourceType}/${resource.id}`}>

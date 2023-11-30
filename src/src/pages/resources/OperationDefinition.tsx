@@ -16,7 +16,7 @@ import { TOperationDefinition } from '../../types/resources/OperationDefinition'
 // Import all the partial resource
 import Partials from '../../partials';
 
-const OperationDefinition = ({ resource }: { resource: TOperationDefinition }) => {
+const OperationDefinition = ({ resource }: { resource: TOperationDefinition }): React.ReactElement => {
     return (
         <>
             <Link title="Direct link to Resource" href={`/4_0_0/${resource.resourceType}/${resource.id}`}>

@@ -17,7 +17,7 @@ import { TAppointment } from '../../types/resources/Appointment';
 // Import all the partial resource
 import Partials from '../../partials';
 
-const Appointment = ({ resource }: { resource: TAppointment }) => {
+const Appointment = ({ resource }: { resource: TAppointment }): React.ReactElement => {
     return (
         <>
             <Link title="Direct link to Resource" href={`/4_0_0/${resource.resourceType}/${resource.id}`}>

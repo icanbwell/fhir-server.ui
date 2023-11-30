@@ -15,7 +15,7 @@ import { TSlot } from '../../types/resources/Slot';
 // Import all the partial resource
 import Partials from '../../partials';
 
-const Slot = ({ resource }: { resource: TSlot }) => {
+const Slot = ({ resource }: { resource: TSlot }): React.ReactElement => {
     return (
         <>
             <Link title="Direct link to Resource" href={`/4_0_0/${resource.resourceType}/${resource.id}`}>

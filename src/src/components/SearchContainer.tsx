@@ -6,7 +6,7 @@ import Box from '@mui/material/Box';
 import SearchForm from './SearchForm';
 import SearchBox from './SearchBox';
 
-function TabPanel(props) {
+function TabPanel(props: any) {
   const { children, value, index, ...other } = props;
 
   return (
@@ -26,15 +26,14 @@ function TabPanel(props) {
   );
 }
 
-// eslint-disable-next-line no-unused-vars
-const SearchContainer = ({ onSearch, resourceType = '', id = '' }) => {
+const SearchContainer = ({ onSearch }: { onSearch: any }) => {
   const [value, setValue] = useState(0);
 
-  const handleChange = (event, newValue) => {
+  const handleChange = (event: any, newValue: any) => {
     setValue(newValue);
   };
 
-  const handleSearch = (searchFormQuery) => {
+  const handleSearch = (searchFormQuery: any) => {
     onSearch(searchFormQuery);
   };
 

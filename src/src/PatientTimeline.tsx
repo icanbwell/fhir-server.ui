@@ -12,7 +12,7 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import BiotechIcon from '@mui/icons-material/Biotech';
 import HealthAndSafetyIcon from '@mui/icons-material/HealthAndSafety';
 
-function getIcon(patientEvent) {
+function getIcon(patientEvent: any) {
   // https://mui.com/material-ui/material-icons/
   switch (patientEvent.resourceType) {
     case 'Patient':
@@ -34,8 +34,8 @@ function getIcon(patientEvent) {
   }
 }
 
-const renderTimelineElements = (patientEvents) => {
-  return patientEvents.map((patientEvent, index) => (
+const renderTimelineElements = (patientEvents: any) => {
+  return patientEvents.map((patientEvent: any, index: number) => (
     <VerticalTimelineElement
       className="vertical-timeline-element--work"
       contentStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}

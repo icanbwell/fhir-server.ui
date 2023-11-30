@@ -17,7 +17,7 @@ import { TRiskEvidenceSynthesis } from '../../types/resources/RiskEvidenceSynthe
 // Import all the partial resource
 import Partials from '../../partials';
 
-const RiskEvidenceSynthesis = ({ resource }: { resource: TRiskEvidenceSynthesis }) => {
+const RiskEvidenceSynthesis = ({ resource }: { resource: TRiskEvidenceSynthesis }): React.ReactElement => {
     return (
         <>
             <Link title="Direct link to Resource" href={`/4_0_0/${resource.resourceType}/${resource.id}`}>

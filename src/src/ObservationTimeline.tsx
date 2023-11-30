@@ -6,8 +6,8 @@ import {
 import 'react-vertical-timeline-component/style.min.css';
 import MedicalInformationIcon from '@mui/icons-material/MedicalInformation';
 
-const renderTimelineElements = (observations) => {
-  return observations.map((observation, index) => (
+const renderTimelineElements = (observations: any) => {
+  return observations.map((observation: any, index: number) => (
     <VerticalTimelineElement
       className="vertical-timeline-element--work"
       contentStyle={{ background: 'rgb(33, 150, 243)', color: '#fff' }}

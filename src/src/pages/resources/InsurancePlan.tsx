@@ -15,7 +15,7 @@ import { TInsurancePlan } from '../../types/resources/InsurancePlan';
 // Import all the partial resource
 import Partials from '../../partials';
 
-const InsurancePlan = ({ resource }: { resource: TInsurancePlan }) => {
+const InsurancePlan = ({ resource }: { resource: TInsurancePlan }): React.ReactElement => {
     return (
         <>
             <Link title="Direct link to Resource" href={`/4_0_0/${resource.resourceType}/${resource.id}`}>

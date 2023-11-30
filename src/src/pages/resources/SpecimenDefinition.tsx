@@ -15,7 +15,7 @@ import { TSpecimenDefinition } from '../../types/resources/SpecimenDefinition';
 // Import all the partial resource
 import Partials from '../../partials';
 
-const SpecimenDefinition = ({ resource }: { resource: TSpecimenDefinition }) => {
+const SpecimenDefinition = ({ resource }: { resource: TSpecimenDefinition }): React.ReactElement => {
     return (
         <>
             <Link title="Direct link to Resource" href={`/4_0_0/${resource.resourceType}/${resource.id}`}>

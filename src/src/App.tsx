@@ -1,5 +1,5 @@
 import './App.css';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Routes, Route, createBrowserRouter, RouterProvider } from 'react-router-dom';
 import HomePage from './HomePage';
 import AboutPage from './AboutPage';
@@ -18,12 +18,16 @@ import SearchLogsPage from './admin/searchLogs';
 import SearchPage from './pages/SearchPage';
 import IndexPage from './pages/IndexPage';
 import EnvironmentContext from './EnvironmentContext';
-import axios from 'axios';
+import axios, {AxiosResponse} from 'axios';
 
 // import ErrorPage from './error-page';
+type TApiEnvResponse = {
+    FHIR_SERVER_URL: string;
+    status: number;
+};
 
-function App() {
-    const [fhirUrl, setFhirUrl] = useState(process.env.FHIR_SERVER_URL);
+function App(): React.ReactElement {
+    const [fhirUrl, setFhirUrl] = useState<string|undefined>(process.env.FHIR_SERVER_URL);
 
     // Changed from App to Root
     function Root() {
@@ -52,19 +56,22 @@ function App() {
         basename: '/',
     });
 
-    useEffect(async () => {
-        // Fetching environment data from server using async/await
-        try {
-            const response = await axios.get('/api/env');
-            if (!response.status === 200) {
-                // noinspection ExceptionCaughtLocallyJS
-                throw new Error('Network response was not ok');
+    useEffect(() => {
+        const fetchFhirUrl = async () => {
+            // Fetching environment data from server using async/await
+            try {
+                const response: AxiosResponse<TApiEnvResponse> = await axios.get('/api/env');
+                if (response.status !== 200) {
+                    // noinspection ExceptionCaughtLocallyJS
+                    throw new Error('Network response was not ok');
+                }
+                setFhirUrl(response.data.FHIR_SERVER_URL);
+                console.log(`Setting fhirUrl to ${fhirUrl}`);
+            } catch (error: any) {
+                console.error('There was a problem with the fetch operation:', error.message);
             }
-            setFhirUrl(response.data.FHIR_SERVER_URL);
-            console.log(`Setting fhirUrl to ${fhirUrl}`);
-        } catch (error) {
-            console.error('There was a problem with the fetch operation:', error.message);
-        }
+        };
+        fetchFhirUrl();
     }, []);
 
     return (

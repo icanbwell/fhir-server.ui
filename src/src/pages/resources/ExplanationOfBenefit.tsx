@@ -17,7 +17,7 @@ import { TExplanationOfBenefit } from '../../types/resources/ExplanationOfBenefi
 // Import all the partial resource
 import Partials from '../../partials';
 
-const ExplanationOfBenefit = ({ resource }: { resource: TExplanationOfBenefit }) => {
+const ExplanationOfBenefit = ({ resource }: { resource: TExplanationOfBenefit }): React.ReactElement => {
     return (
         <>
             <Link title="Direct link to Resource" href={`/4_0_0/${resource.resourceType}/${resource.id}`}>

@@ -17,7 +17,7 @@ import { TBinary } from '../../types/resources/Binary';
 // Import all the partial resource
 import Partials from '../../partials';
 
-const Binary = ({ resource }: { resource: TBinary }) => {
+const Binary = ({ resource }: { resource: TBinary }): React.ReactElement => {
     return (
         <>
             <Link title="Direct link to Resource" href={`/4_0_0/${resource.resourceType}/${resource.id}`}>

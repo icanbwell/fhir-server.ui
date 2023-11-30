@@ -11,9 +11,9 @@ function PatientChatGptPage() {
 
     const [textResponse, setTextResponse] = useState('');
 
-    const [apiData, setApiData] = useState('');
+    const [apiData, setApiData] = useState<any>('');
 
-    const handleInputChange = (event) => {
+    const handleInputChange = (event: any) => {
         setTextInput(event.target.value);
     };
 
@@ -44,7 +44,7 @@ function PatientChatGptPage() {
     return (
         <div className="App">
             <div>{id}</div>
-            <textarea value={textInput} onChange={handleInputChange} rows="4" cols="100" />
+            <textarea value={textInput} onChange={handleInputChange} rows={4} cols={100} />
             <br />
             <button onClick={callApi}>Ask</button>
             <div>

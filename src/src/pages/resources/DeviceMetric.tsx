@@ -16,7 +16,7 @@ import { TDeviceMetric } from '../../types/resources/DeviceMetric';
 // Import all the partial resource
 import Partials from '../../partials';
 
-const DeviceMetric = ({ resource }: { resource: TDeviceMetric }) => {
+const DeviceMetric = ({ resource }: { resource: TDeviceMetric }): React.ReactElement => {
     return (
         <>
             <Link title="Direct link to Resource" href={`/4_0_0/${resource.resourceType}/${resource.id}`}>

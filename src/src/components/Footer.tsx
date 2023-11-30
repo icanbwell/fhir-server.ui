@@ -15,7 +15,7 @@ function Footer({
   requestId,
   oauth_scope,
   currentYear,
-}) {
+}: any) {
   const hasPrev = searchUtils
     ? searchUtils.hasPrev(body._getpagesoffset)
     : false;
@@ -33,18 +33,22 @@ function Footer({
     <Box sx={{ p: 1, display: 'flex', borderTop: 1 }}>
       {url && url.includes('/_search') && (
         <>
-          <Pagination>
-            <PaginationItem
-              disabled={!hasPrev}
-              component="button"
-              id="lnkPrevious"
-            >
-              Previous
-            </PaginationItem>
-            <PaginationItem disabled={!hasNext} component="button" id="lnkNext">
-              Next
-            </PaginationItem>
-          </Pagination>
+          <Pagination
+            renderItem={() => (
+              <>
+                <PaginationItem
+                  disabled={!hasPrev}
+                  component="button"
+                  id="lnkPrevious"
+                >
+                  Previous
+                </PaginationItem>
+                <PaginationItem disabled={!hasNext} component="button" id="lnkNext">
+                  Next
+                </PaginationItem>
+              </>
+            )}
+          />
           <Box sx={{ px: 3, pt: 2 }}>
             <Typography variant="body2">{totalMessage}</Typography>
           </Box>

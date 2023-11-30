@@ -6,10 +6,9 @@ import Grid from '@mui/material/Grid';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import SearchFormQuery from '../utils/searchFormQuery';
 
-// eslint-disable-next-line no-unused-vars
-export default function SearchForm({ onSearch, resourceType }) {
-  const [start, setStart] = React.useState('');
-  const [end, setEnd] = React.useState('');
+export default function SearchForm({ onSearch }: { onSearch: any }) {
+  const [start, setStart] = React.useState<string|null>('');
+  const [end, setEnd] = React.useState<string|null>('');
   const [givenName, setGivenName] = useState('');
   const [familyName, setFamilyName] = useState('');
   const [email, setEmail] = useState('');
@@ -18,7 +17,7 @@ export default function SearchForm({ onSearch, resourceType }) {
   const [identifier, setIdentifier] = useState('');
   const [source, setSource] = useState('');
 
-  const handleTextChange = (setText) => (event) => {
+  const handleTextChange = (setText: any) => (event: any) => {
     setText(event.target.value);
   };
 

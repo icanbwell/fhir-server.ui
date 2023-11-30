@@ -16,7 +16,7 @@ import { TClaimResponse } from '../../types/resources/ClaimResponse';
 // Import all the partial resource
 import Partials from '../../partials';
 
-const ClaimResponse = ({ resource }: { resource: TClaimResponse }) => {
+const ClaimResponse = ({ resource }: { resource: TClaimResponse }): React.ReactElement => {
     return (
         <>
             <Link title="Direct link to Resource" href={`/4_0_0/${resource.resourceType}/${resource.id}`}>

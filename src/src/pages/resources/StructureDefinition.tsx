@@ -17,7 +17,7 @@ import { TStructureDefinition } from '../../types/resources/StructureDefinition'
 // Import all the partial resource
 import Partials from '../../partials';
 
-const StructureDefinition = ({ resource }: { resource: TStructureDefinition }) => {
+const StructureDefinition = ({ resource }: { resource: TStructureDefinition }): React.ReactElement => {
     return (
         <>
             <Link title="Direct link to Resource" href={`/4_0_0/${resource.resourceType}/${resource.id}`}>

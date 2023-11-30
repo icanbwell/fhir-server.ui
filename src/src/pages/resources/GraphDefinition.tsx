@@ -17,7 +17,7 @@ import { TGraphDefinition } from '../../types/resources/GraphDefinition';
 // Import all the partial resource
 import Partials from '../../partials';
 
-const GraphDefinition = ({ resource }: { resource: TGraphDefinition }) => {
+const GraphDefinition = ({ resource }: { resource: TGraphDefinition }): React.ReactElement => {
     return (
         <>
             <Link title="Direct link to Resource" href={`/4_0_0/${resource.resourceType}/${resource.id}`}>

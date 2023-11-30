@@ -16,7 +16,7 @@ import { TMedicinalProductContraindication } from '../../types/resources/Medicin
 // Import all the partial resource
 import Partials from '../../partials';
 
-const MedicinalProductContraindication = ({ resource }: { resource: TMedicinalProductContraindication }) => {
+const MedicinalProductContraindication = ({ resource }: { resource: TMedicinalProductContraindication }): React.ReactElement => {
     return (
         <>
             <Link title="Direct link to Resource" href={`/4_0_0/${resource.resourceType}/${resource.id}`}>

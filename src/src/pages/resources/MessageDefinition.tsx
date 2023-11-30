@@ -17,7 +17,7 @@ import { TMessageDefinition } from '../../types/resources/MessageDefinition';
 // Import all the partial resource
 import Partials from '../../partials';
 
-const MessageDefinition = ({ resource }: { resource: TMessageDefinition }) => {
+const MessageDefinition = ({ resource }: { resource: TMessageDefinition }): React.ReactElement => {
     return (
         <>
             <Link title="Direct link to Resource" href={`/4_0_0/${resource.resourceType}/${resource.id}`}>

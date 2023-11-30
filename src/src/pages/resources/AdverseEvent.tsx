@@ -18,7 +18,7 @@ import { TAdverseEvent } from '../../types/resources/AdverseEvent';
 // Import all the partial resource
 import Partials from '../../partials';
 
-const AdverseEvent = ({ resource }: { resource: TAdverseEvent }) => {
+const AdverseEvent = ({ resource }: { resource: TAdverseEvent }): React.ReactElement => {
     return (
         <>
             <Link title="Direct link to Resource" href={`/4_0_0/${resource.resourceType}/${resource.id}`}>

@@ -17,7 +17,7 @@ import { TRelatedPerson } from '../../types/resources/RelatedPerson';
 // Import all the partial resource
 import Partials from '../../partials';
 
-const RelatedPerson = ({ resource }: { resource: TRelatedPerson }) => {
+const RelatedPerson = ({ resource }: { resource: TRelatedPerson }): React.ReactElement => {
     return (
         <>
             <Link title="Direct link to Resource" href={`/4_0_0/${resource.resourceType}/${resource.id}`}>

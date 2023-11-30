@@ -16,7 +16,7 @@ import { TOrganizationAffiliation } from '../../types/resources/OrganizationAffi
 // Import all the partial resource
 import Partials from '../../partials';
 
-const OrganizationAffiliation = ({ resource }: { resource: TOrganizationAffiliation }) => {
+const OrganizationAffiliation = ({ resource }: { resource: TOrganizationAffiliation }): React.ReactElement => {
     return (
         <>
             <Link title="Direct link to Resource" href={`/4_0_0/${resource.resourceType}/${resource.id}`}>

@@ -16,7 +16,7 @@ import { TSubstanceSpecification } from '../../types/resources/SubstanceSpecific
 // Import all the partial resource
 import Partials from '../../partials';
 
-const SubstanceSpecification = ({ resource }: { resource: TSubstanceSpecification }) => {
+const SubstanceSpecification = ({ resource }: { resource: TSubstanceSpecification }): React.ReactElement => {
     return (
         <>
             <Link title="Direct link to Resource" href={`/4_0_0/${resource.resourceType}/${resource.id}`}>

@@ -3,13 +3,11 @@ import BaseApi from './baseApi';
 interface GetPatientEverythingAsyncParams {
     patientId: string;
     question: string;
-    baseUrl: string;
 }
 
 interface GetResourceParams {
     id: string;
     resourceType: string;
-    baseUrl: string;
 }
 
 interface GetBundleAsyncParams {
@@ -50,7 +48,7 @@ class FhirApi extends BaseApi {
         queryString,
         queryParameters,
         operation,
-    }: GetBundleAsyncParams): Promise<{ status: number; json: object }> {
+    }: GetBundleAsyncParams): Promise<{ status: number; json: any }> {
         const url = this.getUrl({
             resourceType,
             id,

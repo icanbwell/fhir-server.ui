@@ -16,7 +16,7 @@ import { TInvoice } from '../../types/resources/Invoice';
 // Import all the partial resource
 import Partials from '../../partials';
 
-const Invoice = ({ resource }: { resource: TInvoice }) => {
+const Invoice = ({ resource }: { resource: TInvoice }): React.ReactElement => {
     return (
         <>
             <Link title="Direct link to Resource" href={`/4_0_0/${resource.resourceType}/${resource.id}`}>
@@ -190,7 +190,7 @@ const Invoice = ({ resource }: { resource: TInvoice }) => {
                     searchParameter='total-gross'
                 />
             }
-           {
+            {
                 resource.paymentTerms &&
                 <Partials.Markdown
                     markdown={resource.paymentTerms}

@@ -19,7 +19,7 @@ import { TChargeItem } from '../../types/resources/ChargeItem';
 // Import all the partial resource
 import Partials from '../../partials';
 
-const ChargeItem = ({ resource }: { resource: TChargeItem }) => {
+const ChargeItem = ({ resource }: { resource: TChargeItem }): React.ReactElement => {
     return (
         <>
             <Link title="Direct link to Resource" href={`/4_0_0/${resource.resourceType}/${resource.id}`}>

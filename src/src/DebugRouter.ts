@@ -1,10 +1,10 @@
 const { BrowserRouter } = require('react-router-dom');
 
 class DebugRouter extends BrowserRouter {
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     console.log('initial history is: ', JSON.stringify(this.history, null, 2));
-    this.history.listen((location, action) => {
+    this.history.listen((location: any, action: any) => {
       console.log(
         `The current URL is ${location.pathname}${location.search}${location.hash}`,
       );

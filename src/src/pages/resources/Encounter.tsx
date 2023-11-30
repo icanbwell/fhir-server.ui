@@ -16,7 +16,7 @@ import { TEncounter } from '../../types/resources/Encounter';
 // Import all the partial resource
 import Partials from '../../partials';
 
-const Encounter = ({ resource }: { resource: TEncounter }) => {
+const Encounter = ({ resource }: { resource: TEncounter }): React.ReactElement => {
     return (
         <>
             <Link title="Direct link to Resource" href={`/4_0_0/${resource.resourceType}/${resource.id}`}>

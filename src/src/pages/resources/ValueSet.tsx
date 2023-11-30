@@ -18,7 +18,7 @@ import { TValueSet } from '../../types/resources/ValueSet';
 // Import all the partial resource
 import Partials from '../../partials';
 
-const ValueSet = ({ resource }: { resource: TValueSet }) => {
+const ValueSet = ({ resource }: { resource: TValueSet }): React.ReactElement => {
     return (
         <>
             <Link title="Direct link to Resource" href={`/4_0_0/${resource.resourceType}/${resource.id}`}>

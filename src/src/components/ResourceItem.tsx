@@ -41,93 +41,98 @@ import ValueSet from '../pages/resources/ValueSet';
 import DomainResource from '../pages/resources/DomainResource';
 import OperationOutcome from '../pages/resources/OperationOutcome';
 
-function ResourceItem({ resourceType, resource, index }) {
+type TResourceItemProps = {
+  resourceType: String|undefined;
+  resource: any;
+};
+
+function ResourceItem({ resourceType, resource }: TResourceItemProps) {
   console.log(`ResourceItem: resourceType=${resourceType}`);
   switch (resourceType) {
     case 'Account':
-      return <Account resource={resource} index={index} />;
+      return <Account resource={resource}/>;
     case 'ActivityDefinition':
-      return <ActivityDefinition resource={resource} index={index} />;
+      return <ActivityDefinition resource={resource}/>;
     case 'AllergyIntolerance':
-      return <AllergyIntolerance resource={resource} index={index} />;
+      return <AllergyIntolerance resource={resource}/>;
     case 'Appointment':
-      return <Appointment resource={resource} index={index} />;
+      return <Appointment resource={resource}/>;
     case 'AuditEvent':
-      return <AuditEvent resource={resource} index={index} />;
+      return <AuditEvent resource={resource}/>;
     case 'DocumentReference':
-      return <DocumentReference resource={resource} index={index} />;
+      return <DocumentReference resource={resource}/>;
     case 'ChargeItem':
-      return <ChargeItem resource={resource} index={index} />;
+      return <ChargeItem resource={resource}/>;
     case 'Communication':
-      return <Communication resource={resource} index={index} />;
+      return <Communication resource={resource}/>;
     case 'Condition':
-      return <Condition resource={resource} index={index} />;
+      return <Condition resource={resource}/>;
     case 'Consent':
-      return <Consent resource={resource} index={index} />;
+      return <Consent resource={resource}/>;
     case 'Coverage':
-      return <Coverage resource={resource} index={index} />;
+      return <Coverage resource={resource}/>;
     case 'Encounter':
-      return <Encounter resource={resource} index={index} />;
+      return <Encounter resource={resource}/>;
     case 'ExplanationOfBenefit':
-      return <ExplanationOfBenefit resource={resource} index={index} />;
+      return <ExplanationOfBenefit resource={resource}/>;
     case 'HealthcareService':
-      return <HealthcareService resource={resource} index={index} />;
+      return <HealthcareService resource={resource}/>;
     case 'Immunization':
-      return <Immunization resource={resource} index={index} />;
+      return <Immunization resource={resource}/>;
     case 'InsurancePlan':
-      return <InsurancePlan resource={resource} index={index} />;
+      return <InsurancePlan resource={resource}/>;
     case 'Invoice':
-      return <Invoice resource={resource} index={index} />;
+      return <Invoice resource={resource}/>;
     case 'Library':
-      return <Library resource={resource} index={index} />;
+      return <Library resource={resource}/>;
     case 'Location':
-      return <Location resource={resource} index={index} />;
+      return <Location resource={resource}/>;
     case 'Measure':
-      return <Measure resource={resource} index={index} />;
+      return <Measure resource={resource}/>;
     case 'MeasureReport':
-      return <MeasureReport resource={resource} index={index} />;
+      return <MeasureReport resource={resource}/>;
     case 'Medication':
-      return <Medication resource={resource} index={index} />;
+      return <Medication resource={resource}/>;
     case 'MedicationAdministration':
-      return <MedicationAdministration resource={resource} index={index} />;
+      return <MedicationAdministration resource={resource}/>;
     case 'MedicationDispense':
-      return <MedicationDispense resource={resource} index={index} />;
+      return <MedicationDispense resource={resource}/>;
     case 'MedicationRequest':
-      return <MedicationRequest resource={resource} index={index} />;
+      return <MedicationRequest resource={resource}/>;
     case 'MedicationStatement':
-      return <MedicationStatement resource={resource} index={index} />;
+      return <MedicationStatement resource={resource}/>;
     case 'Observation':
-      return <Observation resource={resource} index={index} />;
+      return <Observation resource={resource}/>;
     case 'OperationOutcome':
-      return <OperationOutcome resource={resource} index={index} />;
+      return <OperationOutcome resource={resource}/>;
     case 'Organization':
-      return <Organization resource={resource} index={index} />;
+      return <Organization resource={resource}/>;
     case 'OrganizationAffiliation':
-      return <OrganizationAffiliation resource={resource} index={index} />;
+      return <OrganizationAffiliation resource={resource}/>;
     case 'Patient':
-      return <Patient resource={resource} index={index} />;
+      return <Patient resource={resource}/>;
     case 'Person':
-      return <Person resource={resource} index={index} />;
+      return <Person resource={resource}/>;
     case 'Practitioner':
-      return <Practitioner resource={resource} index={index} />;
+      return <Practitioner resource={resource}/>;
     case 'PractitionerRole':
-      return <PractitionerRole resource={resource} index={index} />;
+      return <PractitionerRole resource={resource}/>;
     case 'Procedure':
-      return <Procedure resource={resource} index={index} />;
+      return <Procedure resource={resource}/>;
     case 'QuestionnaireResponse':
-      return <QuestionnaireResponse resource={resource} index={index} />;
+      return <QuestionnaireResponse resource={resource}/>;
     case 'Schedule':
-      return <Schedule resource={resource} index={index} />;
+      return <Schedule resource={resource}/>;
     case 'ServiceRequest':
-      return <ServiceRequest resource={resource} index={index} />;
+      return <ServiceRequest resource={resource}/>;
     case 'Slot':
-      return <Slot resource={resource} index={index} />;
+      return <Slot resource={resource}/>;
     case 'Task':
-      return <Task resource={resource} index={index} />;
+      return <Task resource={resource}/>;
     case 'ValueSet':
-      return <ValueSet resource={resource} index={index} />;
+      return <ValueSet resource={resource}/>;
     default:
-      return <DomainResource resource={resource} index={index} />;
+      return <DomainResource resource={resource}/>;
   }
 }
 

@@ -17,7 +17,7 @@ import { TConceptMap } from '../../types/resources/ConceptMap';
 // Import all the partial resource
 import Partials from '../../partials';
 
-const ConceptMap = ({ resource }: { resource: TConceptMap }) => {
+const ConceptMap = ({ resource }: { resource: TConceptMap }): React.ReactElement => {
     return (
         <>
             <Link title="Direct link to Resource" href={`/4_0_0/${resource.resourceType}/${resource.id}`}>

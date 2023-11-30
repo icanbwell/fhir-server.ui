@@ -35,11 +35,13 @@ const Home = () => {
 
   const navigate = useNavigate();
 
-  const searchResource = () => {
+  // eslint-disable-next-line no-unused-vars
+  const searchResource = (name: String) => {
     // implementation of searchResource
   };
 
-  const openDox = (event) => {
+  // eslint-disable-next-line no-unused-vars
+  const openDox = (event: any, url: String) => {
     // prevent row click event
     event.stopPropagation();
     // implementation of openDox

@@ -16,7 +16,7 @@ import { TObservationDefinition } from '../../types/resources/ObservationDefinit
 // Import all the partial resource
 import Partials from '../../partials';
 
-const ObservationDefinition = ({ resource }: { resource: TObservationDefinition }) => {
+const ObservationDefinition = ({ resource }: { resource: TObservationDefinition }): React.ReactElement => {
     return (
         <>
             <Link title="Direct link to Resource" href={`/4_0_0/${resource.resourceType}/${resource.id}`}>

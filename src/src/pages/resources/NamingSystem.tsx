@@ -17,7 +17,7 @@ import { TNamingSystem } from '../../types/resources/NamingSystem';
 // Import all the partial resource
 import Partials from '../../partials';
 
-const NamingSystem = ({ resource }: { resource: TNamingSystem }) => {
+const NamingSystem = ({ resource }: { resource: TNamingSystem }): React.ReactElement => {
     return (
         <>
             <Link title="Direct link to Resource" href={`/4_0_0/${resource.resourceType}/${resource.id}`}>

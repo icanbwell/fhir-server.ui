@@ -2,8 +2,8 @@ import React from 'react';
 
 class Title extends React.Component {
   render() {
-    const { resourceDefinition, resources } = this.props; // Props should contain the needed data
-    let title;
+    const { resourceDefinition, resources }: any = this.props; // Props should contain the needed data
+    let title: string;
 
     if (resourceDefinition) {
       if (resources && resources.length === 1 && resources[0].id) {

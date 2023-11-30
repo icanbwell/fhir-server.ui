@@ -16,7 +16,7 @@ import { TImmunizationRecommendation } from '../../types/resources/ImmunizationR
 // Import all the partial resource
 import Partials from '../../partials';
 
-const ImmunizationRecommendation = ({ resource }: { resource: TImmunizationRecommendation }) => {
+const ImmunizationRecommendation = ({ resource }: { resource: TImmunizationRecommendation }): React.ReactElement => {
     return (
         <>
             <Link title="Direct link to Resource" href={`/4_0_0/${resource.resourceType}/${resource.id}`}>

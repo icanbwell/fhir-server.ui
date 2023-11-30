@@ -3,6 +3,7 @@ import ResourceItem from './ResourceItem';
 import Json from './Json';
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@mui/styles';
+import { TResource } from '../types/resources/Resource';
 
 const useStyles = makeStyles({
   header: {
@@ -13,7 +14,13 @@ const useStyles = makeStyles({
   },
 });
 
-const ResourceCard = ({ index, resource, expanded }) => {
+type TResourceCardProps = {
+  index: number;
+  resource: TResource;
+  expanded: Boolean;
+};
+
+const ResourceCard = ({ index, resource, expanded }: TResourceCardProps) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
@@ -39,9 +46,8 @@ const ResourceCard = ({ index, resource, expanded }) => {
           <ResourceItem
             resourceType={resource.resourceType}
             resource={resource}
-            index={index}
           />
-          <Json index={index} resource={resource} />
+          <Json resource={resource} />
         </CardContent>
       </Collapse>
     </Card>

@@ -19,7 +19,7 @@ import { TMedicationAdministration } from '../../types/resources/MedicationAdmin
 // Import all the partial resource
 import Partials from '../../partials';
 
-const MedicationAdministration = ({ resource }: { resource: TMedicationAdministration }) => {
+const MedicationAdministration = ({ resource }: { resource: TMedicationAdministration }): React.ReactElement => {
     return (
         <>
             <Link title="Direct link to Resource" href={`/4_0_0/${resource.resourceType}/${resource.id}`}>

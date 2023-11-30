@@ -1,8 +1,9 @@
 import React from 'react';
 import Typography from '@mui/material/Typography';
 import { Link } from '@mui/material';
+import { TResource } from '../types/resources/Resource';
 
-const Json = ({ resource }) => {
+const Json = ({ resource }: { resource: TResource}) => {
   return (
     <React.Fragment>
       <Typography variant="h4">Raw Json</Typography>

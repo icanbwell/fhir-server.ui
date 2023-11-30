@@ -23,7 +23,7 @@ import { TProvenance } from '../../types/resources/Provenance';
 // Import all the partial resource
 import Partials from '../../partials';
 
-const Provenance = ({ resource }: { resource: TProvenance }) => {
+const Provenance = ({ resource }: { resource: TProvenance }): React.ReactElement => {
     return (
         <>
             <Link title="Direct link to Resource" href={`/4_0_0/${resource.resourceType}/${resource.id}`}>

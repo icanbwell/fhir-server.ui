@@ -18,7 +18,7 @@ import { TChargeItemDefinition } from '../../types/resources/ChargeItemDefinitio
 // Import all the partial resource
 import Partials from '../../partials';
 
-const ChargeItemDefinition = ({ resource }: { resource: TChargeItemDefinition }) => {
+const ChargeItemDefinition = ({ resource }: { resource: TChargeItemDefinition }): React.ReactElement => {
     return (
         <>
             <Link title="Direct link to Resource" href={`/4_0_0/${resource.resourceType}/${resource.id}`}>
