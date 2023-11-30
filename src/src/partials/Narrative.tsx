@@ -1,5 +1,4 @@
 import { Box, Typography } from '@mui/material';
-import Extension from './Extension';
 import { TBaseResourceProps } from '../types/baseTypes';
 import { TNarrative } from '../types/partials/Narrative';
 
@@ -13,7 +12,6 @@ const Narrative = ({ narrative, name }: TNarrativeProps) => {
       <Box>
         <Typography variant="h4">{name}</Typography>&nbsp;
         <Box dangerouslySetInnerHTML={{ __html: `${narrative.div}` }} />
-        <Extension extension={narrative} />
       </Box>
     );
   } else {

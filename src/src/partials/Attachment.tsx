@@ -15,7 +15,7 @@ type TAttachmentProps = TBaseResourceProps & {
   attachment: TAttachment|TAttachment[]|undefined;
 };
 
-const Attachment = ({ attachment }: TAttachmentProps) => {
+const Attachment = ({ attachment, name }: TAttachmentProps) => {
   const [items, setItems] = useState<TAttachment[]>([]);
 
   useEffect(() => {
@@ -46,20 +46,23 @@ const Attachment = ({ attachment }: TAttachmentProps) => {
         items.length > 0 &&
         items[0] &&
         items.map((item: TAttachment, index: Number) => (
-          <Accordion key={`${index}`}>
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls={`panel${index}-content`}
-              id={`panel${index}-header`}
-            >
-              <Typography>Content: {item.contentType}</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Box component="pre">
-                <Box component="code">{asciiToString(item.data)}</Box>
-              </Box>
-            </AccordionDetails>
-          </Accordion>
+          <>
+            <Typography><b>{name}:</b></Typography>
+            <Accordion key={`${index}`}>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls={`panel${index}-content`}
+                id={`panel${index}-header`}
+              >
+                <Typography>Content: {item.contentType}</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Box component="pre">
+                  <Box component="code">{asciiToString(item.data)}</Box>
+                </Box>
+              </AccordionDetails>
+            </Accordion>
+          </>
         ))}
     </>
   );

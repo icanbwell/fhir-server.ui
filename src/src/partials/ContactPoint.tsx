@@ -67,8 +67,8 @@ function ContactPoint({ contactPoint: contacts, name, resourceType }: TContactPo
                       )}
                     </TableCell>
                     <TableCell>{contact.use}</TableCell>
-                    <TableCell>{`${contact.rank}`}</TableCell>
-                    <TableCell>{`${contact.period}`}</TableCell>
+                    <TableCell>{`${contact.rank || ''}`}</TableCell>
+                    <TableCell>{`${contact.period || ''}`}</TableCell>
                   </TableRow>
                 ),
             )}

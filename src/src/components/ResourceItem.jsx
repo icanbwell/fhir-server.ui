@@ -4,7 +4,7 @@ import Account from '../pages/resources/Account';
 import ActivityDefinition from '../pages/resources/ActivityDefinition';
 import AllergyIntolerance from '../pages/resources/AllergyIntolerance';
 import ChargeItem from '../pages/resources/ChargeItem';
-import CareTeam from '../pages/resources/CareTeam';
+import DocumentReference from '../pages/resources/DocumentReference';
 import Appointment from '../pages/resources/Appointment';
 import AuditEvent from '../pages/resources/AuditEvent';
 import Communication from '../pages/resources/Communication';
@@ -54,8 +54,8 @@ function ResourceItem({ resourceType, resource, index }) {
       return <Appointment resource={resource} index={index} />;
     case 'AuditEvent':
       return <AuditEvent resource={resource} index={index} />;
-    case 'CareTeam':
-      return <CareTeam resource={resource} index={index} />;
+    case 'DocumentReference':
+      return <DocumentReference resource={resource} index={index} />;
     case 'ChargeItem':
       return <ChargeItem resource={resource} index={index} />;
     case 'Communication':
