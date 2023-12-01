@@ -9,15 +9,15 @@ interface GetDataParams {
 }
 
 class BaseApi {
-    private readonly fhirUrl: string;
+    private readonly fhirUrl: string|undefined;
 
-    constructor({ fhirUrl }: { fhirUrl: string }) {
+    constructor({ fhirUrl }: { fhirUrl: string|undefined }) {
         this.fhirUrl = fhirUrl;
         axios.interceptors.request.use(this.requestInterceptor);
     }
 
     private getBaseUrl(): string {
-        return this.fhirUrl;
+        return this.fhirUrl || '';
     }
 
     async getData({ urlString, params }: GetDataParams): Promise<any> {

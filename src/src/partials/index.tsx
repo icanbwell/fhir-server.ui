@@ -24,11 +24,8 @@ import Money from './Money';
 import NameValue from './NameValue';
 import Narrative from './Narrative';
 import ObservationReferenceRange from './ObservationReferenceRange';
-import Participant from './Participant';
 import PatientContact from './PatientContact';
-import Performer from './Performer';
 import Period from './Period';
-import Position from './Position';
 import Quantity from './Quantity';
 import Ratio from './Ratio';
 import Reference from './Reference';
@@ -64,11 +61,8 @@ export default {
   NameValue,
   Narrative,
   ObservationReferenceRange,
-  Participant,
   PatientContact,
-  Performer,
   Period,
-  Position,
   Quantity,
   Ratio,
   Reference,
