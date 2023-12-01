@@ -10,6 +10,7 @@ import Typography from '@mui/material/Typography';
 import ResourceCard from '../components/ResourceCard';
 import FhirApi from '../api/fhirApi';
 import SearchContainer from '../components/SearchContainer';
+import PreJson from '../components/PreJson';
 import EnvironmentContext from '../EnvironmentContext';
 
 /**
@@ -38,7 +39,7 @@ const IndexPage = ({ search }) => {
 
     const location = useLocation();
     const queryString = location.search;
-
+    const shouldBeJsonFormat = ((new URLSearchParams(queryString || '').get('_format') || '').toLowerCase() === 'json');
     function getBox() {
         if (loading) {
             return <LinearProgress />;
@@ -118,7 +119,9 @@ const IndexPage = ({ search }) => {
                     }
                     // noinspection JSCheckFunctionSignatures
                     setStatus(String(statusCode));
-                    if (json.entry) {
+                    if (shouldBeJsonFormat) {
+                        setResources(json);
+                    } else if (json.entry) {
                         setResources(json.entry);
                         setBundle(json);
                         if (resourceType) {
@@ -164,6 +167,10 @@ const IndexPage = ({ search }) => {
         // setSearchClicked(true);
         // setSearchTabExpanded(false);
     };
+
+    if (shouldBeJsonFormat) {
+        return <PreJson data={resources} />;
+    }
 
     return (
         <Container maxWidth={false}>
