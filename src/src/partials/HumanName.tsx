@@ -43,9 +43,9 @@ function HumanName({ humanName, resourceType }: THumanNameProps) {
           </TableHead>
           <TableBody>
             {humanName.map(
-              (name: THumanName, i: Number) =>
+              (name: THumanName, index1: Number) =>
                 name && (
-                  <TableRow key={`${i}`}>
+                  <TableRow key={`${index1}`}>
                     <TableCell>{name.id}</TableCell>
                     <TableCell>{name.use}</TableCell>
                     <TableCell>
@@ -58,9 +58,9 @@ function HumanName({ humanName, resourceType }: THumanNameProps) {
                     </TableCell>
                     <TableCell>
                       {name.given &&
-                        name.given.map((given: String, j: Number) => (
+                        name.given.map((given: String, index2: Number) => (
                           <Link
-                            key={`${j}`}
+                            key={`${index2}`}
                             to={`/4_0_0/${resourceType}?given=${given}`}
                             title={`Search for ${given}`}
                           >

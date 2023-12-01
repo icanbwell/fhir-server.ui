@@ -7,6 +7,7 @@ simple_types = [
     'Decimal',
     'Id',
     'Instant',
+    'Int',
     'Markdown',
     'Oid',
     'ResourceContainer',
@@ -16,5 +17,4 @@ simple_types = [
     'Url',
     'Uuid',
     'Xhtml',
-    'Int',
 ]

@@ -23,7 +23,6 @@ const Extension = ({ extension: extensions }: TExtensionProps) => {
   if (!Array.isArray(extensions)) {
     extensions = [extensions];
   }
-  console.log(extensions);
   return extensions && extensions.length > 0 && extensions[0] ? (
     <Box>
       <Typography variant="h4">Extension</Typography>

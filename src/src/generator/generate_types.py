@@ -1,12 +1,11 @@
 import os
 import shutil
+import subprocess
 from os import path
 from pathlib import Path
 from typing import List
-from fhir_xml_schema_parser import FhirXmlSchemaParser
-from fhir_xml_schema_parser import FhirEntity
+from fhir_xml_schema_parser import FhirXmlSchemaParser, FhirEntity
 from simple_types import simple_types
-import subprocess
 
 def getTypesFolder(name):
     return 'simpleTypes' if camelToPascalCase(name) in simple_types else 'partials'
