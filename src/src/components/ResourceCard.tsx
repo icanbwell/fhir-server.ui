@@ -1,8 +1,8 @@
+import React, { useEffect, useState } from 'react';
 import { Button, Card, CardContent, CardHeader, Collapse } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import ResourceItem from './ResourceItem';
 import Json from './Json';
-import React, { useEffect, useState } from 'react';
-import { makeStyles } from '@mui/styles';
 import { TResource } from '../types/resources/Resource';
 
 const useStyles = makeStyles({

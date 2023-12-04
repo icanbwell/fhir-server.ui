@@ -1,23 +1,20 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Pagination from '@mui/material/Pagination';
-import PaginationItem from '@mui/material/PaginationItem';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
+import {Pagination, PaginationItem, Box, Typography, Link} from '@mui/material';
 import { jwtParser } from '../utils/jwtParser';
 import EnvironmentContext from '../EnvironmentContext';
+import { TBundleLink } from '../types/partials/BundleLink';
 
-function Footer({ links, requestId }: any) {
+function Footer({ links, requestId }: { links?: TBundleLink[], requestId?: String }) {
     const { customGroups, customScope } = useContext(EnvironmentContext);
     const navigate = useNavigate();
 
-    const [username, setUserName] = useState<string>('');
-    const [scope, setScope] = useState<string>('');
-    const [page, setPage] = useState<number>(1);
+    const [username, setUserName] = useState('');
+    const [scope, setScope] = useState('');
+    const [page, setPage] = useState(1);
     const url: string = location.pathname;
     const hasPrev: boolean = page > 1;
-    const hasNext: boolean = links ? links.some((link: any) => link.relation === 'next') : false;
+    const hasNext: boolean = links ? links.some((link: TBundleLink) => link.relation === 'next') : false;
 
     useEffect(() => {
         const getdataFromJwt = async () => {
@@ -34,8 +31,7 @@ function Footer({ links, requestId }: any) {
         setPage(parseInt(queryParams.get('_getpagesoffset') || '0') + 1);
     }, []);
 
-    // eslint-disable-next-line no-unused-vars
-    const handleChange = (event: React.ChangeEvent<unknown>, newPage: number) => {
+    const handleChange = (_event: React.ChangeEvent<unknown>, newPage: number) => {
         const queryParams = new URLSearchParams(location?.search);
         if (newPage > 1) {
             queryParams.set('_getpagesoffset', `${newPage - 1}`);
@@ -44,7 +40,7 @@ function Footer({ links, requestId }: any) {
             queryParams.delete('_getpagesoffset');
             setPage(1);
         }
-        navigate(location.pathname + '?' + queryParams.toString());
+        navigate(location.pathname + (queryParams.size && '?') + queryParams.toString());
     };
 
     return (

@@ -17,12 +17,12 @@ export const jwtParser = async ({
         return {};
     }
     try {
+        // calculating scope
         const decodedToken: any = jwtDecode(token);
-
         let scope: string = (decodedToken.scope ? decodedToken.scope : decodedToken[`${customScope}`]) || '';
-
         scope = scope + (decodedToken[`${customGroups}`] ? decodedToken[`${customGroups}`] : []).join(' ');
 
+        // checking admin scopes
         const isAdmin: boolean = scope.split(' ').some((s) => s.startsWith('admin/'));
 
         return {

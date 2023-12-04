@@ -189,7 +189,7 @@ const IndexPage = ({ search }: { search?: boolean }) => {
                 </AccordionDetails>
             </Accordion>
             <Box my={2}>{getBox()}</Box>
-            <Footer meta={bundle?.meta} requestId={bundle?.id} links={bundle?.link} />
+            <Footer requestId={bundle?.id} links={bundle?.link} />
         </Container>
     );
 };
