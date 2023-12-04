@@ -23,11 +23,15 @@ import axios, {AxiosResponse} from 'axios';
 // import ErrorPage from './error-page';
 type TApiEnvResponse = {
     FHIR_SERVER_URL: string;
+    AUTH_CUSTOM_GROUP: string;
+    AUTH_CUSTOM_SCOPE: string;
     status: number;
 };
 
 function App(): React.ReactElement {
     const [fhirUrl, setFhirUrl] = useState<string|undefined>(process.env.FHIR_SERVER_URL);
+    const [customGroups, setCustomGroups] = useState<string|undefined>(process.env.AUTH_CUSTOM_GROUP);
+    const [customScope, setCustomScope] = useState<string|undefined>(process.env.AUTH_CUSTOM_SCOPE);
 
     // Changed from App to Root
     function Root() {
@@ -66,6 +70,8 @@ function App(): React.ReactElement {
                     throw new Error('Network response was not ok');
                 }
                 setFhirUrl(response.data.FHIR_SERVER_URL);
+                setCustomGroups(response.data.AUTH_CUSTOM_GROUP);
+                setCustomScope(response.data.AUTH_CUSTOM_SCOPE);
                 console.log(`Setting fhirUrl to ${fhirUrl}`);
             } catch (error: any) {
                 console.error('There was a problem with the fetch operation:', error.message);
@@ -75,7 +81,7 @@ function App(): React.ReactElement {
     }, []);
 
     return (
-        <EnvironmentContext.Provider value={{fhirUrl}}>
+        <EnvironmentContext.Provider value={{fhirUrl, customGroups, customScope}}>
             <RouterProvider router={router} />
         </EnvironmentContext.Provider>
     );

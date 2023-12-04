@@ -83,6 +83,7 @@
         "identity-obj-proxy": "^3.0.0",
         "js-cookie": "^3.0.5",
         "jwks-rsa": "^3.0.1",
+        "jwt-decode": "^4.0.0",
         "mini-css-extract-plugin": "^2.4.5",
         "openid-client": "^5.5.0",
         "passport": "^0.6.0",
