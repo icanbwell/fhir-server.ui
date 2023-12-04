@@ -1,17 +1,17 @@
 import cookies from 'js-cookie';
 import { InvalidTokenError, jwtDecode } from 'jwt-decode';
 
-export const jwtParser = async ({
+export const jwtParser = ({
     customGroups,
     customScope,
 }: {
     customGroups: string | undefined;
     customScope: string | undefined;
-}): Promise<{
+}): {
     username?: string;
     scope?: string;
     isAdmin?: boolean;
-}> => {
+} => {
     const token: string | undefined = cookies.get('jwt');
     if (!token) {
         return {};

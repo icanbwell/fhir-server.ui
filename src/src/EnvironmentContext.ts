@@ -1,13 +1,12 @@
 import { createContext } from 'react';
+import { TUserDetails } from './types/baseTypes';
 
 const EnvContext = createContext<{
-  fhirUrl: string|undefined,
-  customGroups: string|undefined,
-  customScope: string|undefined,
+  fhirUrl: string|undefined;
+  userDetails: TUserDetails|undefined;
 }>({
   fhirUrl: undefined,
-  customGroups: undefined,
-  customScope: undefined,
+  userDetails: undefined,
 });
 
 export default EnvContext;

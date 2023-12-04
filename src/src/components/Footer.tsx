@@ -1,35 +1,30 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {Pagination, PaginationItem, Box, Typography, Link} from '@mui/material';
-import { jwtParser } from '../utils/jwtParser';
 import EnvironmentContext from '../EnvironmentContext';
 import { TBundleLink } from '../types/partials/BundleLink';
 
 function Footer({ links, requestId }: { links?: TBundleLink[], requestId?: String }) {
-    const { customGroups, customScope } = useContext(EnvironmentContext);
+    const { userDetails } = useContext(EnvironmentContext);
     const navigate = useNavigate();
 
-    const [username, setUserName] = useState('');
-    const [scope, setScope] = useState('');
+    const [username, setUserName] = useState<string|undefined>();
+    const [scope, setScope] = useState<string|undefined>();
     const [page, setPage] = useState(1);
     const url: string = location.pathname;
     const hasPrev: boolean = page > 1;
     const hasNext: boolean = links ? links.some((link: TBundleLink) => link.relation === 'next') : false;
 
     useEffect(() => {
-        const getdataFromJwt = async () => {
-            const { username: usernameFromJwt, scope: scopeFromJwt } = await jwtParser({
-                customGroups,
-                customScope,
-            });
-            setUserName(usernameFromJwt ?? '');
-            setScope(scopeFromJwt ?? '');
-        };
-        getdataFromJwt();
         const queryParams = new URLSearchParams(location?.search);
         // number of pages skipped + 1 is the current page
         setPage(parseInt(queryParams.get('_getpagesoffset') || '0') + 1);
     }, []);
+
+    useEffect(() => {
+      setUserName(userDetails?.username);
+      setScope(userDetails?.scope);
+    }, [userDetails]);
 
     const handleChange = (_event: React.ChangeEvent<unknown>, newPage: number) => {
         const queryParams = new URLSearchParams(location?.search);
