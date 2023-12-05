@@ -22,9 +22,9 @@ import { TBundle } from '../types/resources/Bundle';
  */
 const IndexPage = ({ search }: { search?: boolean }) => {
     const { fhirUrl } = useContext(EnvironmentContext);
-    const [resources, setResources] = useState<any>(undefined);
-    const [bundle, setBundle] = useState<TBundle|undefined>(undefined);
-    const [status, setStatus] = useState('');
+    const [resources, setResources] = useState<any>();
+    const [bundle, setBundle] = useState<TBundle|undefined>();
+    const [status, setStatus] = useState<number|undefined>();
     const [loading, setLoading] = useState(false);
 
     const { id, resourceType = '', operation } = useParams();
@@ -45,11 +45,8 @@ const IndexPage = ({ search }: { search?: boolean }) => {
         if (loading) {
             return <LinearProgress />;
         }
-        if (parseInt(status) === 401) {
+        if (status === 401) {
             return <Box>Login Expired</Box>;
-        }
-        if (parseInt(status) !== 200 && parseInt(status) !== 404) {
-            return <Box>{status}</Box>;
         }
         if (resources && resources.length === 0) {
             return <Box>No Results Found</Box>;
@@ -75,14 +72,16 @@ const IndexPage = ({ search }: { search?: boolean }) => {
                         />
                     </Alert>
                 )}
-                {resources.map((fullResource: any, index: number) => {
+                {resources?.map((fullResource: any, index: number) => {
                     const resource = fullResource.resource || fullResource;
+                    const error = resource.resourceType === 'OperationOutcome';
                     return (
                         <ResourceCard
                             key={index}
                             index={index}
                             resource={resource}
                             expanded={resourceCardExpanded}
+                            error={error}
                         />
                     );
                 })}
@@ -119,7 +118,7 @@ const IndexPage = ({ search }: { search?: boolean }) => {
                         window.location.reload();
                     }
                     // noinspection JSCheckFunctionSignatures
-                    setStatus(String(statusCode));
+                    setStatus(statusCode);
                     if (shouldBeJsonFormat) {
                         setResources(json);
                     } else if (json.entry) {
