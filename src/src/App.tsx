@@ -19,15 +19,20 @@ import SearchPage from './pages/SearchPage';
 import IndexPage from './pages/IndexPage';
 import EnvironmentContext from './EnvironmentContext';
 import axios, {AxiosResponse} from 'axios';
+import { jwtParser } from './utils/jwtParser';
+import { TUserDetails } from './types/baseTypes';
 
 // import ErrorPage from './error-page';
 type TApiEnvResponse = {
     FHIR_SERVER_URL: string;
+    AUTH_CUSTOM_GROUP: string;
+    AUTH_CUSTOM_SCOPE: string;
     status: number;
 };
 
 function App(): React.ReactElement {
-    const [fhirUrl, setFhirUrl] = useState<string|undefined>(process.env.FHIR_SERVER_URL);
+    const [fhirUrl, setFhirUrl] = useState<string|undefined>();
+    const [userDetails, setUserDetails] = useState<TUserDetails|undefined>();
 
     // Changed from App to Root
     function Root() {
@@ -65,7 +70,15 @@ function App(): React.ReactElement {
                     // noinspection ExceptionCaughtLocallyJS
                     throw new Error('Network response was not ok');
                 }
-                setFhirUrl(response.data.FHIR_SERVER_URL);
+                const { FHIR_SERVER_URL, AUTH_CUSTOM_GROUP, AUTH_CUSTOM_SCOPE } = { ...response.data };
+                setFhirUrl(FHIR_SERVER_URL);
+                const {username, scope, isAdmin} = jwtParser({
+                    customGroups: AUTH_CUSTOM_GROUP,
+                    customScope: AUTH_CUSTOM_SCOPE,
+                });
+
+                setUserDetails({ username, scope, isAdmin });
+
                 console.log(`Setting fhirUrl to ${fhirUrl}`);
             } catch (error: any) {
                 console.error('There was a problem with the fetch operation:', error.message);
@@ -75,7 +88,7 @@ function App(): React.ReactElement {
     }, []);
 
     return (
-        <EnvironmentContext.Provider value={{fhirUrl}}>
+        <EnvironmentContext.Provider value={{fhirUrl, userDetails}}>
             <RouterProvider router={router} />
         </EnvironmentContext.Provider>
     );

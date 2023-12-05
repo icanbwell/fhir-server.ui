@@ -4,3 +4,9 @@ export type TBaseResourceProps = {
     id?: String;
     searchParameter?: String;
 }
+
+export type TUserDetails = {
+    username?: string;
+    scope?: string;
+    isAdmin?: boolean;
+}

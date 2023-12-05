@@ -12,6 +12,7 @@ import FhirApi from '../api/fhirApi';
 import SearchContainer from '../components/SearchContainer';
 import PreJson from '../components/PreJson';
 import EnvironmentContext from '../EnvironmentContext';
+import { TBundle } from '../types/resources/Bundle';
 
 /**
  * IndexPage/home/ubuntu/Documents/code/EFS/fhir-server/src/src/pages/SearchPage.jsx
@@ -22,7 +23,7 @@ import EnvironmentContext from '../EnvironmentContext';
 const IndexPage = ({ search }: { search?: boolean }) => {
     const { fhirUrl } = useContext(EnvironmentContext);
     const [resources, setResources] = useState<any>(undefined);
-    const [bundle, setBundle] = useState<any>('');
+    const [bundle, setBundle] = useState<TBundle|undefined>(undefined);
     const [status, setStatus] = useState('');
     const [loading, setLoading] = useState(false);
 
@@ -188,7 +189,7 @@ const IndexPage = ({ search }: { search?: boolean }) => {
                 </AccordionDetails>
             </Accordion>
             <Box my={2}>{getBox()}</Box>
-            {bundle && <Footer url={bundle.url} meta={bundle.meta} />}
+            <Footer requestId={bundle?.id} links={bundle?.link} />
         </Container>
     );
 };
