@@ -59,6 +59,13 @@ class FhirApi extends BaseApi {
         return await this.getData({urlString: url.toString()});
     }
 
+    addMissingRequiredParams({ queryParams, id }: { queryParams: URLSearchParams; id?: string }) {
+        if (!id && !queryParams.has('_count')) {
+            queryParams.append('_count', '10');
+        }
+        return queryParams;
+    }
+
     getUrl({
         resourceType,
         id,
@@ -91,9 +98,7 @@ class FhirApi extends BaseApi {
                 url.searchParams.append(name, value);
             });
         }
-        if (!id && !url.searchParams.has('_count')) {
-            url.searchParams.append('_count', '10');
-        }
+        this.addMissingRequiredParams({ queryParams: url.searchParams, id });
         return url;
     }
 }

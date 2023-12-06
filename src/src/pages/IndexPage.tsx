@@ -26,6 +26,7 @@ const IndexPage = ({ search }: { search?: boolean }) => {
     const [bundle, setBundle] = useState<TBundle|undefined>(undefined);
     const [status, setStatus] = useState('');
     const [loading, setLoading] = useState(false);
+    const [indexStart, setIndexStart] = useState(0);
 
     const { id, resourceType = '', operation } = useParams();
 
@@ -80,7 +81,7 @@ const IndexPage = ({ search }: { search?: boolean }) => {
                     return (
                         <ResourceCard
                             key={index}
-                            index={index}
+                            index={indexStart + index}
                             resource={resource}
                             expanded={resourceCardExpanded}
                         />
@@ -118,6 +119,14 @@ const IndexPage = ({ search }: { search?: boolean }) => {
                     if (statusCode === 401) {
                         window.location.reload();
                     }
+
+                    // set indexStart
+                    const queryParams = new URLSearchParams(location.search || '');
+                    fhirApi.addMissingRequiredParams({ queryParams });
+                    const pagesOffSet = parseInt(queryParams.get('_getpagesoffset') || '0');
+                    const count = parseInt(queryParams.get('_count') || '0');
+                    setIndexStart(pagesOffSet * count);
+
                     // noinspection JSCheckFunctionSignatures
                     setStatus(String(statusCode));
                     if (shouldBeJsonFormat) {
