@@ -11,7 +11,7 @@ EpisodeOfCare
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TEpisodeOfCare } from '../../types/resources/EpisodeOfCare';
 
 // Import all the partial resource

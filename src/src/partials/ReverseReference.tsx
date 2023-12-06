@@ -1,21 +1,28 @@
 import { Typography, Link, Box } from '@mui/material';
 import { TBaseResourceProps } from '../types/baseTypes';
 
-type TReverseReferenceProps = TBaseResourceProps & {
-  reverseReferences: any;
+type TReverseReference = {
+  target: string;
+  property: string;
 };
 
-function ReverseReference({ name, id, reverseReferences }: TReverseReferenceProps) {
-  // Ensure reverseReferences is an array
-  if (!Array.isArray(reverseReferences)) {
-    reverseReferences = [reverseReferences];
+type TReverseReferenceProps = TBaseResourceProps & {
+  reverseReferences: TReverseReference[];
+};
+
+function ReverseReference({ name, id, reverseReferences, resourceType }: TReverseReferenceProps) {
+  if (resourceType === 'Patient') {
+    id = `Patient/${id}`;
+  }
+  if (resourceType === 'Person') {
+    id = `Patient/person.${id}`;
   }
 
   return reverseReferences &&
     reverseReferences.length > 0 &&
     reverseReferences[0] ? (
-    <Box>
-      <Typography variant="h4">{name}</Typography>
+    <Box sx={{ mt: 1, bt: 1 }}>
+      <Typography variant="h5">{name}</Typography>
       {reverseReferences.map((reference: any, index: Number) =>
         reference ? (
           <Link

@@ -10,7 +10,7 @@ Patient
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TPatient } from '../../types/resources/Patient';
 
 // Import all the partial resource
@@ -210,6 +210,129 @@ const Patient = ({ resource }: { resource: TPatient }): React.ReactElement => {
                     searchParameter='managing-organization'
                 />
             }
+            <Typography variant="h4" sx={{ mt: 1 }}>
+                Related Resources
+            </Typography>
+            <Partials.ReverseReference
+                name="Account"
+                id={resource.id}
+                resourceType={resource.resourceType}
+                reverseReferences={[{'target': 'Account', 'property': 'patient'}]}
+            />
+            <Partials.ReverseReference
+                name="AllergyIntolerance"
+                id={resource.id}
+                resourceType={resource.resourceType}
+                reverseReferences={[{'target': 'AllergyIntolerance', 'property': 'patient'}]}
+            />
+            <Partials.ReverseReference
+                name="Appointment"
+                id={resource.id}
+                resourceType={resource.resourceType}
+                reverseReferences={[{'target': 'Appointment', 'property': 'patient'}]}
+            />
+            <Partials.ReverseReference
+                name="AuditEvent"
+                id={resource.id}
+                resourceType={resource.resourceType}
+                reverseReferences={[{'target': 'AuditEvent', 'property': 'patient'}]}
+            />
+            <Partials.ReverseReference
+                name="CareTeam"
+                id={resource.id}
+                resourceType={resource.resourceType}
+                reverseReferences={[{'target': 'CareTeam', 'property': 'patient'}]}
+            />
+            <Partials.ReverseReference
+                name="Condition"
+                id={resource.id}
+                resourceType={resource.resourceType}
+                reverseReferences={[{'target': 'Condition', 'property': 'patient'}]}
+            />
+            <Partials.ReverseReference
+                name="ChargeItem"
+                id={resource.id}
+                resourceType={resource.resourceType}
+                reverseReferences={[{'target': 'ChargeItem', 'property': 'patient'}]}
+            />
+            <Partials.ReverseReference
+                name="Coverage"
+                id={resource.id}
+                resourceType={resource.resourceType}
+                reverseReferences={[{'target': 'Coverage', 'property': 'patient'}]}
+            />
+            <Partials.ReverseReference
+                name="Encounter"
+                id={resource.id}
+                resourceType={resource.resourceType}
+                reverseReferences={[{'target': 'Encounter', 'property': 'patient'}]}
+            />
+            <Partials.ReverseReference
+                name="Immunization"
+                id={resource.id}
+                resourceType={resource.resourceType}
+                reverseReferences={[{'target': 'Immunization', 'property': 'patient'}]}
+            />
+            <Partials.ReverseReference
+                name="ExplanationOfBenefit"
+                id={resource.id}
+                resourceType={resource.resourceType}
+                reverseReferences={[{'target': 'ExplanationOfBenefit', 'property': 'patient'}]}
+            />
+            <Partials.ReverseReference
+                name="MeasureReport"
+                id={resource.id}
+                resourceType={resource.resourceType}
+                reverseReferences={[{'target': 'MeasureReport', 'property': 'patient'}]}
+            />
+            <Partials.ReverseReference
+                name="MedicationRequest"
+                id={resource.id}
+                resourceType={resource.resourceType}
+                reverseReferences={[{'target': 'MedicationRequest', 'property': 'patient'}]}
+            />
+            <Partials.ReverseReference
+                name="MedicationStatement"
+                id={resource.id}
+                resourceType={resource.resourceType}
+                reverseReferences={[{'target': 'MedicationStatement', 'property': 'patient'}]}
+            />
+            <Partials.ReverseReference
+                name="Observation"
+                id={resource.id}
+                resourceType={resource.resourceType}
+                reverseReferences={[{'target': 'Observation', 'property': 'patient'}]}
+            />
+            <Partials.ReverseReference
+                name="Person"
+                id={resource.id}
+                resourceType={resource.resourceType}
+                reverseReferences={[{'target': 'Person', 'property': 'patient'}]}
+            />
+            <Partials.ReverseReference
+                name="Procedure"
+                id={resource.id}
+                resourceType={resource.resourceType}
+                reverseReferences={[{'target': 'Procedure', 'property': 'patient'}]}
+            />
+            <Partials.ReverseReference
+                name="Schedule"
+                id={resource.id}
+                resourceType={resource.resourceType}
+                reverseReferences={[{'target': 'Schedule', 'property': 'patient'}]}
+            />
+            <Partials.ReverseReference
+                name="ServiceRequest"
+                id={resource.id}
+                resourceType={resource.resourceType}
+                reverseReferences={[{'target': 'ServiceRequest', 'property': 'patient'}]}
+            />
+            <Partials.ReverseReference
+                name="Task"
+                id={resource.id}
+                resourceType={resource.resourceType}
+                reverseReferences={[{'target': 'Task', 'property': 'patient'}]}
+            />
         </>
     );
 };

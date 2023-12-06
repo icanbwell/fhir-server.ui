@@ -10,7 +10,7 @@ DeviceMetric
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TDeviceMetric } from '../../types/resources/DeviceMetric';
 
 // Import all the partial resource

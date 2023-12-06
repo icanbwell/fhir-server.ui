@@ -11,7 +11,7 @@ QuestionnaireResponse
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TQuestionnaireResponse } from '../../types/resources/QuestionnaireResponse';
 
 // Import all the partial resource

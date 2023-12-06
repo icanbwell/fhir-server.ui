@@ -10,7 +10,7 @@ Linkage
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TLinkage } from '../../types/resources/Linkage';
 
 // Import all the partial resource

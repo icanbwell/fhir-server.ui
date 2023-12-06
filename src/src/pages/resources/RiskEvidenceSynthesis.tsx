@@ -11,7 +11,7 @@ RiskEvidenceSynthesis
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TRiskEvidenceSynthesis } from '../../types/resources/RiskEvidenceSynthesis';
 
 // Import all the partial resource

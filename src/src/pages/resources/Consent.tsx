@@ -11,7 +11,7 @@ Consent
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TConsent } from '../../types/resources/Consent';
 
 // Import all the partial resource

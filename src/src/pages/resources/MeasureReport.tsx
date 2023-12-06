@@ -11,7 +11,7 @@ MeasureReport
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TMeasureReport } from '../../types/resources/MeasureReport';
 
 // Import all the partial resource

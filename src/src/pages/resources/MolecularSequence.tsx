@@ -9,7 +9,7 @@ MolecularSequence
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TMolecularSequence } from '../../types/resources/MolecularSequence';
 
 // Import all the partial resource

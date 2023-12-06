@@ -11,7 +11,7 @@ Procedure
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TProcedure } from '../../types/resources/Procedure';
 
 // Import all the partial resource

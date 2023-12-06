@@ -9,7 +9,7 @@ Measure
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TMeasure } from '../../types/resources/Measure';
 
 // Import all the partial resource

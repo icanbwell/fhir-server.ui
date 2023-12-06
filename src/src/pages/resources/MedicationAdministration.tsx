@@ -13,7 +13,7 @@ MedicationAdministration
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TMedicationAdministration } from '../../types/resources/MedicationAdministration';
 
 // Import all the partial resource

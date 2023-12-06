@@ -10,7 +10,7 @@ Practitioner
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TPractitioner } from '../../types/resources/Practitioner';
 
 // Import all the partial resource
@@ -150,6 +150,21 @@ const Practitioner = ({ resource }: { resource: TPractitioner }): React.ReactEle
                     searchParameter='communication'
                 />
             }
+            <Typography variant="h4" sx={{ mt: 1 }}>
+                Related Resources
+            </Typography>
+            <Partials.ReverseReference
+                name="Practitioner Role"
+                id={resource.id}
+                resourceType={resource.resourceType}
+                reverseReferences={[{'target': 'PractitionerRole', 'property': 'practitioner'}]}
+            />
+            <Partials.ReverseReference
+                name="Schedule (also check schedules on PractitionerRole)"
+                id={resource.id}
+                resourceType={resource.resourceType}
+                reverseReferences={[{'target': 'Schedule', 'property': 'actor'}]}
+            />
         </>
     );
 };

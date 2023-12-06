@@ -10,7 +10,7 @@ SupplyRequest
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TSupplyRequest } from '../../types/resources/SupplyRequest';
 
 // Import all the partial resource

@@ -9,7 +9,7 @@ InsurancePlan
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TInsurancePlan } from '../../types/resources/InsurancePlan';
 
 // Import all the partial resource

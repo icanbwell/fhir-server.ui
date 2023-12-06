@@ -11,7 +11,7 @@ RelatedPerson
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TRelatedPerson } from '../../types/resources/RelatedPerson';
 
 // Import all the partial resource

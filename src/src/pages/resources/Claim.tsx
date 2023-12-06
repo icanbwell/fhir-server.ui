@@ -11,7 +11,7 @@ Claim
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TClaim } from '../../types/resources/Claim';
 
 // Import all the partial resource

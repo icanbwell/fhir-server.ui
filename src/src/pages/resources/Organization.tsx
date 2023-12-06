@@ -12,7 +12,7 @@ Organization
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TOrganization } from '../../types/resources/Organization';
 
 // Import all the partial resource
@@ -148,6 +148,27 @@ const Organization = ({ resource }: { resource: TOrganization }): React.ReactEle
                     searchParameter='endpoint'
                 />
             }
+            <Typography variant="h4" sx={{ mt: 1 }}>
+                Related Resources
+            </Typography>
+            <Partials.ReverseReference
+                name="Practitioner Role"
+                id={resource.id}
+                resourceType={resource.resourceType}
+                reverseReferences={[{'target': 'PractitionerRole', 'property': 'organization'}]}
+            />
+            <Partials.ReverseReference
+                name="Healthcare Service"
+                id={resource.id}
+                resourceType={resource.resourceType}
+                reverseReferences={[{'target': 'HealthcareService', 'property': 'organization'}]}
+            />
+            <Partials.ReverseReference
+                name="Location"
+                id={resource.id}
+                resourceType={resource.resourceType}
+                reverseReferences={[{'target': 'Location', 'property': 'organization'}]}
+            />
         </>
     );
 };

@@ -11,7 +11,7 @@ ConceptMap
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TConceptMap } from '../../types/resources/ConceptMap';
 
 // Import all the partial resource

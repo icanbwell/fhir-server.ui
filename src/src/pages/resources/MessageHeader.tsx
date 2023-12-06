@@ -13,7 +13,7 @@ MessageHeader
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TMessageHeader } from '../../types/resources/MessageHeader';
 
 // Import all the partial resource

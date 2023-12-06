@@ -10,7 +10,7 @@ Condition
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TCondition } from '../../types/resources/Condition';
 
 // Import all the partial resource

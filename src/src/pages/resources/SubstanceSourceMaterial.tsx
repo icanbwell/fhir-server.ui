@@ -22,7 +22,7 @@ SubstanceSourceMaterial
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TSubstanceSourceMaterial } from '../../types/resources/SubstanceSourceMaterial';
 
 // Import all the partial resource

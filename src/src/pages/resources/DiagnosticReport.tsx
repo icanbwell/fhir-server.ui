@@ -13,7 +13,7 @@ DiagnosticReport
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TDiagnosticReport } from '../../types/resources/DiagnosticReport';
 
 // Import all the partial resource

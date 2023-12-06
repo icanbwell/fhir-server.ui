@@ -10,7 +10,7 @@ Media
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TMedia } from '../../types/resources/Media';
 
 // Import all the partial resource

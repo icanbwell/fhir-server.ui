@@ -10,7 +10,7 @@ OperationDefinition
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TOperationDefinition } from '../../types/resources/OperationDefinition';
 
 // Import all the partial resource

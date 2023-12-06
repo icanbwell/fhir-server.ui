@@ -10,7 +10,7 @@ Immunization
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TImmunization } from '../../types/resources/Immunization';
 
 // Import all the partial resource

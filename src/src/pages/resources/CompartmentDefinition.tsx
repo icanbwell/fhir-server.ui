@@ -9,7 +9,7 @@ CompartmentDefinition
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TCompartmentDefinition } from '../../types/resources/CompartmentDefinition';
 
 // Import all the partial resource

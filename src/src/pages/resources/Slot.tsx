@@ -9,7 +9,7 @@ Slot
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TSlot } from '../../types/resources/Slot';
 
 // Import all the partial resource

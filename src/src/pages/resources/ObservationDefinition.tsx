@@ -10,7 +10,7 @@ ObservationDefinition
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TObservationDefinition } from '../../types/resources/ObservationDefinition';
 
 // Import all the partial resource

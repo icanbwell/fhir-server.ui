@@ -12,7 +12,7 @@ Library
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TLibrary } from '../../types/resources/Library';
 
 // Import all the partial resource

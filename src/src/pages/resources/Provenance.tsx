@@ -17,7 +17,7 @@ Provenance
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TProvenance } from '../../types/resources/Provenance';
 
 // Import all the partial resource

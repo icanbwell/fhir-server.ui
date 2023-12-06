@@ -12,7 +12,7 @@ SubstanceNucleicAcid
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TSubstanceNucleicAcid } from '../../types/resources/SubstanceNucleicAcid';
 
 // Import all the partial resource

@@ -9,7 +9,7 @@ CatalogEntry
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TCatalogEntry } from '../../types/resources/CatalogEntry';
 
 // Import all the partial resource

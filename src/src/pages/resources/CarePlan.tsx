@@ -11,7 +11,7 @@ CarePlan
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TCarePlan } from '../../types/resources/CarePlan';
 
 // Import all the partial resource

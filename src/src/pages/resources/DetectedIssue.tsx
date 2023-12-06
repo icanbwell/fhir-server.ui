@@ -11,7 +11,7 @@ DetectedIssue
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TDetectedIssue } from '../../types/resources/DetectedIssue';
 
 // Import all the partial resource

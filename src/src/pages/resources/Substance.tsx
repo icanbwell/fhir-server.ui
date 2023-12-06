@@ -9,7 +9,7 @@ Substance
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TSubstance } from '../../types/resources/Substance';
 
 // Import all the partial resource

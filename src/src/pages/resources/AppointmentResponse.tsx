@@ -10,7 +10,7 @@ AppointmentResponse
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TAppointmentResponse } from '../../types/resources/AppointmentResponse';
 
 // Import all the partial resource

@@ -10,7 +10,7 @@ PaymentNotice
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TPaymentNotice } from '../../types/resources/PaymentNotice';
 
 // Import all the partial resource

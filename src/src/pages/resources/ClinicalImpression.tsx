@@ -15,7 +15,7 @@ ClinicalImpression
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TClinicalImpression } from '../../types/resources/ClinicalImpression';
 
 // Import all the partial resource

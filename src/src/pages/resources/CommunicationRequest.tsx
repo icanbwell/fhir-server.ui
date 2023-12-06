@@ -11,7 +11,7 @@ CommunicationRequest
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TCommunicationRequest } from '../../types/resources/CommunicationRequest';
 
 // Import all the partial resource

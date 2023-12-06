@@ -11,7 +11,7 @@ ResearchDefinition
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TResearchDefinition } from '../../types/resources/ResearchDefinition';
 
 // Import all the partial resource
