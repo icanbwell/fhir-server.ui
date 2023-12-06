@@ -10,7 +10,7 @@ EnrollmentRequest
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TEnrollmentRequest } from '../../types/resources/EnrollmentRequest';
 
 // Import all the partial resource

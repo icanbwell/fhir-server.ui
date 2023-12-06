@@ -10,7 +10,7 @@
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import {{ '{ T' + fhir_entity.cleaned_name + ' }' }} from '../../types/resources/ {{- fhir_entity.cleaned_name -}}';
 
 // Import all the partial resource
@@ -43,6 +43,23 @@ const {{ fhir_entity.cleaned_name }} = ({ resource }: { resource: {{ 'T' + fhir_
         {% endif %}
     {% endif %}
     {%  endfor %}
+    {% if reverse_references.get(fhir_entity.cleaned_name) %}
+            <Typography variant="h4" sx={{- '{{ mt: 1 }}' -}}>
+            {% if fhir_entity.cleaned_name == "Person" %}
+                Resources Related to Linked Patient Resources
+            {% else %}
+                Related Resources
+            {% endif %}
+            </Typography>
+        {% for reference in reverse_references.get(fhir_entity.cleaned_name) %}
+            <Partials.ReverseReference
+                name="{{- reference.get("name") -}}"
+                id={resource.id}
+                resourceType={resource.resourceType}
+                reverseReferences={{- '{' }}{{ reference.get("reverseReferences") }}{{ '}' }}
+            />
+        {% endfor %}
+    {% endif %}
         </>
     );
 };

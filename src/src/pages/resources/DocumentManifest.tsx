@@ -10,7 +10,7 @@ DocumentManifest
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TDocumentManifest } from '../../types/resources/DocumentManifest';
 
 // Import all the partial resource

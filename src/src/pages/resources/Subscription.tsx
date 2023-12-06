@@ -13,7 +13,7 @@ Subscription
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TSubscription } from '../../types/resources/Subscription';
 
 // Import all the partial resource

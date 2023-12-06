@@ -11,7 +11,7 @@ ActivityDefinition
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TActivityDefinition } from '../../types/resources/ActivityDefinition';
 
 // Import all the partial resource

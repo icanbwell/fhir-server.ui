@@ -30,7 +30,7 @@ import Period from './Period';
 import Quantity from './Quantity';
 import Ratio from './Ratio';
 import Reference from './Reference';
-import RevereseReference from './ReverseReference';
+import ReverseReference from './ReverseReference';
 import Time from './Time';
 import Timing from './Timing';
 import Uri from './Uri';
@@ -68,7 +68,7 @@ export default {
   Quantity,
   Ratio,
   Reference,
-  RevereseReference,
+  ReverseReference,
   Time,
   Timing,
   Uri,

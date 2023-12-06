@@ -11,7 +11,7 @@ Parameters
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TParameters } from '../../types/resources/Parameters';
 
 // Import all the partial resource

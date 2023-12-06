@@ -12,7 +12,7 @@ PlanDefinition
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TPlanDefinition } from '../../types/resources/PlanDefinition';
 
 // Import all the partial resource

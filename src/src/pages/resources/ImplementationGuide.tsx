@@ -12,7 +12,7 @@ ImplementationGuide
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TImplementationGuide } from '../../types/resources/ImplementationGuide';
 
 // Import all the partial resource

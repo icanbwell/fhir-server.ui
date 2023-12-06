@@ -10,7 +10,7 @@ Account
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TAccount } from '../../types/resources/Account';
 
 // Import all the partial resource

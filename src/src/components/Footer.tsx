@@ -35,7 +35,7 @@ function Footer({ links, requestId }: { links?: TBundleLink[], requestId?: Strin
             queryParams.delete('_getpagesoffset');
             setPage(1);
         }
-        navigate(window.location.pathname + (queryParams.size && '?') + queryParams.toString());
+        navigate(window.location.pathname + (queryParams.size ? `?${queryParams.toString()}` : ''));
     };
 
     return (

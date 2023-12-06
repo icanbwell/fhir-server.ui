@@ -9,7 +9,7 @@ SubstancePolymer
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TSubstancePolymer } from '../../types/resources/SubstancePolymer';
 
 // Import all the partial resource

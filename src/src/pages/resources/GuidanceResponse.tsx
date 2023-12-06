@@ -11,7 +11,7 @@ GuidanceResponse
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TGuidanceResponse } from '../../types/resources/GuidanceResponse';
 
 // Import all the partial resource

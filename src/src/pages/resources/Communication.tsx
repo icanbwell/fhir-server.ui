@@ -11,7 +11,7 @@ Communication
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TCommunication } from '../../types/resources/Communication';
 
 // Import all the partial resource

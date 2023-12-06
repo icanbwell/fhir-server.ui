@@ -10,7 +10,7 @@ StructureMap
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TStructureMap } from '../../types/resources/StructureMap';
 
 // Import all the partial resource

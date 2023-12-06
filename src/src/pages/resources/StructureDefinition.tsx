@@ -11,7 +11,7 @@ StructureDefinition
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TStructureDefinition } from '../../types/resources/StructureDefinition';
 
 // Import all the partial resource

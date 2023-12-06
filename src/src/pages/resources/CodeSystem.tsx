@@ -11,7 +11,7 @@ CodeSystem
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TCodeSystem } from '../../types/resources/CodeSystem';
 
 // Import all the partial resource

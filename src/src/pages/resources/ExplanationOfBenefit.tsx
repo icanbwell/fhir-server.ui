@@ -11,7 +11,7 @@ ExplanationOfBenefit
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TExplanationOfBenefit } from '../../types/resources/ExplanationOfBenefit';
 
 // Import all the partial resource

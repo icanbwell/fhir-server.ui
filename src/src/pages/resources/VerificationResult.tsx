@@ -10,7 +10,7 @@ VerificationResult
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TVerificationResult } from '../../types/resources/VerificationResult';
 
 // Import all the partial resource

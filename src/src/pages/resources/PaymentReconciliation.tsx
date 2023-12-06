@@ -10,7 +10,7 @@ PaymentReconciliation
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TPaymentReconciliation } from '../../types/resources/PaymentReconciliation';
 
 // Import all the partial resource

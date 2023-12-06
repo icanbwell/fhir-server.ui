@@ -10,7 +10,7 @@ RiskAssessment
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TRiskAssessment } from '../../types/resources/RiskAssessment';
 
 // Import all the partial resource

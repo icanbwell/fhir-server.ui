@@ -9,7 +9,7 @@ List
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TList } from '../../types/resources/List';
 
 // Import all the partial resource

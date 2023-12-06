@@ -10,7 +10,7 @@ OrganizationAffiliation
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TOrganizationAffiliation } from '../../types/resources/OrganizationAffiliation';
 
 // Import all the partial resource

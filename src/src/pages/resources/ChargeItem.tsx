@@ -13,7 +13,7 @@ ChargeItem
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TChargeItem } from '../../types/resources/ChargeItem';
 
 // Import all the partial resource

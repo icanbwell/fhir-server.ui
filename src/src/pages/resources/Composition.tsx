@@ -17,7 +17,7 @@ Composition
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TComposition } from '../../types/resources/Composition';
 
 // Import all the partial resource

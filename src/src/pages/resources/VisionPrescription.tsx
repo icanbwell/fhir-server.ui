@@ -10,7 +10,7 @@ VisionPrescription
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TVisionPrescription } from '../../types/resources/VisionPrescription';
 
 // Import all the partial resource

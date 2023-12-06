@@ -9,7 +9,7 @@ Flag
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TFlag } from '../../types/resources/Flag';
 
 // Import all the partial resource

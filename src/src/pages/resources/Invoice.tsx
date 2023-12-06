@@ -10,7 +10,7 @@ Invoice
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TInvoice } from '../../types/resources/Invoice';
 
 // Import all the partial resource

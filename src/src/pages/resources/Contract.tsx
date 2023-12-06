@@ -10,7 +10,7 @@ Contract
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TContract } from '../../types/resources/Contract';
 
 // Import all the partial resource

@@ -11,7 +11,7 @@ Location
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TLocation } from '../../types/resources/Location';
 
 // Import all the partial resource
@@ -175,6 +175,33 @@ const Location = ({ resource }: { resource: TLocation }): React.ReactElement => 
                     searchParameter='endpoint'
                 />
             }
+            <Typography variant="h4" sx={{ mt: 1 }}>
+                Related Resources
+            </Typography>
+            <Partials.ReverseReference
+                name="PractitionerRole"
+                id={resource.id}
+                resourceType={resource.resourceType}
+                reverseReferences={[{'target': 'PractitionerRole', 'property': 'location'}]}
+            />
+            <Partials.ReverseReference
+                name="HealthcareService"
+                id={resource.id}
+                resourceType={resource.resourceType}
+                reverseReferences={[{'target': 'HealthcareService', 'property': 'location'}]}
+            />
+            <Partials.ReverseReference
+                name="Organization"
+                id={resource.id}
+                resourceType={resource.resourceType}
+                reverseReferences={[{'target': 'Organization', 'property': 'location'}]}
+            />
+            <Partials.ReverseReference
+                name="Schedule"
+                id={resource.id}
+                resourceType={resource.resourceType}
+                reverseReferences={[{'target': 'Schedule', 'property': 'location'}]}
+            />
         </>
     );
 };

@@ -10,7 +10,7 @@ TestScript
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TTestScript } from '../../types/resources/TestScript';
 
 // Import all the partial resource

@@ -11,7 +11,7 @@ Basic
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TBasic } from '../../types/resources/Basic';
 
 // Import all the partial resource

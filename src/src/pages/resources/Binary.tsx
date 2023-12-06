@@ -11,7 +11,7 @@ Binary
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TBinary } from '../../types/resources/Binary';
 
 // Import all the partial resource

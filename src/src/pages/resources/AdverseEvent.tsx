@@ -12,7 +12,7 @@ AdverseEvent
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TAdverseEvent } from '../../types/resources/AdverseEvent';
 
 // Import all the partial resource

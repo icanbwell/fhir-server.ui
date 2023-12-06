@@ -12,7 +12,7 @@ Group
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TGroup } from '../../types/resources/Group';
 
 // Import all the partial resource

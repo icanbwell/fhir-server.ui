@@ -10,7 +10,7 @@ AllergyIntolerance
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TAllergyIntolerance } from '../../types/resources/AllergyIntolerance';
 
 // Import all the partial resource

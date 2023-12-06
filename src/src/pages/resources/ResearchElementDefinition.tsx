@@ -10,7 +10,7 @@ ResearchElementDefinition
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TResearchElementDefinition } from '../../types/resources/ResearchElementDefinition';
 
 // Import all the partial resource

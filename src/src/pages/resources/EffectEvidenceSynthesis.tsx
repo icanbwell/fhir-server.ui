@@ -11,7 +11,7 @@ EffectEvidenceSynthesis
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TEffectEvidenceSynthesis } from '../../types/resources/EffectEvidenceSynthesis';
 
 // Import all the partial resource

@@ -11,7 +11,7 @@ Appointment
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TAppointment } from '../../types/resources/Appointment';
 
 // Import all the partial resource

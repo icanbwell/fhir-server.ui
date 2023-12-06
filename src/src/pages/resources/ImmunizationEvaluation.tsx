@@ -11,7 +11,7 @@ ImmunizationEvaluation
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TImmunizationEvaluation } from '../../types/resources/ImmunizationEvaluation';
 
 // Import all the partial resource

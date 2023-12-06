@@ -9,7 +9,7 @@ MedicinalProductPharmaceutical
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TMedicinalProductPharmaceutical } from '../../types/resources/MedicinalProductPharmaceutical';
 
 // Import all the partial resource

@@ -9,7 +9,7 @@ Task
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TTask } from '../../types/resources/Task';
 
 // Import all the partial resource

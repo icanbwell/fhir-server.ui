@@ -10,7 +10,7 @@ EventDefinition
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TEventDefinition } from '../../types/resources/EventDefinition';
 
 // Import all the partial resource

@@ -13,7 +13,7 @@ ImagingStudy
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TImagingStudy } from '../../types/resources/ImagingStudy';
 
 // Import all the partial resource

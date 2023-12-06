@@ -9,7 +9,7 @@ HealthcareService
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { THealthcareService } from '../../types/resources/HealthcareService';
 
 // Import all the partial resource
@@ -255,6 +255,21 @@ const HealthcareService = ({ resource }: { resource: THealthcareService }): Reac
                     searchParameter='endpoint'
                 />
             }
+            <Typography variant="h4" sx={{ mt: 1 }}>
+                Related Resources
+            </Typography>
+            <Partials.ReverseReference
+                name="Practitioner Role"
+                id={resource.id}
+                resourceType={resource.resourceType}
+                reverseReferences={[{'target': 'PractitionerRole', 'property': 'actor'}]}
+            />
+            <Partials.ReverseReference
+                name="Schedule"
+                id={resource.id}
+                resourceType={resource.resourceType}
+                reverseReferences={[{'target': 'Schedule', 'property': 'healthcareService'}]}
+            />
         </>
     );
 };

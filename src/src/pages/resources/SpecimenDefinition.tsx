@@ -9,7 +9,7 @@ SpecimenDefinition
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TSpecimenDefinition } from '../../types/resources/SpecimenDefinition';
 
 // Import all the partial resource

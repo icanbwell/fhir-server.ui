@@ -10,7 +10,7 @@ DeviceRequest
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TDeviceRequest } from '../../types/resources/DeviceRequest';
 
 // Import all the partial resource

@@ -11,7 +11,7 @@ Evidence
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TEvidence } from '../../types/resources/Evidence';
 
 // Import all the partial resource

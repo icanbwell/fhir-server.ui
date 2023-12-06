@@ -11,7 +11,7 @@ Endpoint
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TEndpoint } from '../../types/resources/Endpoint';
 
 // Import all the partial resource

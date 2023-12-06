@@ -9,7 +9,7 @@ MedicationKnowledge
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TMedicationKnowledge } from '../../types/resources/MedicationKnowledge';
 
 // Import all the partial resource

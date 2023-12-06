@@ -9,7 +9,7 @@ Bundle
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TBundle } from '../../types/resources/Bundle';
 
 // Import all the partial resource

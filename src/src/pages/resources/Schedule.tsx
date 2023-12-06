@@ -9,7 +9,7 @@ Schedule
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TSchedule } from '../../types/resources/Schedule';
 
 // Import all the partial resource
@@ -145,6 +145,39 @@ const Schedule = ({ resource }: { resource: TSchedule }): React.ReactElement => 
                     searchParameter='planning-horizon'
                 />
             }
+            <Typography variant="h4" sx={{ mt: 1 }}>
+                Related Resources
+            </Typography>
+            <Partials.ReverseReference
+                name="Slot"
+                id={resource.id}
+                resourceType={resource.resourceType}
+                reverseReferences={[{'target': 'Slot', 'property': 'schedule'}]}
+            />
+            <Partials.ReverseReference
+                name="HealthcareService"
+                id={resource.id}
+                resourceType={resource.resourceType}
+                reverseReferences={[{'target': 'HealthcareService', 'property': 'actor'}]}
+            />
+            <Partials.ReverseReference
+                name="Location"
+                id={resource.id}
+                resourceType={resource.resourceType}
+                reverseReferences={[{'target': 'Location', 'property': 'actor'}]}
+            />
+            <Partials.ReverseReference
+                name="Patient"
+                id={resource.id}
+                resourceType={resource.resourceType}
+                reverseReferences={[{'target': 'Patient', 'property': 'actor'}]}
+            />
+            <Partials.ReverseReference
+                name="PractitionerRole"
+                id={resource.id}
+                resourceType={resource.resourceType}
+                reverseReferences={[{'target': 'PractitionerRole', 'property': 'actor'}]}
+            />
         </>
     );
 };

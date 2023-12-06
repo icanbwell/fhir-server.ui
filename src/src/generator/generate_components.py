@@ -3,9 +3,9 @@ import shutil
 from os import path
 from pathlib import Path
 from typing import List
-from fhir_xml_schema_parser import FhirXmlSchemaParser
-from fhir_xml_schema_parser import FhirEntity
+from fhir_xml_schema_parser import FhirXmlSchemaParser, FhirEntity
 from partialsResources import available_partial_resources
+from reverse_references import reverse_references
 
 def generate_name(input_string: str) -> str:
     result = ''
@@ -81,6 +81,7 @@ def main() -> int:
                 result = template.render(
                     fhir_entity=fhir_entity,
                     available_partial_resources=available_partial_resources,
+                    reverse_references=reverse_references,
                     generate_name=generate_name,
                     generate_search_parameter=generate_search_parameter,
                     get_component_name=get_component_name

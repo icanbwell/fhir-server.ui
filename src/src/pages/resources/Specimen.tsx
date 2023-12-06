@@ -9,7 +9,7 @@ Specimen
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TSpecimen } from '../../types/resources/Specimen';
 
 // Import all the partial resource

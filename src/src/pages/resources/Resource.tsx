@@ -8,7 +8,7 @@ Resource
 */
 
 import React from 'react';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { TResource } from '../../types/resources/Resource';
 
 // Import all the partial resource
