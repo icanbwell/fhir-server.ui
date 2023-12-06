@@ -76,6 +76,16 @@ const OperationOutcome = ({ resource }: { resource: TOperationOutcome }): React.
                     searchParameter='modifier-extension'
                 />
             }
+            {
+                resource.issue &&
+                <Partials.OperationOutcomeIssue
+                    operationOutcomeIssue={resource.issue}
+                    name='Issue'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='issue'
+                />
+            }
         </>
     );
 };

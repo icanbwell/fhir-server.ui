@@ -17,6 +17,7 @@ import PersonPatientLinkPage from './admin/personPatientLink';
 import SearchLogsPage from './admin/searchLogs';
 import SearchPage from './pages/SearchPage';
 import IndexPage from './pages/IndexPage';
+import ErrorPage from './ErrorPage';
 import EnvironmentContext from './EnvironmentContext';
 import axios, {AxiosResponse} from 'axios';
 import { jwtParser } from './utils/jwtParser';
@@ -57,7 +58,7 @@ function App(): React.ReactElement {
         );
     }
 
-    const router = createBrowserRouter([{ path: '*', Component: Root }], {
+    const router = createBrowserRouter([{ path: '*', Component: Root, errorElement: <ErrorPage /> }], {
         basename: '/',
     });
 

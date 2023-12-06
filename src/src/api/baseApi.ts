@@ -29,13 +29,12 @@ class BaseApi {
             url.search = new URLSearchParams(params).toString();
         }
 
-        const response = await axios.get(url.toString());
-
-        if (response.status !== 200) {
-            throw new Error('Network response was not ok');
+        try {
+            const response = await axios.get(url.toString());
+            return { status: response.status, json: response.data };
+        } catch (err: any) {
+            return {status: err.response?.status, json: err.response?.data};
         }
-
-        return { status: response.status, json: response.data };
     }
 
     requestInterceptor(req: InternalAxiosRequestConfig<Request<any>>): InternalAxiosRequestConfig<Request<any>> {

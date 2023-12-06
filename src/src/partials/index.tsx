@@ -24,6 +24,7 @@ import Money from './Money';
 import NameValue from './NameValue';
 import Narrative from './Narrative';
 import ObservationReferenceRange from './ObservationReferenceRange';
+import OperationOutcomeIssue from './OperationOutcomeIssue';
 import PatientContact from './PatientContact';
 import Period from './Period';
 import Quantity from './Quantity';
@@ -61,6 +62,7 @@ export default {
   NameValue,
   Narrative,
   ObservationReferenceRange,
+  OperationOutcomeIssue,
   PatientContact,
   Period,
   Quantity,

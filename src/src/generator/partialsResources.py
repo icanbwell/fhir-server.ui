@@ -25,6 +25,7 @@ available_partial_resources = [
   'NameValue',
   'Narrative',
   'ObservationReferenceRange',
+  'OperationOutcomeIssue',
   'PatientContact',
   'Period',
   'Quantity',

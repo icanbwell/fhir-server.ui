@@ -18,9 +18,10 @@ type TResourceCardProps = {
   index: number;
   resource: TResource;
   expanded: Boolean;
+  error?: boolean;
 };
 
-const ResourceCard = ({ index, resource, expanded }: TResourceCardProps) => {
+const ResourceCard = ({ index, resource, expanded, error }: TResourceCardProps) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
@@ -37,7 +38,7 @@ const ResourceCard = ({ index, resource, expanded }: TResourceCardProps) => {
   return (
     <Card key={index}>
       <CardHeader
-        title={`(${index + 1}) ${resource.resourceType}/${resource.id}`}
+        title={`(${index + 1}) ${resource.resourceType}/${resource.id ?? ''}`}
         classes={{ title: classes.header }}
         action={<Button onClick={handleOpen}>{open ? 'Close' : 'Open'}</Button>}
       ></CardHeader>
@@ -47,7 +48,7 @@ const ResourceCard = ({ index, resource, expanded }: TResourceCardProps) => {
             resourceType={resource.resourceType}
             resource={resource}
           />
-          <Json resource={resource} />
+          <Json resource={resource} error={error} />
         </CardContent>
       </Collapse>
     </Card>
