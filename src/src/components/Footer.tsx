@@ -9,22 +9,17 @@ function Footer({ links, requestId }: { links?: TBundleLink[], requestId?: Strin
     const { userDetails } = useContext(EnvironmentContext);
     const navigate = useNavigate();
 
-    const [username, setUserName] = useState<string|undefined>();
-    const [scope, setScope] = useState<string|undefined>();
-    const [page, setPage] = useState(1);
     const location = useLocation();
     const queryParams = new URLSearchParams(location?.search);
-    console.log(location, queryParams);
+
+    const [username, setUserName] = useState<string|undefined>();
+    const [scope, setScope] = useState<string|undefined>();
+    // number of pages skipped + 1 is the current page
+    const [page, setPage] = useState(parseInt(queryParams.get('_getpagesoffset') || '0') + 1);
 
     const url: string = location.pathname;
     const hasPrev: boolean = Boolean(page && page > 1);
     const hasNext: boolean = links ? links.some((link: TBundleLink) => link.relation === 'next') : false;
-
-    useEffect(() => {
-        console.log(location.search);
-        // number of pages skipped + 1 is the current page
-        setPage(parseInt(queryParams.get('_getpagesoffset') || '0') + 1);
-    }, []);
 
     useEffect(() => {
       setUserName(userDetails?.username);

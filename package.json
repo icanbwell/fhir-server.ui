@@ -4,15 +4,14 @@
     "description": "UI to display FHIR resources in a web browser",
     "main": "src/index.ts",
     "scripts": {
-        "build": "tsc && yarn copy-files",
+        "build": "tsc",
         "build_react": "node src/scripts/build.js",
         "start_react": "node src/scripts/start.js",
-        "build-clean": "yarn clean && tsc && yarn copy-files",
+        "build-clean": "yarn clean && tsc",
         "clean": "rm -rf ./dist",
         "start": "node dist/index.js",
         "dev": "nodemon",
-        "watch": "npm-watch",
-        "copy-files": "cp ./src/oauth/*.html ./dist/oauth/"
+        "watch": "node node_modules/.bin/npm-watch"
     },
     "keywords": [],
     "author": "",
@@ -41,6 +40,7 @@
         "@types/fhir": "^0.0.37",
         "@types/jest": "^29.5.4",
         "@types/js-cookie": "^3.0.5",
+        "@types/jwt-decode": "^3.1.0",
         "@types/node": "^20.6.0",
         "@types/passport": "^1.0.14",
         "@types/passport-jwt": "^3.0.9",

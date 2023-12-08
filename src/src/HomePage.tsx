@@ -54,7 +54,7 @@ const Home = () => {
   // noinspection JSValidateTypes
   return (
     <Container>
-      <Header resources={resourceDefinitions} />
+      <Header />
       <TableContainer>
         <Table stickyHeader className="sticky-table">
           <TableHead>
