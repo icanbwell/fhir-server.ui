@@ -1,7 +1,6 @@
 import express from 'express';
 import path from 'path';
 import ConfigManager from './utils/configManager';
-import { handleAdminReact } from './routeHandlers/adminReact';
 import useragent from 'express-useragent';
 import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
@@ -96,13 +95,6 @@ app.get('/api/env', (req, res) => {
     AUTH_ENABLED: configManager.authEnabled,
   });
 });
-
-const adminRouter = express.Router({ mergeParams: true });
-
-adminRouter.get('/admin/:op?', (req, res, next) =>
-  handleAdminReact(req, res, next),
-);
-app.use(adminRouter);
 
 app.locals.currentYear = new Date().getFullYear();
 app.locals.deployEnvironment = process.env.ENVIRONMENT;
