@@ -4,19 +4,16 @@ import InfoIcon from '@mui/icons-material/Info';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Link } from 'react-router-dom';
 import BwellIcon from '../dist/images/bwell.png';
-import { getCookie, removeCookie } from '../utils/cookie.utils';
+import { getCookie } from '../utils/cookie.utils';
 import EnvContext from '../EnvironmentContext';
 
 const Header = () => {
     const { fhirUrl, env } = useContext(EnvContext);
 
     const handleLogout = () => {
-        // remove cookie from browser
-        removeCookie('jwt');
-
         const query = new URLSearchParams();
         query.set('client_id', env.AUTH_CODE_FLOW_CLIENT_ID);
-        query.set('logout_uri', `${window.location.origin}`);
+        query.set('logout_uri', `${window.location.origin}/logout`);
 
         // signout user from cognito
         window.location.replace(`${env.AUTH_CODE_FLOW_URL}/logout?${query.toString()}`);

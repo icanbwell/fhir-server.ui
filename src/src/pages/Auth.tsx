@@ -10,7 +10,7 @@ const Auth = () => {
     const queryParams = new URLSearchParams(window.location.search);
 
     const redirectToLogin = (query: URLSearchParams) => {
-        const resourceUrl = Buffer.from(window.location.href).toString('base64');
+        const resourceUrl = Buffer.from(`${window.location.pathname}${queryParams.size ? '?' : ''}${queryParams.toString()}}`).toString('base64');
         query.set('response_type', 'code');
         query.set('state', resourceUrl);
 
@@ -21,9 +21,7 @@ const Auth = () => {
     const fetchToken = (query: URLSearchParams) => {
         // if code is present then fetch the JWT token and save it into the cookies
         const state = queryParams.get('state');
-        const resourceUrl = state
-            ? encodeURIComponent(Buffer.from(state, 'base64').toString('ascii'))
-            : window.location.origin;
+        const resourceUrl = state ? Buffer.from(state, 'base64').toString('ascii') : '/';
         const tokenUrl = `${env.AUTH_CODE_FLOW_URL}/oauth2/token`;
 
         query.set('grant_type', 'authorization_code');
