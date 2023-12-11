@@ -1,7 +1,7 @@
 import axios from 'axios';
-import cookies from 'js-cookie';
 import { InternalAxiosRequestConfig } from 'axios';
 import { Request } from 'express';
+import { getCookie } from '../utils/cookie.utils';
 
 interface GetDataParams {
     urlString: string;
@@ -31,6 +31,9 @@ class BaseApi {
 
         try {
             const response = await axios.get(url.toString());
+            if (response.status === 401) {
+                window.location.reload();
+            }
             return { status: response.status, json: response.data };
         } catch (err: any) {
             return {status: err.response?.status, json: err.response?.data};
@@ -38,7 +41,7 @@ class BaseApi {
     }
 
     requestInterceptor(req: InternalAxiosRequestConfig<Request<any>>): InternalAxiosRequestConfig<Request<any>> {
-        const token = cookies.get('jwt');
+        const token = getCookie('jwt');
         if (typeof token === 'string') {
             req.headers.Authorization = `Bearer ${token}`;
         };

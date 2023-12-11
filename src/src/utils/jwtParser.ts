@@ -1,5 +1,5 @@
-import cookies from 'js-cookie';
 import { InvalidTokenError, jwtDecode } from 'jwt-decode';
+import { getCookie } from './cookie.utils';
 
 export const jwtParser = ({
     customGroups,
@@ -12,7 +12,7 @@ export const jwtParser = ({
     scope?: string;
     isAdmin?: boolean;
 } => {
-    const token: string | undefined = cookies.get('jwt');
+    const token: string | undefined = getCookie('jwt');
     if (!token) {
         return {};
     }

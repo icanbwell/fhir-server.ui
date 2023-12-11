@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import {Pagination, PaginationItem, Box, Typography, Link} from '@mui/material';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { PaginationItem, Box, Typography, Link } from '@mui/material';
+
 import EnvironmentContext from '../EnvironmentContext';
 import { TBundleLink } from '../types/partials/BundleLink';
 
@@ -8,56 +9,63 @@ function Footer({ links, requestId }: { links?: TBundleLink[], requestId?: Strin
     const { userDetails } = useContext(EnvironmentContext);
     const navigate = useNavigate();
 
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location?.search);
+
     const [username, setUserName] = useState<string|undefined>();
     const [scope, setScope] = useState<string|undefined>();
-    const [page, setPage] = useState(1);
-    const url: string = window.location.pathname;
-    const hasPrev: boolean = page > 1;
-    const hasNext: boolean = links ? links.some((link: TBundleLink) => link.relation === 'next') : false;
+    // number of pages skipped + 1 is the current page
+    const [page, setPage] = useState(parseInt(queryParams.get('_getpagesoffset') || '0') + 1);
 
-    useEffect(() => {
-        const queryParams = new URLSearchParams(window.location?.search);
-        // number of pages skipped + 1 is the current page
-        setPage(parseInt(queryParams.get('_getpagesoffset') || '0') + 1);
-    }, []);
+    const url: string = location.pathname;
+    const hasPrev: boolean = Boolean(page && page > 1);
+    const hasNext: boolean = links ? links.some((link: TBundleLink) => link.relation === 'next') : false;
 
     useEffect(() => {
       setUserName(userDetails?.username);
       setScope(userDetails?.scope);
     }, [userDetails]);
 
-    const handleChange = (_event: React.ChangeEvent<unknown>, newPage: number) => {
-        const queryParams = new URLSearchParams(window.location?.search);
+    const handleChange = (newPage: number) => {
         if (newPage > 1) {
-            queryParams.set('_getpagesoffset', `${newPage - 1}`);
-            setPage(newPage);
-        } else if (queryParams.has('_getpagesoffset')) {
-            queryParams.delete('_getpagesoffset');
-            setPage(1);
+          queryParams.set('_getpagesoffset', `${newPage - 1}`);
+        } else if (newPage === 1 && queryParams.has('_getpagesoffset')) {
+          queryParams.delete('_getpagesoffset');
         }
-        navigate(window.location.pathname + (queryParams.size ? `?${queryParams.toString()}` : ''));
+        if (newPage >= 1) {
+          setPage(newPage);
+          navigate(location.pathname + (queryParams.size ? '?' + queryParams.toString() : ''));
+        }
     };
 
     return (
       <Box sx={{ p: 1, display: 'flex', borderTop: 1 }}>
         {url && !url.includes('/_search') && (
           <>
-            <Pagination
-              boundaryCount={0}
-              count={1}
-              onChange={handleChange}
-              renderItem={(params) => {
-                if (
-                  (params.type === 'previous' && hasPrev) ||
-                  (params.type === 'next' && hasNext)
-                ) {
-                  params.disabled = false;
-                }
-                if (params.type === 'page') {
-                  params.page = page;
-                }
-                return <PaginationItem {...params} />;
-              }}
+            <PaginationItem
+              type="previous"
+              shape="circular"
+              size="medium"
+              variant="text"
+              onClick={() => handleChange(page - 1)}
+              disabled={!hasPrev}
+            />
+            <PaginationItem
+              type="page"
+              shape="circular"
+              size="medium"
+              variant="text"
+              page={page}
+              selected={true}
+              disabled={false}
+            />
+            <PaginationItem
+              type="next"
+              shape="circular"
+              size="medium"
+              variant="text"
+              onClick={() => handleChange(page + 1)}
+              disabled={!hasNext}
             />
           </>
         )}

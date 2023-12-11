@@ -1,9 +1,6 @@
 import express from 'express';
 import path from 'path';
 import ConfigManager from './utils/configManager';
-import passport from 'passport';
-import { strategy } from './strategies/jwt.bearer.strategy';
-import { handleAdminReact } from './routeHandlers/adminReact';
 import useragent from 'express-useragent';
 import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
@@ -15,21 +12,15 @@ import { generateUUID } from './utils/uuid.util';
 import { handleAlert } from './routeHandlers/alert';
 import { handleMemoryCheck } from './routeHandlers/memoryChecker';
 import { handleVersion } from './routeHandlers/version';
-import { handleLogout } from './routeHandlers/logout';
 import { getImageVersion } from './utils/getImageVersion';
 
 const app = express();
-
-const httpProtocol = process.env.ENVIRONMENT === 'local' ? 'http' : 'https';
 
 // middleware to parse cookies
 app.use(cookieParser());
 
 // middleware to parse user agent string
 app.use(useragent.express());
-
-// middleware for oAuth
-app.use(passport.initialize());
 
 // helmet protects against common OWASP attacks: https://www.securecoding.com/blog/using-helmetjs/
 app.use(helmet());
@@ -81,13 +72,6 @@ app.get('/ready', (req, res) => handleMemoryCheck(req, res));
 app.get('/health', (req, res) => res.json({ status: 'OK' }));
 
 app.get('/version', handleVersion);
-app.get('/logout', handleLogout);
-app.get('/logout_action', (req, res) => {
-  const returnUrl = `${httpProtocol}`.concat('://', `${req.headers.host}`, '/logout');
-  const configManager = new ConfigManager();
-  const logoutUrl = `${configManager.AUTH_CODE_FLOW_URL}/logout?client_id=${configManager.AUTH_CODE_FLOW_CLIENT_ID}&logout_uri=${returnUrl}`;
-  res.redirect(logoutUrl);
-});
 
 app.get('/alert', handleAlert);
 
@@ -95,11 +79,10 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use('/favicon.ico', express.static(path.join(__dirname, 'images/favicon.ico')));
 
-// save oauth static files
-app.use(express.static(path.join(__dirname, 'oauth')));
-
 // serve react js and css files
 app.use('/static', express.static(path.join(__dirname, './../build/static')));
+
+const configManager = new ConfigManager();
 
 app.get('/api/env', (req, res) => {
   // Send only the environment variables you want to expose
@@ -107,45 +90,11 @@ app.get('/api/env', (req, res) => {
     FHIR_SERVER_URL: process.env.FHIR_SERVER_URL,
     AUTH_CUSTOM_GROUP: process.env.AUTH_CUSTOM_GROUP,
     AUTH_CUSTOM_SCOPE: process.env.AUTH_CUSTOM_SCOPE,
+    AUTH_CODE_FLOW_URL: process.env.AUTH_CODE_FLOW_URL,
+    AUTH_CODE_FLOW_CLIENT_ID: process.env.AUTH_CODE_FLOW_CLIENT_ID,
+    AUTH_ENABLED: configManager.authEnabled,
   });
 });
-
-// handles when the user is redirected by the OpenIDConnect/OAuth provider
-app.get('/authcallback', (req, res) => {
-  const configManager = new ConfigManager();
-  const httpProtocol1 = configManager.ENVIRONMENT === 'local' ? 'http' : 'https';
-  console.log(`Request: ${req.query}`);
-  console.log(`Code: ${req.query.code}`);
-  // @ts-ignore
-  const state: string = req.query.state;
-  const resourceUrl = state ? encodeURIComponent(Buffer.from(state, 'base64').toString('ascii')) : '';
-  const redirectUrl = `${httpProtocol1}`.concat('://', `${req.headers.host}`, '/authcallback');
-  let fullRedirectUrl =
-    `/callback.html?code=${req.query.code}&resourceUrl=${resourceUrl}` +
-    `&clientId=${configManager.AUTH_CODE_FLOW_CLIENT_ID}&redirectUri=${redirectUrl}` +
-    `&tokenUrl=${configManager.AUTH_CODE_FLOW_URL}/oauth2/token`;
-  console.log(`AuthCallback Redirecting to ${fullRedirectUrl}`);
-  res.redirect(fullRedirectUrl);
-});
-
-const configManager = new ConfigManager();
-
-if (configManager.authEnabled) {
-  // Set up admin routes
-  console.log('Setting up passport routes');
-  passport.use('adminStrategy', strategy);
-  // app.use(cors(fhirServerConfig.server.corsOptions));
-}
-
-const adminRouter = express.Router({ mergeParams: true });
-if (configManager.authEnabled) {
-  adminRouter.use(passport.initialize());
-  adminRouter.use(passport.authenticate('adminStrategy', { session: false }, undefined));
-}
-adminRouter.get('/admin/:op?', (req, res, next) =>
-  handleAdminReact(req, res, next),
-);
-app.use(adminRouter);
 
 app.locals.currentYear = new Date().getFullYear();
 app.locals.deployEnvironment = process.env.ENVIRONMENT;

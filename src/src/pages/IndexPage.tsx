@@ -183,7 +183,7 @@ const IndexPage = ({ search }: { search?: boolean }) => {
 
     return (
         <Container maxWidth={false}>
-            <Header fhirUrl={fhirUrl} />
+            <Header />
             <Accordion expanded={searchTabExpanded} onChange={handleExpand}>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
