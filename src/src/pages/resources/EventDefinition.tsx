@@ -10,7 +10,8 @@ EventDefinition
 */
 
 import React from 'react';
-import { Link, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
+import { Typography } from '@mui/material';
 import { TEventDefinition } from '../../types/resources/EventDefinition';
 
 // Import all the partial resource
@@ -19,7 +20,7 @@ import Partials from '../../partials';
 const EventDefinition = ({ resource }: { resource: TEventDefinition }): React.ReactElement => {
     return (
         <>
-            <Link title="Direct link to Resource" href={`/4_0_0/${resource.resourceType}/${resource.id}`}>
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
                 {resource.resourceType}/{resource.id}
             </Link>
             {

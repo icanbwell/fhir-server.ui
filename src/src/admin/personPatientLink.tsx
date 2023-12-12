@@ -1,8 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Button, TextField, Container, Typography } from '@mui/material';
 import AdminApi from '../api/adminApi';
 import EnvironmentContext from '../EnvironmentContext';
 import PreJson from '../components/PreJson';
+import { useLocation } from 'react-router-dom';
 
 const PersonPatientLinkPage: React.FC = () => {
     const { fhirUrl } = useContext(EnvironmentContext);
@@ -50,6 +51,16 @@ const PersonPatientLinkPage: React.FC = () => {
         const data = await new AdminApi({fhirUrl}).deletePerson(personId);
         setResults(data.json);
     };
+
+    const location = useLocation();
+    useEffect(() => {
+        if (location.state?.bwellPersonId) {
+            setBwellPersonId(location.state.bwellPersonId);
+            new AdminApi({ fhirUrl })
+                .showPersonToPersonLink(location.state.bwellPersonId)
+                .then((data: any) => setResults(data.json));
+        }
+    }, [location.state]);
 
     return (
         <Container>

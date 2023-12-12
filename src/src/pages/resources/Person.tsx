@@ -10,16 +10,19 @@ Person
 */
 
 import React from 'react';
-import { Link, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
+import { Typography } from '@mui/material';
 import { TPerson } from '../../types/resources/Person';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import EnvContext from '../../EnvironmentContext';
 
 const Person = ({ resource }: { resource: TPerson }): React.ReactElement => {
+    const { userDetails } = React.useContext(EnvContext);
     return (
         <>
-            <Link title="Direct link to Resource" href={`/4_0_0/${resource.resourceType}/${resource.id}`}>
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
                 {resource.resourceType}/{resource.id}
             </Link>
             {
@@ -285,6 +288,32 @@ const Person = ({ resource }: { resource: TPerson }): React.ReactElement => {
                 resourceType={resource.resourceType}
                 reverseReferences={[{'target': 'Task', 'property': 'patient'}]}
             />
+            <hr/>
+            <div>
+                <Typography variant="h5" sx={{ mt: 1 }}>Person Data Graph (in json)</Typography>
+                <Link to={`/4_0_0/Person/${resource.id}/$everything?contained=true&_format=json`}>
+                    /4_0_0/Person/{resource.id}/$everything?contained=true&_format=json
+                </Link>
+            </div>
+            { userDetails?.isAdmin && (
+                <>
+                    <hr/>
+                    <Typography variant="h4" sx={{ mt: 1 }}>Admin Functions</Typography>
+                    <div>
+                        <Typography variant="h5">Connected Person-Patient Graph</Typography>
+                        <Link to='/admin/personPatientLink' state={{ bwellPersonId: resource.id }}>
+                            /admin/showPersonToPersonLink?bwellPersonId={resource.id}
+                        </Link>
+                    </div>
+                    <div>
+                        <Typography variant="h5" sx={{ mt: 1 }}>Delete all data</Typography>
+                        <Link to='/admin/patientData' state={{ personId: resource.id }}>
+                            /admin/deletePersonDataGraph?id={resource.id}
+                        </Link>
+                    </div>
+                </>
+            )}
+            <hr/>
         </>
     );
 };
