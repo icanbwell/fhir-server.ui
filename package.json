@@ -11,6 +11,8 @@
         "clean": "rm -rf ./dist",
         "start": "node dist/index.js",
         "dev": "nodemon",
+        "lint": "NODE_ENV=test npm run test:lint",
+        "test:lint": "NODE_OPTIONS=--max-old-space-size=8096 eslint \"src/src/**/*.tsx\" \"src/src/**/*.ts\"",
         "watch": "node node_modules/.bin/npm-watch"
     },
     "keywords": [],
@@ -133,11 +135,15 @@
         "nodemon": "^3.0.1",
         "npm-check-updates": "^16.14.2",
         "npm-watch": "^0.11.0",
+        "pre-commit": "^1.2.2",
         "prettier": "^3.0.3",
         "supertest": "^6.3.3",
         "ts-node": "^10.9.1",
         "webpack": "^5.88.2"
     },
+    "pre-commit": [
+        "lint"
+    ],
     "jest": {
         "watchman": false,
         "watchPathIgnorePatterns": [
