@@ -15,7 +15,7 @@ import EnvironmentContext from '../EnvironmentContext';
 import PreJson from '../components/PreJson';
 
 const PersonMatchPage: React.FC = () => {
-    const { fhirUrl } = useContext(EnvironmentContext);
+    const { fhirUrl, setIsLoggedIn } = useContext(EnvironmentContext);
     const [sourceId, setSourceId] = useState<string>('');
     const [sourceType, setSourceType] = useState<string>('Patient');
     const [targetId, setTargetId] = useState<string>('');
@@ -24,7 +24,7 @@ const PersonMatchPage: React.FC = () => {
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        const data = await new AdminApi({fhirUrl}).runPersonMatch({
+        const data = await new AdminApi({fhirUrl, setIsLoggedIn}).runPersonMatch({
             sourceId,
             sourceType,
             targetId,

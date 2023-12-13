@@ -1,5 +1,5 @@
 import { InvalidTokenError, jwtDecode } from 'jwt-decode';
-import { getCookie } from './cookie.utils';
+import { getLocalData } from './localData.utils';
 
 export const jwtParser = ({
     customGroups,
@@ -12,15 +12,18 @@ export const jwtParser = ({
     scope?: string;
     isAdmin?: boolean;
 } => {
-    const token: string | undefined = getCookie('jwt');
+    const token: string | null = getLocalData('jwt');
     if (!token) {
         return {};
     }
     try {
         // calculating scope
         const decodedToken: any = jwtDecode(token);
-        let scope: string = (decodedToken.scope ? decodedToken.scope : decodedToken[`${customScope}`]) || '';
-        scope = scope + (decodedToken[`${customGroups}`] ? decodedToken[`${customGroups}`] : []).join(' ');
+        let scope: string =
+            (decodedToken.scope ? decodedToken.scope : decodedToken[`${customScope}`]) || '';
+        scope =
+            scope +
+            (decodedToken[`${customGroups}`] ? decodedToken[`${customGroups}`] : []).join(' ');
 
         // checking admin scopes
         const isAdmin: boolean = scope.split(' ').some((s) => s.startsWith('admin/'));

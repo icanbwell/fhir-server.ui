@@ -28,7 +28,6 @@ services:
       - '5051:3000'
     volumes:
       - ./src:/srv/src/src
-      - ./dist:/srv/src/dist
       - ./build:/srv/src/build
       - ./package.json:/srv/src/package.json
       - ./yarn.lock:/srv/src/yarn.lock
