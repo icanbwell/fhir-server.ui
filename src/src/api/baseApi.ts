@@ -1,7 +1,8 @@
+import React from 'react';
 import axios from 'axios';
 import { InternalAxiosRequestConfig } from 'axios';
 import { Request } from 'express';
-import { getCookie } from '../utils/cookie.utils';
+import { getLocalData } from '../utils/localData.utils';
 
 interface GetDataParams {
     urlString: string;
@@ -9,10 +10,18 @@ interface GetDataParams {
 }
 
 class BaseApi {
-    private readonly fhirUrl: string|undefined;
+    private readonly fhirUrl: string | undefined;
+    private readonly setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>> | undefined;
 
-    constructor({ fhirUrl }: { fhirUrl: string|undefined }) {
+    constructor({
+        fhirUrl,
+        setIsLoggedIn,
+    }: {
+        fhirUrl: string | undefined;
+        setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>> | undefined;
+    }) {
         this.fhirUrl = fhirUrl;
+        this.setIsLoggedIn = setIsLoggedIn;
         axios.interceptors.request.use(this.requestInterceptor);
     }
 
@@ -31,20 +40,22 @@ class BaseApi {
 
         try {
             const response = await axios.get(url.toString());
-            if (response.status === 401) {
-                window.location.reload();
-            }
             return { status: response.status, json: response.data };
         } catch (err: any) {
-            return {status: err.response?.status, json: err.response?.data};
+            if (err.response?.status === 401 && this.setIsLoggedIn) {
+                this.setIsLoggedIn(false);
+            }
+            return { status: err.response?.status, json: err.response?.data };
         }
     }
 
-    requestInterceptor(req: InternalAxiosRequestConfig<Request<any>>): InternalAxiosRequestConfig<Request<any>> {
-        const token = getCookie('jwt');
+    requestInterceptor(
+        req: InternalAxiosRequestConfig<Request<any>>
+    ): InternalAxiosRequestConfig<Request<any>> {
+        const token = getLocalData('jwt');
         if (typeof token === 'string') {
             req.headers.Authorization = `Bearer ${token}`;
-        };
+        }
         req.headers.Accept = 'application/json';
         return req;
     }

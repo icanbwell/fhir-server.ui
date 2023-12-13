@@ -6,7 +6,7 @@ import PreJson from '../components/PreJson';
 import { useLocation } from 'react-router-dom';
 
 const PersonPatientLinkPage: React.FC = () => {
-    const { fhirUrl } = useContext(EnvironmentContext);
+    const { fhirUrl, setIsLoggedIn } = useContext(EnvironmentContext);
     const [bwellPersonId, setBwellPersonId] = useState('');
     const [externalPersonId, setExternalPersonId] = useState('');
     const [patientId, setPatientId] = useState('');
@@ -15,13 +15,13 @@ const PersonPatientLinkPage: React.FC = () => {
 
     const handleShowLinkGraph = async (event: React.FormEvent) => {
         event.preventDefault();
-        const data = await new AdminApi({fhirUrl}).showPersonToPersonLink(bwellPersonId);
+        const data = await new AdminApi({fhirUrl, setIsLoggedIn}).showPersonToPersonLink(bwellPersonId);
         setResults(data.json);
     };
 
     const handleCreatePersonToPersonLink = async (event: React.FormEvent) => {
         event.preventDefault();
-        const data = await new AdminApi({fhirUrl}).createPersonToPersonLink(
+        const data = await new AdminApi({fhirUrl, setIsLoggedIn}).createPersonToPersonLink(
             bwellPersonId,
             externalPersonId,
         );
@@ -30,7 +30,7 @@ const PersonPatientLinkPage: React.FC = () => {
 
     const handleRemovePersonToPersonLink = async (event: React.FormEvent) => {
         event.preventDefault();
-        const data = await new AdminApi({fhirUrl}).removePersonToPersonLink(
+        const data = await new AdminApi({fhirUrl, setIsLoggedIn}).removePersonToPersonLink(
             bwellPersonId,
             externalPersonId,
         );
@@ -39,7 +39,7 @@ const PersonPatientLinkPage: React.FC = () => {
 
     const handleCreatePersonToPatientLink = async (event: React.FormEvent) => {
         event.preventDefault();
-        const data = await new AdminApi({fhirUrl}).createPersonToPatientLink(
+        const data = await new AdminApi({fhirUrl, setIsLoggedIn}).createPersonToPatientLink(
             externalPersonId,
             patientId,
         );
@@ -48,7 +48,7 @@ const PersonPatientLinkPage: React.FC = () => {
 
     const handleDeletePerson = async (event: React.FormEvent) => {
         event.preventDefault();
-        const data = await new AdminApi({fhirUrl}).deletePerson(personId);
+        const data = await new AdminApi({fhirUrl, setIsLoggedIn}).deletePerson(personId);
         setResults(data.json);
     };
 
@@ -56,7 +56,7 @@ const PersonPatientLinkPage: React.FC = () => {
     useEffect(() => {
         if (location.state?.bwellPersonId) {
             setBwellPersonId(location.state.bwellPersonId);
-            new AdminApi({ fhirUrl })
+            new AdminApi({ fhirUrl, setIsLoggedIn })
                 .showPersonToPersonLink(location.state.bwellPersonId)
                 .then((data: any) => setResults(data.json));
         }

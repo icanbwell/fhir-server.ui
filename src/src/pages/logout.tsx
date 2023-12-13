@@ -1,16 +1,17 @@
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { removeCookie } from '../utils/cookie.utils';
+import EnvContext from '../EnvironmentContext';
 
 const Logout = () => {
+    const {setIsLoggedIn} = useContext(EnvContext);
     const navigate = useNavigate();
 
     useEffect(() => {
-        // remove cookie from browser
-        removeCookie('jwt');
-
+        if (setIsLoggedIn) {
+            setIsLoggedIn(false);
+        }
         navigate('/');
-    }, []);
+    }, [setIsLoggedIn]);
     return <>Redirecting</>;
 };
 

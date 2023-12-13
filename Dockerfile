@@ -62,21 +62,15 @@ RUN npm install -g npm@9.8.1 && npm upgrade --global yarn
 RUN mkdir -p /srv/src && chown node:node /srv/src
 WORKDIR /srv/src
 
-#RUN apt-get -y install gcc
-
-# Copy our package.json & install our dependencies
+# Copy our package.json & yarn.lock
 USER node
 COPY --chown=node:node package.json /srv/src/package.json
 COPY --chown=node:node yarn.lock /srv/src/yarn.lock
-
-# Copy the remaining application code.ß
-# COPY --chown=node:node . /srv/src
 
 # Copy code from multi-stage build above
 COPY --from=build_react /srv/src/build /srv/src/build
 COPY --from=build_react /srv/src/node_modules /srv/src/node_modules
 COPY --from=build_node /srv/src/dist /srv/src/dist
-#COPY --from=build /srv/src/rds-combined-ca-bundle.pem /srv/src/rds-combined-ca-bundle.pem
 
 # this gets replaced by the command in docker-compose
 CMD ["tail", "-f", "/dev/null"]

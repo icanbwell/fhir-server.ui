@@ -6,32 +6,32 @@ import PreJson from '../components/PreJson';
 import { useLocation } from 'react-router-dom';
 
 const PatientDataPage: React.FC = () => {
-    const { fhirUrl } = useContext(EnvironmentContext);
+    const { fhirUrl, setIsLoggedIn } = useContext(EnvironmentContext);
     const [patientId, setPatientId] = useState('');
     const [personId, setPersonId] = useState('');
     const [results, setResults] = useState('');
 
     const handlePatientDataSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        const data = await new AdminApi({fhirUrl}).getEverythingForPatient(patientId);
+        const data = await new AdminApi({fhirUrl, setIsLoggedIn}).getEverythingForPatient(patientId);
         setResults(data.json);
     };
 
     const handleDeletePatientDataSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        const data = await new AdminApi({fhirUrl}).deletePatient(patientId);
+        const data = await new AdminApi({fhirUrl, setIsLoggedIn}).deletePatient(patientId);
         setResults(data.json);
     };
 
     const handlePersonDataSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        const data = await new AdminApi({fhirUrl}).getEverythingForPerson(personId);
+        const data = await new AdminApi({fhirUrl, setIsLoggedIn}).getEverythingForPerson(personId);
         setResults(data.json);
     };
 
     const handleDeletePersonDataSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        const data = await new AdminApi({fhirUrl}).deletePerson(personId);
+        const data = await new AdminApi({fhirUrl, setIsLoggedIn}).deletePerson(personId);
         setResults(data.json);
     };
 
@@ -39,7 +39,7 @@ const PatientDataPage: React.FC = () => {
     useEffect(() => {
         if (location.state?.personId) {
             setPersonId(location.state.personId);
-            new AdminApi({fhirUrl}).deletePerson(location.state.personId).then((data: any) => {
+            new AdminApi({fhirUrl, setIsLoggedIn}).deletePerson(location.state.personId).then((data: any) => {
                 setResults(data.json);
             });
         }

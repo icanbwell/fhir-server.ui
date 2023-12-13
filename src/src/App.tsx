@@ -21,7 +21,7 @@ import axios, { AxiosResponse } from 'axios';
 import { jwtParser } from './utils/jwtParser';
 import { TUserDetails } from './types/baseTypes';
 import Auth from './pages/Auth';
-import { getCookie } from './utils/cookie.utils';
+import { getLocalData } from './utils/localData.utils';
 import Logout from './pages/logout';
 
 type TApiEnvResponse = {
@@ -38,7 +38,7 @@ function App(): React.ReactElement {
     const [fhirUrl, setFhirUrl] = useState<string | undefined>();
     const [userDetails, setUserDetails] = useState<TUserDetails | undefined>();
     const [env, setEnv] = useState<any>();
-    const isLoggedIn = !!getCookie('jwt');
+    const [isLoggedIn, setIsLoggedIn] = useState(!!getLocalData('jwt'));
 
     // Changed from App to Root
     function Root() {
@@ -110,7 +110,7 @@ function App(): React.ReactElement {
     }, []);
 
     return (
-        <EnvironmentContext.Provider value={{ fhirUrl, userDetails, env }}>
+        <EnvironmentContext.Provider value={{ fhirUrl, userDetails, env, setIsLoggedIn, isLoggedIn }}>
             <RouterProvider router={router} />
         </EnvironmentContext.Provider>
     );

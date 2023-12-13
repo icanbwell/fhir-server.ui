@@ -1,16 +1,17 @@
 import { useContext, useEffect } from 'react';
 import axios from 'axios';
 import { Buffer } from 'buffer';
-import { InvalidTokenError, jwtDecode } from 'jwt-decode';
 import EnvironmentContext from '../EnvironmentContext';
-import { setCookie } from '../utils/cookie.utils';
+import { setLocalData } from '../utils/localData.utils';
 
 const Auth = () => {
     const { env } = useContext(EnvironmentContext);
     const queryParams = new URLSearchParams(window.location.search);
 
     const redirectToLogin = (query: URLSearchParams) => {
-        const resourceUrl = Buffer.from(`${window.location.pathname}${queryParams.size ? '?' : ''}${queryParams.toString()}`).toString('base64');
+        const resourceUrl = Buffer.from(
+            `${window.location.pathname}${queryParams.size ? '?' : ''}${queryParams.toString()}`
+        ).toString('base64');
         query.set('response_type', 'code');
         query.set('state', resourceUrl);
 
@@ -19,7 +20,7 @@ const Auth = () => {
     };
 
     const fetchToken = (query: URLSearchParams) => {
-        // if code is present then fetch the JWT token and save it into the cookies
+        // if code is present then fetch the JWT token and save it into the localStorage
         const state = queryParams.get('state');
         const resourceUrl = state ? Buffer.from(state, 'base64').toString('ascii') : '/';
         const tokenUrl = `${env.AUTH_CODE_FLOW_URL}/oauth2/token`;
@@ -38,20 +39,11 @@ const Auth = () => {
                 },
             })
             .then((res) => {
-                const accessToken = res.data.access_token;
-                const jwt = jwtDecode(accessToken);
-                setCookie('jwt', accessToken, {
-                    expires: jwt.exp,
-                    path: '/',
-                    sameSite: 'Strict',
-                });
+                setLocalData('jwt', res.data.access_token);
                 // redirect to the url user is trying to access
                 window.location.replace(resourceUrl);
             })
             .catch((err) => {
-                if (err instanceof InvalidTokenError) {
-                    console.log('Invalid Token');
-                }
                 console.log(err);
                 // redirect to login page credentials might be incorrect
                 redirectToLogin(query);

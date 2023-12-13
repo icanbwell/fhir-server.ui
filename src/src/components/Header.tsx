@@ -4,11 +4,10 @@ import InfoIcon from '@mui/icons-material/Info';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Link } from 'react-router-dom';
 import BwellIcon from '../dist/images/bwell.png';
-import { getCookie } from '../utils/cookie.utils';
 import EnvContext from '../EnvironmentContext';
 
 const Header = () => {
-    const { fhirUrl, env } = useContext(EnvContext);
+    const { fhirUrl, env, isLoggedIn } = useContext(EnvContext);
 
     const handleLogout = () => {
         const query = new URLSearchParams();
@@ -33,7 +32,7 @@ const Header = () => {
                     <IconButton color="inherit" aria-label="information" id="appInfo">
                         <InfoIcon />
                     </IconButton>
-                    {env?.AUTH_ENABLED && !!getCookie('jwt') && (
+                    {env?.AUTH_ENABLED && isLoggedIn && (
                         <Button
                             color="inherit"
                             startIcon={<LogoutIcon />}

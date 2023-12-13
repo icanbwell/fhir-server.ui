@@ -16,7 +16,7 @@ services:
       AUTH_ISSUER: https://cognito-idp.us-east-1.amazonaws.com/us-east-1_yV7wvD4xD
       AUTH_CODE_FLOW_URL: https://bwell-dev.auth.us-east-1.amazoncognito.com
       AUTH_CODE_FLOW_CLIENT_ID: 5et51l3beeahp016i4qe6hurtr
-      AUTH_ENABLED: 0
+      AUTH_ENABLED: 1
       REDIRECT_TO_LOGIN: 1
       AUTH_CUSTOM_GROUP: 'cognito:groups'
       AUTH_CUSTOM_SCOPE: 'custom:scope'
@@ -28,7 +28,6 @@ services:
       - '5051:3000'
     volumes:
       - ./src:/srv/src/src
-      - ./dist:/srv/src/dist
       - ./build:/srv/src/build
       - ./package.json:/srv/src/package.json
       - ./yarn.lock:/srv/src/yarn.lock
