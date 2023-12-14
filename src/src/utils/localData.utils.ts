@@ -7,5 +7,5 @@ export const removeLocalData = (name: string) => {
 };
 
 export const setLocalData = (name: string, value: any) => {
-    localStorage.setItem(name, JSON.stringify(value));
+    localStorage.setItem(name, value);
 };

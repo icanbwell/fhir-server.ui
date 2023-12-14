@@ -13,26 +13,11 @@ import {
 } from '@mui/material';
 import DescriptionIcon from '@mui/icons-material/Description';
 
-import { makeStyles } from '@mui/styles';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
-    const useStyles = makeStyles({
-        row: {
-            '&:nth-of-type(odd)': {
-                backgroundColor: '#f2f2f2', // Light gray for odd rows
-            },
-            '&:nth-of-type(even)': {
-                backgroundColor: '#ffffff', // White for even rows
-            },
-            cursor: 'pointer',
-        },
-    });
-
-    const classes = useStyles();
-
     const navigate = useNavigate();
 
     // eslint-disable-next-line no-unused-vars
@@ -64,7 +49,7 @@ const Home = () => {
                             <TableCell></TableCell>
                         </TableRow>
                     </TableHead>
-                    <TableBody>
+                    <TableBody className='home-table'>
                         {resourceDefinitions.map((resource) => (
                             <TableRow
                                 key={resource.name}
@@ -72,7 +57,7 @@ const Home = () => {
                                     searchResource(resource.name);
                                     navigate(`/4_0_0/${resource.name}/_search`);
                                 }}
-                                className={classes.row}
+                                className='home-row'
                             >
                                 <TableCell>{resource.name}</TableCell>
                                 <TableCell className="pe-5 position-relative">

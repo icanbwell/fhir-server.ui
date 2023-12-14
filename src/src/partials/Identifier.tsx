@@ -1,5 +1,4 @@
 import React from 'react';
-import { makeStyles } from '@mui/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -11,17 +10,11 @@ import { TBaseResourceProps } from '../types/baseTypes';
 import { TIdentifier } from '../types/partials/Identifier';
 import { TCoding } from '../types/partials/Coding';
 
-const useStyles = makeStyles({
-  table: {},
-});
-
 type TIdentifierProps = TBaseResourceProps & {
   identifier: TIdentifier|TIdentifier[]|undefined;
 };
 
 function Identifier({ identifier: identifiers, resourceType, name }: TIdentifierProps) {
-  const classes = useStyles();
-
   if (identifiers && !Array.isArray(identifiers)) {
     identifiers = [identifiers];
   }
@@ -34,7 +27,7 @@ function Identifier({ identifier: identifiers, resourceType, name }: TIdentifier
     <React.Fragment>
       <Typography variant="h4">{name}</Typography>
       <TableContainer>
-        <Table className={classes.table} aria-label="identifier table">
+        <Table aria-label="identifier table">
           <TableHead>
             <TableRow>
               <TableCell>Id</TableCell>

@@ -40,7 +40,7 @@ function Footer({ links, requestId }: { links?: TBundleLink[], requestId?: Strin
 
     return (
       <Box sx={{ p: 1, display: 'flex', borderTop: 1 }}>
-        {url && !url.includes('/_search') && (
+        {url && !url.includes('/_search') && links && (
           <>
             <PaginationItem
               type="previous"
@@ -70,7 +70,7 @@ function Footer({ links, requestId }: { links?: TBundleLink[], requestId?: Strin
           </>
         )}
         {username && (
-          <Box sx={{ flexGrow: 1, pt: 2, textAlign: 'end' }}>
+          <Box sx={{ flexGrow: 1, textAlign: 'end' }}>
             <Typography variant="body2">
               User: {username}{' '}
               {requestId ? (
@@ -85,7 +85,7 @@ function Footer({ links, requestId }: { links?: TBundleLink[], requestId?: Strin
             </Typography>
           </Box>
         )}
-        <Box sx={{ flexGrow: 1, pt: 2, textAlign: 'end' }}>
+        <Box sx={{ flexGrow: 1, textAlign: 'end' }}>
           <Typography variant="body2">
             &copy; Copyright {new Date().getFullYear()} b.well Connected Health |&nbsp;&nbsp;
             <Link href="https://docs.google.com/document/d/1afAuyrckHabnCP-uhOqXOQzFUuA4e6yN/edit?usp=sharing&ouid=100180767885483338723&rtpof=true&sd=true">
