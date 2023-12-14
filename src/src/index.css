@@ -15,5 +15,21 @@ code {
 /* Format for answer divs */
 .answer {
   color: rgb(30, 70, 32);
-  backgroundcolor: #edf7ed !important;
+  background-color: #edf7ed !important;
+}
+
+.home-row {
+    cursor: pointer;
+}
+
+.home-table tr:nth-child(odd) {
+    background-color: #f2f2f2;
+}
+
+.home-table tr:nth-child(even) {
+    background-color: #ffffff;
+}
+
+.resource-header {
+    font-size: '1.5em';
 }

@@ -1,4 +1,3 @@
-import { makeStyles } from '@mui//styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -9,16 +8,11 @@ import { Box, Link, Typography } from '@mui/material';
 import { TBaseResourceProps } from '../types/baseTypes';
 import { TMeta } from '../types/partials/Meta';
 
-const useStyles = makeStyles({
-  table: {},
-});
-
 type TMetaProps = TBaseResourceProps & {
   meta: TMeta|undefined;
 }
 
 function Meta({ meta, resourceType, id }: TMetaProps) {
-  const classes = useStyles();
   if (!meta) {
     return null;
   }
@@ -83,7 +77,7 @@ function Meta({ meta, resourceType, id }: TMetaProps) {
       </Box>
       <Typography variant="h5">Security</Typography>
       <TableContainer>
-        <Table className={classes.table} aria-label="security table">
+        <Table aria-label="security table">
           <TableHead>
             <TableRow>
               <TableCell>Id</TableCell>
