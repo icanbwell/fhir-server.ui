@@ -23,6 +23,8 @@ import { TUserDetails } from './types/baseTypes';
 import Auth from './pages/Auth';
 import { getLocalData } from './utils/localData.utils';
 import Logout from './pages/logout';
+import Indexes from './admin/indexes';
+import SynchronizeIndexes from './admin/synchronizeIndexes';
 
 type TApiEnvResponse = {
     FHIR_SERVER_URL: string;
@@ -60,14 +62,21 @@ function App(): React.ReactElement {
                             element={<IndexPage />}
                         />
                         <Route path="/4_0_0/:resourceType/:operation?/*" element={<IndexPage />} />
-                        <Route path="/admin" element={<AdminIndexPage />} />
-                        <Route path="/admin/personMatch/*" element={<PersonMatchPage />} />
-                        <Route path="/admin/patientData/*" element={<PatientDataPage />} />
-                        <Route
-                            path="/admin/personPatientLink/*"
-                            element={<PersonPatientLinkPage />}
-                        />
-                        <Route path="/admin/searchLog/*" element={<SearchLogsPage />} />
+                        {userDetails?.isAdmin && (
+                            <>
+                                <Route path="/admin" element={<AdminIndexPage />} />
+                                <Route path="/admin/personMatch/*" element={<PersonMatchPage />} />
+                                <Route path="/admin/patientData/*" element={<PatientDataPage />} />
+                                <Route
+                                    path="/admin/personPatientLink/*"
+                                    element={<PersonPatientLinkPage />}
+                                />
+                                <Route path="/admin/searchLog/*" element={<SearchLogsPage />} />
+                                <Route path="/admin/indexes/*" element={<Indexes />} />
+                                <Route path="/admin/indexProblems/*" element={<Indexes />} />
+                                <Route path="/admin/synchronizeIndexes/*" element={<SynchronizeIndexes />} />
+                            </>
+                        )}
                     </>
                 ) : (
                     <Route path="*" element={<Auth />} />
@@ -90,8 +99,7 @@ function App(): React.ReactElement {
                     // noinspection ExceptionCaughtLocallyJS
                     throw new Error('Network response was not ok');
                 }
-                const { FHIR_SERVER_URL, AUTH_CUSTOM_GROUP, AUTH_CUSTOM_SCOPE, ...envs } =
-                    response.data;
+                const { FHIR_SERVER_URL, AUTH_CUSTOM_GROUP, AUTH_CUSTOM_SCOPE, ...envs } = response.data;
                 setFhirUrl(FHIR_SERVER_URL);
                 setEnv(envs);
                 const { username, scope, isAdmin } = jwtParser({

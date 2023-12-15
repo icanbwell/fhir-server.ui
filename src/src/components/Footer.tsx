@@ -20,6 +20,7 @@ function Footer({ links, requestId }: { links?: TBundleLink[], requestId?: Strin
     const url: string = location.pathname;
     const hasPrev: boolean = Boolean(page && page > 1);
     const hasNext: boolean = links ? links.some((link: TBundleLink) => link.relation === 'next') : false;
+    const showPagination: boolean = Boolean(url && !url.includes('/_search') && links);
 
     useEffect(() => {
       setUserName(userDetails?.username);
@@ -40,7 +41,7 @@ function Footer({ links, requestId }: { links?: TBundleLink[], requestId?: Strin
 
     return (
       <Box sx={{ p: 1, display: 'flex', borderTop: 1 }}>
-        {url && !url.includes('/_search') && links && (
+        {showPagination && (
           <>
             <PaginationItem
               type="previous"
@@ -70,7 +71,7 @@ function Footer({ links, requestId }: { links?: TBundleLink[], requestId?: Strin
           </>
         )}
         {username && (
-          <Box sx={{ flexGrow: 1, textAlign: 'end' }}>
+          <Box sx={{ flexGrow: 1, textAlign: showPagination ? 'end' : 'start' }}>
             <Typography variant="body2">
               User: {username}{' '}
               {requestId ? (

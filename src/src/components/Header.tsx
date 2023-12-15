@@ -2,12 +2,14 @@ import React, { useContext } from 'react';
 import { AppBar, Toolbar, Typography, IconButton, Button, Alert } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import BwellIcon from '../dist/images/bwell.png';
 import EnvContext from '../EnvironmentContext';
 
 const Header = () => {
     const { fhirUrl, env, isLoggedIn } = useContext(EnvContext);
+    const location = useLocation();
+    const url = location.pathname;
 
     const handleLogout = () => {
         const query = new URLSearchParams();
@@ -23,11 +25,11 @@ const Header = () => {
             <AppBar position="static">
                 <Toolbar>
                     <IconButton color="inherit" aria-label="home" id="home" component={Link} to="/">
-                        <img src={BwellIcon} alt="b.well Icon" style={{ height: 24 }} />
+                        <img src={BwellIcon} alt="b.well Icon" style={{ height: 28 }} />
                     </IconButton>
 
-                    <Typography variant="h6" style={{ flexGrow: 1 }}>
-                        FHIR Server
+                    <Typography variant="h5" style={{ flexGrow: 1, fontWeight: 500 }}>
+                        FHIR Server {url.includes('admin') && '- Admin'}
                     </Typography>
                     <IconButton color="inherit" aria-label="information" id="appInfo">
                         <InfoIcon />

@@ -1,119 +1,195 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, TextField, Container, Typography } from '@mui/material';
+import { Button, TextField, Container, Typography, Box } from '@mui/material';
 import AdminApi from '../api/adminApi';
 import EnvironmentContext from '../EnvironmentContext';
 import PreJson from '../components/PreJson';
 import { useLocation } from 'react-router-dom';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 const PatientDataPage: React.FC = () => {
     const { fhirUrl, setIsLoggedIn } = useContext(EnvironmentContext);
-    const [patientId, setPatientId] = useState('');
-    const [personId, setPersonId] = useState('');
-    const [results, setResults] = useState('');
+    const adminApi = new AdminApi({fhirUrl, setIsLoggedIn});
+
+    const [patientDataForSearch, setPatientDataForSearch] = useState({ patientId: '', results: '' });
+    const [patientDataForDelete, setPatientDataForDelete] = useState({ patientId: '', results: '' });
+    const [personDataForSearch, setPersonDataForSearch] = useState({ personId: '', results: '' });
+    const [personDataForDelete, setPersonDataForDelete] = useState({ personId: '', results: '' });
 
     const handlePatientDataSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        const data = await new AdminApi({fhirUrl, setIsLoggedIn}).getEverythingForPatient(patientId);
-        setResults(data.json);
+        const data = await adminApi.getEverythingForPatient(patientDataForSearch.patientId);
+        setPatientDataForSearch({ ...patientDataForSearch, results: data.json });
     };
 
     const handleDeletePatientDataSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        const data = await new AdminApi({fhirUrl, setIsLoggedIn}).deletePatient(patientId);
-        setResults(data.json);
+        const data = await adminApi.deletePatient(patientDataForDelete.patientId);
+        setPatientDataForDelete({ ...patientDataForDelete, results: data.json });
     };
 
     const handlePersonDataSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        const data = await new AdminApi({fhirUrl, setIsLoggedIn}).getEverythingForPerson(personId);
-        setResults(data.json);
+        const data = await adminApi.getEverythingForPerson(personDataForSearch.personId);
+        setPersonDataForSearch({ ...personDataForSearch, results: data.json });
     };
 
     const handleDeletePersonDataSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        const data = await new AdminApi({fhirUrl, setIsLoggedIn}).deletePerson(personId);
-        setResults(data.json);
+        const data = await adminApi.deletePerson(personDataForDelete.personId);
+        setPersonDataForDelete({ ...personDataForDelete, results: data.json });
     };
 
     const location = useLocation();
     useEffect(() => {
         if (location.state?.personId) {
-            setPersonId(location.state.personId);
-            new AdminApi({fhirUrl, setIsLoggedIn}).deletePerson(location.state.personId).then((data: any) => {
-                setResults(data.json);
+            adminApi.deletePerson(location.state.personId).then((data: any) => {
+                setPersonDataForDelete({ personId: location.state.personId, results: data.json });
+                window.history.replaceState({}, document.title);
             });
         }
-    }, [location.state]);
+    }, []);
 
     return (
-        <Container maxWidth="sm">
-            <Typography variant="h1">Patient</Typography>
-            <Typography variant="h3">Show Patient Data Graph</Typography>
-            <Typography variant="h6">
-                Shows the graph of patient data (same as $everything endpoint)
-            </Typography>
-            <form onSubmit={handlePatientDataSubmit}>
-                <TextField
-                    label="Patient Id"
-                    value={patientId}
-                    onChange={(e) => setPatientId(e.target.value)}
-                />
-                <Button type="submit" variant="contained" color="primary">
-                    Show Patient Data
-                </Button>
-            </form>
-            <PreJson data={results} />
+        <Container maxWidth={false}>
+            <div style={{ minHeight: '92vh' }}>
+            <Header />
+            <Box sx={{ mt: 1, mb: 2 }}>
+                <Typography variant="h5">Show Patient Data Graph</Typography>
+                <Typography style={{ color: '#494949' }}>
+                    Shows the graph of patient data (same as $everything endpoint)
+                </Typography>
+                <form onSubmit={handlePatientDataSubmit}>
+                    <TextField
+                        required
+                        label="Patient Id"
+                        value={patientDataForSearch.patientId}
+                        onChange={(e) => setPatientDataForSearch({
+                            ...patientDataForSearch, patientId: e.target.value.split(' ').join('')
+                        })}
+                        size='small'
+                        sx={{ minWidth: '22rem', mr: 1, mt: 1 }}
+                    />
+                    <Button type="submit" variant="contained" color="primary" sx={{mt: 1, mr: 1}}>
+                        Show Patient Data
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        sx={{ minWidth: '7rem', mt: 1 }}
+                        size='medium'
+                        onClick={() => setPatientDataForSearch({
+                            patientId: '', results: ''
+                        })}
+                    >
+                        Clear
+                    </Button>
+                </form>
+                <PreJson data={patientDataForSearch.results} />
+            </Box>
             <hr />
-            <Typography variant="h3">Delete Patient Data Graph</Typography>
-            <Typography variant="h6">
-                Deletes the graph of patient data (CONFIRM YOU ARE DOING THIS FOR THE
-                CORRECT PATIENT)
-            </Typography>
-            <form onSubmit={handleDeletePatientDataSubmit}>
-                <TextField
-                    label="Patient Id"
-                    value={patientId}
-                    onChange={(e) => setPatientId(e.target.value)}
-                />
-                <Button type="submit" variant="contained" color="primary">
-                    Delete Patient Data
-                </Button>
-            </form>
-            <PreJson data={results} />
+            <Box sx={{ mt: 1, mb: 2 }}>
+                <Typography variant="h5">Delete Patient Data Graph</Typography>
+                <Typography style={{ color: '#494949' }}>
+                    Deletes the graph of patient data (CONFIRM YOU ARE DOING THIS FOR THE
+                    CORRECT PATIENT)
+                </Typography>
+                <form onSubmit={handleDeletePatientDataSubmit}>
+                    <TextField
+                        label="Patient Id"
+                        value={patientDataForDelete.patientId}
+                        onChange={(e) => setPatientDataForDelete({
+                            ...patientDataForDelete, patientId: e.target.value.split(' ').join('')
+                        })}
+                        size='small'
+                        sx={{ minWidth: '22rem', mr: 1, mt: 1 }}
+                    />
+                    <Button type="submit" variant="contained" color="primary" sx={{mt: 1, mr: 1}}>
+                        Delete Patient Data
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        sx={{ minWidth: '7rem', mt: 1 }}
+                        size='medium'
+                        onClick={() => setPatientDataForDelete({
+                            patientId: '', results: ''
+                        })}
+                    >
+                        Clear
+                    </Button>
+                </form>
+                <PreJson data={patientDataForDelete.results} />
+            </Box>
             <hr />
-            <Typography variant="h1">Person</Typography>
-            <Typography variant="h3">Show Person Data Graph</Typography>
-            <Typography variant="h6">
-                Shows the graph of person data (same as $everything endpoint)
-            </Typography>
-            <form onSubmit={handlePersonDataSubmit}>
-                <TextField
-                    label="Person Id"
-                    value={personId}
-                    onChange={(e) => setPersonId(e.target.value)}
-                />
-                <Button type="submit" variant="contained" color="primary">
-                    Show Person Data
-                </Button>
-            </form>
-            <PreJson data={results} />
+            <Box sx={{ mt: 1, mb: 2 }}>
+                <Typography variant="h5">Show Person Data Graph</Typography>
+                <Typography style={{ color: '#494949' }}>
+                    Shows the graph of person data (same as $everything endpoint)
+                </Typography>
+                <form onSubmit={handlePersonDataSubmit}>
+                    <TextField
+                        label="Person Id"
+                        value={personDataForSearch.personId}
+                        onChange={(e) => setPersonDataForSearch({
+                            ...personDataForSearch, personId: e.target.value.split(' ').join('')
+                        })}
+                        size='small'
+                        sx={{ minWidth: '22rem', mr: 1, mt: 1 }}
+                    />
+                    <Button type="submit" variant="contained" color="primary" sx={{mt: 1, mr: 1}}>
+                        Show Person Data
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        sx={{ minWidth: '7rem', mt: 1 }}
+                        size='medium'
+                        onClick={() => setPersonDataForSearch({
+                            personId: '', results: ''
+                        })}
+                    >
+                        Clear
+                    </Button>
+                </form>
+                <PreJson data={personDataForSearch.results} />
+            </Box>
             <hr />
-            <Typography variant="h3">Delete Person Data Graph</Typography>
-            <Typography variant="h6">
-                Deletes the graph of person data (CONFIRM YOU ARE DOING THIS FOR THE
-                CORRECT PERSON)
-            </Typography>
-            <form onSubmit={handleDeletePersonDataSubmit}>
-                <TextField
-                    label="Person Id"
-                    value={personId}
-                    onChange={(e) => setPersonId(e.target.value)}
-                />
-                <Button type="submit" variant="contained" color="primary">
-                    Delete Person Data
-                </Button>
-            </form>
-            <PreJson data={results} />
+            <Box sx={{ mt: 1, mb: 2 }}>
+                <Typography variant="h5">Delete Person Data Graph</Typography>
+                <Typography style={{ color: '#494949' }}>
+                    Deletes the graph of person data (CONFIRM YOU ARE DOING THIS FOR THE
+                    CORRECT PERSON)
+                </Typography>
+                <form onSubmit={handleDeletePersonDataSubmit}>
+                    <TextField
+                        label="Person Id"
+                        value={personDataForDelete.personId}
+                        onChange={(e) => setPersonDataForDelete({
+                            ...personDataForDelete, personId: e.target.value.split(' ').join('')
+                        })}
+                        size='small'
+                        sx={{ minWidth: '22rem', mr: 1, mt: 1 }}
+                    />
+                    <Button type="submit" variant="contained" color="primary" sx={{mt: 1, mr: 1}}>
+                        Delete Person Data
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        sx={{ minWidth: '7rem', mt: 1 }}
+                        size='medium'
+                        onClick={() => setPersonDataForDelete({
+                            personId: '', results: ''
+                        })}
+                    >
+                        Clear
+                    </Button>
+                </form>
+                <PreJson data={personDataForDelete.results} />
+            </Box>
+            </div>
+            <Footer />
         </Container>
     );
 };

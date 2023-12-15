@@ -1,155 +1,330 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, TextField, Container, Typography } from '@mui/material';
+import { Button, TextField, Container, Typography, Box } from '@mui/material';
 import AdminApi from '../api/adminApi';
 import EnvironmentContext from '../EnvironmentContext';
 import PreJson from '../components/PreJson';
 import { useLocation } from 'react-router-dom';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 const PersonPatientLinkPage: React.FC = () => {
     const { fhirUrl, setIsLoggedIn } = useContext(EnvironmentContext);
-    const [bwellPersonId, setBwellPersonId] = useState('');
-    const [externalPersonId, setExternalPersonId] = useState('');
-    const [patientId, setPatientId] = useState('');
-    const [personId, setPersonId] = useState('');
-    const [results, setResults] = useState('');
+    const adminApi = new AdminApi({fhirUrl, setIsLoggedIn});
+
+    const [showLinkGraphData, setShowLinkGraphData] = useState({
+        bwellPersonId: '', results: ''
+    });
+
+    const [createPersonToPersonLinkData, setCreatePersonToPersonLinkData] = useState({
+        bwellPersonId: '', externalPersonId: '', results: ''
+    });
+
+    const [removePersonToPersonLinkData, setRemovePersonToPersonLinkData] = useState({
+        bwellPersonId: '', externalPersonId: '', results: ''
+    });
+
+    const [createPersonToPatientLinkData, setCreatePersonToPatientLinkData] = useState({
+        externalPersonId: '', patientId: '', results: ''
+    });
+
+    const [deleteBwellPersonData, setDeleteBwellPersonData] = useState({
+        personId: '', results: ''
+    });
 
     const handleShowLinkGraph = async (event: React.FormEvent) => {
         event.preventDefault();
-        const data = await new AdminApi({fhirUrl, setIsLoggedIn}).showPersonToPersonLink(bwellPersonId);
-        setResults(data.json);
+        const data = await adminApi.showPersonToPersonLink(showLinkGraphData.bwellPersonId);
+        setShowLinkGraphData({ ...showLinkGraphData, results: data.json });
     };
 
     const handleCreatePersonToPersonLink = async (event: React.FormEvent) => {
         event.preventDefault();
-        const data = await new AdminApi({fhirUrl, setIsLoggedIn}).createPersonToPersonLink(
-            bwellPersonId,
-            externalPersonId,
+        const data = await adminApi.createPersonToPersonLink(
+            createPersonToPersonLinkData.bwellPersonId,
+            createPersonToPersonLinkData.externalPersonId,
         );
-        setResults(data.json);
+        setCreatePersonToPersonLinkData({ ...createPersonToPersonLinkData, results: data.json });
     };
 
     const handleRemovePersonToPersonLink = async (event: React.FormEvent) => {
         event.preventDefault();
-        const data = await new AdminApi({fhirUrl, setIsLoggedIn}).removePersonToPersonLink(
-            bwellPersonId,
-            externalPersonId,
+        const data = await adminApi.removePersonToPersonLink(
+            removePersonToPersonLinkData.bwellPersonId,
+            removePersonToPersonLinkData.externalPersonId,
         );
-        setResults(data.json);
+        setRemovePersonToPersonLinkData({ ...removePersonToPersonLinkData, results: data.json });
     };
 
     const handleCreatePersonToPatientLink = async (event: React.FormEvent) => {
         event.preventDefault();
-        const data = await new AdminApi({fhirUrl, setIsLoggedIn}).createPersonToPatientLink(
-            externalPersonId,
-            patientId,
+        const data = await adminApi.createPersonToPatientLink(
+            createPersonToPatientLinkData.externalPersonId,
+            createPersonToPatientLinkData.patientId,
         );
-        setResults(data.json);
+        setCreatePersonToPatientLinkData({ ...createPersonToPatientLinkData, results: data.json });
     };
 
     const handleDeletePerson = async (event: React.FormEvent) => {
         event.preventDefault();
-        const data = await new AdminApi({fhirUrl, setIsLoggedIn}).deletePerson(personId);
-        setResults(data.json);
+        const data = await adminApi.deletePerson(deleteBwellPersonData.personId);
+        setDeleteBwellPersonData({ ...deleteBwellPersonData, results: data.json});
     };
 
     const location = useLocation();
     useEffect(() => {
         if (location.state?.bwellPersonId) {
-            setBwellPersonId(location.state.bwellPersonId);
             new AdminApi({ fhirUrl, setIsLoggedIn })
                 .showPersonToPersonLink(location.state.bwellPersonId)
-                .then((data: any) => setResults(data.json));
+                .then((data: any) => {
+                    setShowLinkGraphData({ bwellPersonId: location.state.bwellPersonId, results: data.json });
+                    window.history.replaceState({}, document.title);
+                });
         }
     }, [location.state]);
 
     return (
-        <Container>
-            <Typography variant="h3">Show Link Graph from b.well Person</Typography>
-            <Typography variant="h6">
-                See linked Person and Patient resources from a b.well Person (recursive)
-            </Typography>
-            <form onSubmit={handleShowLinkGraph}>
-                <TextField
-                    label="b.well Person"
-                    value={bwellPersonId}
-                    onChange={(e) => setBwellPersonId(e.target.value)}
-                />
-                <Button type="submit">Show Link Graph</Button>
-            </form>
-            <PreJson data={results} />
+        <Container maxWidth={false}>
+            <Header />
+            <Box sx={{ mt: 1, mb: 2 }}>
+                <Typography variant="h5">Show Link Graph from b.well Person</Typography>
+                <Typography style={{ color: '#494949' }}>
+                    See linked Person and Patient resources from a b.well Person (recursive)
+                </Typography>
+                <form onSubmit={handleShowLinkGraph}>
+                    <TextField
+                        required
+                        label="b.well Person"
+                        value={showLinkGraphData.bwellPersonId}
+                        onChange={(e) => setShowLinkGraphData({
+                            ...showLinkGraphData,
+                            bwellPersonId: e.target.value.split(' ').join('')
+                        })}
+                        sx={{ minWidth: '22rem', mr: 1, mt: 1 }}
+                        size='small'
+                    />
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        sx={{ minWidth: '7rem', mr: 1, mt: 1 }}
+                        size='medium'
+                    >
+                        Show
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        sx={{ minWidth: '7rem', mt: 1 }}
+                        size='medium'
+                        onClick={() => setShowLinkGraphData({
+                            bwellPersonId: '', results: ''
+                        })}
+                    >
+                        Clear
+                    </Button>
+                </form>
+                <PreJson data={showLinkGraphData.results} />
+            </Box>
             <hr />
-            <Typography variant="h3">Create Person to Person Link</Typography>
-            <Typography variant="h6">
-                Add a link from one Person resource to another Person resource
-            </Typography>
-            <form onSubmit={handleCreatePersonToPersonLink}>
-                <TextField
-                    label="b.well Person"
-                    value={bwellPersonId}
-                    onChange={(e) => setBwellPersonId(e.target.value)}
-                />
-                <TextField
-                    label="External Person"
-                    value={externalPersonId}
-                    onChange={(e) => setExternalPersonId(e.target.value)}
-                />
-                <Button type="submit">Create Link</Button>
-            </form>
-            <PreJson data={results} />
+            <Box sx={{ mt: 1, mb: 2 }}>
+                <Typography variant="h5">Create Person to Person Link</Typography>
+                <Typography style={{ color: '#494949' }}>
+                    Add a link from one Person resource to another Person resource
+                </Typography>
+                <form onSubmit={handleCreatePersonToPersonLink}>
+                    <TextField
+                        required
+                        label="b.well Person"
+                        value={createPersonToPersonLinkData.bwellPersonId}
+                        onChange={(e) => setCreatePersonToPersonLinkData({
+                            ...createPersonToPersonLinkData,
+                            bwellPersonId: e.target.value.split(' ').join('')
+                        })}
+                        sx={{ minWidth: '22rem', mr: 1, mt: 1 }}
+                        size='small'
+                    />
+                    <TextField
+                        required
+                        label="External Person"
+                        value={createPersonToPersonLinkData.externalPersonId}
+                        onChange={(e) => setCreatePersonToPersonLinkData({
+                            ...createPersonToPersonLinkData,
+                            externalPersonId: e.target.value.split(' ').join('')
+                        })}
+                        sx={{ minWidth: '22rem', mr: 1, mt: 1 }}
+                        size='small'
+                    />
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        sx={{ minWidth: '7rem', mr: 1, mt: 1 }}
+                        size='medium'
+                    >
+                        Create
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        sx={{ minWidth: '7rem', mt: 1 }}
+                        size='medium'
+                        onClick={() => setCreatePersonToPersonLinkData({
+                            bwellPersonId: '', externalPersonId: '', results: ''
+                        })}
+                    >
+                        Clear
+                    </Button>
+                </form>
+                <PreJson data={createPersonToPersonLinkData.results} />
+            </Box>
             <hr />
-            <Typography variant="h3">Remove Person to Person Link</Typography>
-            <Typography variant="h6">
-                Remove a link from one Person resource to another Person resource
-            </Typography>
-            <form onSubmit={handleRemovePersonToPersonLink}>
-                <TextField
-                    label="b.well Person"
-                    value={bwellPersonId}
-                    onChange={(e) => setBwellPersonId(e.target.value)}
-                />
-                <TextField
-                    label="External Person"
-                    value={externalPersonId}
-                    onChange={(e) => setExternalPersonId(e.target.value)}
-                />
-                <Button type="submit">Remove Link</Button>
-            </form>
-            <PreJson data={results} />
+            <Box sx={{ mt: 1, mb: 2 }}>
+                <Typography variant="h5">Remove Person to Person Link</Typography>
+                <Typography style={{ color: '#494949' }}>
+                    Remove a link from one Person resource to another Person resource
+                </Typography>
+                <form onSubmit={handleRemovePersonToPersonLink}>
+                    <TextField
+                        required
+                        label="b.well Person"
+                        value={removePersonToPersonLinkData.bwellPersonId}
+                        onChange={(e) => setRemovePersonToPersonLinkData({
+                            ...removePersonToPersonLinkData,
+                            bwellPersonId: e.target.value.split(' ').join('')
+                        })}
+                        sx={{ minWidth: '22rem', mr: 1, mt: 1 }}
+                        size='small'
+                    />
+                    <TextField
+                        required
+                        label="External Person"
+                        value={removePersonToPersonLinkData.externalPersonId}
+                        onChange={(e) => setRemovePersonToPersonLinkData({
+                            ...removePersonToPersonLinkData,
+                            externalPersonId: e.target.value.split(' ').join('')
+                        })}
+                        sx={{ minWidth: '22rem', mr: 1, mt: 1 }}
+                        size='small'
+                    />
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        sx={{ minWidth: '7rem', mr: 1, mt: 1 }}
+                        size='medium'
+                    >
+                        Remove
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        sx={{ minWidth: '7rem', mt: 1 }}
+                        size='medium'
+                        onClick={() => setRemovePersonToPersonLinkData({
+                            bwellPersonId: '', externalPersonId: '', results: ''
+                        })}
+                    >
+                        Clear
+                    </Button>
+                </form>
+                <PreJson data={removePersonToPersonLinkData.results} />
+            </Box>
             <hr />
-            <Typography variant="h3">Create Person to Patient Link</Typography>
-            <Typography variant="h6">
-                Create a link from one Person resource to a Patient resource. Leave
-                External Person blank to create a new Person resource with same meta
-                tags as the Patient resource
-            </Typography>
-            <form onSubmit={handleCreatePersonToPatientLink}>
-                <TextField
-                    label="External Person (leave blank to create new)"
-                    value={externalPersonId}
-                    onChange={(e) => setExternalPersonId(e.target.value)}
-                />
-                <TextField
-                    label="Patient"
-                    value={patientId}
-                    onChange={(e) => setPatientId(e.target.value)}
-                />
-                <Button type="submit">Create Link</Button>
-            </form>
-            <PreJson data={results} />
+            <Box sx={{ mt: 1, mb: 2 }}>
+                <Typography variant="h5">Create Person to Patient Link</Typography>
+                <Typography style={{ color: '#494949' }}>
+                    Create a link from one Person resource to a Patient resource. Leave
+                    External Person blank to create a new Person resource with same meta
+                    tags as the Patient resource
+                </Typography>
+                <form onSubmit={handleCreatePersonToPatientLink}>
+                    <TextField
+                        required
+                        label="External Person"
+                        value={createPersonToPatientLinkData.externalPersonId}
+                        onChange={(e) => setCreatePersonToPatientLinkData({
+                            ...createPersonToPatientLinkData,
+                            externalPersonId: e.target.value.split(' ').join('')
+                        })}
+                        sx={{ minWidth: '22rem', mr: 1, mt: 1 }}
+                        size='small'
+                    />
+                    <TextField
+                        required
+                        label="Patient"
+                        value={createPersonToPatientLinkData.patientId}
+                        onChange={(e) => setCreatePersonToPatientLinkData({
+                            ...createPersonToPatientLinkData,
+                            patientId: e.target.value.split(' ').join('')
+                        })}
+                        sx={{ minWidth: '22rem', mr: 1, mt: 1 }}
+                        size='small'
+                    />
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        sx={{ minWidth: '7rem', mr: 1, mt: 1 }}
+                        size='medium'
+                    >
+                        Create
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        sx={{ minWidth: '7rem', mt: 1 }}
+                        size='medium'
+                        onClick={() => setCreatePersonToPatientLinkData({
+                            patientId: '', externalPersonId: '', results: ''
+                        })}
+                    >
+                        Clear
+                    </Button>
+                </form>
+                <PreJson data={createPersonToPatientLinkData.results} />
+            </Box>
             <hr />
-            <Typography variant="h3">Delete b.well Person</Typography>
-            <Typography variant="h6">
-                Delete a Person record (And remove links from other Person records)
-            </Typography>
-            <form onSubmit={handleDeletePerson}>
-                <TextField
-                    label="Person"
-                    value={personId}
-                    onChange={(e) => setPersonId(e.target.value)}
-                />
-                <Button type="submit">Delete Person</Button>
-            </form>
-            <PreJson data={results}/>
+            <Box sx={{ mt: 1, mb: 2 }}>
+                <Typography variant="h5">Delete b.well Person</Typography>
+                <Typography style={{ color: '#494949' }}>
+                    Delete a Person record (And remove links from other Person records)
+                </Typography>
+                <form onSubmit={handleDeletePerson}>
+                    <TextField
+                        required
+                        label="Person"
+                        value={deleteBwellPersonData.personId}
+                        onChange={(e) => setDeleteBwellPersonData({
+                            ...deleteBwellPersonData,
+                            personId: e.target.value.split(' ').join('')
+                        })}
+                        sx={{ minWidth: '22rem', mr: 1, mt: 1 }}
+                        size='small'
+                    />
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        sx={{ minWidth: '7rem', mr: 1, mt: 1 }}
+                        size='medium'
+                    >
+                        Delete
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        sx={{ minWidth: '7rem', mt: 1 }}
+                        size='medium'
+                        onClick={() => setDeleteBwellPersonData({
+                            personId: '', results: ''
+                        })}
+                    >
+                        Clear
+                    </Button>
+                </form>
+                <PreJson data={deleteBwellPersonData.results}/>
+            </Box>
+            <Footer />
         </Container>
     );
 };

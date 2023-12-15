@@ -33,3 +33,8 @@ code {
 .resource-header {
     font-size: '1.5em';
 }
+
+.description-icon {
+    text-decoration: none;
+    color: inherit;
+}

@@ -10,3 +10,25 @@ export type TUserDetails = {
     scope?: string;
     isAdmin?: boolean;
 }
+
+export type TIndexConfig = {
+    indexConfig: {
+        keys: any;
+        options: any;
+    };
+    missing?: boolean;
+    extra?: boolean;
+}
+
+export type TIndexes = {
+    collectionName: string;
+    indexes: TIndexConfig[];
+}
+
+export type TIndexTableEntry = {
+    name: string;
+    keys: string;
+    options: string;
+    missing?: string;
+    extra?: string;
+}
