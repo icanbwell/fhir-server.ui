@@ -1,11 +1,12 @@
 import { useContext, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import EnvContext from '../EnvironmentContext';
 import AdminApi from '../api/adminApi';
-import { useNavigate } from 'react-router-dom';
 
 const SynchronizeIndexes = () => {
     const { fhirUrl, setIsLoggedIn } = useContext(EnvContext);
     const navigate = useNavigate();
+    const location = useLocation();
     const adminApi = new AdminApi({ fhirUrl, setIsLoggedIn });
 
     useEffect(() => {
