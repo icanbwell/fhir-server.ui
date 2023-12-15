@@ -111,6 +111,11 @@ class AdminApi extends BaseApi {
         const params = {id};
         return await this.getData({ urlString, params });
     }
+
+    async indexApi(url: string, audit?: boolean) {
+        const params = { audit, _format: 1};
+        return await this.getData({ urlString: url, params });
+    }
 }
 
 export default AdminApi;

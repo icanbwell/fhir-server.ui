@@ -15,7 +15,7 @@ import DescriptionIcon from '@mui/icons-material/Description';
 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Home = () => {
     const navigate = useNavigate();
@@ -25,57 +25,51 @@ const Home = () => {
         // implementation of searchResource
     };
 
-    // eslint-disable-next-line no-unused-vars
-    const openDox = (event: any, url: String) => {
-        // prevent row click event
-        event.stopPropagation();
-        // implementation of openDox
-    };
-
     useEffect(() => {
         document.title = 'Helix FHIR Server';
     }, []);
 
     // noinspection JSValidateTypes
     return (
-        <Container>
-            <Header />
-            <TableContainer>
-                <Table stickyHeader className="sticky-table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Resource</TableCell>
-                            <TableCell>Description</TableCell>
-                            <TableCell></TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody className='home-table'>
-                        {resourceDefinitions.map((resource) => (
-                            <TableRow
-                                key={resource.name}
-                                onClick={() => {
-                                    searchResource(resource.name);
-                                    navigate(`/4_0_0/${resource.name}/_search`);
-                                }}
-                                className='home-row'
-                            >
-                                <TableCell>{resource.name}</TableCell>
-                                <TableCell className="pe-5 position-relative">
-                                    {resource.description}
-                                </TableCell>
-                                <TableCell>
-                                    <IconButton
-                                        onClick={(event) => openDox(event, resource.url)}
-                                        title={`FHIR Specification for ${resource.name}`}
-                                    >
-                                        <DescriptionIcon />
-                                    </IconButton>
-                                </TableCell>
+        <Container maxWidth={false}>
+            <div style={{ minHeight: '92vh' }}>
+                <Header />
+                <TableContainer>
+                    <Table stickyHeader className="sticky-table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Resource</TableCell>
+                                <TableCell>Description</TableCell>
+                                <TableCell></TableCell>
                             </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+                        </TableHead>
+                        <TableBody className='home-table'>
+                            {resourceDefinitions.map((resource) => (
+                                <TableRow
+                                    key={resource.name}
+                                    onClick={() => {
+                                        searchResource(resource.name);
+                                        navigate(`/4_0_0/${resource.name}/_search`);
+                                    }}
+                                    className='home-row'
+                                >
+                                    <TableCell>{resource.name}</TableCell>
+                                    <TableCell className="pe-5 position-relative">
+                                        {resource.description}
+                                    </TableCell>
+                                    <TableCell>
+                                        <IconButton title={`FHIR Specification for ${resource.name}`}>
+                                            <Link to={resource.url} className='description-icon' target='_blank' rel="noreferrer">
+                                                <DescriptionIcon />
+                                            </Link>
+                                        </IconButton>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </div>
             <Footer />
         </Container>
     );

@@ -178,20 +178,22 @@ const IndexPage = ({ search }: { search?: boolean }) => {
 
     return (
         <Container maxWidth={false}>
-            <Header />
-            <Accordion expanded={searchTabExpanded} onChange={handleExpand}>
-                <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls={'searchCollapse'}
-                    id={'searchAccordion'}
-                >
-                    <Typography variant="h5">Search</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                    <SearchContainer onSearch={handleSearch}></SearchContainer>
-                </AccordionDetails>
-            </Accordion>
-            <Box my={2}>{getBox()}</Box>
+            <div style={{ minHeight: '92vh' }}>
+                <Header />
+                <Accordion expanded={searchTabExpanded} onChange={handleExpand}>
+                    <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls={'searchCollapse'}
+                        id={'searchAccordion'}
+                    >
+                        <Typography variant="h5">Search</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <SearchContainer onSearch={handleSearch}></SearchContainer>
+                    </AccordionDetails>
+                </Accordion>
+                <Box my={2}>{getBox()}</Box>
+            </div>
             <Footer requestId={bundle?.id} links={bundle?.link} />
         </Container>
     );
