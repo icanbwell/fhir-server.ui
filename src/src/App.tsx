@@ -72,6 +72,7 @@ function App(): React.ReactElement {
                                     element={<PersonPatientLinkPage />}
                                 />
                                 <Route path="/admin/searchLog/*" element={<SearchLogsPage />} />
+                                <Route path="/admin/searchLogResults/*" element={<SearchLogsPage />} />
                                 <Route path="/admin/indexes/*" element={<Indexes />} />
                                 <Route path="/admin/indexProblems/*" element={<Indexes />} />
                                 <Route path="/admin/synchronizeIndexes/*" element={<SynchronizeIndexes />} />
