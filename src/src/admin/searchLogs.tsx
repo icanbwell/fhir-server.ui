@@ -1,21 +1,36 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Button, TextField, Typography, Container } from '@mui/material';
 import AdminApi from '../api/adminApi';
 import EnvironmentContext from '../EnvironmentContext';
 import PreJson from '../components/PreJson';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const SearchLogsPage: React.FC = () => {
     const { fhirUrl, setIsLoggedIn } = useContext(EnvironmentContext);
+    const location = useLocation();
+    const navigate = useNavigate();
     const adminApi = new AdminApi({ fhirUrl, setIsLoggedIn });
     const [id, setId] = useState<string>('');
     const [results, setResults] = useState<String | Object | null>(null);
 
+    useEffect(() => {
+        const queryParams = new URLSearchParams(location.search);
+        const pathname = location.pathname;
+        if (pathname.includes('searchLogResults')) {
+            if (queryParams.has('id') && queryParams.get('id')) {
+                setId(queryParams.get('id') || '');
+                adminApi.searchLogs(queryParams.get('id') || '').then((data) => setResults(data.json));
+            } else {
+                setResults({ message: 'No id passed' });
+            }
+        }
+    }, [location]);
+
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        const data: any = await adminApi.searchLogs(id);
-        setResults(data.json);
+        navigate(`/admin/searchLogResults?id=${id}`);
     };
 
     return (
