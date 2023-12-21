@@ -263,6 +263,12 @@ const Patient = ({ resource }: { resource: TPatient }): React.ReactElement => {
                 reverseReferences={[{'target': 'Coverage', 'property': 'patient'}]}
             />
             <Partials.ReverseReference
+                name="DiagnosticReport"
+                id={resource.id}
+                resourceType={resource.resourceType}
+                reverseReferences={[{'target': 'DiagnosticReport', 'property': 'patient'}]}
+            />
+            <Partials.ReverseReference
                 name="Encounter"
                 id={resource.id}
                 resourceType={resource.resourceType}
