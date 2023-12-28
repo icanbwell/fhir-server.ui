@@ -6,7 +6,7 @@ on:
 
 jobs:
   Upload:
-    runs-on: [self-hosted, main]
+    runs-on: [self-hosted, linux]
     steps:
       - name: Checkout Master
         uses: actions/checkout@v3
