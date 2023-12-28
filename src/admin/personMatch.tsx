@@ -15,10 +15,12 @@ import EnvironmentContext from '../context/EnvironmentContext';
 import PreJson from '../components/PreJson';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import UserContext from '../context/UserContext';
 
 const PersonMatchPage: React.FC = () => {
     const { fhirUrl } = useContext(EnvironmentContext);
-    const adminApi = new AdminApi({ fhirUrl });
+    const { setIsLoggedIn } = useContext(UserContext);
+    const adminApi = new AdminApi({ fhirUrl, setIsLoggedIn });
     const [sourceId, setSourceId] = useState<string>('');
     const [sourceType, setSourceType] = useState<string>('Patient');
     const [targetId, setTargetId] = useState<string>('');

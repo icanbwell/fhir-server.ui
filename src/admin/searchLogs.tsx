@@ -1,17 +1,19 @@
 import React, { useContext, useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Button, TextField, Typography, Container } from '@mui/material';
 import AdminApi from '../api/adminApi';
 import EnvironmentContext from '../context/EnvironmentContext';
 import PreJson from '../components/PreJson';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { useLocation, useNavigate } from 'react-router-dom';
+import UserContext from '../context/UserContext';
 
 const SearchLogsPage: React.FC = () => {
     const { fhirUrl } = useContext(EnvironmentContext);
+    const { setIsLoggedIn } = useContext(UserContext);
     const location = useLocation();
     const navigate = useNavigate();
-    const adminApi = new AdminApi({ fhirUrl });
+    const adminApi = new AdminApi({ fhirUrl, setIsLoggedIn });
     const [id, setId] = useState<string>('');
     const [results, setResults] = useState<String | Object | null>(null);
 

@@ -1,15 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Button, TextField, Container, Typography, Box } from '@mui/material';
 import AdminApi from '../api/adminApi';
 import EnvironmentContext from '../context/EnvironmentContext';
 import PreJson from '../components/PreJson';
-import { useLocation } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import UserContext from '../context/UserContext';
 
 const PersonPatientLinkPage: React.FC = () => {
     const { fhirUrl } = useContext(EnvironmentContext);
-    const adminApi = new AdminApi({ fhirUrl });
+    const { setIsLoggedIn } = useContext(UserContext);
+    const adminApi = new AdminApi({ fhirUrl, setIsLoggedIn });
 
     const [showLinkGraphData, setShowLinkGraphData] = useState({
         bwellPersonId: '',
@@ -81,7 +83,7 @@ const PersonPatientLinkPage: React.FC = () => {
     const location = useLocation();
     useEffect(() => {
         if (location.state?.bwellPersonId) {
-            new AdminApi({ fhirUrl })
+            new AdminApi({ fhirUrl, setIsLoggedIn })
                 .showPersonToPersonLink(location.state.bwellPersonId)
                 .then((data: any) => {
                     setShowLinkGraphData({

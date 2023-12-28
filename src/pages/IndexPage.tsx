@@ -13,6 +13,7 @@ import SearchContainer from '../components/SearchContainer';
 import PreJson from '../components/PreJson';
 import EnvironmentContext from '../context/EnvironmentContext';
 import { TBundle } from '../types/resources/Bundle';
+import UserContext from '../context/UserContext';
 
 /**
  * IndexPage/home/ubuntu/Documents/code/EFS/fhir-server/src/pages/SearchPage.jsx
@@ -20,6 +21,7 @@ import { TBundle } from '../types/resources/Bundle';
  */
 const IndexPage = ({ search }: { search?: boolean }) => {
     const { fhirUrl } = useContext(EnvironmentContext);
+    const { setIsLoggedIn } = useContext(UserContext);
     const [resources, setResources] = useState<any>();
     const [bundle, setBundle] = useState<TBundle | undefined>();
     const [status, setStatus] = useState<number | undefined>();
@@ -107,7 +109,7 @@ const IndexPage = ({ search }: { search?: boolean }) => {
             try {
                 setLoading(true);
                 if (fhirUrl) {
-                    const fhirApi = new FhirApi({ fhirUrl });
+                    const fhirApi = new FhirApi({ fhirUrl, setIsLoggedIn });
                     const { json, status: statusCode } = await fhirApi.getBundleAsync({
                         resourceType,
                         id,
@@ -156,7 +158,7 @@ const IndexPage = ({ search }: { search?: boolean }) => {
      * @param {SearchFormQuery} searchFormQuery
      */
     const handleSearch = (searchFormQuery: any) => {
-        const fhirApi = new FhirApi({ fhirUrl });
+        const fhirApi = new FhirApi({ fhirUrl, setIsLoggedIn });
 
         /**
          * @type {URL}

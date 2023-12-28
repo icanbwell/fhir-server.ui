@@ -1,12 +1,13 @@
 import { useContext, useEffect, useState } from 'react';
-import EnvContext from '../context/EnvironmentContext';
 import { useLocation } from 'react-router-dom';
+import EnvContext from '../context/EnvironmentContext';
 import AdminApi from '../api/adminApi';
 import { Box, Container, LinearProgress, Typography } from '@mui/material';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import TableComponent from '../components/Table';
 import { TIndexConfig, TIndexTableEntry, TIndexes } from '../types/baseTypes';
+import UserContext from '../context/UserContext';
 
 type TIndexCollectionEntries = {
     collectionName: string;
@@ -15,7 +16,8 @@ type TIndexCollectionEntries = {
 
 const Indexes = () => {
     const { fhirUrl } = useContext(EnvContext);
-    const adminApi = new AdminApi({ fhirUrl });
+    const { setIsLoggedIn } = useContext(UserContext);
+    const adminApi = new AdminApi({ fhirUrl, setIsLoggedIn });
     const location = useLocation();
     const [isLoading, setIsLoading] = useState(true);
     const [indexes, setIndexes] = useState<TIndexCollectionEntries[]>([]);
