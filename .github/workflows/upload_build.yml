@@ -6,7 +6,7 @@ on:
 
 jobs:
   Upload:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, main]
     steps:
       - name: Checkout Master
         uses: actions/checkout@v3
