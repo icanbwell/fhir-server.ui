@@ -8,9 +8,6 @@ on:
         description: Env at which build will be deployed. (dev, staging, prod, perf, client-sandbox, etc.)
         required: true
 
-  pull_request:
-    branches: ["main"]
-
 jobs:
   Upload:
     runs-on: ubuntu-latest
