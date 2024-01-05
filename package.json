@@ -7,6 +7,12 @@
         "build": "node scripts/build.js",
         "build:prod": "DISABLE_ESLINT_PLUGIN='true' node scripts/build.js",
         "start": "node scripts/start.js",
+        "env": "node config.js",
+        "env:dev": "NODE_ENV=dev node config.js",
+        "env:staging": "NODE_ENV=staging node config.js",
+        "env:client-sandbox": "NODE_ENV=client-sandbox node config.js",
+        "env:perf": "NODE_ENV=perf node config.js",
+        "env:prod": "NODE_ENV=prod node config.js",
         "lint": "NODE_ENV=test npm run test:lint",
         "test:lint": "NODE_OPTIONS=--max-old-space-size=8096 eslint \"src/**/*.tsx\" \"src/**/*.ts\""
     },

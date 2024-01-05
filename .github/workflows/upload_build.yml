@@ -1,8 +1,15 @@
 name: Upload Build
 run-name: ${{ github.workflow }}
 on:
-  release:
-    types: [created]
+  workflow_dispatch:
+    inputs:
+      env:
+        type: string
+        description: Env at which build will be deployed. (dev, staging, prod, perf, client-sandbox, etc.)
+        required: true
+
+  pull_request:
+    branches: ["main"]
 
 jobs:
   Upload:
@@ -15,10 +22,10 @@ jobs:
         run: yarn cache clean && yarn config delete proxy && yarn config delete https-proxy && yarn config delete registry && yarn install --no-optional --production=true --network-timeout 1000000
 
       - name: Build app
-        run: yarn build:prod
+        run: yarn env:${{ github.event.inputs.env }} && yarn build:prod
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ github.ref_name }}
+          name: ${{ github.ref_name }}-${{ github.event.inputs.env }}-ue1
           path: build/
