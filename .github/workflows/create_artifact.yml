@@ -34,5 +34,5 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ github.ref_name }}-dev-ue1
+          name: dev-ue1
           path: build/
