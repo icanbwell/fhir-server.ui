@@ -4,7 +4,6 @@ on:
   workflow_dispatch:
     inputs:
       env:
-        type: string
         description: Env at which build will be deployed. (dev, staging, prod, perf, client-sandbox, etc.)
         required: true
 
