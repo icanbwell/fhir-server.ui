@@ -1,4 +1,4 @@
-name: Upload Build
+name: Create Artifact
 run-name: ${{ github.workflow }}
 on:
   workflow_dispatch:
