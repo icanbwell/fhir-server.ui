@@ -4,9 +4,19 @@ on:
   workflow_dispatch:
     inputs:
       env:
-        type: string
+        type: choice
         description: Env at which build will be deployed. (dev, staging, prod, perf, client-sandbox, etc.)
         required: true
+        default: dev
+        options:
+          - dev
+          - staging
+          - client-sandbox
+          - perf
+          - prod
+
+  pull_request:
+    branches: ["main"]
 
 jobs:
   Upload:
