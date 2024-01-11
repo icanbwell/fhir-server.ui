@@ -3,13 +3,11 @@ import axios from 'axios';
 import { Buffer } from 'buffer';
 import EnvironmentContext from '../context/EnvironmentContext';
 import { setLocalData } from '../utils/localData.utils';
-import { useNavigate } from 'react-router-dom';
 import UserContext from '../context/UserContext';
 
 const Auth = () => {
     const env = useContext(EnvironmentContext);
     const { setIsLoggedIn } = useContext(UserContext);
-    const navigate = useNavigate();
     const queryParams = new URLSearchParams(window.location.search);
 
     const redirectToLogin = (query: URLSearchParams) => {
@@ -48,7 +46,7 @@ const Auth = () => {
                     setIsLoggedIn(true);
                 }
                 // redirect to the url user is trying to access and replace it with current url
-                navigate(resourceUrl, { replace: true });
+                window.location.href = resourceUrl;
             })
             .catch((err) => {
                 console.log(err);
