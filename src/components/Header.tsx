@@ -6,18 +6,24 @@ import { Link, useLocation } from 'react-router-dom';
 import BwellIcon from '../dist/images/bwell.png';
 import EnvContext from '../context/EnvironmentContext';
 import UserContext from '../context/UserContext';
+import { removeLocalData } from '../utils/localData.utils';
 
 const Header = () => {
     const { fhirUrl, ...env } = useContext(EnvContext);
-    const { isLoggedIn } = useContext(UserContext);
+    const { isLoggedIn, setIsLoggedIn } = useContext(UserContext);
     const location = useLocation();
     const url = location.pathname;
 
     const handleLogout = () => {
         const query = new URLSearchParams();
         query.set('client_id', env.AUTH_CODE_FLOW_CLIENT_ID);
-        query.set('logout_uri', `${window.location.origin}/logout`);
+        query.set('logout_uri', `${window.location.origin}/`);
 
+        // signout user locally
+        removeLocalData('jwt');
+        if (setIsLoggedIn) {
+            setIsLoggedIn(false);
+        }
         // signout user from cognito
         window.location.replace(`${env.AUTH_CODE_FLOW_URL}/logout?${query.toString()}`);
     };

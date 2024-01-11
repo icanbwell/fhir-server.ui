@@ -3,9 +3,11 @@ import axios from 'axios';
 import { Buffer } from 'buffer';
 import EnvironmentContext from '../context/EnvironmentContext';
 import { setLocalData } from '../utils/localData.utils';
+import { useNavigate } from 'react-router-dom';
 
 const Auth = () => {
     const env = useContext(EnvironmentContext);
+    const navigate = useNavigate();
     const queryParams = new URLSearchParams(window.location.search);
 
     const redirectToLogin = (query: URLSearchParams) => {
@@ -40,8 +42,8 @@ const Auth = () => {
             })
             .then((res) => {
                 setLocalData('jwt', res.data.access_token);
-                // redirect to the url user is trying to access
-                window.location.replace(resourceUrl);
+                // redirect to the url user is trying to access and replace it with current url
+                navigate(resourceUrl, { replace: true });
             })
             .catch((err) => {
                 console.log(err);

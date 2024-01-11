@@ -5,7 +5,6 @@ import { Routes, Route, createBrowserRouter, RouterProvider } from 'react-router
 import HomePage from './pages/HomePage';
 import ErrorPage from './pages/ErrorPage';
 import Auth from './pages/Auth';
-import Logout from './pages/logout';
 import AdminRoutes from './routes/adminRoutes';
 import FhirRoutes from './routes/fhirRoutes';
 import EnvContext from './context/EnvironmentContext';
@@ -24,7 +23,6 @@ function App(): React.ReactElement {
         return (
             <Routes>
                 <Route path="/" element={<HomePage />} />
-                <Route path="/logout" element={<Logout />} />
                 {isLoggedIn || !env.AUTH_ENABLED ? (
                     <>
                         {FhirRoutes}
