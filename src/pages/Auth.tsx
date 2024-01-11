@@ -1,24 +1,38 @@
 import { useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Buffer } from 'buffer';
 import EnvironmentContext from '../context/EnvironmentContext';
-import { setLocalData } from '../utils/localData.utils';
+import { getLocalData, setLocalData } from '../utils/localData.utils';
 import UserContext from '../context/UserContext';
 
 const Auth = () => {
     const env = useContext(EnvironmentContext);
     const { setIsLoggedIn } = useContext(UserContext);
+    const navigate = useNavigate();
     const queryParams = new URLSearchParams(window.location.search);
 
     const redirectToLogin = (query: URLSearchParams) => {
-        const resourceUrl = Buffer.from(
-            `${window.location.pathname}${queryParams.size ? '?' : ''}${queryParams.toString()}`
-        ).toString('base64');
-        query.set('response_type', 'code');
-        query.set('state', resourceUrl);
+        // redirect to resourceUrl if we are already on authcallback and state is present and jwt is added to localstorage
+        if (
+            queryParams.has('state') &&
+            window.location.pathname.includes('authcallback') &&
+            getLocalData('jwt')
+        ) {
+            const resourceUrl = Buffer.from(queryParams.get('state') || '/', 'base64').toString(
+                'ascii'
+            );
+            navigate(resourceUrl, { replace: true });
+        } else {
+            const resourceUrl = Buffer.from(
+                `${window.location.pathname}${queryParams.size ? '?' : ''}${queryParams.toString()}`
+            ).toString('base64');
+            query.set('response_type', 'code');
+            query.set('state', resourceUrl);
 
-        // state parameter determines the url that Cognito redirects to: https://docs.aws.amazon.com/cognito/latest/developerguide/authorization-endpoint.html
-        window.location.replace(`${env.AUTH_CODE_FLOW_URL}/login?${query.toString()}`);
+            // state parameter determines the url that Cognito redirects to: https://docs.aws.amazon.com/cognito/latest/developerguide/authorization-endpoint.html
+            window.location.replace(`${env.AUTH_CODE_FLOW_URL}/login?${query.toString()}`);
+        }
     };
 
     const fetchToken = (query: URLSearchParams) => {
@@ -46,7 +60,7 @@ const Auth = () => {
                     setIsLoggedIn(true);
                 }
                 // redirect to the url user is trying to access and replace it with current url
-                window.location.href = resourceUrl;
+                navigate(resourceUrl, { replace: true });
             })
             .catch((err) => {
                 console.log(err);
