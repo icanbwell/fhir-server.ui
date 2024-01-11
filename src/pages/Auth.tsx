@@ -13,16 +13,12 @@ const Auth = () => {
     const queryParams = new URLSearchParams(window.location.search);
 
     const redirectToLogin = (query: URLSearchParams) => {
-        // redirect to resourceUrl if we are already on authcallback and state is present and jwt is added to localstorage
+        // if jwt is present and we are on a resource or admin page just reload the page
         if (
-            queryParams.has('state') &&
-            window.location.pathname.includes('authcallback') &&
-            getLocalData('jwt')
+            getLocalData('jwt') &&
+            (window.location.pathname.includes('4_0_0') || window.location.pathname.includes('admin'))
         ) {
-            const resourceUrl = Buffer.from(queryParams.get('state') || '/', 'base64').toString(
-                'ascii'
-            );
-            navigate(resourceUrl, { replace: true });
+            window.location.reload();
         } else {
             const resourceUrl = Buffer.from(
                 `${window.location.pathname}${queryParams.size ? '?' : ''}${queryParams.toString()}`
