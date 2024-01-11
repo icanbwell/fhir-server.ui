@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { InternalAxiosRequestConfig } from 'axios';
-import { getLocalData } from '../utils/localData.utils';
+import { getLocalData, removeLocalData } from '../utils/localData.utils';
 
 interface GetDataParams {
     urlString: string;
@@ -42,6 +42,7 @@ class BaseApi {
             return { status: response.status, json: response.data };
         } catch (err: any) {
             if (err.response?.status === 401 && this.setIsLoggedIn) {
+                removeLocalData('jwt');
                 this.setIsLoggedIn(false);
             }
             return { status: err.response?.status, json: err.response?.data };
