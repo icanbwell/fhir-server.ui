@@ -10,7 +10,7 @@ import { removeLocalData } from '../utils/localData.utils';
 
 const Header = () => {
     const { fhirUrl, ...env } = useContext(EnvContext);
-    const { isLoggedIn, setIsLoggedIn } = useContext(UserContext);
+    const { isLoggedIn } = useContext(UserContext);
     const location = useLocation();
     const url = location.pathname;
 
@@ -21,9 +21,6 @@ const Header = () => {
 
         // signout user locally
         removeLocalData('jwt');
-        if (setIsLoggedIn) {
-            setIsLoggedIn(false);
-        }
         // signout user from cognito
         window.location.replace(`${env.AUTH_CODE_FLOW_URL}/logout?${query.toString()}`);
     };
