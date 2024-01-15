@@ -17,7 +17,7 @@ const Header = () => {
     const handleLogout = () => {
         const query = new URLSearchParams();
         query.set('client_id', env.AUTH_CODE_FLOW_CLIENT_ID);
-        query.set('logout_uri', `${window.location.origin}/`);
+        query.set('logout_uri', encodeURIComponent(`${window.location.origin}/`));
 
         // signout user locally
         removeLocalData('jwt');
