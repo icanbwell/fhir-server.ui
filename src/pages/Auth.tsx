@@ -53,7 +53,7 @@ const Auth = () => {
         } catch (err) {
             console.log(err);
             // redirect to login page credentials might be incorrect
-            redirectToLogin(query);
+            // redirectToLogin(query);
         }
     };
 

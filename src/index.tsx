@@ -17,11 +17,9 @@ const container = document.getElementById('root');
 if (container) {
   const root = ReactDOM.createRoot(container);
   root.render(
-    <React.StrictMode>
-      <LocalizationProvider dateAdapter={AdapterDayjs} >
-        <App />
-      </LocalizationProvider>
-    </React.StrictMode>,
+    <LocalizationProvider dateAdapter={AdapterDayjs} >
+    <App />
+    </LocalizationProvider>
   );
 } else {
   console.error('Container not found');
