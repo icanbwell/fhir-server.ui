@@ -49,7 +49,7 @@ const Auth = () => {
                 setIsLoggedIn(true);
             }
             // redirect to the url user is trying to access and replace it with current url
-            navigate(resourceUrl);
+            navigate(resourceUrl.replace(env.fhirUrl, ''));
         } catch (err) {
             console.log(err);
         }
