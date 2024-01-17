@@ -1,6 +1,13 @@
 import './App.css';
 import React, { useContext, useEffect, useState } from 'react';
-import { Routes, Route, createBrowserRouter, RouterProvider } from 'react-router-dom';
+import {
+    Routes,
+    Route,
+    createBrowserRouter,
+    RouterProvider,
+    Outlet,
+    Navigate,
+} from 'react-router-dom';
 
 import HomePage from './pages/HomePage';
 import ErrorPage from './pages/ErrorPage';
@@ -23,14 +30,36 @@ function App(): React.ReactElement {
         return (
             <Routes>
                 <Route path="/" element={<HomePage />} />
-                {isLoggedIn || !env.AUTH_ENABLED ? (
-                    <>
-                        {FhirRoutes}
-                        {userDetails?.isAdmin && AdminRoutes}
-                    </>
-                ) : (
-                    <Route path="*" element={<Auth />} />
-                )}
+                <Route path="/authcallback" element={<Auth />} />
+                <Route
+                    element={
+                        env.AUTH_ENABLED && isLoggedIn ? (
+                            <Outlet />
+                        ) : (
+                            <Navigate
+                                to="/authcallback"
+                                state={{ resourceUrl: window.location.href }}
+                            />
+                        )
+                    }
+                    children={FhirRoutes}
+                />
+                <Route
+                    element={
+                        env.AUTH_ENABLED && isLoggedIn && userDetails.isAdmin ? (
+                            <Outlet />
+                        ) : !isLoggedIn && env.AUTH_ENABLED ? (
+                            <Navigate
+                                to="/authcallback"
+                                state={{ resourceUrl: window.location.href }}
+                            />
+                        ) : (
+                            <>Access Denied</>
+                        )
+                    }
+                    children={AdminRoutes}
+                />
+                <Route path='/*' element={<>Invalid Route</>} />
             </Routes>
         );
     }
@@ -41,10 +70,12 @@ function App(): React.ReactElement {
     );
 
     useEffect(() => {
-        setUserDetails(jwtParser({
-            customGroup: env.AUTH_CUSTOM_GROUP,
-            customScope: env.AUTH_CUSTOM_SCOPE
-        }));
+        setUserDetails(
+            jwtParser({
+                customGroup: env.AUTH_CUSTOM_GROUP,
+                customScope: env.AUTH_CUSTOM_SCOPE,
+            })
+        );
 
         console.log(`Setting fhirUrl to ${env.fhirUrl}`);
     }, []);
