@@ -1,18 +1,20 @@
 import { useContext, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { Buffer } from 'buffer';
-import EnvironmentContext from '../context/EnvironmentContext';
 import { setLocalData } from '../utils/localData.utils';
+import EnvironmentContext from '../context/EnvironmentContext';
 import UserContext from '../context/UserContext';
 
 const Auth = () => {
     const env = useContext(EnvironmentContext);
     const { setIsLoggedIn } = useContext(UserContext);
-    const queryParams = new URLSearchParams(window.location.search);
     const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const navigate = useNavigate();
 
     const redirectToLogin = (query: URLSearchParams) => {
+        console.log('redirecting to login....');
         const resourceUrl = location.state?.resourceUrl || '/';
         query.set('response_type', 'code');
         query.set('state', Buffer.from(resourceUrl).toString('base64'));
@@ -47,7 +49,7 @@ const Auth = () => {
                 setIsLoggedIn(true);
             }
             // redirect to the url user is trying to access and replace it with current url
-            window.location.replace(resourceUrl);
+            navigate(resourceUrl);
         } catch (err) {
             console.log(err);
             // redirect to login page credentials might be incorrect
@@ -56,9 +58,6 @@ const Auth = () => {
     };
 
     useEffect(() => {
-        if (!env) {
-            return;
-        }
         const code = queryParams.get('code');
         const redirectUri = `${window.location.origin}/authcallback`;
 
@@ -74,7 +73,7 @@ const Auth = () => {
             query.set('code', code);
             fetchToken(query);
         }
-    }, []);
+    }, [location]);
 
     return <>Redirecting...</>;
 };
