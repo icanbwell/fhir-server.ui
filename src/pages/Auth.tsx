@@ -1,5 +1,5 @@
 import { useContext, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { Buffer } from 'buffer';
 import { setLocalData } from '../utils/localData.utils';
@@ -11,7 +11,6 @@ const Auth = () => {
     const { setIsLoggedIn } = useContext(UserContext);
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
-    const navigate = useNavigate();
 
     const redirectToLogin = (query: URLSearchParams) => {
         console.log('redirecting to login....');
@@ -49,13 +48,16 @@ const Auth = () => {
                 setIsLoggedIn(true);
             }
             // redirect to the url user is trying to access and replace it with current url
-            navigate(resourceUrl.replace(window.location.origin, ''));
+            window.location.replace(resourceUrl);
         } catch (err) {
             console.log(err);
         }
     };
 
     useEffect(() => {
+        if (!env.AUTH_ENABLED) {
+            return;
+        }
         const code = queryParams.get('code');
         const redirectUri = `${window.location.origin}/authcallback`;
 
