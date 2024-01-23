@@ -1,142 +1,115 @@
-import React, { useState } from 'react';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
+import { useState } from 'react';
+import { TextField, Button, Box, Grid } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import SearchFormQuery from '../utils/searchFormQuery';
+import { getAdvSearchFormData, getFormData, FieldInfo } from '../utils/searchForm.utils';
 
-export default function SearchForm({ onSearch }: { onSearch: any }) {
-  const [start, setStart] = React.useState<string|null>('');
-  const [end, setEnd] = React.useState<string|null>('');
-  const [givenName, setGivenName] = useState('');
-  const [familyName, setFamilyName] = useState('');
-  const [email, setEmail] = useState('');
-  const [security, setSecurity] = useState('');
-  const [id, setId] = useState('');
-  const [identifier, setIdentifier] = useState('');
-  const [source, setSource] = useState('');
+export default function SearchForm({
+    onSearch,
+    resourceType,
+}: {
+    onSearch: any;
+    resourceType: string;
+}) {
+    const advSearchFormData = getAdvSearchFormData(resourceType);
+    const formData = getFormData(resourceType);
 
-  const handleTextChange = (setText: any) => (event: any) => {
-    setText(event.target.value);
-  };
+    // create defaultValues for searchParams
+    let defaultValues: any = { start: null, end: null };
+    formData.forEach((data) => {
+        defaultValues[`${data.name}`] = '';
+    });
+    advSearchFormData.forEach((data) => {
+        defaultValues[`${data.name}`] = '';
+    });
+    const [searchParams, setSearchParams] = useState(defaultValues);
 
-  const resetFields = () => {
-    setStart(null);
-    setEnd(null);
-    setGivenName('');
-    setFamilyName('');
-    setEmail('');
-    setSecurity('');
-    setId('');
-    setIdentifier('');
-    setSource('');
-  };
+    const resetFields = () => {
+        setSearchParams(defaultValues);
+    };
 
-  const search = () => {
-    // Perform search with dateRange, givenName, and familyName
-    onSearch(
-      new SearchFormQuery({
-        start,
-        end,
-        givenName,
-        familyName,
-        email,
-        security,
-        id,
-        identifier,
-        source,
-      }),
+    const handleSearch = (e: any) => {
+        e.preventDefault();
+
+        onSearch(new SearchFormQuery(searchParams));
+    };
+
+    const handleChange = (e: any) => {
+        e.preventDefault();
+
+        setSearchParams({ ...searchParams, [e.target.name]: e.target.value });
+    };
+
+    return (
+        <Box
+            component="form"
+            sx={{
+                '& .MuiTextField-root': { m: 1, width: { xs: '90%', sm: '25ch' } },
+            }}
+            noValidate
+            autoComplete="on"
+            onSubmit={handleSearch}
+        >
+            <Grid container spacing={2}>
+                <Grid item xs={12}>
+                    <DatePicker
+                        label="Last Updated After"
+                        value={searchParams.start}
+                        slotProps={{
+                            field: {
+                                clearable: true,
+                            },
+                        }}
+                        onChange={(newValue) => {
+                            console.log(newValue);
+                            setSearchParams({ ...searchParams, start: newValue });
+                        }}
+                    />
+                    <DatePicker
+                        label="Last Updated Before"
+                        value={searchParams.end}
+                        slotProps={{
+                            field: {
+                                clearable: true,
+                            },
+                        }}
+                        onChange={(newValue) => setSearchParams({ ...searchParams, end: newValue })}
+                    />
+                    {formData.map((data: FieldInfo) => (
+                        <TextField
+                            name={data.name}
+                            label={data.label}
+                            type="text"
+                            value={searchParams[`${data.name}`]}
+                            onChange={handleChange}
+                            fullWidth
+                        />
+                    ))}
+                    {advSearchFormData.map((data: FieldInfo) => (
+                        <TextField
+                            name={data.name}
+                            label={data.label}
+                            type="text"
+                            value={searchParams[`${data.name}`]}
+                            onChange={handleChange}
+                            fullWidth
+                        />
+                    ))}
+                </Grid>
+                <Grid item xs={12}>
+                    <Button variant="outlined" color="secondary" onClick={resetFields}>
+                        Reset
+                    </Button>
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        onClick={handleSearch}
+                    >
+                        Search
+                    </Button>
+                </Grid>
+            </Grid>
+        </Box>
     );
-  };
-
-  return (
-    <Box
-      component="form"
-      sx={{
-        '& .MuiTextField-root': { m: 1, width: { xs: '90%', sm: '25ch' } },
-      }}
-      noValidate
-      autoComplete="on"
-    >
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <DatePicker
-            label="Last Updated After"
-            value={start}
-            onChange={(newValue) => setStart(newValue)}
-          />
-          <DatePicker
-            label="Last Updated Before"
-            value={end}
-            onChange={(newValue) => setEnd(newValue)}
-          />
-          <TextField
-            name="givenName"
-            label="Given (Name)"
-            type="text"
-            value={givenName}
-            onChange={handleTextChange(setGivenName)}
-            fullWidth
-          />
-          <TextField
-            name="familyName"
-            label="Family (Name)"
-            type="text"
-            value={familyName}
-            onChange={handleTextChange(setFamilyName)}
-            fullWidth
-          />
-          <TextField
-            name="email"
-            label="Email"
-            type="text"
-            value={email}
-            onChange={handleTextChange(setEmail)}
-            fullWidth
-          />
-          <TextField
-            name="security"
-            label="Security"
-            type="text"
-            value={security}
-            onChange={handleTextChange(setSecurity)}
-            fullWidth
-          />
-          <TextField
-            name="id"
-            label="Id"
-            type="text"
-            value={id}
-            onChange={handleTextChange(setId)}
-            fullWidth
-          />
-          <TextField
-            name="identifier"
-            label="Identifier"
-            type="text"
-            value={identifier}
-            onChange={handleTextChange(setIdentifier)}
-            fullWidth
-          />
-          <TextField
-            name="source"
-            label="Source"
-            type="text"
-            value={source}
-            onChange={handleTextChange(setSource)}
-            fullWidth
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <Button variant="outlined" color="secondary" onClick={resetFields}>
-            Reset
-          </Button>
-          <Button variant="contained" color="primary" onClick={search}>
-            Search
-          </Button>
-        </Grid>
-      </Grid>
-    </Box>
-  );
 }
