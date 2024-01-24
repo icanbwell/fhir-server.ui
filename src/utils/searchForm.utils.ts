@@ -1,14 +1,7 @@
 import advSearchJson from '../generator/json/definitions.json/search-parameters.json';
+import { TFieldInfo } from '../types/baseTypes';
 
-export type FieldInfo = {
-    label: string;
-    name: string;
-    sortField?: string;
-    useExactMatch?: boolean;
-    columnHeader?: string;
-};
-
-const givenNameField = (): FieldInfo => {
+const givenNameField = (): TFieldInfo => {
     return {
         label: 'Given (Name)',
         name: 'given',
@@ -17,7 +10,7 @@ const givenNameField = (): FieldInfo => {
     };
 };
 
-const familyNameField = (): FieldInfo => {
+const familyNameField = (): TFieldInfo => {
     return {
         label: 'Family (Name)',
         name: 'family',
@@ -26,7 +19,7 @@ const familyNameField = (): FieldInfo => {
     };
 };
 
-const emailField = (): FieldInfo => {
+const emailField = (): TFieldInfo => {
     return {
         label: 'Email',
         name: 'email',
@@ -35,7 +28,7 @@ const emailField = (): FieldInfo => {
     };
 };
 
-const identifierField = (): FieldInfo => {
+const identifierField = (): TFieldInfo => {
     return {
         label: 'Identifier',
         name: 'identifier',
@@ -44,7 +37,7 @@ const identifierField = (): FieldInfo => {
     };
 };
 
-const securityTagField = (): FieldInfo => {
+const securityTagField = (): TFieldInfo => {
     return {
         label: 'Security',
         name: '_security',
@@ -53,8 +46,8 @@ const securityTagField = (): FieldInfo => {
     };
 };
 
-const getPatientForm = (): FieldInfo[] => {
-    let patientArray: FieldInfo[] = [];
+const getPatientForm = (): TFieldInfo[] => {
+    let patientArray: TFieldInfo[] = [];
     patientArray.push(givenNameField());
     patientArray.push(familyNameField());
     patientArray.push(emailField());
@@ -62,8 +55,8 @@ const getPatientForm = (): FieldInfo[] => {
     return patientArray;
 };
 
-const getPersonForm = (): FieldInfo[] => {
-    let personArray: FieldInfo[] = [];
+const getPersonForm = (): TFieldInfo[] => {
+    let personArray: TFieldInfo[] = [];
     personArray.push(givenNameField());
     personArray.push(familyNameField());
     personArray.push(emailField());
@@ -71,8 +64,8 @@ const getPersonForm = (): FieldInfo[] => {
     return personArray;
 };
 
-const getPractitionerForm = (): FieldInfo[] => {
-    const practitionerArray: FieldInfo[] = [];
+const getPractitionerForm = (): TFieldInfo[] => {
+    const practitionerArray: TFieldInfo[] = [];
     practitionerArray.push(givenNameField());
     practitionerArray.push(familyNameField());
     practitionerArray.push({
@@ -84,8 +77,8 @@ const getPractitionerForm = (): FieldInfo[] => {
     return practitionerArray;
 };
 
-const getOrganizationForm = (): FieldInfo[] => {
-    const formElements: FieldInfo[] = [];
+const getOrganizationForm = (): TFieldInfo[] => {
+    const formElements: TFieldInfo[] = [];
     formElements.push({
         label: 'Name',
         name: 'name',
@@ -95,8 +88,8 @@ const getOrganizationForm = (): FieldInfo[] => {
     return formElements;
 };
 
-const getEncounterForm = (): FieldInfo[] => {
-    const formElements: FieldInfo[] = [];
+const getEncounterForm = (): TFieldInfo[] => {
+    const formElements: TFieldInfo[] = [];
     formElements.push({
         columnHeader: 'Period',
         label: 'Date',
@@ -106,8 +99,8 @@ const getEncounterForm = (): FieldInfo[] => {
     return formElements;
 };
 
-const getFormData = (resourceName: string): FieldInfo[] => {
-    let formData: FieldInfo[] = [];
+const getFormData = (resourceName: string): TFieldInfo[] => {
+    let formData: TFieldInfo[] = [];
 
     switch (resourceName) {
         case 'Patient':
@@ -145,10 +138,10 @@ const getFormData = (resourceName: string): FieldInfo[] => {
     return formData;
 };
 
-const getAdvSearchFormData = (resourceName: string): FieldInfo[] => {
+const getAdvSearchFormData = (resourceName: string): TFieldInfo[] => {
     const basicFormData = getFormData(resourceName);
 
-    let advFormData: FieldInfo[] = [];
+    let advFormData: TFieldInfo[] = [];
     const resourceFields = advSearchJson.entry.filter((entry: any) => {
         return entry.resource.base.includes(resourceName) && entry.resource.type === 'string';
     });

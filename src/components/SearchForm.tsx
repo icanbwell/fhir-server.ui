@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { TextField, Button, Box, Grid } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import SearchFormQuery from '../utils/searchFormQuery';
-import { getAdvSearchFormData, getFormData, FieldInfo } from '../utils/searchForm.utils';
+import { getAdvSearchFormData, getFormData } from '../utils/searchForm.utils';
+import { TFieldInfo } from '../types/baseTypes';
 
 export default function SearchForm({
     onSearch,
@@ -75,7 +76,7 @@ export default function SearchForm({
                         }}
                         onChange={(newValue) => setSearchParams({ ...searchParams, end: newValue })}
                     />
-                    {formData.map((data: FieldInfo) => (
+                    {formData.map((data: TFieldInfo) => (
                         <TextField
                             name={data.name}
                             label={data.label}
@@ -85,7 +86,7 @@ export default function SearchForm({
                             fullWidth
                         />
                     ))}
-                    {advSearchFormData.map((data: FieldInfo) => (
+                    {advSearchFormData.map((data: TFieldInfo) => (
                         <TextField
                             name={data.name}
                             label={data.label}
