@@ -192,7 +192,7 @@ const IndexPage = ({ search }: { search?: boolean }) => {
                         <Typography variant="h5">Search</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                        <SearchContainer onSearch={handleSearch}></SearchContainer>
+                        <SearchContainer resourceType={resourceType} onSearch={handleSearch}></SearchContainer>
                     </AccordionDetails>
                 </Accordion>
                 <Box my={2}>{getBox()}</Box>

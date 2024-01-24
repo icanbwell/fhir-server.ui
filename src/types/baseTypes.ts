@@ -32,3 +32,11 @@ export type TIndexTableEntry = {
     missing?: string;
     extra?: string;
 }
+
+export type TFieldInfo = {
+    label: string;
+    name: string;
+    sortField?: string;
+    useExactMatch?: boolean;
+    columnHeader?: string;
+};
