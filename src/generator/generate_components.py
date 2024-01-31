@@ -56,6 +56,10 @@ def main() -> int:
         shutil.rmtree(pages_folder)
     os.mkdir(pages_folder)
 
+    item_file_path = fhir_dir.joinpath("components/ResourceItem.tsx")
+    if path.exists(item_file_path):
+        os.remove(item_file_path)
+
     fhir_entities: List[FhirEntity] = FhirXmlSchemaParser.generate_classes()
 
     # now print the result
@@ -91,6 +95,22 @@ def main() -> int:
                     file2.write(result)
         else:
             print(f"{resource_name}: {fhir_entity.type_} is not supported")
+
+    # Generate resourceItem.tsx file
+    with open(data_dir.joinpath("template.javascript.item.jinja2"), "r") as file:
+        template_contents = file.read()
+        from jinja2 import Template
+
+        print("Writing ResourceItem file...")
+        template = Template(
+            template_contents, trim_blocks=True, lstrip_blocks=True
+        )
+        result = template.render(
+            fhir_entities=fhir_entities,
+        )
+    if not path.exists(item_file_path):
+        with open(item_file_path, "w") as file2:
+            file2.write(result)
 
     return 0
 
