@@ -40,3 +40,9 @@ export type TFieldInfo = {
     useExactMatch?: boolean;
     columnHeader?: string;
 };
+
+export type TResourceDefinition = {
+    name: string;
+    description: string;
+    url: string;
+  }

@@ -1,6 +1,6 @@
 // HomePage.js
-import { resourceDefinitions } from '../utils/reactResourceDefinitions';
 import React, { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import {
     Table,
     TableBody,
@@ -15,7 +15,7 @@ import DescriptionIcon from '@mui/icons-material/Description';
 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { Link, useNavigate } from 'react-router-dom';
+import { resourceDefinitions } from '../utils/resourceDefinitions';
 
 const Home = () => {
     const navigate = useNavigate();
@@ -59,7 +59,13 @@ const Home = () => {
                                     </TableCell>
                                     <TableCell>
                                         <IconButton title={`FHIR Specification for ${resource.name}`}>
-                                            <Link to={resource.url} className='description-icon' target='_blank' rel="noreferrer">
+                                            <Link
+                                                to={resource.url}
+                                                className="description-icon"
+                                                target="_blank"
+                                                rel="noreferrer"
+                                                onClick={(e) => e.stopPropagation()}
+                                            >
                                                 <DescriptionIcon />
                                             </Link>
                                         </IconButton>
