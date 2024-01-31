@@ -59,7 +59,13 @@ const Home = () => {
                                     </TableCell>
                                     <TableCell>
                                         <IconButton title={`FHIR Specification for ${resource.name}`}>
-                                            <Link to={resource.url} className='description-icon' target='_blank' rel="noreferrer">
+                                            <Link
+                                                to={resource.url}
+                                                className="description-icon"
+                                                target="_blank"
+                                                rel="noreferrer"
+                                                onClick={(e) => e.stopPropagation()}
+                                            >
                                                 <DescriptionIcon />
                                             </Link>
                                         </IconButton>
