@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { AppBar, Toolbar, Typography, IconButton, Button, Alert } from '@mui/material';
+import { AppBar, Toolbar, Typography, IconButton, Button } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Link, useLocation } from 'react-router-dom';
@@ -9,7 +9,7 @@ import UserContext from '../context/UserContext';
 import { removeLocalData } from '../utils/localData.utils';
 
 const Header = () => {
-    const { fhirUrl, ...env } = useContext(EnvContext);
+    const env = useContext(EnvContext);
     const { isLoggedIn } = useContext(UserContext);
     const location = useLocation();
     const url = location.pathname;
@@ -51,22 +51,6 @@ const Header = () => {
                     )}
                 </Toolbar>
             </AppBar>
-            <Alert
-                severity="info"
-                action={
-                    <Button color="inherit" size="small">
-                        <Link
-                            target="_blank"
-                            rel="noreferrer"
-                            to={`${fhirUrl}${window.location.pathname}`}
-                        >
-                            Switch to Old UI
-                        </Link>
-                    </Button>
-                }
-            >
-                You are using the new UI
-            </Alert>
         </React.Fragment>
     );
 };
