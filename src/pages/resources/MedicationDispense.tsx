@@ -185,6 +185,17 @@ const MedicationDispense = ({ resource }: { resource: TMedicationDispense }): Re
                 />
             }
             {
+                resource.performer &&
+                <Partials.Reference
+                    reference={resource.performer}
+                    name='Performer'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='performer'
+                    field='actor'
+                />
+            }
+            {
                 resource.location &&
                 <Partials.Reference
                     reference={resource.location}

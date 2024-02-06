@@ -190,6 +190,17 @@ const CatalogEntry = ({ resource }: { resource: TCatalogEntry }): React.ReactEle
                     searchParameter='additional-classification'
                 />
             }
+            {
+                resource.relatedEntry &&
+                <Partials.Reference
+                    reference={resource.relatedEntry}
+                    name='Related Entry'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='related-entry'
+                    field='item'
+                />
+            }
         </>
     );
 };

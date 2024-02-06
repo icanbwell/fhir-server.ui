@@ -212,6 +212,17 @@ const Encounter = ({ resource }: { resource: TEncounter }): React.ReactElement =
                 />
             }
             {
+                resource.diagnosis &&
+                <Partials.Reference
+                    reference={resource.diagnosis}
+                    name='Diagnosis'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='diagnosis'
+                    field='condition'
+                />
+            }
+            {
                 resource.account &&
                 <Partials.Reference
                     reference={resource.account}
@@ -219,6 +230,17 @@ const Encounter = ({ resource }: { resource: TEncounter }): React.ReactElement =
                     resourceType={resource.resourceType}
                     id={resource.id}
                     searchParameter='account'
+                />
+            }
+            {
+                resource.location &&
+                <Partials.Reference
+                    reference={resource.location}
+                    name='Location'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='location'
+                    field='location'
                 />
             }
             {

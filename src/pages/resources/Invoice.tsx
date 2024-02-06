@@ -132,6 +132,17 @@ const Invoice = ({ resource }: { resource: TInvoice }): React.ReactElement => {
                 />
             }
             {
+                resource.participant &&
+                <Partials.Reference
+                    reference={resource.participant}
+                    name='Participant'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='participant'
+                    field='actor'
+                />
+            }
+            {
                 resource.issuer &&
                 <Partials.Reference
                     reference={resource.issuer}

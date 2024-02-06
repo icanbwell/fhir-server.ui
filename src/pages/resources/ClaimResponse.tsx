@@ -229,6 +229,17 @@ const ClaimResponse = ({ resource }: { resource: TClaimResponse }): React.ReactE
                     searchParameter='communication-request'
                 />
             }
+            {
+                resource.insurance &&
+                <Partials.Reference
+                    reference={resource.insurance}
+                    name='Insurance'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='insurance'
+                    field='coverage'
+                />
+            }
         </>
     );
 };

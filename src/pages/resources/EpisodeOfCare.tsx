@@ -103,6 +103,17 @@ const EpisodeOfCare = ({ resource }: { resource: TEpisodeOfCare }): React.ReactE
                 />
             }
             {
+                resource.diagnosis &&
+                <Partials.Reference
+                    reference={resource.diagnosis}
+                    name='Diagnosis'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='diagnosis'
+                    field='condition'
+                />
+            }
+            {
                 resource.patient &&
                 <Partials.Reference
                     reference={resource.patient}

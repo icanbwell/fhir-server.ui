@@ -97,6 +97,17 @@ const Linkage = ({ resource }: { resource: TLinkage }): React.ReactElement => {
                     searchParameter='author'
                 />
             }
+            {
+                resource.item &&
+                <Partials.Reference
+                    reference={resource.item}
+                    name='Item'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='item'
+                    field='resource'
+                />
+            }
         </>
     );
 };

@@ -136,6 +136,17 @@ const AuditEvent = ({ resource }: { resource: TAuditEvent }): React.ReactElement
                     searchParameter='purpose-of-event'
                 />
             }
+            {
+                resource.source &&
+                <Partials.Reference
+                    reference={resource.source}
+                    name='Source'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='source'
+                    field='observer'
+                />
+            }
         </>
     );
 };

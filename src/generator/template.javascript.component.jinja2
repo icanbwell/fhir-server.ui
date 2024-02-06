@@ -47,6 +47,18 @@ const {{ fhir_entity.cleaned_name }} = ({ resource }: { resource: {{ 'T' + fhir_
                     searchParameter='{{- generate_search_parameter(property.javascript_clean_name) -}}'
                 />
             }
+        {% elif get_component_name(property.cleaned_type) in partials_mapping %}
+            {
+                resource.{{- property.javascript_clean_name }} &&
+                <Partials.{{ partials_mapping[get_component_name(property.cleaned_type)]['partial'] }}
+                    {{ partials_mapping[get_component_name(property.cleaned_type)]['prop_name'] }}={resource.{{- property.javascript_clean_name }}}
+                    name='{{- generate_name(property.javascript_clean_name) -}}'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='{{- generate_search_parameter(property.javascript_clean_name) -}}'
+                    field='{{- partials_mapping[get_component_name(property.cleaned_type)]['field'] -}}'
+                />
+            }
         {% endif %}
     {% endif %}
     {%  endfor %}

@@ -161,6 +161,17 @@ const VerificationResult = ({ resource }: { resource: TVerificationResult }): Re
                     searchParameter='failure-action'
                 />
             }
+            {
+                resource.validator &&
+                <Partials.Reference
+                    reference={resource.validator}
+                    name='Validator'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='validator'
+                    field='organization'
+                />
+            }
         </>
     );
 };

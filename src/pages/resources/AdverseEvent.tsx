@@ -234,6 +234,17 @@ const AdverseEvent = ({ resource }: { resource: TAdverseEvent }): React.ReactEle
                 />
             }
             {
+                resource.suspectEntity &&
+                <Partials.Reference
+                    reference={resource.suspectEntity}
+                    name='Suspect Entity'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='suspect-entity'
+                    field='instance'
+                />
+            }
+            {
                 resource.subjectMedicalHistory &&
                 <Partials.Reference
                     reference={resource.subjectMedicalHistory}

@@ -153,6 +153,17 @@ const Person = ({ resource }: { resource: TPerson }): React.ReactElement => {
                     searchParameter='active'
                 />
             }
+            {
+                resource.link &&
+                <Partials.Reference
+                    reference={resource.link}
+                    name='Link'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='link'
+                    field='target'
+                />
+            }
             <Typography variant="h4" sx={{ mt: 1 }}>
                 Resources Related to Linked Patient Resources
             </Typography>

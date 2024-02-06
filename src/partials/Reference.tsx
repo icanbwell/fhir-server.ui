@@ -1,12 +1,12 @@
 import { Typography, Link, Box } from '@mui/material';
 import { TBaseResourceProps } from '../types/baseTypes';
-import { TReference } from '../types/partials/Reference';
 
 type TReferenceProps = TBaseResourceProps & {
-  reference: TReference|TReference[]|undefined;
+  reference: any;
+  field?: string;
 };
 
-function Reference({ reference: references = [], name }: TReferenceProps) {
+function Reference({ reference: references = [], name, field }: TReferenceProps) {
   // Ensure that references is an array
   if (!Array.isArray(references)) {
     references = [references];
@@ -15,10 +15,10 @@ function Reference({ reference: references = [], name }: TReferenceProps) {
   return references && references.length > 0 && references[0] ? (
     <Box>
       <Typography variant="h4">{name}</Typography>
-      {references.map((reference: TReference, index: Number) =>
+      {references.map((reference: any, index: Number) =>
         reference ? (
-          <Link href={`/4_0_0/${reference.reference}`} key={`${index}`}>
-            {reference.display || reference.reference}
+          <Link href={`/4_0_0/${field ? reference[`${field}`].reference : reference.reference}`} key={`${index}`}>
+            {reference.display || (field ? reference[`${field}`].reference : reference.reference)}
           </Link>
         ) : null,
       )}
