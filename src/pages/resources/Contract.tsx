@@ -292,6 +292,17 @@ const Contract = ({ resource }: { resource: TContract }): React.ReactElement => 
                 />
             }
             {
+                resource.signer &&
+                <Partials.Reference
+                    reference={resource.signer}
+                    name='Signer'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='signer'
+                    field='party'
+                />
+            }
+            {
                 resource.legallyBindingAttachment &&
                 <Partials.Attachment
                     attachment={resource.legallyBindingAttachment}

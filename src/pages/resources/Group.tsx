@@ -133,6 +133,17 @@ const Group = ({ resource }: { resource: TGroup }): React.ReactElement => {
                     searchParameter='managing-entity'
                 />
             }
+            {
+                resource.member &&
+                <Partials.Reference
+                    reference={resource.member}
+                    name='Member'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='member'
+                    field='entity'
+                />
+            }
         </>
     );
 };

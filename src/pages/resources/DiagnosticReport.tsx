@@ -225,6 +225,17 @@ const DiagnosticReport = ({ resource }: { resource: TDiagnosticReport }): React.
                 />
             }
             {
+                resource.media &&
+                <Partials.Reference
+                    reference={resource.media}
+                    name='Media'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='media'
+                    field='link'
+                />
+            }
+            {
                 resource.conclusionCode &&
                 <Partials.CodeableConcept
                     codeableConcept={resource.conclusionCode}

@@ -164,6 +164,39 @@ const Provenance = ({ resource }: { resource: TProvenance }): React.ReactElement
                     searchParameter='activity'
                 />
             }
+            {
+                resource.agent &&
+                <Partials.Reference
+                    reference={resource.agent}
+                    name='Agent'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='agent'
+                    field='who'
+                />
+            }
+            {
+                resource.entity &&
+                <Partials.Reference
+                    reference={resource.entity}
+                    name='Entity'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='entity'
+                    field='what'
+                />
+            }
+            {
+                resource.signature &&
+                <Partials.Reference
+                    reference={resource.signature}
+                    name='Signature'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='signature'
+                    field='who'
+                />
+            }
         </>
     );
 };

@@ -59,7 +59,7 @@ function App(): React.ReactElement {
                     }
                     children={AdminRoutes}
                 />
-                <Route path='/*' element={<>Invalid Route</>} />
+                <Route path="/*" element={<>Invalid Route</>} />
             </Routes>
         );
     }
@@ -70,12 +70,14 @@ function App(): React.ReactElement {
     );
 
     useEffect(() => {
-        setUserDetails(
-            jwtParser({
-                customGroup: env.AUTH_CUSTOM_GROUP,
-                customScope: env.AUTH_CUSTOM_SCOPE,
-            })
-        );
+        const parsedJwt = jwtParser({
+            customGroup: env.AUTH_CUSTOM_GROUP,
+            customScope: env.AUTH_CUSTOM_SCOPE,
+        });
+        setUserDetails(parsedJwt);
+        if (!parsedJwt?.scope) {
+            setIsLoggedIn(false);
+        }
 
         console.log(`Setting fhirUrl to ${env.fhirUrl}`);
     }, []);

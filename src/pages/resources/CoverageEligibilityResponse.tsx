@@ -160,6 +160,17 @@ const CoverageEligibilityResponse = ({ resource }: { resource: TCoverageEligibil
                 />
             }
             {
+                resource.insurance &&
+                <Partials.Reference
+                    reference={resource.insurance}
+                    name='Insurance'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='insurance'
+                    field='coverage'
+                />
+            }
+            {
                 resource.form &&
                 <Partials.CodeableConcept
                     codeableConcept={resource.form}

@@ -222,6 +222,17 @@ const Immunization = ({ resource }: { resource: TImmunization }): React.ReactEle
                 />
             }
             {
+                resource.performer &&
+                <Partials.Reference
+                    reference={resource.performer}
+                    name='Performer'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='performer'
+                    field='actor'
+                />
+            }
+            {
                 resource.note &&
                 <Partials.Annotation
                     annotation={resource.note}

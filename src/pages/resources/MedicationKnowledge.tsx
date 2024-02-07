@@ -170,6 +170,17 @@ const MedicationKnowledge = ({ resource }: { resource: TMedicationKnowledge }): 
                     searchParameter='contraindication'
                 />
             }
+            {
+                resource.regulatory &&
+                <Partials.Reference
+                    reference={resource.regulatory}
+                    name='Regulatory'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='regulatory'
+                    field='regulatoryAuthority'
+                />
+            }
         </>
     );
 };

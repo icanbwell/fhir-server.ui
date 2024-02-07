@@ -70,6 +70,17 @@ const Bundle = ({ resource }: { resource: TBundle }): React.ReactElement => {
                     searchParameter='timestamp'
                 />
             }
+            {
+                resource.signature &&
+                <Partials.Reference
+                    reference={resource.signature}
+                    name='Signature'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='signature'
+                    field='who'
+                />
+            }
         </>
     );
 };

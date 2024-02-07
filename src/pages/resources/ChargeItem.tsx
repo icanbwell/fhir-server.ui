@@ -185,6 +185,17 @@ const ChargeItem = ({ resource }: { resource: TChargeItem }): React.ReactElement
                 />
             }
             {
+                resource.performer &&
+                <Partials.Reference
+                    reference={resource.performer}
+                    name='Performer'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='performer'
+                    field='actor'
+                />
+            }
+            {
                 resource.performingOrganization &&
                 <Partials.Reference
                     reference={resource.performingOrganization}

@@ -237,6 +237,28 @@ const Claim = ({ resource }: { resource: TClaim }): React.ReactElement => {
                 />
             }
             {
+                resource.careTeam &&
+                <Partials.Reference
+                    reference={resource.careTeam}
+                    name='Care Team'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='care-team'
+                    field='provider'
+                />
+            }
+            {
+                resource.insurance &&
+                <Partials.Reference
+                    reference={resource.insurance}
+                    name='Insurance'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='insurance'
+                    field='coverage'
+                />
+            }
+            {
                 resource.total &&
                 <Partials.Money
                     money={resource.total}

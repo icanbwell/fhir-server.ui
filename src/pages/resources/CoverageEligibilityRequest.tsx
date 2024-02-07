@@ -178,6 +178,28 @@ const CoverageEligibilityRequest = ({ resource }: { resource: TCoverageEligibili
                     searchParameter='facility'
                 />
             }
+            {
+                resource.supportingInfo &&
+                <Partials.Reference
+                    reference={resource.supportingInfo}
+                    name='Supporting Info'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='supporting-info'
+                    field='information'
+                />
+            }
+            {
+                resource.insurance &&
+                <Partials.Reference
+                    reference={resource.insurance}
+                    name='Insurance'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='insurance'
+                    field='coverage'
+                />
+            }
         </>
     );
 };

@@ -179,6 +179,17 @@ const DocumentReference = ({ resource }: { resource: TDocumentReference }): Reac
                 />
             }
             {
+                resource.relatesTo &&
+                <Partials.Reference
+                    reference={resource.relatesTo}
+                    name='Relates To'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='relates-to'
+                    field='target'
+                />
+            }
+            {
                 resource.securityLabel &&
                 <Partials.CodeableConcept
                     codeableConcept={resource.securityLabel}

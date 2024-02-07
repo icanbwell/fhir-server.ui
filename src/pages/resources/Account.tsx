@@ -122,6 +122,17 @@ const Account = ({ resource }: { resource: TAccount }): React.ReactElement => {
                 />
             }
             {
+                resource.coverage &&
+                <Partials.Reference
+                    reference={resource.coverage}
+                    name='Coverage'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='coverage'
+                    field='coverage'
+                />
+            }
+            {
                 resource.owner &&
                 <Partials.Reference
                     reference={resource.owner}
@@ -129,6 +140,17 @@ const Account = ({ resource }: { resource: TAccount }): React.ReactElement => {
                     resourceType={resource.resourceType}
                     id={resource.id}
                     searchParameter='owner'
+                />
+            }
+            {
+                resource.guarantor &&
+                <Partials.Reference
+                    reference={resource.guarantor}
+                    name='Guarantor'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='guarantor'
+                    field='party'
                 />
             }
             {

@@ -211,6 +211,17 @@ const Patient = ({ resource }: { resource: TPatient }): React.ReactElement => {
                     searchParameter='managing-organization'
                 />
             }
+            {
+                resource.link &&
+                <Partials.Reference
+                    reference={resource.link}
+                    name='Link'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='link'
+                    field='other'
+                />
+            }
             <Typography variant="h4" sx={{ mt: 1 }}>
                 Related Resources
             </Typography>

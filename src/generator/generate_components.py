@@ -6,6 +6,7 @@ from typing import List
 from fhir_xml_schema_parser import FhirXmlSchemaParser, FhirEntity
 from partialsResources import available_partial_resources
 from reverse_references import reverse_references
+from partials_mapping_for_fields import partials_mapping
 
 def generate_name(input_string: str) -> str:
     result = ''
@@ -92,7 +93,8 @@ def main() -> int:
                     reverse_references=reverse_references,
                     generate_name=generate_name,
                     generate_search_parameter=generate_search_parameter,
-                    get_component_name=get_component_name
+                    get_component_name=get_component_name,
+                    partials_mapping=partials_mapping
                 )
             if not path.exists(file_path):
                 with open(file_path, "w") as file2:

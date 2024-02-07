@@ -16,6 +16,10 @@ export const jwtParser = ({
     try {
         // calculating scope
         const decodedToken: any = jwtDecode(token);
+
+        if (decodedToken.exp < new Date().getTime() / 1000) {
+            return {};
+        }
         let scope: string =
             (decodedToken.scope ? decodedToken.scope : decodedToken[`${customScope}`]) || '';
         scope =

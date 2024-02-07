@@ -232,6 +232,17 @@ const EffectEvidenceSynthesis = ({ resource }: { resource: TEffectEvidenceSynthe
                     searchParameter='outcome'
                 />
             }
+            {
+                resource.resultsByExposure &&
+                <Partials.Reference
+                    reference={resource.resultsByExposure}
+                    name='Results By Exposure'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='results-by-exposure'
+                    field='riskEvidenceSynthesis'
+                />
+            }
         </>
     );
 };

@@ -233,6 +233,17 @@ const Procedure = ({ resource }: { resource: TProcedure }): React.ReactElement =
                 />
             }
             {
+                resource.performer &&
+                <Partials.Reference
+                    reference={resource.performer}
+                    name='Performer'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='performer'
+                    field='actor'
+                />
+            }
+            {
                 resource.location &&
                 <Partials.Reference
                     reference={resource.location}
@@ -330,6 +341,17 @@ const Procedure = ({ resource }: { resource: TProcedure }): React.ReactElement =
                     resourceType={resource.resourceType}
                     id={resource.id}
                     searchParameter='note'
+                />
+            }
+            {
+                resource.focalDevice &&
+                <Partials.Reference
+                    reference={resource.focalDevice}
+                    name='Focal Device'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='focal-device'
+                    field='manipulated'
                 />
             }
             {

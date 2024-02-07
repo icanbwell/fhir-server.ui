@@ -165,6 +165,17 @@ const List = ({ resource }: { resource: TList }): React.ReactElement => {
                 />
             }
             {
+                resource.entry &&
+                <Partials.Reference
+                    reference={resource.entry}
+                    name='Entry'
+                    resourceType={resource.resourceType}
+                    id={resource.id}
+                    searchParameter='entry'
+                    field='item'
+                />
+            }
+            {
                 resource.emptyReason &&
                 <Partials.CodeableConcept
                     codeableConcept={resource.emptyReason}
