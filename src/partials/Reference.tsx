@@ -17,10 +17,15 @@ function Reference({ reference: references = [], name, field }: TReferenceProps)
       <Typography variant="h4">{name}</Typography>
       {references.map((reference: any, index: Number) =>
         reference ? (
-          <Link href={`/4_0_0/${field ? reference[`${field}`].reference : reference.reference}`} key={`${index}`}>
+          <Link
+            href={`/4_0_0/${field ? reference[`${field}`].reference : reference.reference}`}
+            key={`${index}`}
+            display='block'
+            mb={index !== references.length - 1 ? 1 : 0}
+          >
             {reference.display || (field ? reference[`${field}`].reference : reference.reference)}
           </Link>
-        ) : null,
+        ) : null
       )}
     </Box>
   ) : null;
