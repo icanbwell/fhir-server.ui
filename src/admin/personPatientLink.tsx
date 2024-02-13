@@ -36,6 +36,12 @@ const PersonPatientLinkPage: React.FC = () => {
         results: '',
     });
 
+    const [removePersonToPatientLinkData, setRemovePersonToPatientLinkData] = useState({
+        personId: '',
+        patientId: '',
+        results: '',
+    });
+
     const [deleteBwellPersonData, setDeleteBwellPersonData] = useState({
         personId: '',
         results: '',
@@ -72,6 +78,15 @@ const PersonPatientLinkPage: React.FC = () => {
             createPersonToPatientLinkData.patientId
         );
         setCreatePersonToPatientLinkData({ ...createPersonToPatientLinkData, results: data.json });
+    };
+
+    const handleRemovePersonToPatientLink = async (event: React.FormEvent) => {
+        event.preventDefault();
+        const data = await adminApi.removePersonToPatientLink(
+            removePersonToPatientLinkData.personId,
+            removePersonToPatientLinkData.patientId
+        );
+        setRemovePersonToPatientLinkData({ ...removePersonToPatientLinkData, results: data.json });
     };
 
     const handleDeletePerson = async (event: React.FormEvent) => {
@@ -324,6 +339,66 @@ const PersonPatientLinkPage: React.FC = () => {
                     </Button>
                 </form>
                 <PreJson data={createPersonToPatientLinkData.results} />
+            </Box>
+            <hr />
+            <Box sx={{ mt: 1, mb: 2 }}>
+                <Typography variant="h5">Remove Person to Patient Link</Typography>
+                <Typography style={{ color: '#494949' }}>
+                    Remove a link from Person resource to Patient resource
+                </Typography>
+                <form onSubmit={handleRemovePersonToPatientLink}>
+                    <TextField
+                        required
+                        label="Person Id"
+                        value={removePersonToPatientLinkData.personId}
+                        onChange={(e) =>
+                            setRemovePersonToPatientLinkData({
+                                ...removePersonToPatientLinkData,
+                                personId: e.target.value.split(' ').join(''),
+                            })
+                        }
+                        sx={{ minWidth: '22rem', mr: 1, mt: 1 }}
+                        size="small"
+                    />
+                    <TextField
+                        required
+                        label="Patient Id"
+                        value={removePersonToPatientLinkData.patientId}
+                        onChange={(e) =>
+                            setRemovePersonToPatientLinkData({
+                                ...removePersonToPatientLinkData,
+                                patientId: e.target.value.split(' ').join(''),
+                            })
+                        }
+                        sx={{ minWidth: '22rem', mr: 1, mt: 1 }}
+                        size="small"
+                    />
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        sx={{ minWidth: '7rem', mr: 1, mt: 1 }}
+                        size="medium"
+                    >
+                        Remove
+                    </Button>
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        sx={{ minWidth: '7rem', mt: 1 }}
+                        size="medium"
+                        onClick={() =>
+                            setRemovePersonToPatientLinkData({
+                                personId: '',
+                                patientId: '',
+                                results: '',
+                            })
+                        }
+                    >
+                        Clear
+                    </Button>
+                </form>
+                <PreJson data={removePersonToPatientLinkData.results} />
             </Box>
             <hr />
             <Box sx={{ mt: 1, mb: 2 }}>

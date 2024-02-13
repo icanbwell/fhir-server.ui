@@ -105,6 +105,18 @@ class AdminApi extends BaseApi {
         return await this.getData({ urlString, params });
     }
 
+    async removePersonToPatientLink(
+        personId: string,
+        patientId: string,
+    ) {
+        const urlString = '/admin/removePersonToPatientLink';
+        const params = {
+            personId,
+            patientId
+        };
+        return await this.getData({ urlString, params });
+    }
+
     async searchLogs(id: string) {
         const urlString = '/admin/searchLogResults';
         const params = {id};
