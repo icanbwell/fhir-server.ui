@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { Accordion, Alert, AlertTitle, Box, Container, LinearProgress } from '@mui/material';
+import { Accordion, Alert, AlertTitle, Box, Button, Container, LinearProgress } from '@mui/material';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -32,6 +32,8 @@ const IndexPage = ({ search }: { search?: boolean }) => {
 
     const [searchTabExpanded, setSearchTabExpanded] = useState(false);
     const [resourceCardExpanded, setResourceCardExpanded] = useState(false);
+    const [expandAll, setExpandAll] = useState(false);
+    const [collapseAll, setCollapseAll] = useState(false);
 
     const navigate = useNavigate();
 
@@ -56,6 +58,12 @@ const IndexPage = ({ search }: { search?: boolean }) => {
         // If narrative is returned then show it at top level
         return (
             <>
+                {resources?.length > 1 &&
+                    <Box display='flex' justifyContent='end'>
+                        <Button onClick={() => {setExpandAll(true); setCollapseAll(false);}}>Expand All</Button>
+                        <Button onClick={() => {setExpandAll(false); setCollapseAll(true);}}>Collapse All</Button>
+                    </Box>
+                }
                 {/* if we have a single resource*/}
                 {resources && resources.length === 1 && resources[0].text?.div && (
                     <Alert severity="success">
@@ -83,6 +91,10 @@ const IndexPage = ({ search }: { search?: boolean }) => {
                             index={indexStart + index}
                             resource={resource}
                             expanded={resourceCardExpanded}
+                            expandAll={expandAll}
+                            collapseAll={collapseAll}
+                            setExpandAll={setExpandAll}
+                            setCollapseAll={setCollapseAll}
                             error={error}
                         />
                     );

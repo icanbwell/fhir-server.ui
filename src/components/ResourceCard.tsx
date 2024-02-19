@@ -7,28 +7,43 @@ import { TResource } from '../types/resources/Resource';
 type TResourceCardProps = {
   index: number;
   resource: TResource;
-  expanded: Boolean;
+  expanded: boolean;
+  expandAll: boolean;
+  collapseAll: boolean;
+  setExpandAll: React.Dispatch<React.SetStateAction<boolean>>;
+  setCollapseAll: React.Dispatch<React.SetStateAction<boolean>>;
   error?: boolean;
 };
 
-const ResourceCard = ({ index, resource, expanded, error }: TResourceCardProps) => {
+const ResourceCard = ({ index, resource, expanded, error, expandAll, collapseAll, setExpandAll, setCollapseAll}: TResourceCardProps) => {
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
     setOpen(!open);
+    setExpandAll(false);
+    setCollapseAll(false);
   };
 
   useEffect(() => {
-    if (expanded) {
-      setOpen(true);
+    if (expandAll) {
+        setOpen(true);
     }
+    if (collapseAll) {
+        setOpen(false);
+    }
+  }, [expandAll, collapseAll]);
+
+  useEffect(() => {
+    setOpen(expanded);
   }, [expanded]);
 
   return (
     <Card key={index}>
       <CardHeader
+        onClick={handleOpen}
+        style={{ cursor: 'pointer' }}
         title={`(${index + 1}) ${resource.resourceType}/${resource.id ?? ''}`}
-        action={<Button onClick={handleOpen}>{open ? 'Close' : 'Open'}</Button>}
+        action={<Button>{open ? 'Close' : 'Open'}</Button>}
       ></CardHeader>
       <Collapse in={open}>
         <CardContent>
