@@ -55,6 +55,9 @@ class BaseApi {
             req.headers.Authorization = `Bearer ${token}`;
         }
         req.headers.Accept = 'application/json';
+        req.headers['Cache-Control'] = 'no-cache';
+        req.headers['Pragma'] = 'no-cache';
+        req.headers['Expires'] = '0';
         return req;
     }
 }
