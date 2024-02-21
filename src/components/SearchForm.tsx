@@ -4,6 +4,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import SearchFormQuery from '../utils/searchFormQuery';
 import { getAdvSearchFormData, getFormData } from '../utils/searchForm.utils';
 import { TFieldInfo } from '../types/baseTypes';
+import dayjs from 'dayjs';
 
 export default function SearchForm({
     onSearch,
@@ -14,9 +15,15 @@ export default function SearchForm({
 }) {
     const advSearchFormData = getAdvSearchFormData(resourceType);
     const formData = getFormData(resourceType);
+    let defaultValues: any;
+
+    const dateBeforeWeek = new Date();
+    dateBeforeWeek.setDate(dateBeforeWeek.getDate() - 7);
 
     // create defaultValues for searchParams
-    let defaultValues: any = { start: null, end: null };
+    defaultValues = resourceType === 'AuditEvent' ?
+        ({ start: dayjs(dateBeforeWeek), end: dayjs(new Date()), resourceType }) :
+        ({ start: null, end: null, resourceType });
     formData.forEach((data) => {
         defaultValues[`${data.name}`] = '';
     });
@@ -61,10 +68,7 @@ export default function SearchForm({
                                 clearable: true,
                             },
                         }}
-                        onChange={(newValue) => {
-                            console.log(newValue);
-                            setSearchParams({ ...searchParams, start: newValue });
-                        }}
+                        onChange={(newValue) => setSearchParams({ ...searchParams, start: newValue })}
                     />
                     <DatePicker
                         label="Last Updated Before"
