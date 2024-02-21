@@ -63,8 +63,8 @@ const Header = () => {
                         }}
                     >
                         <Typography sx={{ p: 1, minWidth: '10rem' }}>
-                            Fhir App: {env.FHIR_APP_VERSION}<br/>
-                            Fhir Server: {env.FHIR_SERVER_VERSION}
+                            FHIR App: {env.FHIR_APP_VERSION}<br/>
+                            FHIR Server: {env.FHIR_SERVER_VERSION}
                         </Typography>
                     </Popover>
                     {env?.AUTH_ENABLED && isLoggedIn && (
