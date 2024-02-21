@@ -124,7 +124,10 @@ class AdminApi extends BaseApi {
     }
 
     async indexApi(url: string, audit?: boolean) {
-        const params = { audit, _format: 1};
+        const params: any = { _format: 1};
+        if (audit) {
+            params['audit'] = true;
+        }
         return await this.getData({ urlString: url, params });
     }
 }
