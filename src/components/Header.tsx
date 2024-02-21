@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { AppBar, Toolbar, Typography, IconButton, Button } from '@mui/material';
+import React, { useContext, useState } from 'react';
+import { AppBar, Toolbar, Typography, IconButton, Button, Popover } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Link, useLocation } from 'react-router-dom';
@@ -13,6 +13,11 @@ const Header = () => {
     const { isLoggedIn } = useContext(UserContext);
     const location = useLocation();
     const url = location.pathname;
+    const [anchorEl, setAnchorEl] = useState(null);
+
+    const handlePopoverOpen = (event: any) => {
+        setAnchorEl(event.currentTarget);
+    };
 
     const handleLogout = () => {
         const query = new URLSearchParams();
@@ -36,9 +41,32 @@ const Header = () => {
                     <Typography variant="h5" style={{ flexGrow: 1, fontWeight: 500 }}>
                         FHIR Server {url.includes('admin') && '- Admin'}
                     </Typography>
-                    <IconButton color="inherit" aria-label="information" id="appInfo">
-                        <InfoIcon />
+                    <IconButton
+                        color="inherit"
+                        aria-label="information"
+                        id="appInfo"
+                        onMouseEnter={handlePopoverOpen}
+                    >
+                        <InfoIcon/>
                     </IconButton>
+                    <Popover
+                        open={Boolean(anchorEl)}
+                        anchorEl={anchorEl}
+                        onClose={() => setAnchorEl(null)}
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'left',
+                        }}
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'left',
+                        }}
+                    >
+                        <Typography sx={{ p: 1, minWidth: '10rem' }}>
+                            Fhir App: {env.FHIR_APP_VERSION}<br/>
+                            Fhir Server: {env.FHIR_SERVER_VERSION}
+                        </Typography>
+                    </Popover>
                     {env?.AUTH_ENABLED && isLoggedIn && (
                         <Button
                             color="inherit"

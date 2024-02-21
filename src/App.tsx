@@ -19,11 +19,13 @@ import UserContext from './context/UserContext';
 import { getLocalData } from './utils/localData.utils';
 import { TUserDetails } from './types/baseTypes';
 import { jwtParser } from './utils/jwtParser';
+import FhirApi from './api/fhirApi';
 
 function App(): React.ReactElement {
     const env = useContext(EnvContext);
     const [isLoggedIn, setIsLoggedIn] = useState(!!getLocalData('jwt'));
     const [userDetails, setUserDetails] = useState<TUserDetails>({});
+    const [fhirServerVersion, setFhirServerVersion] = useState('null');
 
     // Changed from App to Root
     function Root() {
@@ -79,13 +81,18 @@ function App(): React.ReactElement {
             setIsLoggedIn(false);
         }
 
+        new FhirApi({ fhirUrl: env.fhirUrl, setIsLoggedIn })
+            .getVersion()
+            .then((version: string) => setFhirServerVersion(version));
         console.log(`Setting fhirUrl to ${env.fhirUrl}`);
     }, []);
 
     return (
-        <UserContext.Provider value={{ isLoggedIn, setIsLoggedIn, userDetails }}>
-            <RouterProvider router={router} />
-        </UserContext.Provider>
+        <EnvContext.Provider value={{ ...env, FHIR_SERVER_VERSION: fhirServerVersion }}>
+            <UserContext.Provider value={{ isLoggedIn, setIsLoggedIn, userDetails }}>
+                <RouterProvider router={router} />
+            </UserContext.Provider>
+        </EnvContext.Provider>
     );
 }
 

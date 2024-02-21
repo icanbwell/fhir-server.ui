@@ -28,6 +28,10 @@ class BaseApi {
         return this.fhirUrl || '';
     }
 
+    async getVersion(): Promise<string> {
+        return (await this.getData({ urlString: '/version' })).json?.version;
+    }
+
     async getData({ urlString, params }: GetDataParams): Promise<any> {
         if (urlString.includes(window.location.origin)) {
             urlString = urlString.replace(window.location.origin, '');

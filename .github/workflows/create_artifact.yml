@@ -14,8 +14,16 @@ jobs:
       - name: Install dependencies
         run: yarn cache clean && yarn config delete proxy && yarn config delete https-proxy && yarn config delete registry && yarn install --no-optional --production=true --network-timeout 1000000
 
-      - name: Build app
-        run: sed -i "s/process\.env\.[a-zA-Z0-9_]*/'&'/g" src/context/EnvironmentContext.ts && yarn build:prod
+      - name: Convert Env variables to string
+        run: sed -i "s/process\.env\.[a-zA-Z0-9_]*/'&'/g" src/context/EnvironmentContext.ts
+
+      - name: Add version
+        run: |
+          RELEASE_TAG=$(echo "${GITHUB_REF#refs/tags/}")
+          sed -i "s/process\.env\.FHIR_APP_VERSION/$RELEASE_TAG/g" src/context/EnvironmentContext.ts
+
+      - name: Build App
+        run: yarn build:prod
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
