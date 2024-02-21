@@ -15,12 +15,20 @@ import { TCatalogEntry } from '../../types/resources/CatalogEntry';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const CatalogEntry = ({ resource }: { resource: TCatalogEntry }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -28,7 +36,7 @@ const CatalogEntry = ({ resource }: { resource: TCatalogEntry }): React.ReactEle
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -38,7 +46,7 @@ const CatalogEntry = ({ resource }: { resource: TCatalogEntry }): React.ReactEle
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -52,7 +60,7 @@ const CatalogEntry = ({ resource }: { resource: TCatalogEntry }): React.ReactEle
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -62,7 +70,7 @@ const CatalogEntry = ({ resource }: { resource: TCatalogEntry }): React.ReactEle
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -72,7 +80,7 @@ const CatalogEntry = ({ resource }: { resource: TCatalogEntry }): React.ReactEle
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -82,7 +90,7 @@ const CatalogEntry = ({ resource }: { resource: TCatalogEntry }): React.ReactEle
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -92,7 +100,7 @@ const CatalogEntry = ({ resource }: { resource: TCatalogEntry }): React.ReactEle
                     codeableConcept={resource.type}
                     name='Type'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='type'
                 />
             }
@@ -102,7 +110,7 @@ const CatalogEntry = ({ resource }: { resource: TCatalogEntry }): React.ReactEle
                     boolean={resource.orderable}
                     name='Orderable'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='orderable'
                 />
             }
@@ -112,7 +120,7 @@ const CatalogEntry = ({ resource }: { resource: TCatalogEntry }): React.ReactEle
                     reference={resource.referencedItem}
                     name='Referenced Item'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='referenced-item'
                 />
             }
@@ -122,7 +130,7 @@ const CatalogEntry = ({ resource }: { resource: TCatalogEntry }): React.ReactEle
                     identifier={resource.additionalIdentifier}
                     name='Additional Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='additional-identifier'
                 />
             }
@@ -132,7 +140,7 @@ const CatalogEntry = ({ resource }: { resource: TCatalogEntry }): React.ReactEle
                     codeableConcept={resource.classification}
                     name='Classification'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='classification'
                 />
             }
@@ -146,7 +154,7 @@ const CatalogEntry = ({ resource }: { resource: TCatalogEntry }): React.ReactEle
                     period={resource.validityPeriod}
                     name='Validity Period'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='validity-period'
                 />
             }
@@ -156,7 +164,7 @@ const CatalogEntry = ({ resource }: { resource: TCatalogEntry }): React.ReactEle
                     dateTime={resource.validTo}
                     name='Valid To'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='valid-to'
                 />
             }
@@ -166,7 +174,7 @@ const CatalogEntry = ({ resource }: { resource: TCatalogEntry }): React.ReactEle
                     dateTime={resource.lastUpdated}
                     name='Last Updated'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='last-updated'
                 />
             }
@@ -176,7 +184,7 @@ const CatalogEntry = ({ resource }: { resource: TCatalogEntry }): React.ReactEle
                     codeableConcept={resource.additionalCharacteristic}
                     name='Additional Characteristic'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='additional-characteristic'
                 />
             }
@@ -186,7 +194,7 @@ const CatalogEntry = ({ resource }: { resource: TCatalogEntry }): React.ReactEle
                     codeableConcept={resource.additionalClassification}
                     name='Additional Classification'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='additional-classification'
                 />
             }
@@ -196,7 +204,7 @@ const CatalogEntry = ({ resource }: { resource: TCatalogEntry }): React.ReactEle
                     reference={resource.relatedEntry}
                     name='Related Entry'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='related-entry'
                     field='item'
                 />

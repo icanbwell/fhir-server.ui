@@ -17,12 +17,20 @@ import { TProcedure } from '../../types/resources/Procedure';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const Procedure = ({ resource }: { resource: TProcedure }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -30,7 +38,7 @@ const Procedure = ({ resource }: { resource: TProcedure }): React.ReactElement =
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -40,7 +48,7 @@ const Procedure = ({ resource }: { resource: TProcedure }): React.ReactElement =
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -54,7 +62,7 @@ const Procedure = ({ resource }: { resource: TProcedure }): React.ReactElement =
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -64,7 +72,7 @@ const Procedure = ({ resource }: { resource: TProcedure }): React.ReactElement =
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -74,7 +82,7 @@ const Procedure = ({ resource }: { resource: TProcedure }): React.ReactElement =
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -84,7 +92,7 @@ const Procedure = ({ resource }: { resource: TProcedure }): React.ReactElement =
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -94,7 +102,7 @@ const Procedure = ({ resource }: { resource: TProcedure }): React.ReactElement =
                     canonical={resource.instantiatesCanonical}
                     name='Instantiates Canonical'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='instantiates-canonical'
                 />
             }
@@ -104,7 +112,7 @@ const Procedure = ({ resource }: { resource: TProcedure }): React.ReactElement =
                     uri={resource.instantiatesUri}
                     name='Instantiates Uri'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='instantiates-uri'
                 />
             }
@@ -114,7 +122,7 @@ const Procedure = ({ resource }: { resource: TProcedure }): React.ReactElement =
                     reference={resource.basedOn}
                     name='Based On'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='based-on'
                 />
             }
@@ -124,7 +132,7 @@ const Procedure = ({ resource }: { resource: TProcedure }): React.ReactElement =
                     reference={resource.partOf}
                     name='Part Of'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='part-of'
                 />
             }
@@ -138,7 +146,7 @@ const Procedure = ({ resource }: { resource: TProcedure }): React.ReactElement =
                     codeableConcept={resource.statusReason}
                     name='Status Reason'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='status-reason'
                 />
             }
@@ -148,7 +156,7 @@ const Procedure = ({ resource }: { resource: TProcedure }): React.ReactElement =
                     codeableConcept={resource.category}
                     name='Category'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='category'
                 />
             }
@@ -158,7 +166,7 @@ const Procedure = ({ resource }: { resource: TProcedure }): React.ReactElement =
                     codeableConcept={resource.code}
                     name='Code'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='code'
                 />
             }
@@ -168,7 +176,7 @@ const Procedure = ({ resource }: { resource: TProcedure }): React.ReactElement =
                     reference={resource.subject}
                     name='Subject'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='subject'
                 />
             }
@@ -178,7 +186,7 @@ const Procedure = ({ resource }: { resource: TProcedure }): React.ReactElement =
                     reference={resource.encounter}
                     name='Encounter'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='encounter'
                 />
             }
@@ -188,7 +196,7 @@ const Procedure = ({ resource }: { resource: TProcedure }): React.ReactElement =
                     dateTime={resource.performedDateTime}
                     name='Performed Date Time'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='performed-date-time'
                 />
             }
@@ -198,7 +206,7 @@ const Procedure = ({ resource }: { resource: TProcedure }): React.ReactElement =
                     period={resource.performedPeriod}
                     name='Performed Period'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='performed-period'
                 />
             }
@@ -208,7 +216,7 @@ const Procedure = ({ resource }: { resource: TProcedure }): React.ReactElement =
                     quantity={resource.performedAge}
                     name='Performed Age'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='performed-age'
                 />
             }
@@ -218,7 +226,7 @@ const Procedure = ({ resource }: { resource: TProcedure }): React.ReactElement =
                     reference={resource.recorder}
                     name='Recorder'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='recorder'
                 />
             }
@@ -228,7 +236,7 @@ const Procedure = ({ resource }: { resource: TProcedure }): React.ReactElement =
                     reference={resource.asserter}
                     name='Asserter'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='asserter'
                 />
             }
@@ -238,7 +246,7 @@ const Procedure = ({ resource }: { resource: TProcedure }): React.ReactElement =
                     reference={resource.performer}
                     name='Performer'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='performer'
                     field='actor'
                 />
@@ -249,7 +257,7 @@ const Procedure = ({ resource }: { resource: TProcedure }): React.ReactElement =
                     reference={resource.location}
                     name='Location'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='location'
                 />
             }
@@ -259,7 +267,7 @@ const Procedure = ({ resource }: { resource: TProcedure }): React.ReactElement =
                     codeableConcept={resource.reasonCode}
                     name='Reason Code'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='reason-code'
                 />
             }
@@ -269,7 +277,7 @@ const Procedure = ({ resource }: { resource: TProcedure }): React.ReactElement =
                     reference={resource.reasonReference}
                     name='Reason Reference'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='reason-reference'
                 />
             }
@@ -279,7 +287,7 @@ const Procedure = ({ resource }: { resource: TProcedure }): React.ReactElement =
                     codeableConcept={resource.bodySite}
                     name='Body Site'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='body-site'
                 />
             }
@@ -289,7 +297,7 @@ const Procedure = ({ resource }: { resource: TProcedure }): React.ReactElement =
                     codeableConcept={resource.outcome}
                     name='Outcome'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='outcome'
                 />
             }
@@ -299,7 +307,7 @@ const Procedure = ({ resource }: { resource: TProcedure }): React.ReactElement =
                     reference={resource.report}
                     name='Report'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='report'
                 />
             }
@@ -309,7 +317,7 @@ const Procedure = ({ resource }: { resource: TProcedure }): React.ReactElement =
                     codeableConcept={resource.complication}
                     name='Complication'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='complication'
                 />
             }
@@ -319,7 +327,7 @@ const Procedure = ({ resource }: { resource: TProcedure }): React.ReactElement =
                     reference={resource.complicationDetail}
                     name='Complication Detail'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='complication-detail'
                 />
             }
@@ -329,7 +337,7 @@ const Procedure = ({ resource }: { resource: TProcedure }): React.ReactElement =
                     codeableConcept={resource.followUp}
                     name='Follow Up'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='follow-up'
                 />
             }
@@ -339,7 +347,7 @@ const Procedure = ({ resource }: { resource: TProcedure }): React.ReactElement =
                     annotation={resource.note}
                     name='Note'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='note'
                 />
             }
@@ -349,7 +357,7 @@ const Procedure = ({ resource }: { resource: TProcedure }): React.ReactElement =
                     reference={resource.focalDevice}
                     name='Focal Device'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='focal-device'
                     field='manipulated'
                 />
@@ -360,7 +368,7 @@ const Procedure = ({ resource }: { resource: TProcedure }): React.ReactElement =
                     reference={resource.usedReference}
                     name='Used Reference'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='used-reference'
                 />
             }
@@ -370,7 +378,7 @@ const Procedure = ({ resource }: { resource: TProcedure }): React.ReactElement =
                     codeableConcept={resource.usedCode}
                     name='Used Code'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='used-code'
                 />
             }

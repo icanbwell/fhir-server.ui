@@ -15,12 +15,20 @@ import { TBundle } from '../../types/resources/Bundle';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const Bundle = ({ resource }: { resource: TBundle }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -28,7 +36,7 @@ const Bundle = ({ resource }: { resource: TBundle }): React.ReactElement => {
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -38,7 +46,7 @@ const Bundle = ({ resource }: { resource: TBundle }): React.ReactElement => {
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -52,7 +60,7 @@ const Bundle = ({ resource }: { resource: TBundle }): React.ReactElement => {
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -66,7 +74,7 @@ const Bundle = ({ resource }: { resource: TBundle }): React.ReactElement => {
                     instant={resource.timestamp}
                     name='Timestamp'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='timestamp'
                 />
             }
@@ -76,7 +84,7 @@ const Bundle = ({ resource }: { resource: TBundle }): React.ReactElement => {
                     reference={resource.signature}
                     name='Signature'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='signature'
                     field='who'
                 />

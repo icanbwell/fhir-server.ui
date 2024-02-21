@@ -17,12 +17,20 @@ import { TCarePlan } from '../../types/resources/CarePlan';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const CarePlan = ({ resource }: { resource: TCarePlan }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -30,7 +38,7 @@ const CarePlan = ({ resource }: { resource: TCarePlan }): React.ReactElement => 
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -40,7 +48,7 @@ const CarePlan = ({ resource }: { resource: TCarePlan }): React.ReactElement => 
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -54,7 +62,7 @@ const CarePlan = ({ resource }: { resource: TCarePlan }): React.ReactElement => 
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -64,7 +72,7 @@ const CarePlan = ({ resource }: { resource: TCarePlan }): React.ReactElement => 
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -74,7 +82,7 @@ const CarePlan = ({ resource }: { resource: TCarePlan }): React.ReactElement => 
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -84,7 +92,7 @@ const CarePlan = ({ resource }: { resource: TCarePlan }): React.ReactElement => 
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -94,7 +102,7 @@ const CarePlan = ({ resource }: { resource: TCarePlan }): React.ReactElement => 
                     canonical={resource.instantiatesCanonical}
                     name='Instantiates Canonical'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='instantiates-canonical'
                 />
             }
@@ -104,7 +112,7 @@ const CarePlan = ({ resource }: { resource: TCarePlan }): React.ReactElement => 
                     uri={resource.instantiatesUri}
                     name='Instantiates Uri'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='instantiates-uri'
                 />
             }
@@ -114,7 +122,7 @@ const CarePlan = ({ resource }: { resource: TCarePlan }): React.ReactElement => 
                     reference={resource.basedOn}
                     name='Based On'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='based-on'
                 />
             }
@@ -124,7 +132,7 @@ const CarePlan = ({ resource }: { resource: TCarePlan }): React.ReactElement => 
                     reference={resource.replaces}
                     name='Replaces'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='replaces'
                 />
             }
@@ -134,7 +142,7 @@ const CarePlan = ({ resource }: { resource: TCarePlan }): React.ReactElement => 
                     reference={resource.partOf}
                     name='Part Of'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='part-of'
                 />
             }
@@ -152,7 +160,7 @@ const CarePlan = ({ resource }: { resource: TCarePlan }): React.ReactElement => 
                     codeableConcept={resource.category}
                     name='Category'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='category'
                 />
             }
@@ -162,7 +170,7 @@ const CarePlan = ({ resource }: { resource: TCarePlan }): React.ReactElement => 
                     reference={resource.subject}
                     name='Subject'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='subject'
                 />
             }
@@ -172,7 +180,7 @@ const CarePlan = ({ resource }: { resource: TCarePlan }): React.ReactElement => 
                     reference={resource.encounter}
                     name='Encounter'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='encounter'
                 />
             }
@@ -182,7 +190,7 @@ const CarePlan = ({ resource }: { resource: TCarePlan }): React.ReactElement => 
                     period={resource.period}
                     name='Period'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='period'
                 />
             }
@@ -192,7 +200,7 @@ const CarePlan = ({ resource }: { resource: TCarePlan }): React.ReactElement => 
                     dateTime={resource.created}
                     name='Created'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='created'
                 />
             }
@@ -202,7 +210,7 @@ const CarePlan = ({ resource }: { resource: TCarePlan }): React.ReactElement => 
                     reference={resource.author}
                     name='Author'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='author'
                 />
             }
@@ -212,7 +220,7 @@ const CarePlan = ({ resource }: { resource: TCarePlan }): React.ReactElement => 
                     reference={resource.contributor}
                     name='Contributor'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='contributor'
                 />
             }
@@ -222,7 +230,7 @@ const CarePlan = ({ resource }: { resource: TCarePlan }): React.ReactElement => 
                     reference={resource.careTeam}
                     name='Care Team'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='care-team'
                 />
             }
@@ -232,7 +240,7 @@ const CarePlan = ({ resource }: { resource: TCarePlan }): React.ReactElement => 
                     reference={resource.addresses}
                     name='Addresses'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='addresses'
                 />
             }
@@ -242,7 +250,7 @@ const CarePlan = ({ resource }: { resource: TCarePlan }): React.ReactElement => 
                     reference={resource.supportingInfo}
                     name='Supporting Info'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='supporting-info'
                 />
             }
@@ -252,7 +260,7 @@ const CarePlan = ({ resource }: { resource: TCarePlan }): React.ReactElement => 
                     reference={resource.goal}
                     name='Goal'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='goal'
                 />
             }
@@ -262,7 +270,7 @@ const CarePlan = ({ resource }: { resource: TCarePlan }): React.ReactElement => 
                     annotation={resource.note}
                     name='Note'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='note'
                 />
             }

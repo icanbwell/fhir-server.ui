@@ -1,5 +1,9 @@
+import { useEffect, useState } from 'react';
 import { Typography, Link, Box } from '@mui/material';
 import { TBaseResourceProps } from '../types/baseTypes';
+import { TExtension } from '../types/partials/Extension';
+import { IdentifierSystem } from '../utils/identifierSystem';
+import { TReference } from '../types/partials/Reference';
 
 type TReferenceProps = TBaseResourceProps & {
   reference: any;
@@ -12,18 +16,42 @@ function Reference({ reference: references = [], name, field }: TReferenceProps)
     references = [references];
   }
 
-  return references && references.length > 0 && references[0] ? (
+  const [uuidReferences, setUuidReferences] = useState<TReference[]>(
+    []
+  );
+
+  useEffect(() => {
+    setUuidReferences(
+      references
+        .map((reference: any) => {
+          let uuidReference: string | null = null;
+          if (field) {
+            uuidReference = reference[`${field}`]?.extension?.find(
+              (e: TExtension) => e.url === IdentifierSystem.uuid
+            )?.valueString;
+          } else {
+            uuidReference = reference?.extension?.find(
+              (e: TExtension) => e.url === IdentifierSystem.uuid
+            )?.valueString;
+          }
+          return { reference: uuidReference, display: reference.display };
+        })
+        .filter((u: TReference) => u.reference)
+    );
+  }, [references]);
+
+  return uuidReferences && uuidReferences.length > 0 && uuidReferences[0] ? (
     <Box>
       <Typography variant="h4">{name}</Typography>
-      {references.map((reference: any, index: Number) =>
+      {uuidReferences.map((reference: TReference, index: Number) =>
         reference ? (
           <Link
-            href={`/4_0_0/${field ? reference[`${field}`].reference : reference.reference}`}
+            href={`/4_0_0/${reference.reference}`}
             key={`${index}`}
             display='block'
             mb={index !== references.length - 1 ? 1 : 0}
           >
-            {reference.display || (field ? reference[`${field}`].reference : reference.reference)}
+            {reference.display || reference.reference}
           </Link>
         ) : null
       )}

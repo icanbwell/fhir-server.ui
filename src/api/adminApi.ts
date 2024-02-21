@@ -1,4 +1,3 @@
-import { InternalAxiosRequestConfig } from 'axios';
 import BaseApi from './baseApi';
 
 interface RunPersonMatchParams {
@@ -9,14 +8,6 @@ interface RunPersonMatchParams {
 }
 
 class AdminApi extends BaseApi {
-    requestInterceptor(req: InternalAxiosRequestConfig<any>): InternalAxiosRequestConfig<any> {
-        req.headers['Cache-Control'] = 'no-cache';
-        req.headers['Pragma'] = 'no-cache';
-        req.headers['Expires'] = '0';
-
-        return super.requestInterceptor(req);
-    }
-
     async runPersonMatch({
         sourceId,
         sourceType,

@@ -16,12 +16,20 @@ import { TEnrollmentRequest } from '../../types/resources/EnrollmentRequest';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const EnrollmentRequest = ({ resource }: { resource: TEnrollmentRequest }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -29,7 +37,7 @@ const EnrollmentRequest = ({ resource }: { resource: TEnrollmentRequest }): Reac
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -39,7 +47,7 @@ const EnrollmentRequest = ({ resource }: { resource: TEnrollmentRequest }): Reac
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -53,7 +61,7 @@ const EnrollmentRequest = ({ resource }: { resource: TEnrollmentRequest }): Reac
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -63,7 +71,7 @@ const EnrollmentRequest = ({ resource }: { resource: TEnrollmentRequest }): Reac
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -73,7 +81,7 @@ const EnrollmentRequest = ({ resource }: { resource: TEnrollmentRequest }): Reac
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -83,7 +91,7 @@ const EnrollmentRequest = ({ resource }: { resource: TEnrollmentRequest }): Reac
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -97,7 +105,7 @@ const EnrollmentRequest = ({ resource }: { resource: TEnrollmentRequest }): Reac
                     dateTime={resource.created}
                     name='Created'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='created'
                 />
             }
@@ -107,7 +115,7 @@ const EnrollmentRequest = ({ resource }: { resource: TEnrollmentRequest }): Reac
                     reference={resource.insurer}
                     name='Insurer'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='insurer'
                 />
             }
@@ -117,7 +125,7 @@ const EnrollmentRequest = ({ resource }: { resource: TEnrollmentRequest }): Reac
                     reference={resource.provider}
                     name='Provider'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='provider'
                 />
             }
@@ -127,7 +135,7 @@ const EnrollmentRequest = ({ resource }: { resource: TEnrollmentRequest }): Reac
                     reference={resource.candidate}
                     name='Candidate'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='candidate'
                 />
             }
@@ -137,7 +145,7 @@ const EnrollmentRequest = ({ resource }: { resource: TEnrollmentRequest }): Reac
                     reference={resource.coverage}
                     name='Coverage'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='coverage'
                 />
             }

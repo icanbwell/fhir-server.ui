@@ -17,12 +17,20 @@ import { TExplanationOfBenefit } from '../../types/resources/ExplanationOfBenefi
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const ExplanationOfBenefit = ({ resource }: { resource: TExplanationOfBenefit }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -30,7 +38,7 @@ const ExplanationOfBenefit = ({ resource }: { resource: TExplanationOfBenefit })
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -40,7 +48,7 @@ const ExplanationOfBenefit = ({ resource }: { resource: TExplanationOfBenefit })
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -54,7 +62,7 @@ const ExplanationOfBenefit = ({ resource }: { resource: TExplanationOfBenefit })
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -64,7 +72,7 @@ const ExplanationOfBenefit = ({ resource }: { resource: TExplanationOfBenefit })
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -74,7 +82,7 @@ const ExplanationOfBenefit = ({ resource }: { resource: TExplanationOfBenefit })
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -84,7 +92,7 @@ const ExplanationOfBenefit = ({ resource }: { resource: TExplanationOfBenefit })
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -98,7 +106,7 @@ const ExplanationOfBenefit = ({ resource }: { resource: TExplanationOfBenefit })
                     codeableConcept={resource.type}
                     name='Type'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='type'
                 />
             }
@@ -108,7 +116,7 @@ const ExplanationOfBenefit = ({ resource }: { resource: TExplanationOfBenefit })
                     codeableConcept={resource.subType}
                     name='Sub Type'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='sub-type'
                 />
             }
@@ -122,7 +130,7 @@ const ExplanationOfBenefit = ({ resource }: { resource: TExplanationOfBenefit })
                     reference={resource.patient}
                     name='Patient'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='patient'
                 />
             }
@@ -132,7 +140,7 @@ const ExplanationOfBenefit = ({ resource }: { resource: TExplanationOfBenefit })
                     period={resource.billablePeriod}
                     name='Billable Period'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='billable-period'
                 />
             }
@@ -142,7 +150,7 @@ const ExplanationOfBenefit = ({ resource }: { resource: TExplanationOfBenefit })
                     dateTime={resource.created}
                     name='Created'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='created'
                 />
             }
@@ -152,7 +160,7 @@ const ExplanationOfBenefit = ({ resource }: { resource: TExplanationOfBenefit })
                     reference={resource.enterer}
                     name='Enterer'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='enterer'
                 />
             }
@@ -162,7 +170,7 @@ const ExplanationOfBenefit = ({ resource }: { resource: TExplanationOfBenefit })
                     reference={resource.insurer}
                     name='Insurer'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='insurer'
                 />
             }
@@ -172,7 +180,7 @@ const ExplanationOfBenefit = ({ resource }: { resource: TExplanationOfBenefit })
                     reference={resource.provider}
                     name='Provider'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='provider'
                 />
             }
@@ -182,7 +190,7 @@ const ExplanationOfBenefit = ({ resource }: { resource: TExplanationOfBenefit })
                     codeableConcept={resource.priority}
                     name='Priority'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='priority'
                 />
             }
@@ -192,7 +200,7 @@ const ExplanationOfBenefit = ({ resource }: { resource: TExplanationOfBenefit })
                     codeableConcept={resource.fundsReserveRequested}
                     name='Funds Reserve Requested'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='funds-reserve-requested'
                 />
             }
@@ -202,7 +210,7 @@ const ExplanationOfBenefit = ({ resource }: { resource: TExplanationOfBenefit })
                     codeableConcept={resource.fundsReserve}
                     name='Funds Reserve'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='funds-reserve'
                 />
             }
@@ -212,7 +220,7 @@ const ExplanationOfBenefit = ({ resource }: { resource: TExplanationOfBenefit })
                     reference={resource.prescription}
                     name='Prescription'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='prescription'
                 />
             }
@@ -222,7 +230,7 @@ const ExplanationOfBenefit = ({ resource }: { resource: TExplanationOfBenefit })
                     reference={resource.originalPrescription}
                     name='Original Prescription'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='original-prescription'
                 />
             }
@@ -232,7 +240,7 @@ const ExplanationOfBenefit = ({ resource }: { resource: TExplanationOfBenefit })
                     reference={resource.referral}
                     name='Referral'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='referral'
                 />
             }
@@ -242,7 +250,7 @@ const ExplanationOfBenefit = ({ resource }: { resource: TExplanationOfBenefit })
                     reference={resource.facility}
                     name='Facility'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='facility'
                 />
             }
@@ -252,7 +260,7 @@ const ExplanationOfBenefit = ({ resource }: { resource: TExplanationOfBenefit })
                     reference={resource.claim}
                     name='Claim'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='claim'
                 />
             }
@@ -262,7 +270,7 @@ const ExplanationOfBenefit = ({ resource }: { resource: TExplanationOfBenefit })
                     reference={resource.claimResponse}
                     name='Claim Response'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='claim-response'
                 />
             }
@@ -276,7 +284,7 @@ const ExplanationOfBenefit = ({ resource }: { resource: TExplanationOfBenefit })
                     period={resource.preAuthRefPeriod}
                     name='Pre Auth Ref Period'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='pre-auth-ref-period'
                 />
             }
@@ -286,7 +294,7 @@ const ExplanationOfBenefit = ({ resource }: { resource: TExplanationOfBenefit })
                     reference={resource.careTeam}
                     name='Care Team'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='care-team'
                     field='provider'
                 />
@@ -297,7 +305,7 @@ const ExplanationOfBenefit = ({ resource }: { resource: TExplanationOfBenefit })
                     reference={resource.insurance}
                     name='Insurance'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='insurance'
                     field='coverage'
                 />
@@ -308,7 +316,7 @@ const ExplanationOfBenefit = ({ resource }: { resource: TExplanationOfBenefit })
                     codeableConcept={resource.formCode}
                     name='Form Code'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='form-code'
                 />
             }
@@ -318,7 +326,7 @@ const ExplanationOfBenefit = ({ resource }: { resource: TExplanationOfBenefit })
                     attachment={resource.form}
                     name='Form'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='form'
                 />
             }
@@ -328,7 +336,7 @@ const ExplanationOfBenefit = ({ resource }: { resource: TExplanationOfBenefit })
                     period={resource.benefitPeriod}
                     name='Benefit Period'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='benefit-period'
                 />
             }

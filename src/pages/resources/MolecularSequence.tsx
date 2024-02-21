@@ -15,12 +15,20 @@ import { TMolecularSequence } from '../../types/resources/MolecularSequence';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const MolecularSequence = ({ resource }: { resource: TMolecularSequence }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -28,7 +36,7 @@ const MolecularSequence = ({ resource }: { resource: TMolecularSequence }): Reac
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -38,7 +46,7 @@ const MolecularSequence = ({ resource }: { resource: TMolecularSequence }): Reac
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -52,7 +60,7 @@ const MolecularSequence = ({ resource }: { resource: TMolecularSequence }): Reac
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -62,7 +70,7 @@ const MolecularSequence = ({ resource }: { resource: TMolecularSequence }): Reac
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -72,7 +80,7 @@ const MolecularSequence = ({ resource }: { resource: TMolecularSequence }): Reac
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -82,7 +90,7 @@ const MolecularSequence = ({ resource }: { resource: TMolecularSequence }): Reac
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -96,7 +104,7 @@ const MolecularSequence = ({ resource }: { resource: TMolecularSequence }): Reac
                     reference={resource.patient}
                     name='Patient'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='patient'
                 />
             }
@@ -106,7 +114,7 @@ const MolecularSequence = ({ resource }: { resource: TMolecularSequence }): Reac
                     reference={resource.specimen}
                     name='Specimen'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='specimen'
                 />
             }
@@ -116,7 +124,7 @@ const MolecularSequence = ({ resource }: { resource: TMolecularSequence }): Reac
                     reference={resource.device}
                     name='Device'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='device'
                 />
             }
@@ -126,7 +134,7 @@ const MolecularSequence = ({ resource }: { resource: TMolecularSequence }): Reac
                     reference={resource.performer}
                     name='Performer'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='performer'
                 />
             }
@@ -136,7 +144,7 @@ const MolecularSequence = ({ resource }: { resource: TMolecularSequence }): Reac
                     quantity={resource.quantity}
                     name='Quantity'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='quantity'
                 />
             }
@@ -146,7 +154,7 @@ const MolecularSequence = ({ resource }: { resource: TMolecularSequence }): Reac
                     reference={resource.pointer}
                     name='Pointer'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='pointer'
                 />
             }

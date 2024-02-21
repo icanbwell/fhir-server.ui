@@ -16,12 +16,20 @@ import { TAccount } from '../../types/resources/Account';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const Account = ({ resource }: { resource: TAccount }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -29,7 +37,7 @@ const Account = ({ resource }: { resource: TAccount }): React.ReactElement => {
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -39,7 +47,7 @@ const Account = ({ resource }: { resource: TAccount }): React.ReactElement => {
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -53,7 +61,7 @@ const Account = ({ resource }: { resource: TAccount }): React.ReactElement => {
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -63,7 +71,7 @@ const Account = ({ resource }: { resource: TAccount }): React.ReactElement => {
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -73,7 +81,7 @@ const Account = ({ resource }: { resource: TAccount }): React.ReactElement => {
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -83,7 +91,7 @@ const Account = ({ resource }: { resource: TAccount }): React.ReactElement => {
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -97,7 +105,7 @@ const Account = ({ resource }: { resource: TAccount }): React.ReactElement => {
                     codeableConcept={resource.type}
                     name='Type'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='type'
                 />
             }
@@ -107,7 +115,7 @@ const Account = ({ resource }: { resource: TAccount }): React.ReactElement => {
                     reference={resource.subject}
                     name='Subject'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='subject'
                 />
             }
@@ -117,7 +125,7 @@ const Account = ({ resource }: { resource: TAccount }): React.ReactElement => {
                     period={resource.servicePeriod}
                     name='Service Period'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='service-period'
                 />
             }
@@ -127,7 +135,7 @@ const Account = ({ resource }: { resource: TAccount }): React.ReactElement => {
                     reference={resource.coverage}
                     name='Coverage'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='coverage'
                     field='coverage'
                 />
@@ -138,7 +146,7 @@ const Account = ({ resource }: { resource: TAccount }): React.ReactElement => {
                     reference={resource.owner}
                     name='Owner'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='owner'
                 />
             }
@@ -148,7 +156,7 @@ const Account = ({ resource }: { resource: TAccount }): React.ReactElement => {
                     reference={resource.guarantor}
                     name='Guarantor'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='guarantor'
                     field='party'
                 />
@@ -159,7 +167,7 @@ const Account = ({ resource }: { resource: TAccount }): React.ReactElement => {
                     reference={resource.partOf}
                     name='Part Of'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='part-of'
                 />
             }

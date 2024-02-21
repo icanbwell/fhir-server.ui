@@ -15,12 +15,20 @@ import { THealthcareService } from '../../types/resources/HealthcareService';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const HealthcareService = ({ resource }: { resource: THealthcareService }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -28,7 +36,7 @@ const HealthcareService = ({ resource }: { resource: THealthcareService }): Reac
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -38,7 +46,7 @@ const HealthcareService = ({ resource }: { resource: THealthcareService }): Reac
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -52,7 +60,7 @@ const HealthcareService = ({ resource }: { resource: THealthcareService }): Reac
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -62,7 +70,7 @@ const HealthcareService = ({ resource }: { resource: THealthcareService }): Reac
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -72,7 +80,7 @@ const HealthcareService = ({ resource }: { resource: THealthcareService }): Reac
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -82,7 +90,7 @@ const HealthcareService = ({ resource }: { resource: THealthcareService }): Reac
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -92,7 +100,7 @@ const HealthcareService = ({ resource }: { resource: THealthcareService }): Reac
                     boolean={resource.active}
                     name='Active'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='active'
                 />
             }
@@ -102,7 +110,7 @@ const HealthcareService = ({ resource }: { resource: THealthcareService }): Reac
                     reference={resource.providedBy}
                     name='Provided By'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='provided-by'
                 />
             }
@@ -112,7 +120,7 @@ const HealthcareService = ({ resource }: { resource: THealthcareService }): Reac
                     codeableConcept={resource.category}
                     name='Category'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='category'
                 />
             }
@@ -122,7 +130,7 @@ const HealthcareService = ({ resource }: { resource: THealthcareService }): Reac
                     codeableConcept={resource.type}
                     name='Type'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='type'
                 />
             }
@@ -132,7 +140,7 @@ const HealthcareService = ({ resource }: { resource: THealthcareService }): Reac
                     codeableConcept={resource.specialty}
                     name='Specialty'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='specialty'
                 />
             }
@@ -142,7 +150,7 @@ const HealthcareService = ({ resource }: { resource: THealthcareService }): Reac
                     reference={resource.location}
                     name='Location'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='location'
                 />
             }
@@ -152,7 +160,7 @@ const HealthcareService = ({ resource }: { resource: THealthcareService }): Reac
                     markdown={resource.extraDetails}
                     name='Extra Details'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extra-details'
                 />
             }
@@ -162,7 +170,7 @@ const HealthcareService = ({ resource }: { resource: THealthcareService }): Reac
                     attachment={resource.photo}
                     name='Photo'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='photo'
                 />
             }
@@ -172,7 +180,7 @@ const HealthcareService = ({ resource }: { resource: THealthcareService }): Reac
                     contactPoint={resource.telecom}
                     name='Telecom'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='telecom'
                 />
             }
@@ -182,7 +190,7 @@ const HealthcareService = ({ resource }: { resource: THealthcareService }): Reac
                     reference={resource.coverageArea}
                     name='Coverage Area'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='coverage-area'
                 />
             }
@@ -192,7 +200,7 @@ const HealthcareService = ({ resource }: { resource: THealthcareService }): Reac
                     codeableConcept={resource.serviceProvisionCode}
                     name='Service Provision Code'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='service-provision-code'
                 />
             }
@@ -202,7 +210,7 @@ const HealthcareService = ({ resource }: { resource: THealthcareService }): Reac
                     codeableConcept={resource.program}
                     name='Program'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='program'
                 />
             }
@@ -212,7 +220,7 @@ const HealthcareService = ({ resource }: { resource: THealthcareService }): Reac
                     codeableConcept={resource.characteristic}
                     name='Characteristic'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='characteristic'
                 />
             }
@@ -222,7 +230,7 @@ const HealthcareService = ({ resource }: { resource: THealthcareService }): Reac
                     codeableConcept={resource.communication}
                     name='Communication'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='communication'
                 />
             }
@@ -232,7 +240,7 @@ const HealthcareService = ({ resource }: { resource: THealthcareService }): Reac
                     codeableConcept={resource.referralMethod}
                     name='Referral Method'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='referral-method'
                 />
             }
@@ -242,7 +250,7 @@ const HealthcareService = ({ resource }: { resource: THealthcareService }): Reac
                     boolean={resource.appointmentRequired}
                     name='Appointment Required'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='appointment-required'
                 />
             }
@@ -252,7 +260,7 @@ const HealthcareService = ({ resource }: { resource: THealthcareService }): Reac
                     reference={resource.endpoint}
                     name='Endpoint'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='endpoint'
                 />
             }
@@ -261,13 +269,13 @@ const HealthcareService = ({ resource }: { resource: THealthcareService }): Reac
             </Typography>
             <Partials.ReverseReference
                 name="Practitioner Role"
-                id={resource.id}
+                id={uuid}
                 resourceType={resource.resourceType}
                 reverseReferences={[{'target': 'PractitionerRole', 'property': 'actor'}]}
             />
             <Partials.ReverseReference
                 name="Schedule"
-                id={resource.id}
+                id={uuid}
                 resourceType={resource.resourceType}
                 reverseReferences={[{'target': 'Schedule', 'property': 'healthcareService'}]}
             />

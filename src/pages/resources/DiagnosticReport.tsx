@@ -19,12 +19,20 @@ import { TDiagnosticReport } from '../../types/resources/DiagnosticReport';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const DiagnosticReport = ({ resource }: { resource: TDiagnosticReport }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -32,7 +40,7 @@ const DiagnosticReport = ({ resource }: { resource: TDiagnosticReport }): React.
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -42,7 +50,7 @@ const DiagnosticReport = ({ resource }: { resource: TDiagnosticReport }): React.
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -56,7 +64,7 @@ const DiagnosticReport = ({ resource }: { resource: TDiagnosticReport }): React.
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -66,7 +74,7 @@ const DiagnosticReport = ({ resource }: { resource: TDiagnosticReport }): React.
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -76,7 +84,7 @@ const DiagnosticReport = ({ resource }: { resource: TDiagnosticReport }): React.
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -86,7 +94,7 @@ const DiagnosticReport = ({ resource }: { resource: TDiagnosticReport }): React.
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -96,7 +104,7 @@ const DiagnosticReport = ({ resource }: { resource: TDiagnosticReport }): React.
                     reference={resource.basedOn}
                     name='Based On'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='based-on'
                 />
             }
@@ -110,7 +118,7 @@ const DiagnosticReport = ({ resource }: { resource: TDiagnosticReport }): React.
                     codeableConcept={resource.category}
                     name='Category'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='category'
                 />
             }
@@ -120,7 +128,7 @@ const DiagnosticReport = ({ resource }: { resource: TDiagnosticReport }): React.
                     codeableConcept={resource.code}
                     name='Code'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='code'
                 />
             }
@@ -130,7 +138,7 @@ const DiagnosticReport = ({ resource }: { resource: TDiagnosticReport }): React.
                     reference={resource.subject}
                     name='Subject'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='subject'
                 />
             }
@@ -140,7 +148,7 @@ const DiagnosticReport = ({ resource }: { resource: TDiagnosticReport }): React.
                     reference={resource.encounter}
                     name='Encounter'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='encounter'
                 />
             }
@@ -150,7 +158,7 @@ const DiagnosticReport = ({ resource }: { resource: TDiagnosticReport }): React.
                     dateTime={resource.effectiveDateTime}
                     name='Effective Date Time'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='effective-date-time'
                 />
             }
@@ -160,7 +168,7 @@ const DiagnosticReport = ({ resource }: { resource: TDiagnosticReport }): React.
                     period={resource.effectivePeriod}
                     name='Effective Period'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='effective-period'
                 />
             }
@@ -170,7 +178,7 @@ const DiagnosticReport = ({ resource }: { resource: TDiagnosticReport }): React.
                     instant={resource.issued}
                     name='Issued'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='issued'
                 />
             }
@@ -180,7 +188,7 @@ const DiagnosticReport = ({ resource }: { resource: TDiagnosticReport }): React.
                     reference={resource.performer}
                     name='Performer'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='performer'
                 />
             }
@@ -190,7 +198,7 @@ const DiagnosticReport = ({ resource }: { resource: TDiagnosticReport }): React.
                     reference={resource.resultsInterpreter}
                     name='Results Interpreter'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='results-interpreter'
                 />
             }
@@ -200,7 +208,7 @@ const DiagnosticReport = ({ resource }: { resource: TDiagnosticReport }): React.
                     reference={resource.specimen}
                     name='Specimen'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='specimen'
                 />
             }
@@ -210,7 +218,7 @@ const DiagnosticReport = ({ resource }: { resource: TDiagnosticReport }): React.
                     reference={resource.result}
                     name='Result'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='result'
                 />
             }
@@ -220,7 +228,7 @@ const DiagnosticReport = ({ resource }: { resource: TDiagnosticReport }): React.
                     reference={resource.imagingStudy}
                     name='Imaging Study'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='imaging-study'
                 />
             }
@@ -230,7 +238,7 @@ const DiagnosticReport = ({ resource }: { resource: TDiagnosticReport }): React.
                     reference={resource.media}
                     name='Media'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='media'
                     field='link'
                 />
@@ -241,7 +249,7 @@ const DiagnosticReport = ({ resource }: { resource: TDiagnosticReport }): React.
                     codeableConcept={resource.conclusionCode}
                     name='Conclusion Code'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='conclusion-code'
                 />
             }
@@ -251,7 +259,7 @@ const DiagnosticReport = ({ resource }: { resource: TDiagnosticReport }): React.
                     attachment={resource.presentedForm}
                     name='Presented Form'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='presented-form'
                 />
             }

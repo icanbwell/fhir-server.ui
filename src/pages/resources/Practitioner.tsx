@@ -16,12 +16,20 @@ import { TPractitioner } from '../../types/resources/Practitioner';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const Practitioner = ({ resource }: { resource: TPractitioner }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -29,7 +37,7 @@ const Practitioner = ({ resource }: { resource: TPractitioner }): React.ReactEle
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -39,7 +47,7 @@ const Practitioner = ({ resource }: { resource: TPractitioner }): React.ReactEle
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -53,7 +61,7 @@ const Practitioner = ({ resource }: { resource: TPractitioner }): React.ReactEle
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -63,7 +71,7 @@ const Practitioner = ({ resource }: { resource: TPractitioner }): React.ReactEle
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -73,7 +81,7 @@ const Practitioner = ({ resource }: { resource: TPractitioner }): React.ReactEle
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -83,7 +91,7 @@ const Practitioner = ({ resource }: { resource: TPractitioner }): React.ReactEle
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -93,7 +101,7 @@ const Practitioner = ({ resource }: { resource: TPractitioner }): React.ReactEle
                     boolean={resource.active}
                     name='Active'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='active'
                 />
             }
@@ -103,7 +111,7 @@ const Practitioner = ({ resource }: { resource: TPractitioner }): React.ReactEle
                     humanName={resource.name}
                     name='Name'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='name'
                 />
             }
@@ -113,7 +121,7 @@ const Practitioner = ({ resource }: { resource: TPractitioner }): React.ReactEle
                     contactPoint={resource.telecom}
                     name='Telecom'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='telecom'
                 />
             }
@@ -123,7 +131,7 @@ const Practitioner = ({ resource }: { resource: TPractitioner }): React.ReactEle
                     address={resource.address}
                     name='Address'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='address'
                 />
             }
@@ -137,7 +145,7 @@ const Practitioner = ({ resource }: { resource: TPractitioner }): React.ReactEle
                     attachment={resource.photo}
                     name='Photo'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='photo'
                 />
             }
@@ -147,7 +155,7 @@ const Practitioner = ({ resource }: { resource: TPractitioner }): React.ReactEle
                     codeableConcept={resource.communication}
                     name='Communication'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='communication'
                 />
             }
@@ -156,13 +164,13 @@ const Practitioner = ({ resource }: { resource: TPractitioner }): React.ReactEle
             </Typography>
             <Partials.ReverseReference
                 name="Practitioner Role"
-                id={resource.id}
+                id={uuid}
                 resourceType={resource.resourceType}
                 reverseReferences={[{'target': 'PractitionerRole', 'property': 'practitioner'}]}
             />
             <Partials.ReverseReference
                 name="Schedule (also check schedules on PractitionerRole)"
-                id={resource.id}
+                id={uuid}
                 resourceType={resource.resourceType}
                 reverseReferences={[{'target': 'Schedule', 'property': 'actor'}]}
             />

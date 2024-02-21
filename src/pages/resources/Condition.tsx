@@ -16,12 +16,20 @@ import { TCondition } from '../../types/resources/Condition';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const Condition = ({ resource }: { resource: TCondition }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -29,7 +37,7 @@ const Condition = ({ resource }: { resource: TCondition }): React.ReactElement =
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -39,7 +47,7 @@ const Condition = ({ resource }: { resource: TCondition }): React.ReactElement =
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -53,7 +61,7 @@ const Condition = ({ resource }: { resource: TCondition }): React.ReactElement =
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -63,7 +71,7 @@ const Condition = ({ resource }: { resource: TCondition }): React.ReactElement =
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -73,7 +81,7 @@ const Condition = ({ resource }: { resource: TCondition }): React.ReactElement =
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -83,7 +91,7 @@ const Condition = ({ resource }: { resource: TCondition }): React.ReactElement =
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -93,7 +101,7 @@ const Condition = ({ resource }: { resource: TCondition }): React.ReactElement =
                     codeableConcept={resource.clinicalStatus}
                     name='Clinical Status'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='clinical-status'
                 />
             }
@@ -103,7 +111,7 @@ const Condition = ({ resource }: { resource: TCondition }): React.ReactElement =
                     codeableConcept={resource.verificationStatus}
                     name='Verification Status'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='verification-status'
                 />
             }
@@ -113,7 +121,7 @@ const Condition = ({ resource }: { resource: TCondition }): React.ReactElement =
                     codeableConcept={resource.category}
                     name='Category'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='category'
                 />
             }
@@ -123,7 +131,7 @@ const Condition = ({ resource }: { resource: TCondition }): React.ReactElement =
                     codeableConcept={resource.severity}
                     name='Severity'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='severity'
                 />
             }
@@ -133,7 +141,7 @@ const Condition = ({ resource }: { resource: TCondition }): React.ReactElement =
                     codeableConcept={resource.code}
                     name='Code'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='code'
                 />
             }
@@ -143,7 +151,7 @@ const Condition = ({ resource }: { resource: TCondition }): React.ReactElement =
                     codeableConcept={resource.bodySite}
                     name='Body Site'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='body-site'
                 />
             }
@@ -153,7 +161,7 @@ const Condition = ({ resource }: { resource: TCondition }): React.ReactElement =
                     reference={resource.subject}
                     name='Subject'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='subject'
                 />
             }
@@ -163,7 +171,7 @@ const Condition = ({ resource }: { resource: TCondition }): React.ReactElement =
                     reference={resource.encounter}
                     name='Encounter'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='encounter'
                 />
             }
@@ -173,7 +181,7 @@ const Condition = ({ resource }: { resource: TCondition }): React.ReactElement =
                     dateTime={resource.onsetDateTime}
                     name='Onset Date Time'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='onset-date-time'
                 />
             }
@@ -183,7 +191,7 @@ const Condition = ({ resource }: { resource: TCondition }): React.ReactElement =
                     quantity={resource.onsetAge}
                     name='Onset Age'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='onset-age'
                 />
             }
@@ -193,7 +201,7 @@ const Condition = ({ resource }: { resource: TCondition }): React.ReactElement =
                     period={resource.onsetPeriod}
                     name='Onset Period'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='onset-period'
                 />
             }
@@ -203,7 +211,7 @@ const Condition = ({ resource }: { resource: TCondition }): React.ReactElement =
                     dateTime={resource.abatementDateTime}
                     name='Abatement Date Time'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='abatement-date-time'
                 />
             }
@@ -213,7 +221,7 @@ const Condition = ({ resource }: { resource: TCondition }): React.ReactElement =
                     quantity={resource.abatementAge}
                     name='Abatement Age'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='abatement-age'
                 />
             }
@@ -223,7 +231,7 @@ const Condition = ({ resource }: { resource: TCondition }): React.ReactElement =
                     period={resource.abatementPeriod}
                     name='Abatement Period'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='abatement-period'
                 />
             }
@@ -233,7 +241,7 @@ const Condition = ({ resource }: { resource: TCondition }): React.ReactElement =
                     dateTime={resource.recordedDate}
                     name='Recorded Date'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='recorded-date'
                 />
             }
@@ -243,7 +251,7 @@ const Condition = ({ resource }: { resource: TCondition }): React.ReactElement =
                     reference={resource.recorder}
                     name='Recorder'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='recorder'
                 />
             }
@@ -253,7 +261,7 @@ const Condition = ({ resource }: { resource: TCondition }): React.ReactElement =
                     reference={resource.asserter}
                     name='Asserter'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='asserter'
                 />
             }
@@ -263,7 +271,7 @@ const Condition = ({ resource }: { resource: TCondition }): React.ReactElement =
                     annotation={resource.note}
                     name='Note'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='note'
                 />
             }

@@ -17,12 +17,20 @@ import { TGuidanceResponse } from '../../types/resources/GuidanceResponse';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const GuidanceResponse = ({ resource }: { resource: TGuidanceResponse }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -30,7 +38,7 @@ const GuidanceResponse = ({ resource }: { resource: TGuidanceResponse }): React.
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -40,7 +48,7 @@ const GuidanceResponse = ({ resource }: { resource: TGuidanceResponse }): React.
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -54,7 +62,7 @@ const GuidanceResponse = ({ resource }: { resource: TGuidanceResponse }): React.
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -64,7 +72,7 @@ const GuidanceResponse = ({ resource }: { resource: TGuidanceResponse }): React.
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -74,7 +82,7 @@ const GuidanceResponse = ({ resource }: { resource: TGuidanceResponse }): React.
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -84,7 +92,7 @@ const GuidanceResponse = ({ resource }: { resource: TGuidanceResponse }): React.
                     identifier={resource.requestIdentifier}
                     name='Request Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='request-identifier'
                 />
             }
@@ -94,7 +102,7 @@ const GuidanceResponse = ({ resource }: { resource: TGuidanceResponse }): React.
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -104,7 +112,7 @@ const GuidanceResponse = ({ resource }: { resource: TGuidanceResponse }): React.
                     uri={resource.moduleUri}
                     name='Module Uri'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='module-uri'
                 />
             }
@@ -114,7 +122,7 @@ const GuidanceResponse = ({ resource }: { resource: TGuidanceResponse }): React.
                     canonical={resource.moduleCanonical}
                     name='Module Canonical'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='module-canonical'
                 />
             }
@@ -124,7 +132,7 @@ const GuidanceResponse = ({ resource }: { resource: TGuidanceResponse }): React.
                     codeableConcept={resource.moduleCodeableConcept}
                     name='Module Codeable Concept'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='module-codeable-concept'
                 />
             }
@@ -138,7 +146,7 @@ const GuidanceResponse = ({ resource }: { resource: TGuidanceResponse }): React.
                     reference={resource.subject}
                     name='Subject'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='subject'
                 />
             }
@@ -148,7 +156,7 @@ const GuidanceResponse = ({ resource }: { resource: TGuidanceResponse }): React.
                     reference={resource.encounter}
                     name='Encounter'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='encounter'
                 />
             }
@@ -158,7 +166,7 @@ const GuidanceResponse = ({ resource }: { resource: TGuidanceResponse }): React.
                     dateTime={resource.occurrenceDateTime}
                     name='Occurrence Date Time'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='occurrence-date-time'
                 />
             }
@@ -168,7 +176,7 @@ const GuidanceResponse = ({ resource }: { resource: TGuidanceResponse }): React.
                     reference={resource.performer}
                     name='Performer'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='performer'
                 />
             }
@@ -178,7 +186,7 @@ const GuidanceResponse = ({ resource }: { resource: TGuidanceResponse }): React.
                     codeableConcept={resource.reasonCode}
                     name='Reason Code'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='reason-code'
                 />
             }
@@ -188,7 +196,7 @@ const GuidanceResponse = ({ resource }: { resource: TGuidanceResponse }): React.
                     reference={resource.reasonReference}
                     name='Reason Reference'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='reason-reference'
                 />
             }
@@ -198,7 +206,7 @@ const GuidanceResponse = ({ resource }: { resource: TGuidanceResponse }): React.
                     annotation={resource.note}
                     name='Note'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='note'
                 />
             }
@@ -208,7 +216,7 @@ const GuidanceResponse = ({ resource }: { resource: TGuidanceResponse }): React.
                     reference={resource.evaluationMessage}
                     name='Evaluation Message'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='evaluation-message'
                 />
             }
@@ -218,7 +226,7 @@ const GuidanceResponse = ({ resource }: { resource: TGuidanceResponse }): React.
                     reference={resource.outputParameters}
                     name='Output Parameters'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='output-parameters'
                 />
             }
@@ -228,7 +236,7 @@ const GuidanceResponse = ({ resource }: { resource: TGuidanceResponse }): React.
                     reference={resource.result}
                     name='Result'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='result'
                 />
             }

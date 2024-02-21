@@ -17,12 +17,20 @@ import { TEvidence } from '../../types/resources/Evidence';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const Evidence = ({ resource }: { resource: TEvidence }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -30,7 +38,7 @@ const Evidence = ({ resource }: { resource: TEvidence }): React.ReactElement => 
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -40,7 +48,7 @@ const Evidence = ({ resource }: { resource: TEvidence }): React.ReactElement => 
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -54,7 +62,7 @@ const Evidence = ({ resource }: { resource: TEvidence }): React.ReactElement => 
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -64,7 +72,7 @@ const Evidence = ({ resource }: { resource: TEvidence }): React.ReactElement => 
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -74,7 +82,7 @@ const Evidence = ({ resource }: { resource: TEvidence }): React.ReactElement => 
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -84,7 +92,7 @@ const Evidence = ({ resource }: { resource: TEvidence }): React.ReactElement => 
                     uri={resource.url}
                     name='Url'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='url'
                 />
             }
@@ -94,7 +102,7 @@ const Evidence = ({ resource }: { resource: TEvidence }): React.ReactElement => 
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -108,7 +116,7 @@ const Evidence = ({ resource }: { resource: TEvidence }): React.ReactElement => 
                     dateTime={resource.date}
                     name='Date'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='date'
                 />
             }
@@ -118,7 +126,7 @@ const Evidence = ({ resource }: { resource: TEvidence }): React.ReactElement => 
                     markdown={resource.description}
                     name='Description'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='description'
                 />
             }
@@ -128,7 +136,7 @@ const Evidence = ({ resource }: { resource: TEvidence }): React.ReactElement => 
                     annotation={resource.note}
                     name='Note'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='note'
                 />
             }
@@ -138,7 +146,7 @@ const Evidence = ({ resource }: { resource: TEvidence }): React.ReactElement => 
                     codeableConcept={resource.jurisdiction}
                     name='Jurisdiction'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='jurisdiction'
                 />
             }
@@ -148,7 +156,7 @@ const Evidence = ({ resource }: { resource: TEvidence }): React.ReactElement => 
                     markdown={resource.copyright}
                     name='Copyright'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='copyright'
                 />
             }
@@ -158,7 +166,7 @@ const Evidence = ({ resource }: { resource: TEvidence }): React.ReactElement => 
                     period={resource.effectivePeriod}
                     name='Effective Period'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='effective-period'
                 />
             }
@@ -168,7 +176,7 @@ const Evidence = ({ resource }: { resource: TEvidence }): React.ReactElement => 
                     codeableConcept={resource.topic}
                     name='Topic'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='topic'
                 />
             }
@@ -178,7 +186,7 @@ const Evidence = ({ resource }: { resource: TEvidence }): React.ReactElement => 
                     reference={resource.exposureBackground}
                     name='Exposure Background'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='exposure-background'
                 />
             }
@@ -188,7 +196,7 @@ const Evidence = ({ resource }: { resource: TEvidence }): React.ReactElement => 
                     reference={resource.exposureVariant}
                     name='Exposure Variant'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='exposure-variant'
                 />
             }
@@ -198,7 +206,7 @@ const Evidence = ({ resource }: { resource: TEvidence }): React.ReactElement => 
                     reference={resource.outcome}
                     name='Outcome'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='outcome'
                 />
             }

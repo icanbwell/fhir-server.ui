@@ -23,12 +23,20 @@ import { TProvenance } from '../../types/resources/Provenance';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const Provenance = ({ resource }: { resource: TProvenance }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -36,7 +44,7 @@ const Provenance = ({ resource }: { resource: TProvenance }): React.ReactElement
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -46,7 +54,7 @@ const Provenance = ({ resource }: { resource: TProvenance }): React.ReactElement
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -60,7 +68,7 @@ const Provenance = ({ resource }: { resource: TProvenance }): React.ReactElement
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -70,7 +78,7 @@ const Provenance = ({ resource }: { resource: TProvenance }): React.ReactElement
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -80,7 +88,7 @@ const Provenance = ({ resource }: { resource: TProvenance }): React.ReactElement
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -90,7 +98,7 @@ const Provenance = ({ resource }: { resource: TProvenance }): React.ReactElement
                     reference={resource.target}
                     name='Target'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='target'
                 />
             }
@@ -100,7 +108,7 @@ const Provenance = ({ resource }: { resource: TProvenance }): React.ReactElement
                     period={resource.occurredPeriod}
                     name='Occurred Period'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='occurred-period'
                 />
             }
@@ -110,7 +118,7 @@ const Provenance = ({ resource }: { resource: TProvenance }): React.ReactElement
                     dateTime={resource.occurredDateTime}
                     name='Occurred Date Time'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='occurred-date-time'
                 />
             }
@@ -120,7 +128,7 @@ const Provenance = ({ resource }: { resource: TProvenance }): React.ReactElement
                     instant={resource.recorded}
                     name='Recorded'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='recorded'
                 />
             }
@@ -130,7 +138,7 @@ const Provenance = ({ resource }: { resource: TProvenance }): React.ReactElement
                     uri={resource.policy}
                     name='Policy'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='policy'
                 />
             }
@@ -140,7 +148,7 @@ const Provenance = ({ resource }: { resource: TProvenance }): React.ReactElement
                     reference={resource.location}
                     name='Location'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='location'
                 />
             }
@@ -150,7 +158,7 @@ const Provenance = ({ resource }: { resource: TProvenance }): React.ReactElement
                     codeableConcept={resource.reason}
                     name='Reason'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='reason'
                 />
             }
@@ -160,7 +168,7 @@ const Provenance = ({ resource }: { resource: TProvenance }): React.ReactElement
                     codeableConcept={resource.activity}
                     name='Activity'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='activity'
                 />
             }
@@ -170,7 +178,7 @@ const Provenance = ({ resource }: { resource: TProvenance }): React.ReactElement
                     reference={resource.agent}
                     name='Agent'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='agent'
                     field='who'
                 />
@@ -181,7 +189,7 @@ const Provenance = ({ resource }: { resource: TProvenance }): React.ReactElement
                     reference={resource.entity}
                     name='Entity'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='entity'
                     field='what'
                 />
@@ -192,7 +200,7 @@ const Provenance = ({ resource }: { resource: TProvenance }): React.ReactElement
                     reference={resource.signature}
                     name='Signature'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='signature'
                     field='who'
                 />

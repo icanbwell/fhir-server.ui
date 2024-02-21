@@ -19,12 +19,20 @@ import { TChargeItem } from '../../types/resources/ChargeItem';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const ChargeItem = ({ resource }: { resource: TChargeItem }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -32,7 +40,7 @@ const ChargeItem = ({ resource }: { resource: TChargeItem }): React.ReactElement
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -42,7 +50,7 @@ const ChargeItem = ({ resource }: { resource: TChargeItem }): React.ReactElement
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -56,7 +64,7 @@ const ChargeItem = ({ resource }: { resource: TChargeItem }): React.ReactElement
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -66,7 +74,7 @@ const ChargeItem = ({ resource }: { resource: TChargeItem }): React.ReactElement
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -76,7 +84,7 @@ const ChargeItem = ({ resource }: { resource: TChargeItem }): React.ReactElement
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -86,7 +94,7 @@ const ChargeItem = ({ resource }: { resource: TChargeItem }): React.ReactElement
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -96,7 +104,7 @@ const ChargeItem = ({ resource }: { resource: TChargeItem }): React.ReactElement
                     uri={resource.definitionUri}
                     name='Definition Uri'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='definition-uri'
                 />
             }
@@ -106,7 +114,7 @@ const ChargeItem = ({ resource }: { resource: TChargeItem }): React.ReactElement
                     canonical={resource.definitionCanonical}
                     name='Definition Canonical'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='definition-canonical'
                 />
             }
@@ -120,7 +128,7 @@ const ChargeItem = ({ resource }: { resource: TChargeItem }): React.ReactElement
                     reference={resource.partOf}
                     name='Part Of'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='part-of'
                 />
             }
@@ -130,7 +138,7 @@ const ChargeItem = ({ resource }: { resource: TChargeItem }): React.ReactElement
                     codeableConcept={resource.code}
                     name='Code'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='code'
                 />
             }
@@ -140,7 +148,7 @@ const ChargeItem = ({ resource }: { resource: TChargeItem }): React.ReactElement
                     reference={resource.subject}
                     name='Subject'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='subject'
                 />
             }
@@ -150,7 +158,7 @@ const ChargeItem = ({ resource }: { resource: TChargeItem }): React.ReactElement
                     reference={resource.context}
                     name='Context'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='context'
                 />
             }
@@ -160,7 +168,7 @@ const ChargeItem = ({ resource }: { resource: TChargeItem }): React.ReactElement
                     dateTime={resource.occurrenceDateTime}
                     name='Occurrence Date Time'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='occurrence-date-time'
                 />
             }
@@ -170,7 +178,7 @@ const ChargeItem = ({ resource }: { resource: TChargeItem }): React.ReactElement
                     period={resource.occurrencePeriod}
                     name='Occurrence Period'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='occurrence-period'
                 />
             }
@@ -180,7 +188,7 @@ const ChargeItem = ({ resource }: { resource: TChargeItem }): React.ReactElement
                     timing={resource.occurrenceTiming}
                     name='Occurrence Timing'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='occurrence-timing'
                 />
             }
@@ -190,7 +198,7 @@ const ChargeItem = ({ resource }: { resource: TChargeItem }): React.ReactElement
                     reference={resource.performer}
                     name='Performer'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='performer'
                     field='actor'
                 />
@@ -201,7 +209,7 @@ const ChargeItem = ({ resource }: { resource: TChargeItem }): React.ReactElement
                     reference={resource.performingOrganization}
                     name='Performing Organization'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='performing-organization'
                 />
             }
@@ -211,7 +219,7 @@ const ChargeItem = ({ resource }: { resource: TChargeItem }): React.ReactElement
                     reference={resource.requestingOrganization}
                     name='Requesting Organization'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='requesting-organization'
                 />
             }
@@ -221,7 +229,7 @@ const ChargeItem = ({ resource }: { resource: TChargeItem }): React.ReactElement
                     reference={resource.costCenter}
                     name='Cost Center'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='cost-center'
                 />
             }
@@ -231,7 +239,7 @@ const ChargeItem = ({ resource }: { resource: TChargeItem }): React.ReactElement
                     quantity={resource.quantity}
                     name='Quantity'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='quantity'
                 />
             }
@@ -241,7 +249,7 @@ const ChargeItem = ({ resource }: { resource: TChargeItem }): React.ReactElement
                     codeableConcept={resource.bodysite}
                     name='Bodysite'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='bodysite'
                 />
             }
@@ -251,7 +259,7 @@ const ChargeItem = ({ resource }: { resource: TChargeItem }): React.ReactElement
                     decimal={resource.factorOverride}
                     name='Factor Override'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='factor-override'
                 />
             }
@@ -261,7 +269,7 @@ const ChargeItem = ({ resource }: { resource: TChargeItem }): React.ReactElement
                     money={resource.priceOverride}
                     name='Price Override'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='price-override'
                 />
             }
@@ -271,7 +279,7 @@ const ChargeItem = ({ resource }: { resource: TChargeItem }): React.ReactElement
                     reference={resource.enterer}
                     name='Enterer'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='enterer'
                 />
             }
@@ -281,7 +289,7 @@ const ChargeItem = ({ resource }: { resource: TChargeItem }): React.ReactElement
                     dateTime={resource.enteredDate}
                     name='Entered Date'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='entered-date'
                 />
             }
@@ -291,7 +299,7 @@ const ChargeItem = ({ resource }: { resource: TChargeItem }): React.ReactElement
                     codeableConcept={resource.reason}
                     name='Reason'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='reason'
                 />
             }
@@ -301,7 +309,7 @@ const ChargeItem = ({ resource }: { resource: TChargeItem }): React.ReactElement
                     reference={resource.service}
                     name='Service'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='service'
                 />
             }
@@ -311,7 +319,7 @@ const ChargeItem = ({ resource }: { resource: TChargeItem }): React.ReactElement
                     reference={resource.productReference}
                     name='Product Reference'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='product-reference'
                 />
             }
@@ -321,7 +329,7 @@ const ChargeItem = ({ resource }: { resource: TChargeItem }): React.ReactElement
                     codeableConcept={resource.productCodeableConcept}
                     name='Product Codeable Concept'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='product-codeable-concept'
                 />
             }
@@ -331,7 +339,7 @@ const ChargeItem = ({ resource }: { resource: TChargeItem }): React.ReactElement
                     reference={resource.account}
                     name='Account'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='account'
                 />
             }
@@ -341,7 +349,7 @@ const ChargeItem = ({ resource }: { resource: TChargeItem }): React.ReactElement
                     annotation={resource.note}
                     name='Note'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='note'
                 />
             }
@@ -351,7 +359,7 @@ const ChargeItem = ({ resource }: { resource: TChargeItem }): React.ReactElement
                     reference={resource.supportingInformation}
                     name='Supporting Information'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='supporting-information'
                 />
             }

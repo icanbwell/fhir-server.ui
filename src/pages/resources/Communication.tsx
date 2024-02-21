@@ -17,12 +17,20 @@ import { TCommunication } from '../../types/resources/Communication';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const Communication = ({ resource }: { resource: TCommunication }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -30,7 +38,7 @@ const Communication = ({ resource }: { resource: TCommunication }): React.ReactE
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -40,7 +48,7 @@ const Communication = ({ resource }: { resource: TCommunication }): React.ReactE
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -54,7 +62,7 @@ const Communication = ({ resource }: { resource: TCommunication }): React.ReactE
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -64,7 +72,7 @@ const Communication = ({ resource }: { resource: TCommunication }): React.ReactE
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -74,7 +82,7 @@ const Communication = ({ resource }: { resource: TCommunication }): React.ReactE
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -84,7 +92,7 @@ const Communication = ({ resource }: { resource: TCommunication }): React.ReactE
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -94,7 +102,7 @@ const Communication = ({ resource }: { resource: TCommunication }): React.ReactE
                     canonical={resource.instantiatesCanonical}
                     name='Instantiates Canonical'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='instantiates-canonical'
                 />
             }
@@ -104,7 +112,7 @@ const Communication = ({ resource }: { resource: TCommunication }): React.ReactE
                     uri={resource.instantiatesUri}
                     name='Instantiates Uri'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='instantiates-uri'
                 />
             }
@@ -114,7 +122,7 @@ const Communication = ({ resource }: { resource: TCommunication }): React.ReactE
                     reference={resource.basedOn}
                     name='Based On'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='based-on'
                 />
             }
@@ -124,7 +132,7 @@ const Communication = ({ resource }: { resource: TCommunication }): React.ReactE
                     reference={resource.partOf}
                     name='Part Of'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='part-of'
                 />
             }
@@ -134,7 +142,7 @@ const Communication = ({ resource }: { resource: TCommunication }): React.ReactE
                     reference={resource.inResponseTo}
                     name='In Response To'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='in-response-to'
                 />
             }
@@ -148,7 +156,7 @@ const Communication = ({ resource }: { resource: TCommunication }): React.ReactE
                     codeableConcept={resource.statusReason}
                     name='Status Reason'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='status-reason'
                 />
             }
@@ -158,7 +166,7 @@ const Communication = ({ resource }: { resource: TCommunication }): React.ReactE
                     codeableConcept={resource.category}
                     name='Category'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='category'
                 />
             }
@@ -172,7 +180,7 @@ const Communication = ({ resource }: { resource: TCommunication }): React.ReactE
                     codeableConcept={resource.medium}
                     name='Medium'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='medium'
                 />
             }
@@ -182,7 +190,7 @@ const Communication = ({ resource }: { resource: TCommunication }): React.ReactE
                     reference={resource.subject}
                     name='Subject'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='subject'
                 />
             }
@@ -192,7 +200,7 @@ const Communication = ({ resource }: { resource: TCommunication }): React.ReactE
                     codeableConcept={resource.topic}
                     name='Topic'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='topic'
                 />
             }
@@ -202,7 +210,7 @@ const Communication = ({ resource }: { resource: TCommunication }): React.ReactE
                     reference={resource.about}
                     name='About'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='about'
                 />
             }
@@ -212,7 +220,7 @@ const Communication = ({ resource }: { resource: TCommunication }): React.ReactE
                     reference={resource.encounter}
                     name='Encounter'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='encounter'
                 />
             }
@@ -222,7 +230,7 @@ const Communication = ({ resource }: { resource: TCommunication }): React.ReactE
                     dateTime={resource.sent}
                     name='Sent'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='sent'
                 />
             }
@@ -232,7 +240,7 @@ const Communication = ({ resource }: { resource: TCommunication }): React.ReactE
                     dateTime={resource.received}
                     name='Received'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='received'
                 />
             }
@@ -242,7 +250,7 @@ const Communication = ({ resource }: { resource: TCommunication }): React.ReactE
                     reference={resource.recipient}
                     name='Recipient'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='recipient'
                 />
             }
@@ -252,7 +260,7 @@ const Communication = ({ resource }: { resource: TCommunication }): React.ReactE
                     reference={resource.sender}
                     name='Sender'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='sender'
                 />
             }
@@ -262,7 +270,7 @@ const Communication = ({ resource }: { resource: TCommunication }): React.ReactE
                     codeableConcept={resource.reasonCode}
                     name='Reason Code'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='reason-code'
                 />
             }
@@ -272,7 +280,7 @@ const Communication = ({ resource }: { resource: TCommunication }): React.ReactE
                     reference={resource.reasonReference}
                     name='Reason Reference'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='reason-reference'
                 />
             }
@@ -282,7 +290,7 @@ const Communication = ({ resource }: { resource: TCommunication }): React.ReactE
                     annotation={resource.note}
                     name='Note'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='note'
                 />
             }

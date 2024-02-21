@@ -20,12 +20,20 @@ import { TResearchStudy } from '../../types/resources/ResearchStudy';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const ResearchStudy = ({ resource }: { resource: TResearchStudy }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -33,7 +41,7 @@ const ResearchStudy = ({ resource }: { resource: TResearchStudy }): React.ReactE
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -43,7 +51,7 @@ const ResearchStudy = ({ resource }: { resource: TResearchStudy }): React.ReactE
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -57,7 +65,7 @@ const ResearchStudy = ({ resource }: { resource: TResearchStudy }): React.ReactE
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -67,7 +75,7 @@ const ResearchStudy = ({ resource }: { resource: TResearchStudy }): React.ReactE
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -77,7 +85,7 @@ const ResearchStudy = ({ resource }: { resource: TResearchStudy }): React.ReactE
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -87,7 +95,7 @@ const ResearchStudy = ({ resource }: { resource: TResearchStudy }): React.ReactE
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -97,7 +105,7 @@ const ResearchStudy = ({ resource }: { resource: TResearchStudy }): React.ReactE
                     reference={resource.protocol}
                     name='Protocol'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='protocol'
                 />
             }
@@ -107,7 +115,7 @@ const ResearchStudy = ({ resource }: { resource: TResearchStudy }): React.ReactE
                     reference={resource.partOf}
                     name='Part Of'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='part-of'
                 />
             }
@@ -121,7 +129,7 @@ const ResearchStudy = ({ resource }: { resource: TResearchStudy }): React.ReactE
                     codeableConcept={resource.primaryPurposeType}
                     name='Primary Purpose Type'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='primary-purpose-type'
                 />
             }
@@ -131,7 +139,7 @@ const ResearchStudy = ({ resource }: { resource: TResearchStudy }): React.ReactE
                     codeableConcept={resource.phase}
                     name='Phase'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='phase'
                 />
             }
@@ -141,7 +149,7 @@ const ResearchStudy = ({ resource }: { resource: TResearchStudy }): React.ReactE
                     codeableConcept={resource.category}
                     name='Category'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='category'
                 />
             }
@@ -151,7 +159,7 @@ const ResearchStudy = ({ resource }: { resource: TResearchStudy }): React.ReactE
                     codeableConcept={resource.focus}
                     name='Focus'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='focus'
                 />
             }
@@ -161,7 +169,7 @@ const ResearchStudy = ({ resource }: { resource: TResearchStudy }): React.ReactE
                     codeableConcept={resource.condition}
                     name='Condition'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='condition'
                 />
             }
@@ -171,7 +179,7 @@ const ResearchStudy = ({ resource }: { resource: TResearchStudy }): React.ReactE
                     codeableConcept={resource.keyword}
                     name='Keyword'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='keyword'
                 />
             }
@@ -181,7 +189,7 @@ const ResearchStudy = ({ resource }: { resource: TResearchStudy }): React.ReactE
                     codeableConcept={resource.location}
                     name='Location'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='location'
                 />
             }
@@ -191,7 +199,7 @@ const ResearchStudy = ({ resource }: { resource: TResearchStudy }): React.ReactE
                     markdown={resource.description}
                     name='Description'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='description'
                 />
             }
@@ -201,7 +209,7 @@ const ResearchStudy = ({ resource }: { resource: TResearchStudy }): React.ReactE
                     reference={resource.enrollment}
                     name='Enrollment'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='enrollment'
                 />
             }
@@ -211,7 +219,7 @@ const ResearchStudy = ({ resource }: { resource: TResearchStudy }): React.ReactE
                     period={resource.period}
                     name='Period'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='period'
                 />
             }
@@ -221,7 +229,7 @@ const ResearchStudy = ({ resource }: { resource: TResearchStudy }): React.ReactE
                     reference={resource.sponsor}
                     name='Sponsor'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='sponsor'
                 />
             }
@@ -231,7 +239,7 @@ const ResearchStudy = ({ resource }: { resource: TResearchStudy }): React.ReactE
                     reference={resource.principalInvestigator}
                     name='Principal Investigator'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='principal-investigator'
                 />
             }
@@ -241,7 +249,7 @@ const ResearchStudy = ({ resource }: { resource: TResearchStudy }): React.ReactE
                     reference={resource.site}
                     name='Site'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='site'
                 />
             }
@@ -251,7 +259,7 @@ const ResearchStudy = ({ resource }: { resource: TResearchStudy }): React.ReactE
                     codeableConcept={resource.reasonStopped}
                     name='Reason Stopped'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='reason-stopped'
                 />
             }
@@ -261,7 +269,7 @@ const ResearchStudy = ({ resource }: { resource: TResearchStudy }): React.ReactE
                     annotation={resource.note}
                     name='Note'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='note'
                 />
             }

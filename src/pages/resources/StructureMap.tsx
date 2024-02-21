@@ -16,12 +16,20 @@ import { TStructureMap } from '../../types/resources/StructureMap';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const StructureMap = ({ resource }: { resource: TStructureMap }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -29,7 +37,7 @@ const StructureMap = ({ resource }: { resource: TStructureMap }): React.ReactEle
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -39,7 +47,7 @@ const StructureMap = ({ resource }: { resource: TStructureMap }): React.ReactEle
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -53,7 +61,7 @@ const StructureMap = ({ resource }: { resource: TStructureMap }): React.ReactEle
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -63,7 +71,7 @@ const StructureMap = ({ resource }: { resource: TStructureMap }): React.ReactEle
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -73,7 +81,7 @@ const StructureMap = ({ resource }: { resource: TStructureMap }): React.ReactEle
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -83,7 +91,7 @@ const StructureMap = ({ resource }: { resource: TStructureMap }): React.ReactEle
                     uri={resource.url}
                     name='Url'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='url'
                 />
             }
@@ -93,7 +101,7 @@ const StructureMap = ({ resource }: { resource: TStructureMap }): React.ReactEle
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -107,7 +115,7 @@ const StructureMap = ({ resource }: { resource: TStructureMap }): React.ReactEle
                     boolean={resource.experimental}
                     name='Experimental'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='experimental'
                 />
             }
@@ -117,7 +125,7 @@ const StructureMap = ({ resource }: { resource: TStructureMap }): React.ReactEle
                     dateTime={resource.date}
                     name='Date'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='date'
                 />
             }
@@ -127,7 +135,7 @@ const StructureMap = ({ resource }: { resource: TStructureMap }): React.ReactEle
                     markdown={resource.description}
                     name='Description'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='description'
                 />
             }
@@ -137,7 +145,7 @@ const StructureMap = ({ resource }: { resource: TStructureMap }): React.ReactEle
                     codeableConcept={resource.jurisdiction}
                     name='Jurisdiction'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='jurisdiction'
                 />
             }
@@ -147,7 +155,7 @@ const StructureMap = ({ resource }: { resource: TStructureMap }): React.ReactEle
                     markdown={resource.purpose}
                     name='Purpose'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='purpose'
                 />
             }
@@ -157,7 +165,7 @@ const StructureMap = ({ resource }: { resource: TStructureMap }): React.ReactEle
                     markdown={resource.copyright}
                     name='Copyright'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='copyright'
                 />
             }
@@ -167,7 +175,7 @@ const StructureMap = ({ resource }: { resource: TStructureMap }): React.ReactEle
                     canonical={resource.import_}
                     name='Import_'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='import_'
                 />
             }

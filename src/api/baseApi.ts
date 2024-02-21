@@ -28,6 +28,10 @@ class BaseApi {
         return this.fhirUrl || '';
     }
 
+    async getVersion(): Promise<string> {
+        return (await this.getData({ urlString: '/version' })).json?.version;
+    }
+
     async getData({ urlString, params }: GetDataParams): Promise<any> {
         if (urlString.includes(window.location.origin)) {
             urlString = urlString.replace(window.location.origin, '');
@@ -55,6 +59,9 @@ class BaseApi {
             req.headers.Authorization = `Bearer ${token}`;
         }
         req.headers.Accept = 'application/json';
+        req.headers['Cache-Control'] = 'no-cache';
+        req.headers['Pragma'] = 'no-cache';
+        req.headers['Expires'] = '0';
         return req;
     }
 }

@@ -16,12 +16,20 @@ import { TPaymentNotice } from '../../types/resources/PaymentNotice';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const PaymentNotice = ({ resource }: { resource: TPaymentNotice }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -29,7 +37,7 @@ const PaymentNotice = ({ resource }: { resource: TPaymentNotice }): React.ReactE
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -39,7 +47,7 @@ const PaymentNotice = ({ resource }: { resource: TPaymentNotice }): React.ReactE
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -53,7 +61,7 @@ const PaymentNotice = ({ resource }: { resource: TPaymentNotice }): React.ReactE
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -63,7 +71,7 @@ const PaymentNotice = ({ resource }: { resource: TPaymentNotice }): React.ReactE
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -73,7 +81,7 @@ const PaymentNotice = ({ resource }: { resource: TPaymentNotice }): React.ReactE
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -83,7 +91,7 @@ const PaymentNotice = ({ resource }: { resource: TPaymentNotice }): React.ReactE
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -97,7 +105,7 @@ const PaymentNotice = ({ resource }: { resource: TPaymentNotice }): React.ReactE
                     reference={resource.request}
                     name='Request'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='request'
                 />
             }
@@ -107,7 +115,7 @@ const PaymentNotice = ({ resource }: { resource: TPaymentNotice }): React.ReactE
                     reference={resource.response}
                     name='Response'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='response'
                 />
             }
@@ -117,7 +125,7 @@ const PaymentNotice = ({ resource }: { resource: TPaymentNotice }): React.ReactE
                     dateTime={resource.created}
                     name='Created'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='created'
                 />
             }
@@ -127,7 +135,7 @@ const PaymentNotice = ({ resource }: { resource: TPaymentNotice }): React.ReactE
                     reference={resource.provider}
                     name='Provider'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='provider'
                 />
             }
@@ -137,7 +145,7 @@ const PaymentNotice = ({ resource }: { resource: TPaymentNotice }): React.ReactE
                     reference={resource.payment}
                     name='Payment'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='payment'
                 />
             }
@@ -147,7 +155,7 @@ const PaymentNotice = ({ resource }: { resource: TPaymentNotice }): React.ReactE
                     reference={resource.payee}
                     name='Payee'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='payee'
                 />
             }
@@ -157,7 +165,7 @@ const PaymentNotice = ({ resource }: { resource: TPaymentNotice }): React.ReactE
                     reference={resource.recipient}
                     name='Recipient'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='recipient'
                 />
             }
@@ -167,7 +175,7 @@ const PaymentNotice = ({ resource }: { resource: TPaymentNotice }): React.ReactE
                     money={resource.amount}
                     name='Amount'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='amount'
                 />
             }
@@ -177,7 +185,7 @@ const PaymentNotice = ({ resource }: { resource: TPaymentNotice }): React.ReactE
                     codeableConcept={resource.paymentStatus}
                     name='Payment Status'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='payment-status'
                 />
             }

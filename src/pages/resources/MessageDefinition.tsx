@@ -17,12 +17,20 @@ import { TMessageDefinition } from '../../types/resources/MessageDefinition';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const MessageDefinition = ({ resource }: { resource: TMessageDefinition }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -30,7 +38,7 @@ const MessageDefinition = ({ resource }: { resource: TMessageDefinition }): Reac
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -40,7 +48,7 @@ const MessageDefinition = ({ resource }: { resource: TMessageDefinition }): Reac
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -54,7 +62,7 @@ const MessageDefinition = ({ resource }: { resource: TMessageDefinition }): Reac
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -64,7 +72,7 @@ const MessageDefinition = ({ resource }: { resource: TMessageDefinition }): Reac
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -74,7 +82,7 @@ const MessageDefinition = ({ resource }: { resource: TMessageDefinition }): Reac
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -84,7 +92,7 @@ const MessageDefinition = ({ resource }: { resource: TMessageDefinition }): Reac
                     uri={resource.url}
                     name='Url'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='url'
                 />
             }
@@ -94,7 +102,7 @@ const MessageDefinition = ({ resource }: { resource: TMessageDefinition }): Reac
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -104,7 +112,7 @@ const MessageDefinition = ({ resource }: { resource: TMessageDefinition }): Reac
                     canonical={resource.replaces}
                     name='Replaces'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='replaces'
                 />
             }
@@ -118,7 +126,7 @@ const MessageDefinition = ({ resource }: { resource: TMessageDefinition }): Reac
                     boolean={resource.experimental}
                     name='Experimental'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='experimental'
                 />
             }
@@ -128,7 +136,7 @@ const MessageDefinition = ({ resource }: { resource: TMessageDefinition }): Reac
                     dateTime={resource.date}
                     name='Date'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='date'
                 />
             }
@@ -138,7 +146,7 @@ const MessageDefinition = ({ resource }: { resource: TMessageDefinition }): Reac
                     markdown={resource.description}
                     name='Description'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='description'
                 />
             }
@@ -148,7 +156,7 @@ const MessageDefinition = ({ resource }: { resource: TMessageDefinition }): Reac
                     codeableConcept={resource.jurisdiction}
                     name='Jurisdiction'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='jurisdiction'
                 />
             }
@@ -158,7 +166,7 @@ const MessageDefinition = ({ resource }: { resource: TMessageDefinition }): Reac
                     markdown={resource.purpose}
                     name='Purpose'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='purpose'
                 />
             }
@@ -168,7 +176,7 @@ const MessageDefinition = ({ resource }: { resource: TMessageDefinition }): Reac
                     markdown={resource.copyright}
                     name='Copyright'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='copyright'
                 />
             }
@@ -178,7 +186,7 @@ const MessageDefinition = ({ resource }: { resource: TMessageDefinition }): Reac
                     canonical={resource.base}
                     name='Base'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='base'
                 />
             }
@@ -188,7 +196,7 @@ const MessageDefinition = ({ resource }: { resource: TMessageDefinition }): Reac
                     canonical={resource.parent}
                     name='Parent'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='parent'
                 />
             }
@@ -198,7 +206,7 @@ const MessageDefinition = ({ resource }: { resource: TMessageDefinition }): Reac
                     coding={resource.eventCoding}
                     name='Event Coding'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='event-coding'
                 />
             }
@@ -208,7 +216,7 @@ const MessageDefinition = ({ resource }: { resource: TMessageDefinition }): Reac
                     uri={resource.eventUri}
                     name='Event Uri'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='event-uri'
                 />
             }
@@ -226,7 +234,7 @@ const MessageDefinition = ({ resource }: { resource: TMessageDefinition }): Reac
                     canonical={resource.graph}
                     name='Graph'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='graph'
                 />
             }

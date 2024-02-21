@@ -17,12 +17,20 @@ import { TRelatedPerson } from '../../types/resources/RelatedPerson';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const RelatedPerson = ({ resource }: { resource: TRelatedPerson }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -30,7 +38,7 @@ const RelatedPerson = ({ resource }: { resource: TRelatedPerson }): React.ReactE
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -40,7 +48,7 @@ const RelatedPerson = ({ resource }: { resource: TRelatedPerson }): React.ReactE
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -54,7 +62,7 @@ const RelatedPerson = ({ resource }: { resource: TRelatedPerson }): React.ReactE
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -64,7 +72,7 @@ const RelatedPerson = ({ resource }: { resource: TRelatedPerson }): React.ReactE
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -74,7 +82,7 @@ const RelatedPerson = ({ resource }: { resource: TRelatedPerson }): React.ReactE
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -84,7 +92,7 @@ const RelatedPerson = ({ resource }: { resource: TRelatedPerson }): React.ReactE
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -94,7 +102,7 @@ const RelatedPerson = ({ resource }: { resource: TRelatedPerson }): React.ReactE
                     boolean={resource.active}
                     name='Active'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='active'
                 />
             }
@@ -104,7 +112,7 @@ const RelatedPerson = ({ resource }: { resource: TRelatedPerson }): React.ReactE
                     reference={resource.patient}
                     name='Patient'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='patient'
                 />
             }
@@ -114,7 +122,7 @@ const RelatedPerson = ({ resource }: { resource: TRelatedPerson }): React.ReactE
                     codeableConcept={resource.relationship}
                     name='Relationship'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='relationship'
                 />
             }
@@ -124,7 +132,7 @@ const RelatedPerson = ({ resource }: { resource: TRelatedPerson }): React.ReactE
                     humanName={resource.name}
                     name='Name'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='name'
                 />
             }
@@ -134,7 +142,7 @@ const RelatedPerson = ({ resource }: { resource: TRelatedPerson }): React.ReactE
                     contactPoint={resource.telecom}
                     name='Telecom'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='telecom'
                 />
             }
@@ -148,7 +156,7 @@ const RelatedPerson = ({ resource }: { resource: TRelatedPerson }): React.ReactE
                     address={resource.address}
                     name='Address'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='address'
                 />
             }
@@ -158,7 +166,7 @@ const RelatedPerson = ({ resource }: { resource: TRelatedPerson }): React.ReactE
                     attachment={resource.photo}
                     name='Photo'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='photo'
                 />
             }
@@ -168,7 +176,7 @@ const RelatedPerson = ({ resource }: { resource: TRelatedPerson }): React.ReactE
                     period={resource.period}
                     name='Period'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='period'
                 />
             }

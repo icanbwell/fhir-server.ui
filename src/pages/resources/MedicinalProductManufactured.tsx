@@ -15,12 +15,20 @@ import { TMedicinalProductManufactured } from '../../types/resources/MedicinalPr
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const MedicinalProductManufactured = ({ resource }: { resource: TMedicinalProductManufactured }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -28,7 +36,7 @@ const MedicinalProductManufactured = ({ resource }: { resource: TMedicinalProduc
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -38,7 +46,7 @@ const MedicinalProductManufactured = ({ resource }: { resource: TMedicinalProduc
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -52,7 +60,7 @@ const MedicinalProductManufactured = ({ resource }: { resource: TMedicinalProduc
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -62,7 +70,7 @@ const MedicinalProductManufactured = ({ resource }: { resource: TMedicinalProduc
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -72,7 +80,7 @@ const MedicinalProductManufactured = ({ resource }: { resource: TMedicinalProduc
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -82,7 +90,7 @@ const MedicinalProductManufactured = ({ resource }: { resource: TMedicinalProduc
                     codeableConcept={resource.manufacturedDoseForm}
                     name='Manufactured Dose Form'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='manufactured-dose-form'
                 />
             }
@@ -92,7 +100,7 @@ const MedicinalProductManufactured = ({ resource }: { resource: TMedicinalProduc
                     codeableConcept={resource.unitOfPresentation}
                     name='Unit Of Presentation'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='unit-of-presentation'
                 />
             }
@@ -102,7 +110,7 @@ const MedicinalProductManufactured = ({ resource }: { resource: TMedicinalProduc
                     quantity={resource.quantity}
                     name='Quantity'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='quantity'
                 />
             }
@@ -112,7 +120,7 @@ const MedicinalProductManufactured = ({ resource }: { resource: TMedicinalProduc
                     reference={resource.manufacturer}
                     name='Manufacturer'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='manufacturer'
                 />
             }
@@ -122,7 +130,7 @@ const MedicinalProductManufactured = ({ resource }: { resource: TMedicinalProduc
                     reference={resource.ingredient}
                     name='Ingredient'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='ingredient'
                 />
             }
@@ -132,7 +140,7 @@ const MedicinalProductManufactured = ({ resource }: { resource: TMedicinalProduc
                     codeableConcept={resource.otherCharacteristics}
                     name='Other Characteristics'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='other-characteristics'
                 />
             }

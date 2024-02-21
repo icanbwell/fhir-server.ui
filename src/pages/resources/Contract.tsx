@@ -16,12 +16,20 @@ import { TContract } from '../../types/resources/Contract';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const Contract = ({ resource }: { resource: TContract }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -29,7 +37,7 @@ const Contract = ({ resource }: { resource: TContract }): React.ReactElement => 
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -39,7 +47,7 @@ const Contract = ({ resource }: { resource: TContract }): React.ReactElement => 
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -53,7 +61,7 @@ const Contract = ({ resource }: { resource: TContract }): React.ReactElement => 
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -63,7 +71,7 @@ const Contract = ({ resource }: { resource: TContract }): React.ReactElement => 
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -73,7 +81,7 @@ const Contract = ({ resource }: { resource: TContract }): React.ReactElement => 
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -83,7 +91,7 @@ const Contract = ({ resource }: { resource: TContract }): React.ReactElement => 
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -93,7 +101,7 @@ const Contract = ({ resource }: { resource: TContract }): React.ReactElement => 
                     uri={resource.url}
                     name='Url'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='url'
                 />
             }
@@ -107,7 +115,7 @@ const Contract = ({ resource }: { resource: TContract }): React.ReactElement => 
                     codeableConcept={resource.legalState}
                     name='Legal State'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='legal-state'
                 />
             }
@@ -117,7 +125,7 @@ const Contract = ({ resource }: { resource: TContract }): React.ReactElement => 
                     reference={resource.instantiatesCanonical}
                     name='Instantiates Canonical'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='instantiates-canonical'
                 />
             }
@@ -127,7 +135,7 @@ const Contract = ({ resource }: { resource: TContract }): React.ReactElement => 
                     uri={resource.instantiatesUri}
                     name='Instantiates Uri'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='instantiates-uri'
                 />
             }
@@ -137,7 +145,7 @@ const Contract = ({ resource }: { resource: TContract }): React.ReactElement => 
                     codeableConcept={resource.contentDerivative}
                     name='Content Derivative'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='content-derivative'
                 />
             }
@@ -147,7 +155,7 @@ const Contract = ({ resource }: { resource: TContract }): React.ReactElement => 
                     dateTime={resource.issued}
                     name='Issued'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='issued'
                 />
             }
@@ -157,7 +165,7 @@ const Contract = ({ resource }: { resource: TContract }): React.ReactElement => 
                     period={resource.applies}
                     name='Applies'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='applies'
                 />
             }
@@ -167,7 +175,7 @@ const Contract = ({ resource }: { resource: TContract }): React.ReactElement => 
                     codeableConcept={resource.expirationType}
                     name='Expiration Type'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='expiration-type'
                 />
             }
@@ -177,7 +185,7 @@ const Contract = ({ resource }: { resource: TContract }): React.ReactElement => 
                     reference={resource.subject}
                     name='Subject'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='subject'
                 />
             }
@@ -187,7 +195,7 @@ const Contract = ({ resource }: { resource: TContract }): React.ReactElement => 
                     reference={resource.authority}
                     name='Authority'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='authority'
                 />
             }
@@ -197,7 +205,7 @@ const Contract = ({ resource }: { resource: TContract }): React.ReactElement => 
                     reference={resource.domain}
                     name='Domain'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='domain'
                 />
             }
@@ -207,7 +215,7 @@ const Contract = ({ resource }: { resource: TContract }): React.ReactElement => 
                     reference={resource.site}
                     name='Site'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='site'
                 />
             }
@@ -217,7 +225,7 @@ const Contract = ({ resource }: { resource: TContract }): React.ReactElement => 
                     reference={resource.author}
                     name='Author'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='author'
                 />
             }
@@ -227,7 +235,7 @@ const Contract = ({ resource }: { resource: TContract }): React.ReactElement => 
                     codeableConcept={resource.scope}
                     name='Scope'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='scope'
                 />
             }
@@ -237,7 +245,7 @@ const Contract = ({ resource }: { resource: TContract }): React.ReactElement => 
                     codeableConcept={resource.topicCodeableConcept}
                     name='Topic Codeable Concept'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='topic-codeable-concept'
                 />
             }
@@ -247,7 +255,7 @@ const Contract = ({ resource }: { resource: TContract }): React.ReactElement => 
                     reference={resource.topicReference}
                     name='Topic Reference'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='topic-reference'
                 />
             }
@@ -257,7 +265,7 @@ const Contract = ({ resource }: { resource: TContract }): React.ReactElement => 
                     codeableConcept={resource.type}
                     name='Type'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='type'
                 />
             }
@@ -267,7 +275,7 @@ const Contract = ({ resource }: { resource: TContract }): React.ReactElement => 
                     codeableConcept={resource.subType}
                     name='Sub Type'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='sub-type'
                 />
             }
@@ -277,7 +285,7 @@ const Contract = ({ resource }: { resource: TContract }): React.ReactElement => 
                     reference={resource.supportingInfo}
                     name='Supporting Info'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='supporting-info'
                 />
             }
@@ -287,7 +295,7 @@ const Contract = ({ resource }: { resource: TContract }): React.ReactElement => 
                     reference={resource.relevantHistory}
                     name='Relevant History'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='relevant-history'
                 />
             }
@@ -297,7 +305,7 @@ const Contract = ({ resource }: { resource: TContract }): React.ReactElement => 
                     reference={resource.signer}
                     name='Signer'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='signer'
                     field='party'
                 />
@@ -308,7 +316,7 @@ const Contract = ({ resource }: { resource: TContract }): React.ReactElement => 
                     attachment={resource.legallyBindingAttachment}
                     name='Legally Binding Attachment'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='legally-binding-attachment'
                 />
             }
@@ -318,7 +326,7 @@ const Contract = ({ resource }: { resource: TContract }): React.ReactElement => 
                     reference={resource.legallyBindingReference}
                     name='Legally Binding Reference'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='legally-binding-reference'
                 />
             }

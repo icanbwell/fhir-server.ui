@@ -17,12 +17,20 @@ import { TStructureDefinition } from '../../types/resources/StructureDefinition'
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const StructureDefinition = ({ resource }: { resource: TStructureDefinition }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -30,7 +38,7 @@ const StructureDefinition = ({ resource }: { resource: TStructureDefinition }): 
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -40,7 +48,7 @@ const StructureDefinition = ({ resource }: { resource: TStructureDefinition }): 
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -54,7 +62,7 @@ const StructureDefinition = ({ resource }: { resource: TStructureDefinition }): 
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -64,7 +72,7 @@ const StructureDefinition = ({ resource }: { resource: TStructureDefinition }): 
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -74,7 +82,7 @@ const StructureDefinition = ({ resource }: { resource: TStructureDefinition }): 
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -84,7 +92,7 @@ const StructureDefinition = ({ resource }: { resource: TStructureDefinition }): 
                     uri={resource.url}
                     name='Url'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='url'
                 />
             }
@@ -94,7 +102,7 @@ const StructureDefinition = ({ resource }: { resource: TStructureDefinition }): 
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -108,7 +116,7 @@ const StructureDefinition = ({ resource }: { resource: TStructureDefinition }): 
                     boolean={resource.experimental}
                     name='Experimental'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='experimental'
                 />
             }
@@ -118,7 +126,7 @@ const StructureDefinition = ({ resource }: { resource: TStructureDefinition }): 
                     dateTime={resource.date}
                     name='Date'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='date'
                 />
             }
@@ -128,7 +136,7 @@ const StructureDefinition = ({ resource }: { resource: TStructureDefinition }): 
                     markdown={resource.description}
                     name='Description'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='description'
                 />
             }
@@ -138,7 +146,7 @@ const StructureDefinition = ({ resource }: { resource: TStructureDefinition }): 
                     codeableConcept={resource.jurisdiction}
                     name='Jurisdiction'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='jurisdiction'
                 />
             }
@@ -148,7 +156,7 @@ const StructureDefinition = ({ resource }: { resource: TStructureDefinition }): 
                     markdown={resource.purpose}
                     name='Purpose'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='purpose'
                 />
             }
@@ -158,7 +166,7 @@ const StructureDefinition = ({ resource }: { resource: TStructureDefinition }): 
                     markdown={resource.copyright}
                     name='Copyright'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='copyright'
                 />
             }
@@ -168,7 +176,7 @@ const StructureDefinition = ({ resource }: { resource: TStructureDefinition }): 
                     coding={resource.keyword}
                     name='Keyword'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='keyword'
                 />
             }
@@ -186,7 +194,7 @@ const StructureDefinition = ({ resource }: { resource: TStructureDefinition }): 
                     boolean={resource.abstract}
                     name='Abstract'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='abstract'
                 />
             }
@@ -196,7 +204,7 @@ const StructureDefinition = ({ resource }: { resource: TStructureDefinition }): 
                     uri={resource.type}
                     name='Type'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='type'
                 />
             }
@@ -206,7 +214,7 @@ const StructureDefinition = ({ resource }: { resource: TStructureDefinition }): 
                     canonical={resource.baseDefinition}
                     name='Base Definition'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='base-definition'
                 />
             }

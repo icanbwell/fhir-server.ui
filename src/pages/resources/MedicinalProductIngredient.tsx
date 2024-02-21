@@ -15,12 +15,20 @@ import { TMedicinalProductIngredient } from '../../types/resources/MedicinalProd
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const MedicinalProductIngredient = ({ resource }: { resource: TMedicinalProductIngredient }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -28,7 +36,7 @@ const MedicinalProductIngredient = ({ resource }: { resource: TMedicinalProductI
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -38,7 +46,7 @@ const MedicinalProductIngredient = ({ resource }: { resource: TMedicinalProductI
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -52,7 +60,7 @@ const MedicinalProductIngredient = ({ resource }: { resource: TMedicinalProductI
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -62,7 +70,7 @@ const MedicinalProductIngredient = ({ resource }: { resource: TMedicinalProductI
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -72,7 +80,7 @@ const MedicinalProductIngredient = ({ resource }: { resource: TMedicinalProductI
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -82,7 +90,7 @@ const MedicinalProductIngredient = ({ resource }: { resource: TMedicinalProductI
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -92,7 +100,7 @@ const MedicinalProductIngredient = ({ resource }: { resource: TMedicinalProductI
                     codeableConcept={resource.role}
                     name='Role'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='role'
                 />
             }
@@ -102,7 +110,7 @@ const MedicinalProductIngredient = ({ resource }: { resource: TMedicinalProductI
                     boolean={resource.allergenicIndicator}
                     name='Allergenic Indicator'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='allergenic-indicator'
                 />
             }
@@ -112,7 +120,7 @@ const MedicinalProductIngredient = ({ resource }: { resource: TMedicinalProductI
                     reference={resource.manufacturer}
                     name='Manufacturer'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='manufacturer'
                 />
             }

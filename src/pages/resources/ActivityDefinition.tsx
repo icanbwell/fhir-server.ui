@@ -17,12 +17,20 @@ import { TActivityDefinition } from '../../types/resources/ActivityDefinition';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const ActivityDefinition = ({ resource }: { resource: TActivityDefinition }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -30,7 +38,7 @@ const ActivityDefinition = ({ resource }: { resource: TActivityDefinition }): Re
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -40,7 +48,7 @@ const ActivityDefinition = ({ resource }: { resource: TActivityDefinition }): Re
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -54,7 +62,7 @@ const ActivityDefinition = ({ resource }: { resource: TActivityDefinition }): Re
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -64,7 +72,7 @@ const ActivityDefinition = ({ resource }: { resource: TActivityDefinition }): Re
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -74,7 +82,7 @@ const ActivityDefinition = ({ resource }: { resource: TActivityDefinition }): Re
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -84,7 +92,7 @@ const ActivityDefinition = ({ resource }: { resource: TActivityDefinition }): Re
                     uri={resource.url}
                     name='Url'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='url'
                 />
             }
@@ -94,7 +102,7 @@ const ActivityDefinition = ({ resource }: { resource: TActivityDefinition }): Re
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -108,7 +116,7 @@ const ActivityDefinition = ({ resource }: { resource: TActivityDefinition }): Re
                     boolean={resource.experimental}
                     name='Experimental'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='experimental'
                 />
             }
@@ -118,7 +126,7 @@ const ActivityDefinition = ({ resource }: { resource: TActivityDefinition }): Re
                     codeableConcept={resource.subjectCodeableConcept}
                     name='Subject Codeable Concept'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='subject-codeable-concept'
                 />
             }
@@ -128,7 +136,7 @@ const ActivityDefinition = ({ resource }: { resource: TActivityDefinition }): Re
                     reference={resource.subjectReference}
                     name='Subject Reference'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='subject-reference'
                 />
             }
@@ -138,7 +146,7 @@ const ActivityDefinition = ({ resource }: { resource: TActivityDefinition }): Re
                     dateTime={resource.date}
                     name='Date'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='date'
                 />
             }
@@ -148,7 +156,7 @@ const ActivityDefinition = ({ resource }: { resource: TActivityDefinition }): Re
                     markdown={resource.description}
                     name='Description'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='description'
                 />
             }
@@ -158,7 +166,7 @@ const ActivityDefinition = ({ resource }: { resource: TActivityDefinition }): Re
                     codeableConcept={resource.jurisdiction}
                     name='Jurisdiction'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='jurisdiction'
                 />
             }
@@ -168,7 +176,7 @@ const ActivityDefinition = ({ resource }: { resource: TActivityDefinition }): Re
                     markdown={resource.purpose}
                     name='Purpose'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='purpose'
                 />
             }
@@ -178,7 +186,7 @@ const ActivityDefinition = ({ resource }: { resource: TActivityDefinition }): Re
                     markdown={resource.copyright}
                     name='Copyright'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='copyright'
                 />
             }
@@ -188,7 +196,7 @@ const ActivityDefinition = ({ resource }: { resource: TActivityDefinition }): Re
                     period={resource.effectivePeriod}
                     name='Effective Period'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='effective-period'
                 />
             }
@@ -198,7 +206,7 @@ const ActivityDefinition = ({ resource }: { resource: TActivityDefinition }): Re
                     codeableConcept={resource.topic}
                     name='Topic'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='topic'
                 />
             }
@@ -208,7 +216,7 @@ const ActivityDefinition = ({ resource }: { resource: TActivityDefinition }): Re
                     canonical={resource.library}
                     name='Library'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='library'
                 />
             }
@@ -222,7 +230,7 @@ const ActivityDefinition = ({ resource }: { resource: TActivityDefinition }): Re
                     canonical={resource.profile}
                     name='Profile'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='profile'
                 />
             }
@@ -232,7 +240,7 @@ const ActivityDefinition = ({ resource }: { resource: TActivityDefinition }): Re
                     codeableConcept={resource.code}
                     name='Code'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='code'
                 />
             }
@@ -250,7 +258,7 @@ const ActivityDefinition = ({ resource }: { resource: TActivityDefinition }): Re
                     boolean={resource.doNotPerform}
                     name='Do Not Perform'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='do-not-perform'
                 />
             }
@@ -260,7 +268,7 @@ const ActivityDefinition = ({ resource }: { resource: TActivityDefinition }): Re
                     timing={resource.timingTiming}
                     name='Timing Timing'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='timing-timing'
                 />
             }
@@ -270,7 +278,7 @@ const ActivityDefinition = ({ resource }: { resource: TActivityDefinition }): Re
                     dateTime={resource.timingDateTime}
                     name='Timing Date Time'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='timing-date-time'
                 />
             }
@@ -280,7 +288,7 @@ const ActivityDefinition = ({ resource }: { resource: TActivityDefinition }): Re
                     quantity={resource.timingAge}
                     name='Timing Age'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='timing-age'
                 />
             }
@@ -290,7 +298,7 @@ const ActivityDefinition = ({ resource }: { resource: TActivityDefinition }): Re
                     period={resource.timingPeriod}
                     name='Timing Period'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='timing-period'
                 />
             }
@@ -300,7 +308,7 @@ const ActivityDefinition = ({ resource }: { resource: TActivityDefinition }): Re
                     quantity={resource.timingDuration}
                     name='Timing Duration'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='timing-duration'
                 />
             }
@@ -310,7 +318,7 @@ const ActivityDefinition = ({ resource }: { resource: TActivityDefinition }): Re
                     reference={resource.location}
                     name='Location'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='location'
                 />
             }
@@ -320,7 +328,7 @@ const ActivityDefinition = ({ resource }: { resource: TActivityDefinition }): Re
                     reference={resource.productReference}
                     name='Product Reference'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='product-reference'
                 />
             }
@@ -330,7 +338,7 @@ const ActivityDefinition = ({ resource }: { resource: TActivityDefinition }): Re
                     codeableConcept={resource.productCodeableConcept}
                     name='Product Codeable Concept'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='product-codeable-concept'
                 />
             }
@@ -340,7 +348,7 @@ const ActivityDefinition = ({ resource }: { resource: TActivityDefinition }): Re
                     quantity={resource.quantity}
                     name='Quantity'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='quantity'
                 />
             }
@@ -350,7 +358,7 @@ const ActivityDefinition = ({ resource }: { resource: TActivityDefinition }): Re
                     dosage={resource.dosage}
                     name='Dosage'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='dosage'
                 />
             }
@@ -360,7 +368,7 @@ const ActivityDefinition = ({ resource }: { resource: TActivityDefinition }): Re
                     codeableConcept={resource.bodySite}
                     name='Body Site'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='body-site'
                 />
             }
@@ -370,7 +378,7 @@ const ActivityDefinition = ({ resource }: { resource: TActivityDefinition }): Re
                     reference={resource.specimenRequirement}
                     name='Specimen Requirement'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='specimen-requirement'
                 />
             }
@@ -380,7 +388,7 @@ const ActivityDefinition = ({ resource }: { resource: TActivityDefinition }): Re
                     reference={resource.observationRequirement}
                     name='Observation Requirement'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='observation-requirement'
                 />
             }
@@ -390,7 +398,7 @@ const ActivityDefinition = ({ resource }: { resource: TActivityDefinition }): Re
                     reference={resource.observationResultRequirement}
                     name='Observation Result Requirement'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='observation-result-requirement'
                 />
             }
@@ -400,7 +408,7 @@ const ActivityDefinition = ({ resource }: { resource: TActivityDefinition }): Re
                     canonical={resource.transform}
                     name='Transform'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='transform'
                 />
             }

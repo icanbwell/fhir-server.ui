@@ -16,12 +16,20 @@ import { TPaymentReconciliation } from '../../types/resources/PaymentReconciliat
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const PaymentReconciliation = ({ resource }: { resource: TPaymentReconciliation }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -29,7 +37,7 @@ const PaymentReconciliation = ({ resource }: { resource: TPaymentReconciliation 
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -39,7 +47,7 @@ const PaymentReconciliation = ({ resource }: { resource: TPaymentReconciliation 
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -53,7 +61,7 @@ const PaymentReconciliation = ({ resource }: { resource: TPaymentReconciliation 
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -63,7 +71,7 @@ const PaymentReconciliation = ({ resource }: { resource: TPaymentReconciliation 
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -73,7 +81,7 @@ const PaymentReconciliation = ({ resource }: { resource: TPaymentReconciliation 
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -83,7 +91,7 @@ const PaymentReconciliation = ({ resource }: { resource: TPaymentReconciliation 
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -97,7 +105,7 @@ const PaymentReconciliation = ({ resource }: { resource: TPaymentReconciliation 
                     period={resource.period}
                     name='Period'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='period'
                 />
             }
@@ -107,7 +115,7 @@ const PaymentReconciliation = ({ resource }: { resource: TPaymentReconciliation 
                     dateTime={resource.created}
                     name='Created'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='created'
                 />
             }
@@ -117,7 +125,7 @@ const PaymentReconciliation = ({ resource }: { resource: TPaymentReconciliation 
                     reference={resource.paymentIssuer}
                     name='Payment Issuer'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='payment-issuer'
                 />
             }
@@ -127,7 +135,7 @@ const PaymentReconciliation = ({ resource }: { resource: TPaymentReconciliation 
                     reference={resource.request}
                     name='Request'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='request'
                 />
             }
@@ -137,7 +145,7 @@ const PaymentReconciliation = ({ resource }: { resource: TPaymentReconciliation 
                     reference={resource.requestor}
                     name='Requestor'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='requestor'
                 />
             }
@@ -151,7 +159,7 @@ const PaymentReconciliation = ({ resource }: { resource: TPaymentReconciliation 
                     money={resource.paymentAmount}
                     name='Payment Amount'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='payment-amount'
                 />
             }
@@ -161,7 +169,7 @@ const PaymentReconciliation = ({ resource }: { resource: TPaymentReconciliation 
                     identifier={resource.paymentIdentifier}
                     name='Payment Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='payment-identifier'
                 />
             }
@@ -171,7 +179,7 @@ const PaymentReconciliation = ({ resource }: { resource: TPaymentReconciliation 
                     codeableConcept={resource.formCode}
                     name='Form Code'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='form-code'
                 />
             }

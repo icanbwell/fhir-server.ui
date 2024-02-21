@@ -18,12 +18,20 @@ import { TImplementationGuide } from '../../types/resources/ImplementationGuide'
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const ImplementationGuide = ({ resource }: { resource: TImplementationGuide }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -31,7 +39,7 @@ const ImplementationGuide = ({ resource }: { resource: TImplementationGuide }): 
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -41,7 +49,7 @@ const ImplementationGuide = ({ resource }: { resource: TImplementationGuide }): 
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -55,7 +63,7 @@ const ImplementationGuide = ({ resource }: { resource: TImplementationGuide }): 
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -65,7 +73,7 @@ const ImplementationGuide = ({ resource }: { resource: TImplementationGuide }): 
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -75,7 +83,7 @@ const ImplementationGuide = ({ resource }: { resource: TImplementationGuide }): 
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -85,7 +93,7 @@ const ImplementationGuide = ({ resource }: { resource: TImplementationGuide }): 
                     uri={resource.url}
                     name='Url'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='url'
                 />
             }
@@ -99,7 +107,7 @@ const ImplementationGuide = ({ resource }: { resource: TImplementationGuide }): 
                     boolean={resource.experimental}
                     name='Experimental'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='experimental'
                 />
             }
@@ -109,7 +117,7 @@ const ImplementationGuide = ({ resource }: { resource: TImplementationGuide }): 
                     dateTime={resource.date}
                     name='Date'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='date'
                 />
             }
@@ -119,7 +127,7 @@ const ImplementationGuide = ({ resource }: { resource: TImplementationGuide }): 
                     markdown={resource.description}
                     name='Description'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='description'
                 />
             }
@@ -129,7 +137,7 @@ const ImplementationGuide = ({ resource }: { resource: TImplementationGuide }): 
                     codeableConcept={resource.jurisdiction}
                     name='Jurisdiction'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='jurisdiction'
                 />
             }
@@ -139,7 +147,7 @@ const ImplementationGuide = ({ resource }: { resource: TImplementationGuide }): 
                     markdown={resource.copyright}
                     name='Copyright'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='copyright'
                 />
             }

@@ -17,12 +17,20 @@ import { TQuestionnaire } from '../../types/resources/Questionnaire';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const Questionnaire = ({ resource }: { resource: TQuestionnaire }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -30,7 +38,7 @@ const Questionnaire = ({ resource }: { resource: TQuestionnaire }): React.ReactE
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -40,7 +48,7 @@ const Questionnaire = ({ resource }: { resource: TQuestionnaire }): React.ReactE
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -54,7 +62,7 @@ const Questionnaire = ({ resource }: { resource: TQuestionnaire }): React.ReactE
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -64,7 +72,7 @@ const Questionnaire = ({ resource }: { resource: TQuestionnaire }): React.ReactE
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -74,7 +82,7 @@ const Questionnaire = ({ resource }: { resource: TQuestionnaire }): React.ReactE
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -84,7 +92,7 @@ const Questionnaire = ({ resource }: { resource: TQuestionnaire }): React.ReactE
                     uri={resource.url}
                     name='Url'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='url'
                 />
             }
@@ -94,7 +102,7 @@ const Questionnaire = ({ resource }: { resource: TQuestionnaire }): React.ReactE
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -104,7 +112,7 @@ const Questionnaire = ({ resource }: { resource: TQuestionnaire }): React.ReactE
                     canonical={resource.derivedFrom}
                     name='Derived From'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='derived-from'
                 />
             }
@@ -118,7 +126,7 @@ const Questionnaire = ({ resource }: { resource: TQuestionnaire }): React.ReactE
                     boolean={resource.experimental}
                     name='Experimental'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='experimental'
                 />
             }
@@ -132,7 +140,7 @@ const Questionnaire = ({ resource }: { resource: TQuestionnaire }): React.ReactE
                     dateTime={resource.date}
                     name='Date'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='date'
                 />
             }
@@ -142,7 +150,7 @@ const Questionnaire = ({ resource }: { resource: TQuestionnaire }): React.ReactE
                     markdown={resource.description}
                     name='Description'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='description'
                 />
             }
@@ -152,7 +160,7 @@ const Questionnaire = ({ resource }: { resource: TQuestionnaire }): React.ReactE
                     codeableConcept={resource.jurisdiction}
                     name='Jurisdiction'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='jurisdiction'
                 />
             }
@@ -162,7 +170,7 @@ const Questionnaire = ({ resource }: { resource: TQuestionnaire }): React.ReactE
                     markdown={resource.purpose}
                     name='Purpose'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='purpose'
                 />
             }
@@ -172,7 +180,7 @@ const Questionnaire = ({ resource }: { resource: TQuestionnaire }): React.ReactE
                     markdown={resource.copyright}
                     name='Copyright'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='copyright'
                 />
             }
@@ -182,7 +190,7 @@ const Questionnaire = ({ resource }: { resource: TQuestionnaire }): React.ReactE
                     period={resource.effectivePeriod}
                     name='Effective Period'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='effective-period'
                 />
             }
@@ -192,7 +200,7 @@ const Questionnaire = ({ resource }: { resource: TQuestionnaire }): React.ReactE
                     coding={resource.code}
                     name='Code'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='code'
                 />
             }

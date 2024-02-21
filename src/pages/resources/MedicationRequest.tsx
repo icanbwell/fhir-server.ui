@@ -19,12 +19,20 @@ import { TMedicationRequest } from '../../types/resources/MedicationRequest';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const MedicationRequest = ({ resource }: { resource: TMedicationRequest }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -32,7 +40,7 @@ const MedicationRequest = ({ resource }: { resource: TMedicationRequest }): Reac
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -42,7 +50,7 @@ const MedicationRequest = ({ resource }: { resource: TMedicationRequest }): Reac
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -56,7 +64,7 @@ const MedicationRequest = ({ resource }: { resource: TMedicationRequest }): Reac
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -66,7 +74,7 @@ const MedicationRequest = ({ resource }: { resource: TMedicationRequest }): Reac
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -76,7 +84,7 @@ const MedicationRequest = ({ resource }: { resource: TMedicationRequest }): Reac
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -86,7 +94,7 @@ const MedicationRequest = ({ resource }: { resource: TMedicationRequest }): Reac
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -100,7 +108,7 @@ const MedicationRequest = ({ resource }: { resource: TMedicationRequest }): Reac
                     codeableConcept={resource.statusReason}
                     name='Status Reason'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='status-reason'
                 />
             }
@@ -114,7 +122,7 @@ const MedicationRequest = ({ resource }: { resource: TMedicationRequest }): Reac
                     codeableConcept={resource.category}
                     name='Category'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='category'
                 />
             }
@@ -128,7 +136,7 @@ const MedicationRequest = ({ resource }: { resource: TMedicationRequest }): Reac
                     boolean={resource.doNotPerform}
                     name='Do Not Perform'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='do-not-perform'
                 />
             }
@@ -138,7 +146,7 @@ const MedicationRequest = ({ resource }: { resource: TMedicationRequest }): Reac
                     boolean={resource.reportedBoolean}
                     name='Reported Boolean'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='reported-boolean'
                 />
             }
@@ -148,7 +156,7 @@ const MedicationRequest = ({ resource }: { resource: TMedicationRequest }): Reac
                     reference={resource.reportedReference}
                     name='Reported Reference'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='reported-reference'
                 />
             }
@@ -158,7 +166,7 @@ const MedicationRequest = ({ resource }: { resource: TMedicationRequest }): Reac
                     codeableConcept={resource.medicationCodeableConcept}
                     name='Medication Codeable Concept'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='medication-codeable-concept'
                 />
             }
@@ -168,7 +176,7 @@ const MedicationRequest = ({ resource }: { resource: TMedicationRequest }): Reac
                     reference={resource.medicationReference}
                     name='Medication Reference'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='medication-reference'
                 />
             }
@@ -178,7 +186,7 @@ const MedicationRequest = ({ resource }: { resource: TMedicationRequest }): Reac
                     reference={resource.subject}
                     name='Subject'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='subject'
                 />
             }
@@ -188,7 +196,7 @@ const MedicationRequest = ({ resource }: { resource: TMedicationRequest }): Reac
                     reference={resource.encounter}
                     name='Encounter'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='encounter'
                 />
             }
@@ -198,7 +206,7 @@ const MedicationRequest = ({ resource }: { resource: TMedicationRequest }): Reac
                     reference={resource.supportingInformation}
                     name='Supporting Information'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='supporting-information'
                 />
             }
@@ -208,7 +216,7 @@ const MedicationRequest = ({ resource }: { resource: TMedicationRequest }): Reac
                     dateTime={resource.authoredOn}
                     name='Authored On'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='authored-on'
                 />
             }
@@ -218,7 +226,7 @@ const MedicationRequest = ({ resource }: { resource: TMedicationRequest }): Reac
                     reference={resource.requester}
                     name='Requester'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='requester'
                 />
             }
@@ -228,7 +236,7 @@ const MedicationRequest = ({ resource }: { resource: TMedicationRequest }): Reac
                     reference={resource.performer}
                     name='Performer'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='performer'
                 />
             }
@@ -238,7 +246,7 @@ const MedicationRequest = ({ resource }: { resource: TMedicationRequest }): Reac
                     codeableConcept={resource.performerType}
                     name='Performer Type'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='performer-type'
                 />
             }
@@ -248,7 +256,7 @@ const MedicationRequest = ({ resource }: { resource: TMedicationRequest }): Reac
                     reference={resource.recorder}
                     name='Recorder'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='recorder'
                 />
             }
@@ -258,7 +266,7 @@ const MedicationRequest = ({ resource }: { resource: TMedicationRequest }): Reac
                     codeableConcept={resource.reasonCode}
                     name='Reason Code'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='reason-code'
                 />
             }
@@ -268,7 +276,7 @@ const MedicationRequest = ({ resource }: { resource: TMedicationRequest }): Reac
                     reference={resource.reasonReference}
                     name='Reason Reference'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='reason-reference'
                 />
             }
@@ -278,7 +286,7 @@ const MedicationRequest = ({ resource }: { resource: TMedicationRequest }): Reac
                     canonical={resource.instantiatesCanonical}
                     name='Instantiates Canonical'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='instantiates-canonical'
                 />
             }
@@ -288,7 +296,7 @@ const MedicationRequest = ({ resource }: { resource: TMedicationRequest }): Reac
                     uri={resource.instantiatesUri}
                     name='Instantiates Uri'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='instantiates-uri'
                 />
             }
@@ -298,7 +306,7 @@ const MedicationRequest = ({ resource }: { resource: TMedicationRequest }): Reac
                     reference={resource.basedOn}
                     name='Based On'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='based-on'
                 />
             }
@@ -308,7 +316,7 @@ const MedicationRequest = ({ resource }: { resource: TMedicationRequest }): Reac
                     identifier={resource.groupIdentifier}
                     name='Group Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='group-identifier'
                 />
             }
@@ -318,7 +326,7 @@ const MedicationRequest = ({ resource }: { resource: TMedicationRequest }): Reac
                     codeableConcept={resource.courseOfTherapyType}
                     name='Course Of Therapy Type'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='course-of-therapy-type'
                 />
             }
@@ -328,7 +336,7 @@ const MedicationRequest = ({ resource }: { resource: TMedicationRequest }): Reac
                     reference={resource.insurance}
                     name='Insurance'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='insurance'
                 />
             }
@@ -338,7 +346,7 @@ const MedicationRequest = ({ resource }: { resource: TMedicationRequest }): Reac
                     annotation={resource.note}
                     name='Note'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='note'
                 />
             }
@@ -348,7 +356,7 @@ const MedicationRequest = ({ resource }: { resource: TMedicationRequest }): Reac
                     dosage={resource.dosageInstruction}
                     name='Dosage Instruction'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='dosage-instruction'
                 />
             }
@@ -358,7 +366,7 @@ const MedicationRequest = ({ resource }: { resource: TMedicationRequest }): Reac
                     reference={resource.priorPrescription}
                     name='Prior Prescription'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='prior-prescription'
                 />
             }
@@ -368,7 +376,7 @@ const MedicationRequest = ({ resource }: { resource: TMedicationRequest }): Reac
                     reference={resource.detectedIssue}
                     name='Detected Issue'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='detected-issue'
                 />
             }
@@ -378,7 +386,7 @@ const MedicationRequest = ({ resource }: { resource: TMedicationRequest }): Reac
                     reference={resource.eventHistory}
                     name='Event History'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='event-history'
                 />
             }

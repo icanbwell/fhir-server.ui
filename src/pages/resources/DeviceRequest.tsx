@@ -16,12 +16,20 @@ import { TDeviceRequest } from '../../types/resources/DeviceRequest';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const DeviceRequest = ({ resource }: { resource: TDeviceRequest }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -29,7 +37,7 @@ const DeviceRequest = ({ resource }: { resource: TDeviceRequest }): React.ReactE
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -39,7 +47,7 @@ const DeviceRequest = ({ resource }: { resource: TDeviceRequest }): React.ReactE
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -53,7 +61,7 @@ const DeviceRequest = ({ resource }: { resource: TDeviceRequest }): React.ReactE
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -63,7 +71,7 @@ const DeviceRequest = ({ resource }: { resource: TDeviceRequest }): React.ReactE
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -73,7 +81,7 @@ const DeviceRequest = ({ resource }: { resource: TDeviceRequest }): React.ReactE
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -83,7 +91,7 @@ const DeviceRequest = ({ resource }: { resource: TDeviceRequest }): React.ReactE
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -93,7 +101,7 @@ const DeviceRequest = ({ resource }: { resource: TDeviceRequest }): React.ReactE
                     canonical={resource.instantiatesCanonical}
                     name='Instantiates Canonical'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='instantiates-canonical'
                 />
             }
@@ -103,7 +111,7 @@ const DeviceRequest = ({ resource }: { resource: TDeviceRequest }): React.ReactE
                     uri={resource.instantiatesUri}
                     name='Instantiates Uri'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='instantiates-uri'
                 />
             }
@@ -113,7 +121,7 @@ const DeviceRequest = ({ resource }: { resource: TDeviceRequest }): React.ReactE
                     reference={resource.basedOn}
                     name='Based On'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='based-on'
                 />
             }
@@ -123,7 +131,7 @@ const DeviceRequest = ({ resource }: { resource: TDeviceRequest }): React.ReactE
                     reference={resource.priorRequest}
                     name='Prior Request'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='prior-request'
                 />
             }
@@ -133,7 +141,7 @@ const DeviceRequest = ({ resource }: { resource: TDeviceRequest }): React.ReactE
                     identifier={resource.groupIdentifier}
                     name='Group Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='group-identifier'
                 />
             }
@@ -155,7 +163,7 @@ const DeviceRequest = ({ resource }: { resource: TDeviceRequest }): React.ReactE
                     reference={resource.codeReference}
                     name='Code Reference'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='code-reference'
                 />
             }
@@ -165,7 +173,7 @@ const DeviceRequest = ({ resource }: { resource: TDeviceRequest }): React.ReactE
                     codeableConcept={resource.codeCodeableConcept}
                     name='Code Codeable Concept'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='code-codeable-concept'
                 />
             }
@@ -175,7 +183,7 @@ const DeviceRequest = ({ resource }: { resource: TDeviceRequest }): React.ReactE
                     reference={resource.subject}
                     name='Subject'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='subject'
                 />
             }
@@ -185,7 +193,7 @@ const DeviceRequest = ({ resource }: { resource: TDeviceRequest }): React.ReactE
                     reference={resource.encounter}
                     name='Encounter'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='encounter'
                 />
             }
@@ -195,7 +203,7 @@ const DeviceRequest = ({ resource }: { resource: TDeviceRequest }): React.ReactE
                     dateTime={resource.occurrenceDateTime}
                     name='Occurrence Date Time'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='occurrence-date-time'
                 />
             }
@@ -205,7 +213,7 @@ const DeviceRequest = ({ resource }: { resource: TDeviceRequest }): React.ReactE
                     period={resource.occurrencePeriod}
                     name='Occurrence Period'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='occurrence-period'
                 />
             }
@@ -215,7 +223,7 @@ const DeviceRequest = ({ resource }: { resource: TDeviceRequest }): React.ReactE
                     timing={resource.occurrenceTiming}
                     name='Occurrence Timing'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='occurrence-timing'
                 />
             }
@@ -225,7 +233,7 @@ const DeviceRequest = ({ resource }: { resource: TDeviceRequest }): React.ReactE
                     dateTime={resource.authoredOn}
                     name='Authored On'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='authored-on'
                 />
             }
@@ -235,7 +243,7 @@ const DeviceRequest = ({ resource }: { resource: TDeviceRequest }): React.ReactE
                     reference={resource.requester}
                     name='Requester'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='requester'
                 />
             }
@@ -245,7 +253,7 @@ const DeviceRequest = ({ resource }: { resource: TDeviceRequest }): React.ReactE
                     codeableConcept={resource.performerType}
                     name='Performer Type'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='performer-type'
                 />
             }
@@ -255,7 +263,7 @@ const DeviceRequest = ({ resource }: { resource: TDeviceRequest }): React.ReactE
                     reference={resource.performer}
                     name='Performer'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='performer'
                 />
             }
@@ -265,7 +273,7 @@ const DeviceRequest = ({ resource }: { resource: TDeviceRequest }): React.ReactE
                     codeableConcept={resource.reasonCode}
                     name='Reason Code'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='reason-code'
                 />
             }
@@ -275,7 +283,7 @@ const DeviceRequest = ({ resource }: { resource: TDeviceRequest }): React.ReactE
                     reference={resource.reasonReference}
                     name='Reason Reference'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='reason-reference'
                 />
             }
@@ -285,7 +293,7 @@ const DeviceRequest = ({ resource }: { resource: TDeviceRequest }): React.ReactE
                     reference={resource.insurance}
                     name='Insurance'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='insurance'
                 />
             }
@@ -295,7 +303,7 @@ const DeviceRequest = ({ resource }: { resource: TDeviceRequest }): React.ReactE
                     reference={resource.supportingInfo}
                     name='Supporting Info'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='supporting-info'
                 />
             }
@@ -305,7 +313,7 @@ const DeviceRequest = ({ resource }: { resource: TDeviceRequest }): React.ReactE
                     annotation={resource.note}
                     name='Note'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='note'
                 />
             }
@@ -315,7 +323,7 @@ const DeviceRequest = ({ resource }: { resource: TDeviceRequest }): React.ReactE
                     reference={resource.relevantHistory}
                     name='Relevant History'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='relevant-history'
                 />
             }

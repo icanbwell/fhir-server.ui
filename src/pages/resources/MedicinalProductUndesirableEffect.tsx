@@ -15,12 +15,20 @@ import { TMedicinalProductUndesirableEffect } from '../../types/resources/Medici
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const MedicinalProductUndesirableEffect = ({ resource }: { resource: TMedicinalProductUndesirableEffect }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -28,7 +36,7 @@ const MedicinalProductUndesirableEffect = ({ resource }: { resource: TMedicinalP
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -38,7 +46,7 @@ const MedicinalProductUndesirableEffect = ({ resource }: { resource: TMedicinalP
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -52,7 +60,7 @@ const MedicinalProductUndesirableEffect = ({ resource }: { resource: TMedicinalP
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -62,7 +70,7 @@ const MedicinalProductUndesirableEffect = ({ resource }: { resource: TMedicinalP
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -72,7 +80,7 @@ const MedicinalProductUndesirableEffect = ({ resource }: { resource: TMedicinalP
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -82,7 +90,7 @@ const MedicinalProductUndesirableEffect = ({ resource }: { resource: TMedicinalP
                     reference={resource.subject}
                     name='Subject'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='subject'
                 />
             }
@@ -92,7 +100,7 @@ const MedicinalProductUndesirableEffect = ({ resource }: { resource: TMedicinalP
                     codeableConcept={resource.symptomConditionEffect}
                     name='Symptom Condition Effect'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='symptom-condition-effect'
                 />
             }
@@ -102,7 +110,7 @@ const MedicinalProductUndesirableEffect = ({ resource }: { resource: TMedicinalP
                     codeableConcept={resource.classification}
                     name='Classification'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='classification'
                 />
             }
@@ -112,7 +120,7 @@ const MedicinalProductUndesirableEffect = ({ resource }: { resource: TMedicinalP
                     codeableConcept={resource.frequencyOfOccurrence}
                     name='Frequency Of Occurrence'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='frequency-of-occurrence'
                 />
             }

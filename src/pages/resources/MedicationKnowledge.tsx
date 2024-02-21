@@ -15,12 +15,20 @@ import { TMedicationKnowledge } from '../../types/resources/MedicationKnowledge'
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const MedicationKnowledge = ({ resource }: { resource: TMedicationKnowledge }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -28,7 +36,7 @@ const MedicationKnowledge = ({ resource }: { resource: TMedicationKnowledge }): 
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -38,7 +46,7 @@ const MedicationKnowledge = ({ resource }: { resource: TMedicationKnowledge }): 
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -52,7 +60,7 @@ const MedicationKnowledge = ({ resource }: { resource: TMedicationKnowledge }): 
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -62,7 +70,7 @@ const MedicationKnowledge = ({ resource }: { resource: TMedicationKnowledge }): 
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -72,7 +80,7 @@ const MedicationKnowledge = ({ resource }: { resource: TMedicationKnowledge }): 
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -82,7 +90,7 @@ const MedicationKnowledge = ({ resource }: { resource: TMedicationKnowledge }): 
                     codeableConcept={resource.code}
                     name='Code'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='code'
                 />
             }
@@ -96,7 +104,7 @@ const MedicationKnowledge = ({ resource }: { resource: TMedicationKnowledge }): 
                     reference={resource.manufacturer}
                     name='Manufacturer'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='manufacturer'
                 />
             }
@@ -106,7 +114,7 @@ const MedicationKnowledge = ({ resource }: { resource: TMedicationKnowledge }): 
                     codeableConcept={resource.doseForm}
                     name='Dose Form'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='dose-form'
                 />
             }
@@ -116,7 +124,7 @@ const MedicationKnowledge = ({ resource }: { resource: TMedicationKnowledge }): 
                     quantity={resource.amount}
                     name='Amount'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='amount'
                 />
             }
@@ -126,7 +134,7 @@ const MedicationKnowledge = ({ resource }: { resource: TMedicationKnowledge }): 
                     reference={resource.associatedMedication}
                     name='Associated Medication'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='associated-medication'
                 />
             }
@@ -136,7 +144,7 @@ const MedicationKnowledge = ({ resource }: { resource: TMedicationKnowledge }): 
                     codeableConcept={resource.productType}
                     name='Product Type'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='product-type'
                 />
             }
@@ -146,7 +154,7 @@ const MedicationKnowledge = ({ resource }: { resource: TMedicationKnowledge }): 
                     markdown={resource.preparationInstruction}
                     name='Preparation Instruction'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='preparation-instruction'
                 />
             }
@@ -156,7 +164,7 @@ const MedicationKnowledge = ({ resource }: { resource: TMedicationKnowledge }): 
                     codeableConcept={resource.intendedRoute}
                     name='Intended Route'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='intended-route'
                 />
             }
@@ -166,7 +174,7 @@ const MedicationKnowledge = ({ resource }: { resource: TMedicationKnowledge }): 
                     reference={resource.contraindication}
                     name='Contraindication'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='contraindication'
                 />
             }
@@ -176,7 +184,7 @@ const MedicationKnowledge = ({ resource }: { resource: TMedicationKnowledge }): 
                     reference={resource.regulatory}
                     name='Regulatory'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='regulatory'
                     field='regulatoryAuthority'
                 />

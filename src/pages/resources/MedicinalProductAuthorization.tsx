@@ -15,12 +15,20 @@ import { TMedicinalProductAuthorization } from '../../types/resources/MedicinalP
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const MedicinalProductAuthorization = ({ resource }: { resource: TMedicinalProductAuthorization }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -28,7 +36,7 @@ const MedicinalProductAuthorization = ({ resource }: { resource: TMedicinalProdu
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -38,7 +46,7 @@ const MedicinalProductAuthorization = ({ resource }: { resource: TMedicinalProdu
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -52,7 +60,7 @@ const MedicinalProductAuthorization = ({ resource }: { resource: TMedicinalProdu
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -62,7 +70,7 @@ const MedicinalProductAuthorization = ({ resource }: { resource: TMedicinalProdu
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -72,7 +80,7 @@ const MedicinalProductAuthorization = ({ resource }: { resource: TMedicinalProdu
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -82,7 +90,7 @@ const MedicinalProductAuthorization = ({ resource }: { resource: TMedicinalProdu
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -92,7 +100,7 @@ const MedicinalProductAuthorization = ({ resource }: { resource: TMedicinalProdu
                     reference={resource.subject}
                     name='Subject'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='subject'
                 />
             }
@@ -102,7 +110,7 @@ const MedicinalProductAuthorization = ({ resource }: { resource: TMedicinalProdu
                     codeableConcept={resource.country}
                     name='Country'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='country'
                 />
             }
@@ -112,7 +120,7 @@ const MedicinalProductAuthorization = ({ resource }: { resource: TMedicinalProdu
                     codeableConcept={resource.jurisdiction}
                     name='Jurisdiction'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='jurisdiction'
                 />
             }
@@ -122,7 +130,7 @@ const MedicinalProductAuthorization = ({ resource }: { resource: TMedicinalProdu
                     codeableConcept={resource.status}
                     name='Status'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='status'
                 />
             }
@@ -132,7 +140,7 @@ const MedicinalProductAuthorization = ({ resource }: { resource: TMedicinalProdu
                     dateTime={resource.statusDate}
                     name='Status Date'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='status-date'
                 />
             }
@@ -142,7 +150,7 @@ const MedicinalProductAuthorization = ({ resource }: { resource: TMedicinalProdu
                     dateTime={resource.restoreDate}
                     name='Restore Date'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='restore-date'
                 />
             }
@@ -152,7 +160,7 @@ const MedicinalProductAuthorization = ({ resource }: { resource: TMedicinalProdu
                     period={resource.validityPeriod}
                     name='Validity Period'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='validity-period'
                 />
             }
@@ -162,7 +170,7 @@ const MedicinalProductAuthorization = ({ resource }: { resource: TMedicinalProdu
                     period={resource.dataExclusivityPeriod}
                     name='Data Exclusivity Period'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='data-exclusivity-period'
                 />
             }
@@ -172,7 +180,7 @@ const MedicinalProductAuthorization = ({ resource }: { resource: TMedicinalProdu
                     dateTime={resource.dateOfFirstAuthorization}
                     name='Date Of First Authorization'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='date-of-first-authorization'
                 />
             }
@@ -182,7 +190,7 @@ const MedicinalProductAuthorization = ({ resource }: { resource: TMedicinalProdu
                     dateTime={resource.internationalBirthDate}
                     name='International Birth Date'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='international-birth-date'
                 />
             }
@@ -192,7 +200,7 @@ const MedicinalProductAuthorization = ({ resource }: { resource: TMedicinalProdu
                     codeableConcept={resource.legalBasis}
                     name='Legal Basis'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='legal-basis'
                 />
             }
@@ -202,7 +210,7 @@ const MedicinalProductAuthorization = ({ resource }: { resource: TMedicinalProdu
                     reference={resource.holder}
                     name='Holder'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='holder'
                 />
             }
@@ -212,7 +220,7 @@ const MedicinalProductAuthorization = ({ resource }: { resource: TMedicinalProdu
                     reference={resource.regulator}
                     name='Regulator'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='regulator'
                 />
             }

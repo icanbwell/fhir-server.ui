@@ -18,6 +18,16 @@ function ReverseReference({ name, id, reverseReferences, resourceType }: TRevers
     id = `Patient/person.${id}`;
   }
 
+  const getReference = (reference: any) => {
+    if (reference.target === 'AuditEvent') {
+        const currDate = new Date().toISOString().split('T')[0];
+        const dateBeforeWeek = new Date();
+        dateBeforeWeek.setDate(dateBeforeWeek.getDate() - 7);
+        return `/4_0_0/${reference.target}?${reference.property}=${id}&date=lt.${currDate}&date=gt.${dateBeforeWeek.toISOString().split('T')[0]}`;
+    }
+    return `/4_0_0/${reference.target}?${reference.property}=${id}`;
+  };
+
   return reverseReferences &&
     reverseReferences.length > 0 &&
     reverseReferences[0] ? (
@@ -27,9 +37,9 @@ function ReverseReference({ name, id, reverseReferences, resourceType }: TRevers
         reference ? (
           <Link
             key={`${index}`}
-            href={`/4_0_0/${reference.target}?${reference.property}=${id}`}
+            href={getReference(reference)}
           >
-            {`/4_0_0/${reference.target}?${reference.property}=${id}`}
+            {getReference(reference)}
           </Link>
         ) : null,
       )}

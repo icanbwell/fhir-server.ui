@@ -28,12 +28,20 @@ import { TSubstanceSourceMaterial } from '../../types/resources/SubstanceSourceM
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const SubstanceSourceMaterial = ({ resource }: { resource: TSubstanceSourceMaterial }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -41,7 +49,7 @@ const SubstanceSourceMaterial = ({ resource }: { resource: TSubstanceSourceMater
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -51,7 +59,7 @@ const SubstanceSourceMaterial = ({ resource }: { resource: TSubstanceSourceMater
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -65,7 +73,7 @@ const SubstanceSourceMaterial = ({ resource }: { resource: TSubstanceSourceMater
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -75,7 +83,7 @@ const SubstanceSourceMaterial = ({ resource }: { resource: TSubstanceSourceMater
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -85,7 +93,7 @@ const SubstanceSourceMaterial = ({ resource }: { resource: TSubstanceSourceMater
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -95,7 +103,7 @@ const SubstanceSourceMaterial = ({ resource }: { resource: TSubstanceSourceMater
                     codeableConcept={resource.sourceMaterialClass}
                     name='Source Material Class'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='source-material-class'
                 />
             }
@@ -105,7 +113,7 @@ const SubstanceSourceMaterial = ({ resource }: { resource: TSubstanceSourceMater
                     codeableConcept={resource.sourceMaterialType}
                     name='Source Material Type'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='source-material-type'
                 />
             }
@@ -115,7 +123,7 @@ const SubstanceSourceMaterial = ({ resource }: { resource: TSubstanceSourceMater
                     codeableConcept={resource.sourceMaterialState}
                     name='Source Material State'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='source-material-state'
                 />
             }
@@ -125,7 +133,7 @@ const SubstanceSourceMaterial = ({ resource }: { resource: TSubstanceSourceMater
                     identifier={resource.organismId}
                     name='Organism Id'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='organism-id'
                 />
             }
@@ -135,7 +143,7 @@ const SubstanceSourceMaterial = ({ resource }: { resource: TSubstanceSourceMater
                     identifier={resource.parentSubstanceId}
                     name='Parent Substance Id'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='parent-substance-id'
                 />
             }
@@ -145,7 +153,7 @@ const SubstanceSourceMaterial = ({ resource }: { resource: TSubstanceSourceMater
                     codeableConcept={resource.countryOfOrigin}
                     name='Country Of Origin'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='country-of-origin'
                 />
             }
@@ -155,7 +163,7 @@ const SubstanceSourceMaterial = ({ resource }: { resource: TSubstanceSourceMater
                     codeableConcept={resource.developmentStage}
                     name='Development Stage'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='development-stage'
                 />
             }

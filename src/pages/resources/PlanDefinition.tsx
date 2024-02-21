@@ -18,12 +18,20 @@ import { TPlanDefinition } from '../../types/resources/PlanDefinition';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const PlanDefinition = ({ resource }: { resource: TPlanDefinition }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -31,7 +39,7 @@ const PlanDefinition = ({ resource }: { resource: TPlanDefinition }): React.Reac
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -41,7 +49,7 @@ const PlanDefinition = ({ resource }: { resource: TPlanDefinition }): React.Reac
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -55,7 +63,7 @@ const PlanDefinition = ({ resource }: { resource: TPlanDefinition }): React.Reac
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -65,7 +73,7 @@ const PlanDefinition = ({ resource }: { resource: TPlanDefinition }): React.Reac
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -75,7 +83,7 @@ const PlanDefinition = ({ resource }: { resource: TPlanDefinition }): React.Reac
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -85,7 +93,7 @@ const PlanDefinition = ({ resource }: { resource: TPlanDefinition }): React.Reac
                     uri={resource.url}
                     name='Url'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='url'
                 />
             }
@@ -95,7 +103,7 @@ const PlanDefinition = ({ resource }: { resource: TPlanDefinition }): React.Reac
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -105,7 +113,7 @@ const PlanDefinition = ({ resource }: { resource: TPlanDefinition }): React.Reac
                     codeableConcept={resource.type}
                     name='Type'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='type'
                 />
             }
@@ -119,7 +127,7 @@ const PlanDefinition = ({ resource }: { resource: TPlanDefinition }): React.Reac
                     boolean={resource.experimental}
                     name='Experimental'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='experimental'
                 />
             }
@@ -129,7 +137,7 @@ const PlanDefinition = ({ resource }: { resource: TPlanDefinition }): React.Reac
                     codeableConcept={resource.subjectCodeableConcept}
                     name='Subject Codeable Concept'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='subject-codeable-concept'
                 />
             }
@@ -139,7 +147,7 @@ const PlanDefinition = ({ resource }: { resource: TPlanDefinition }): React.Reac
                     reference={resource.subjectReference}
                     name='Subject Reference'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='subject-reference'
                 />
             }
@@ -149,7 +157,7 @@ const PlanDefinition = ({ resource }: { resource: TPlanDefinition }): React.Reac
                     dateTime={resource.date}
                     name='Date'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='date'
                 />
             }
@@ -159,7 +167,7 @@ const PlanDefinition = ({ resource }: { resource: TPlanDefinition }): React.Reac
                     markdown={resource.description}
                     name='Description'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='description'
                 />
             }
@@ -169,7 +177,7 @@ const PlanDefinition = ({ resource }: { resource: TPlanDefinition }): React.Reac
                     codeableConcept={resource.jurisdiction}
                     name='Jurisdiction'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='jurisdiction'
                 />
             }
@@ -179,7 +187,7 @@ const PlanDefinition = ({ resource }: { resource: TPlanDefinition }): React.Reac
                     markdown={resource.purpose}
                     name='Purpose'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='purpose'
                 />
             }
@@ -189,7 +197,7 @@ const PlanDefinition = ({ resource }: { resource: TPlanDefinition }): React.Reac
                     markdown={resource.copyright}
                     name='Copyright'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='copyright'
                 />
             }
@@ -199,7 +207,7 @@ const PlanDefinition = ({ resource }: { resource: TPlanDefinition }): React.Reac
                     period={resource.effectivePeriod}
                     name='Effective Period'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='effective-period'
                 />
             }
@@ -209,7 +217,7 @@ const PlanDefinition = ({ resource }: { resource: TPlanDefinition }): React.Reac
                     codeableConcept={resource.topic}
                     name='Topic'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='topic'
                 />
             }
@@ -219,7 +227,7 @@ const PlanDefinition = ({ resource }: { resource: TPlanDefinition }): React.Reac
                     canonical={resource.library}
                     name='Library'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='library'
                 />
             }

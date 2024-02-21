@@ -16,12 +16,20 @@ import { TNutritionOrder } from '../../types/resources/NutritionOrder';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const NutritionOrder = ({ resource }: { resource: TNutritionOrder }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -29,7 +37,7 @@ const NutritionOrder = ({ resource }: { resource: TNutritionOrder }): React.Reac
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -39,7 +47,7 @@ const NutritionOrder = ({ resource }: { resource: TNutritionOrder }): React.Reac
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -53,7 +61,7 @@ const NutritionOrder = ({ resource }: { resource: TNutritionOrder }): React.Reac
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -63,7 +71,7 @@ const NutritionOrder = ({ resource }: { resource: TNutritionOrder }): React.Reac
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -73,7 +81,7 @@ const NutritionOrder = ({ resource }: { resource: TNutritionOrder }): React.Reac
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -83,7 +91,7 @@ const NutritionOrder = ({ resource }: { resource: TNutritionOrder }): React.Reac
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -93,7 +101,7 @@ const NutritionOrder = ({ resource }: { resource: TNutritionOrder }): React.Reac
                     canonical={resource.instantiatesCanonical}
                     name='Instantiates Canonical'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='instantiates-canonical'
                 />
             }
@@ -103,7 +111,7 @@ const NutritionOrder = ({ resource }: { resource: TNutritionOrder }): React.Reac
                     uri={resource.instantiatesUri}
                     name='Instantiates Uri'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='instantiates-uri'
                 />
             }
@@ -113,7 +121,7 @@ const NutritionOrder = ({ resource }: { resource: TNutritionOrder }): React.Reac
                     uri={resource.instantiates}
                     name='Instantiates'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='instantiates'
                 />
             }
@@ -131,7 +139,7 @@ const NutritionOrder = ({ resource }: { resource: TNutritionOrder }): React.Reac
                     reference={resource.patient}
                     name='Patient'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='patient'
                 />
             }
@@ -141,7 +149,7 @@ const NutritionOrder = ({ resource }: { resource: TNutritionOrder }): React.Reac
                     reference={resource.encounter}
                     name='Encounter'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='encounter'
                 />
             }
@@ -151,7 +159,7 @@ const NutritionOrder = ({ resource }: { resource: TNutritionOrder }): React.Reac
                     dateTime={resource.dateTime}
                     name='Date Time'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='date-time'
                 />
             }
@@ -161,7 +169,7 @@ const NutritionOrder = ({ resource }: { resource: TNutritionOrder }): React.Reac
                     reference={resource.orderer}
                     name='Orderer'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='orderer'
                 />
             }
@@ -171,7 +179,7 @@ const NutritionOrder = ({ resource }: { resource: TNutritionOrder }): React.Reac
                     reference={resource.allergyIntolerance}
                     name='Allergy Intolerance'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='allergy-intolerance'
                 />
             }
@@ -181,7 +189,7 @@ const NutritionOrder = ({ resource }: { resource: TNutritionOrder }): React.Reac
                     codeableConcept={resource.foodPreferenceModifier}
                     name='Food Preference Modifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='food-preference-modifier'
                 />
             }
@@ -191,7 +199,7 @@ const NutritionOrder = ({ resource }: { resource: TNutritionOrder }): React.Reac
                     codeableConcept={resource.excludeFoodModifier}
                     name='Exclude Food Modifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='exclude-food-modifier'
                 />
             }
@@ -201,7 +209,7 @@ const NutritionOrder = ({ resource }: { resource: TNutritionOrder }): React.Reac
                     annotation={resource.note}
                     name='Note'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='note'
                 />
             }

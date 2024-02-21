@@ -16,12 +16,20 @@ import { TInvoice } from '../../types/resources/Invoice';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const Invoice = ({ resource }: { resource: TInvoice }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -29,7 +37,7 @@ const Invoice = ({ resource }: { resource: TInvoice }): React.ReactElement => {
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -39,7 +47,7 @@ const Invoice = ({ resource }: { resource: TInvoice }): React.ReactElement => {
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -53,7 +61,7 @@ const Invoice = ({ resource }: { resource: TInvoice }): React.ReactElement => {
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -63,7 +71,7 @@ const Invoice = ({ resource }: { resource: TInvoice }): React.ReactElement => {
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -73,7 +81,7 @@ const Invoice = ({ resource }: { resource: TInvoice }): React.ReactElement => {
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -83,7 +91,7 @@ const Invoice = ({ resource }: { resource: TInvoice }): React.ReactElement => {
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -97,7 +105,7 @@ const Invoice = ({ resource }: { resource: TInvoice }): React.ReactElement => {
                     codeableConcept={resource.type}
                     name='Type'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='type'
                 />
             }
@@ -107,7 +115,7 @@ const Invoice = ({ resource }: { resource: TInvoice }): React.ReactElement => {
                     reference={resource.subject}
                     name='Subject'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='subject'
                 />
             }
@@ -117,7 +125,7 @@ const Invoice = ({ resource }: { resource: TInvoice }): React.ReactElement => {
                     reference={resource.recipient}
                     name='Recipient'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='recipient'
                 />
             }
@@ -127,7 +135,7 @@ const Invoice = ({ resource }: { resource: TInvoice }): React.ReactElement => {
                     dateTime={resource.date}
                     name='Date'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='date'
                 />
             }
@@ -137,7 +145,7 @@ const Invoice = ({ resource }: { resource: TInvoice }): React.ReactElement => {
                     reference={resource.participant}
                     name='Participant'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='participant'
                     field='actor'
                 />
@@ -148,7 +156,7 @@ const Invoice = ({ resource }: { resource: TInvoice }): React.ReactElement => {
                     reference={resource.issuer}
                     name='Issuer'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='issuer'
                 />
             }
@@ -158,7 +166,7 @@ const Invoice = ({ resource }: { resource: TInvoice }): React.ReactElement => {
                     reference={resource.account}
                     name='Account'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='account'
                 />
             }
@@ -168,7 +176,7 @@ const Invoice = ({ resource }: { resource: TInvoice }): React.ReactElement => {
                     invoiceLineItem={resource.lineItem}
                     name='Line Item'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='line-item'
                 />
             }
@@ -178,7 +186,7 @@ const Invoice = ({ resource }: { resource: TInvoice }): React.ReactElement => {
                     invoicePriceComponent={resource.totalPriceComponent}
                     name='Total Price Component'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='total-price-component'
                 />
             }
@@ -188,7 +196,7 @@ const Invoice = ({ resource }: { resource: TInvoice }): React.ReactElement => {
                     money={resource.totalNet}
                     name='Total Net'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='total-net'
                 />
             }
@@ -198,7 +206,7 @@ const Invoice = ({ resource }: { resource: TInvoice }): React.ReactElement => {
                     money={resource.totalGross}
                     name='Total Gross'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='total-gross'
                 />
             }
@@ -208,7 +216,7 @@ const Invoice = ({ resource }: { resource: TInvoice }): React.ReactElement => {
                     markdown={resource.paymentTerms}
                     name='Payment Terms'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='payment-terms'
                 />
             }
@@ -218,7 +226,7 @@ const Invoice = ({ resource }: { resource: TInvoice }): React.ReactElement => {
                     annotation={resource.note}
                     name='Note'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='note'
                 />
             }

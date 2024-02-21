@@ -16,12 +16,20 @@ import { TClaimResponse } from '../../types/resources/ClaimResponse';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const ClaimResponse = ({ resource }: { resource: TClaimResponse }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -29,7 +37,7 @@ const ClaimResponse = ({ resource }: { resource: TClaimResponse }): React.ReactE
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -39,7 +47,7 @@ const ClaimResponse = ({ resource }: { resource: TClaimResponse }): React.ReactE
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -53,7 +61,7 @@ const ClaimResponse = ({ resource }: { resource: TClaimResponse }): React.ReactE
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -63,7 +71,7 @@ const ClaimResponse = ({ resource }: { resource: TClaimResponse }): React.ReactE
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -73,7 +81,7 @@ const ClaimResponse = ({ resource }: { resource: TClaimResponse }): React.ReactE
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -83,7 +91,7 @@ const ClaimResponse = ({ resource }: { resource: TClaimResponse }): React.ReactE
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -97,7 +105,7 @@ const ClaimResponse = ({ resource }: { resource: TClaimResponse }): React.ReactE
                     codeableConcept={resource.type}
                     name='Type'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='type'
                 />
             }
@@ -107,7 +115,7 @@ const ClaimResponse = ({ resource }: { resource: TClaimResponse }): React.ReactE
                     codeableConcept={resource.subType}
                     name='Sub Type'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='sub-type'
                 />
             }
@@ -121,7 +129,7 @@ const ClaimResponse = ({ resource }: { resource: TClaimResponse }): React.ReactE
                     reference={resource.patient}
                     name='Patient'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='patient'
                 />
             }
@@ -131,7 +139,7 @@ const ClaimResponse = ({ resource }: { resource: TClaimResponse }): React.ReactE
                     dateTime={resource.created}
                     name='Created'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='created'
                 />
             }
@@ -141,7 +149,7 @@ const ClaimResponse = ({ resource }: { resource: TClaimResponse }): React.ReactE
                     reference={resource.insurer}
                     name='Insurer'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='insurer'
                 />
             }
@@ -151,7 +159,7 @@ const ClaimResponse = ({ resource }: { resource: TClaimResponse }): React.ReactE
                     reference={resource.requestor}
                     name='Requestor'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='requestor'
                 />
             }
@@ -161,7 +169,7 @@ const ClaimResponse = ({ resource }: { resource: TClaimResponse }): React.ReactE
                     reference={resource.request}
                     name='Request'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='request'
                 />
             }
@@ -175,7 +183,7 @@ const ClaimResponse = ({ resource }: { resource: TClaimResponse }): React.ReactE
                     period={resource.preAuthPeriod}
                     name='Pre Auth Period'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='pre-auth-period'
                 />
             }
@@ -185,7 +193,7 @@ const ClaimResponse = ({ resource }: { resource: TClaimResponse }): React.ReactE
                     codeableConcept={resource.payeeType}
                     name='Payee Type'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='payee-type'
                 />
             }
@@ -195,7 +203,7 @@ const ClaimResponse = ({ resource }: { resource: TClaimResponse }): React.ReactE
                     codeableConcept={resource.fundsReserve}
                     name='Funds Reserve'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='funds-reserve'
                 />
             }
@@ -205,7 +213,7 @@ const ClaimResponse = ({ resource }: { resource: TClaimResponse }): React.ReactE
                     codeableConcept={resource.formCode}
                     name='Form Code'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='form-code'
                 />
             }
@@ -215,7 +223,7 @@ const ClaimResponse = ({ resource }: { resource: TClaimResponse }): React.ReactE
                     attachment={resource.form}
                     name='Form'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='form'
                 />
             }
@@ -225,7 +233,7 @@ const ClaimResponse = ({ resource }: { resource: TClaimResponse }): React.ReactE
                     reference={resource.communicationRequest}
                     name='Communication Request'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='communication-request'
                 />
             }
@@ -235,7 +243,7 @@ const ClaimResponse = ({ resource }: { resource: TClaimResponse }): React.ReactE
                     reference={resource.insurance}
                     name='Insurance'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='insurance'
                     field='coverage'
                 />

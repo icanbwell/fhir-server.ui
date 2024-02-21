@@ -17,12 +17,20 @@ import { TBiologicallyDerivedProduct } from '../../types/resources/BiologicallyD
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const BiologicallyDerivedProduct = ({ resource }: { resource: TBiologicallyDerivedProduct }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -30,7 +38,7 @@ const BiologicallyDerivedProduct = ({ resource }: { resource: TBiologicallyDeriv
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -40,7 +48,7 @@ const BiologicallyDerivedProduct = ({ resource }: { resource: TBiologicallyDeriv
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -54,7 +62,7 @@ const BiologicallyDerivedProduct = ({ resource }: { resource: TBiologicallyDeriv
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -64,7 +72,7 @@ const BiologicallyDerivedProduct = ({ resource }: { resource: TBiologicallyDeriv
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -74,7 +82,7 @@ const BiologicallyDerivedProduct = ({ resource }: { resource: TBiologicallyDeriv
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -84,7 +92,7 @@ const BiologicallyDerivedProduct = ({ resource }: { resource: TBiologicallyDeriv
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -98,7 +106,7 @@ const BiologicallyDerivedProduct = ({ resource }: { resource: TBiologicallyDeriv
                     codeableConcept={resource.productCode}
                     name='Product Code'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='product-code'
                 />
             }
@@ -112,7 +120,7 @@ const BiologicallyDerivedProduct = ({ resource }: { resource: TBiologicallyDeriv
                     reference={resource.request}
                     name='Request'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='request'
                 />
             }
@@ -122,7 +130,7 @@ const BiologicallyDerivedProduct = ({ resource }: { resource: TBiologicallyDeriv
                     reference={resource.parent}
                     name='Parent'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='parent'
                 />
             }

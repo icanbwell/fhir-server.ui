@@ -16,12 +16,20 @@ import { TDeviceUseStatement } from '../../types/resources/DeviceUseStatement';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const DeviceUseStatement = ({ resource }: { resource: TDeviceUseStatement }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -29,7 +37,7 @@ const DeviceUseStatement = ({ resource }: { resource: TDeviceUseStatement }): Re
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -39,7 +47,7 @@ const DeviceUseStatement = ({ resource }: { resource: TDeviceUseStatement }): Re
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -53,7 +61,7 @@ const DeviceUseStatement = ({ resource }: { resource: TDeviceUseStatement }): Re
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -63,7 +71,7 @@ const DeviceUseStatement = ({ resource }: { resource: TDeviceUseStatement }): Re
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -73,7 +81,7 @@ const DeviceUseStatement = ({ resource }: { resource: TDeviceUseStatement }): Re
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -83,7 +91,7 @@ const DeviceUseStatement = ({ resource }: { resource: TDeviceUseStatement }): Re
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -93,7 +101,7 @@ const DeviceUseStatement = ({ resource }: { resource: TDeviceUseStatement }): Re
                     reference={resource.basedOn}
                     name='Based On'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='based-on'
                 />
             }
@@ -107,7 +115,7 @@ const DeviceUseStatement = ({ resource }: { resource: TDeviceUseStatement }): Re
                     reference={resource.subject}
                     name='Subject'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='subject'
                 />
             }
@@ -117,7 +125,7 @@ const DeviceUseStatement = ({ resource }: { resource: TDeviceUseStatement }): Re
                     reference={resource.derivedFrom}
                     name='Derived From'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='derived-from'
                 />
             }
@@ -127,7 +135,7 @@ const DeviceUseStatement = ({ resource }: { resource: TDeviceUseStatement }): Re
                     timing={resource.timingTiming}
                     name='Timing Timing'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='timing-timing'
                 />
             }
@@ -137,7 +145,7 @@ const DeviceUseStatement = ({ resource }: { resource: TDeviceUseStatement }): Re
                     period={resource.timingPeriod}
                     name='Timing Period'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='timing-period'
                 />
             }
@@ -147,7 +155,7 @@ const DeviceUseStatement = ({ resource }: { resource: TDeviceUseStatement }): Re
                     dateTime={resource.timingDateTime}
                     name='Timing Date Time'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='timing-date-time'
                 />
             }
@@ -157,7 +165,7 @@ const DeviceUseStatement = ({ resource }: { resource: TDeviceUseStatement }): Re
                     dateTime={resource.recordedOn}
                     name='Recorded On'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='recorded-on'
                 />
             }
@@ -167,7 +175,7 @@ const DeviceUseStatement = ({ resource }: { resource: TDeviceUseStatement }): Re
                     reference={resource.source}
                     name='Source'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='source'
                 />
             }
@@ -177,7 +185,7 @@ const DeviceUseStatement = ({ resource }: { resource: TDeviceUseStatement }): Re
                     reference={resource.device}
                     name='Device'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='device'
                 />
             }
@@ -187,7 +195,7 @@ const DeviceUseStatement = ({ resource }: { resource: TDeviceUseStatement }): Re
                     codeableConcept={resource.reasonCode}
                     name='Reason Code'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='reason-code'
                 />
             }
@@ -197,7 +205,7 @@ const DeviceUseStatement = ({ resource }: { resource: TDeviceUseStatement }): Re
                     reference={resource.reasonReference}
                     name='Reason Reference'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='reason-reference'
                 />
             }
@@ -207,7 +215,7 @@ const DeviceUseStatement = ({ resource }: { resource: TDeviceUseStatement }): Re
                     codeableConcept={resource.bodySite}
                     name='Body Site'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='body-site'
                 />
             }
@@ -217,7 +225,7 @@ const DeviceUseStatement = ({ resource }: { resource: TDeviceUseStatement }): Re
                     annotation={resource.note}
                     name='Note'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='note'
                 />
             }

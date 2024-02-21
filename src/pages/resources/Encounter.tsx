@@ -16,12 +16,20 @@ import { TEncounter } from '../../types/resources/Encounter';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const Encounter = ({ resource }: { resource: TEncounter }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -29,7 +37,7 @@ const Encounter = ({ resource }: { resource: TEncounter }): React.ReactElement =
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -39,7 +47,7 @@ const Encounter = ({ resource }: { resource: TEncounter }): React.ReactElement =
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -53,7 +61,7 @@ const Encounter = ({ resource }: { resource: TEncounter }): React.ReactElement =
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -63,7 +71,7 @@ const Encounter = ({ resource }: { resource: TEncounter }): React.ReactElement =
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -73,7 +81,7 @@ const Encounter = ({ resource }: { resource: TEncounter }): React.ReactElement =
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -83,7 +91,7 @@ const Encounter = ({ resource }: { resource: TEncounter }): React.ReactElement =
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -97,7 +105,7 @@ const Encounter = ({ resource }: { resource: TEncounter }): React.ReactElement =
                     coding={resource.class_}
                     name='Class_'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='class_'
                 />
             }
@@ -107,7 +115,7 @@ const Encounter = ({ resource }: { resource: TEncounter }): React.ReactElement =
                     codeableConcept={resource.type}
                     name='Type'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='type'
                 />
             }
@@ -117,7 +125,7 @@ const Encounter = ({ resource }: { resource: TEncounter }): React.ReactElement =
                     codeableConcept={resource.serviceType}
                     name='Service Type'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='service-type'
                 />
             }
@@ -127,7 +135,7 @@ const Encounter = ({ resource }: { resource: TEncounter }): React.ReactElement =
                     codeableConcept={resource.priority}
                     name='Priority'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='priority'
                 />
             }
@@ -137,7 +145,7 @@ const Encounter = ({ resource }: { resource: TEncounter }): React.ReactElement =
                     reference={resource.subject}
                     name='Subject'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='subject'
                 />
             }
@@ -147,7 +155,7 @@ const Encounter = ({ resource }: { resource: TEncounter }): React.ReactElement =
                     reference={resource.episodeOfCare}
                     name='Episode Of Care'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='episode-of-care'
                 />
             }
@@ -157,7 +165,7 @@ const Encounter = ({ resource }: { resource: TEncounter }): React.ReactElement =
                     reference={resource.basedOn}
                     name='Based On'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='based-on'
                 />
             }
@@ -167,7 +175,7 @@ const Encounter = ({ resource }: { resource: TEncounter }): React.ReactElement =
                     reference={resource.appointment}
                     name='Appointment'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='appointment'
                 />
             }
@@ -177,7 +185,7 @@ const Encounter = ({ resource }: { resource: TEncounter }): React.ReactElement =
                     period={resource.period}
                     name='Period'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='period'
                 />
             }
@@ -187,7 +195,7 @@ const Encounter = ({ resource }: { resource: TEncounter }): React.ReactElement =
                     quantity={resource.length}
                     name='Length'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='length'
                 />
             }
@@ -197,7 +205,7 @@ const Encounter = ({ resource }: { resource: TEncounter }): React.ReactElement =
                     codeableConcept={resource.reasonCode}
                     name='Reason Code'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='reason-code'
                 />
             }
@@ -207,7 +215,7 @@ const Encounter = ({ resource }: { resource: TEncounter }): React.ReactElement =
                     reference={resource.reasonReference}
                     name='Reason Reference'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='reason-reference'
                 />
             }
@@ -217,7 +225,7 @@ const Encounter = ({ resource }: { resource: TEncounter }): React.ReactElement =
                     reference={resource.diagnosis}
                     name='Diagnosis'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='diagnosis'
                     field='condition'
                 />
@@ -228,7 +236,7 @@ const Encounter = ({ resource }: { resource: TEncounter }): React.ReactElement =
                     reference={resource.account}
                     name='Account'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='account'
                 />
             }
@@ -238,7 +246,7 @@ const Encounter = ({ resource }: { resource: TEncounter }): React.ReactElement =
                     reference={resource.location}
                     name='Location'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='location'
                     field='location'
                 />
@@ -249,7 +257,7 @@ const Encounter = ({ resource }: { resource: TEncounter }): React.ReactElement =
                     reference={resource.serviceProvider}
                     name='Service Provider'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='service-provider'
                 />
             }
@@ -259,7 +267,7 @@ const Encounter = ({ resource }: { resource: TEncounter }): React.ReactElement =
                     reference={resource.partOf}
                     name='Part Of'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='part-of'
                 />
             }

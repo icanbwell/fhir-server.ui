@@ -16,12 +16,20 @@ import { TAppointmentResponse } from '../../types/resources/AppointmentResponse'
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const AppointmentResponse = ({ resource }: { resource: TAppointmentResponse }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -29,7 +37,7 @@ const AppointmentResponse = ({ resource }: { resource: TAppointmentResponse }): 
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -39,7 +47,7 @@ const AppointmentResponse = ({ resource }: { resource: TAppointmentResponse }): 
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -53,7 +61,7 @@ const AppointmentResponse = ({ resource }: { resource: TAppointmentResponse }): 
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -63,7 +71,7 @@ const AppointmentResponse = ({ resource }: { resource: TAppointmentResponse }): 
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -73,7 +81,7 @@ const AppointmentResponse = ({ resource }: { resource: TAppointmentResponse }): 
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -83,7 +91,7 @@ const AppointmentResponse = ({ resource }: { resource: TAppointmentResponse }): 
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -93,7 +101,7 @@ const AppointmentResponse = ({ resource }: { resource: TAppointmentResponse }): 
                     reference={resource.appointment}
                     name='Appointment'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='appointment'
                 />
             }
@@ -103,7 +111,7 @@ const AppointmentResponse = ({ resource }: { resource: TAppointmentResponse }): 
                     instant={resource.start}
                     name='Start'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='start'
                 />
             }
@@ -113,7 +121,7 @@ const AppointmentResponse = ({ resource }: { resource: TAppointmentResponse }): 
                     instant={resource.end}
                     name='End'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='end'
                 />
             }
@@ -123,7 +131,7 @@ const AppointmentResponse = ({ resource }: { resource: TAppointmentResponse }): 
                     codeableConcept={resource.participantType}
                     name='Participant Type'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='participant-type'
                 />
             }
@@ -133,7 +141,7 @@ const AppointmentResponse = ({ resource }: { resource: TAppointmentResponse }): 
                     reference={resource.actor}
                     name='Actor'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='actor'
                 />
             }

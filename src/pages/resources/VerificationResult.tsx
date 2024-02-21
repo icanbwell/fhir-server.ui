@@ -16,12 +16,20 @@ import { TVerificationResult } from '../../types/resources/VerificationResult';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const VerificationResult = ({ resource }: { resource: TVerificationResult }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -29,7 +37,7 @@ const VerificationResult = ({ resource }: { resource: TVerificationResult }): Re
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -39,7 +47,7 @@ const VerificationResult = ({ resource }: { resource: TVerificationResult }): Re
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -53,7 +61,7 @@ const VerificationResult = ({ resource }: { resource: TVerificationResult }): Re
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -63,7 +71,7 @@ const VerificationResult = ({ resource }: { resource: TVerificationResult }): Re
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -73,7 +81,7 @@ const VerificationResult = ({ resource }: { resource: TVerificationResult }): Re
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -83,7 +91,7 @@ const VerificationResult = ({ resource }: { resource: TVerificationResult }): Re
                     reference={resource.target}
                     name='Target'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='target'
                 />
             }
@@ -93,7 +101,7 @@ const VerificationResult = ({ resource }: { resource: TVerificationResult }): Re
                     codeableConcept={resource.need}
                     name='Need'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='need'
                 />
             }
@@ -107,7 +115,7 @@ const VerificationResult = ({ resource }: { resource: TVerificationResult }): Re
                     dateTime={resource.statusDate}
                     name='Status Date'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='status-date'
                 />
             }
@@ -117,7 +125,7 @@ const VerificationResult = ({ resource }: { resource: TVerificationResult }): Re
                     codeableConcept={resource.validationType}
                     name='Validation Type'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='validation-type'
                 />
             }
@@ -127,7 +135,7 @@ const VerificationResult = ({ resource }: { resource: TVerificationResult }): Re
                     codeableConcept={resource.validationProcess}
                     name='Validation Process'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='validation-process'
                 />
             }
@@ -137,7 +145,7 @@ const VerificationResult = ({ resource }: { resource: TVerificationResult }): Re
                     timing={resource.frequency}
                     name='Frequency'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='frequency'
                 />
             }
@@ -147,7 +155,7 @@ const VerificationResult = ({ resource }: { resource: TVerificationResult }): Re
                     dateTime={resource.lastPerformed}
                     name='Last Performed'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='last-performed'
                 />
             }
@@ -157,7 +165,7 @@ const VerificationResult = ({ resource }: { resource: TVerificationResult }): Re
                     codeableConcept={resource.failureAction}
                     name='Failure Action'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='failure-action'
                 />
             }
@@ -167,7 +175,7 @@ const VerificationResult = ({ resource }: { resource: TVerificationResult }): Re
                     reference={resource.validator}
                     name='Validator'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='validator'
                     field='organization'
                 />

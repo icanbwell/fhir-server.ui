@@ -16,12 +16,20 @@ import { TOperationDefinition } from '../../types/resources/OperationDefinition'
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const OperationDefinition = ({ resource }: { resource: TOperationDefinition }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -29,7 +37,7 @@ const OperationDefinition = ({ resource }: { resource: TOperationDefinition }): 
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -39,7 +47,7 @@ const OperationDefinition = ({ resource }: { resource: TOperationDefinition }): 
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -53,7 +61,7 @@ const OperationDefinition = ({ resource }: { resource: TOperationDefinition }): 
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -63,7 +71,7 @@ const OperationDefinition = ({ resource }: { resource: TOperationDefinition }): 
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -73,7 +81,7 @@ const OperationDefinition = ({ resource }: { resource: TOperationDefinition }): 
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -83,7 +91,7 @@ const OperationDefinition = ({ resource }: { resource: TOperationDefinition }): 
                     uri={resource.url}
                     name='Url'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='url'
                 />
             }
@@ -101,7 +109,7 @@ const OperationDefinition = ({ resource }: { resource: TOperationDefinition }): 
                     boolean={resource.experimental}
                     name='Experimental'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='experimental'
                 />
             }
@@ -111,7 +119,7 @@ const OperationDefinition = ({ resource }: { resource: TOperationDefinition }): 
                     dateTime={resource.date}
                     name='Date'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='date'
                 />
             }
@@ -121,7 +129,7 @@ const OperationDefinition = ({ resource }: { resource: TOperationDefinition }): 
                     markdown={resource.description}
                     name='Description'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='description'
                 />
             }
@@ -131,7 +139,7 @@ const OperationDefinition = ({ resource }: { resource: TOperationDefinition }): 
                     codeableConcept={resource.jurisdiction}
                     name='Jurisdiction'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='jurisdiction'
                 />
             }
@@ -141,7 +149,7 @@ const OperationDefinition = ({ resource }: { resource: TOperationDefinition }): 
                     markdown={resource.purpose}
                     name='Purpose'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='purpose'
                 />
             }
@@ -151,7 +159,7 @@ const OperationDefinition = ({ resource }: { resource: TOperationDefinition }): 
                     boolean={resource.affectsState}
                     name='Affects State'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='affects-state'
                 />
             }
@@ -165,7 +173,7 @@ const OperationDefinition = ({ resource }: { resource: TOperationDefinition }): 
                     markdown={resource.comment}
                     name='Comment'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='comment'
                 />
             }
@@ -175,7 +183,7 @@ const OperationDefinition = ({ resource }: { resource: TOperationDefinition }): 
                     canonical={resource.base}
                     name='Base'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='base'
                 />
             }
@@ -189,7 +197,7 @@ const OperationDefinition = ({ resource }: { resource: TOperationDefinition }): 
                     boolean={resource.system}
                     name='System'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='system'
                 />
             }
@@ -199,7 +207,7 @@ const OperationDefinition = ({ resource }: { resource: TOperationDefinition }): 
                     boolean={resource.type}
                     name='Type'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='type'
                 />
             }
@@ -209,7 +217,7 @@ const OperationDefinition = ({ resource }: { resource: TOperationDefinition }): 
                     boolean={resource.instance}
                     name='Instance'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='instance'
                 />
             }
@@ -219,7 +227,7 @@ const OperationDefinition = ({ resource }: { resource: TOperationDefinition }): 
                     canonical={resource.inputProfile}
                     name='Input Profile'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='input-profile'
                 />
             }
@@ -229,7 +237,7 @@ const OperationDefinition = ({ resource }: { resource: TOperationDefinition }): 
                     canonical={resource.outputProfile}
                     name='Output Profile'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='output-profile'
                 />
             }

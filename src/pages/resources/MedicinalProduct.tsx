@@ -16,12 +16,20 @@ import { TMedicinalProduct } from '../../types/resources/MedicinalProduct';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const MedicinalProduct = ({ resource }: { resource: TMedicinalProduct }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -29,7 +37,7 @@ const MedicinalProduct = ({ resource }: { resource: TMedicinalProduct }): React.
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -39,7 +47,7 @@ const MedicinalProduct = ({ resource }: { resource: TMedicinalProduct }): React.
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -53,7 +61,7 @@ const MedicinalProduct = ({ resource }: { resource: TMedicinalProduct }): React.
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -63,7 +71,7 @@ const MedicinalProduct = ({ resource }: { resource: TMedicinalProduct }): React.
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -73,7 +81,7 @@ const MedicinalProduct = ({ resource }: { resource: TMedicinalProduct }): React.
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -83,7 +91,7 @@ const MedicinalProduct = ({ resource }: { resource: TMedicinalProduct }): React.
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -93,7 +101,7 @@ const MedicinalProduct = ({ resource }: { resource: TMedicinalProduct }): React.
                     codeableConcept={resource.type}
                     name='Type'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='type'
                 />
             }
@@ -103,7 +111,7 @@ const MedicinalProduct = ({ resource }: { resource: TMedicinalProduct }): React.
                     coding={resource.domain}
                     name='Domain'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='domain'
                 />
             }
@@ -113,7 +121,7 @@ const MedicinalProduct = ({ resource }: { resource: TMedicinalProduct }): React.
                     codeableConcept={resource.combinedPharmaceuticalDoseForm}
                     name='Combined Pharmaceutical Dose Form'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='combined-pharmaceutical-dose-form'
                 />
             }
@@ -123,7 +131,7 @@ const MedicinalProduct = ({ resource }: { resource: TMedicinalProduct }): React.
                     codeableConcept={resource.legalStatusOfSupply}
                     name='Legal Status Of Supply'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='legal-status-of-supply'
                 />
             }
@@ -133,7 +141,7 @@ const MedicinalProduct = ({ resource }: { resource: TMedicinalProduct }): React.
                     codeableConcept={resource.additionalMonitoringIndicator}
                     name='Additional Monitoring Indicator'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='additional-monitoring-indicator'
                 />
             }
@@ -143,7 +151,7 @@ const MedicinalProduct = ({ resource }: { resource: TMedicinalProduct }): React.
                     codeableConcept={resource.paediatricUseIndicator}
                     name='Paediatric Use Indicator'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='paediatric-use-indicator'
                 />
             }
@@ -153,7 +161,7 @@ const MedicinalProduct = ({ resource }: { resource: TMedicinalProduct }): React.
                     codeableConcept={resource.productClassification}
                     name='Product Classification'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='product-classification'
                 />
             }
@@ -163,7 +171,7 @@ const MedicinalProduct = ({ resource }: { resource: TMedicinalProduct }): React.
                     reference={resource.pharmaceuticalProduct}
                     name='Pharmaceutical Product'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='pharmaceutical-product'
                 />
             }
@@ -173,7 +181,7 @@ const MedicinalProduct = ({ resource }: { resource: TMedicinalProduct }): React.
                     reference={resource.packagedMedicinalProduct}
                     name='Packaged Medicinal Product'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='packaged-medicinal-product'
                 />
             }
@@ -183,7 +191,7 @@ const MedicinalProduct = ({ resource }: { resource: TMedicinalProduct }): React.
                     reference={resource.attachedDocument}
                     name='Attached Document'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='attached-document'
                 />
             }
@@ -193,7 +201,7 @@ const MedicinalProduct = ({ resource }: { resource: TMedicinalProduct }): React.
                     reference={resource.masterFile}
                     name='Master File'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='master-file'
                 />
             }
@@ -203,7 +211,7 @@ const MedicinalProduct = ({ resource }: { resource: TMedicinalProduct }): React.
                     reference={resource.contact}
                     name='Contact'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='contact'
                 />
             }
@@ -213,7 +221,7 @@ const MedicinalProduct = ({ resource }: { resource: TMedicinalProduct }): React.
                     reference={resource.clinicalTrial}
                     name='Clinical Trial'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='clinical-trial'
                 />
             }
@@ -223,7 +231,7 @@ const MedicinalProduct = ({ resource }: { resource: TMedicinalProduct }): React.
                     identifier={resource.crossReference}
                     name='Cross Reference'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='cross-reference'
                 />
             }
