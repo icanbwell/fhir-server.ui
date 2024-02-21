@@ -19,12 +19,20 @@ import { TImagingStudy } from '../../types/resources/ImagingStudy';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const ImagingStudy = ({ resource }: { resource: TImagingStudy }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -32,7 +40,7 @@ const ImagingStudy = ({ resource }: { resource: TImagingStudy }): React.ReactEle
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -42,7 +50,7 @@ const ImagingStudy = ({ resource }: { resource: TImagingStudy }): React.ReactEle
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -56,7 +64,7 @@ const ImagingStudy = ({ resource }: { resource: TImagingStudy }): React.ReactEle
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -66,7 +74,7 @@ const ImagingStudy = ({ resource }: { resource: TImagingStudy }): React.ReactEle
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -76,7 +84,7 @@ const ImagingStudy = ({ resource }: { resource: TImagingStudy }): React.ReactEle
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -86,7 +94,7 @@ const ImagingStudy = ({ resource }: { resource: TImagingStudy }): React.ReactEle
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -100,7 +108,7 @@ const ImagingStudy = ({ resource }: { resource: TImagingStudy }): React.ReactEle
                     coding={resource.modality}
                     name='Modality'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modality'
                 />
             }
@@ -110,7 +118,7 @@ const ImagingStudy = ({ resource }: { resource: TImagingStudy }): React.ReactEle
                     reference={resource.subject}
                     name='Subject'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='subject'
                 />
             }
@@ -120,7 +128,7 @@ const ImagingStudy = ({ resource }: { resource: TImagingStudy }): React.ReactEle
                     reference={resource.encounter}
                     name='Encounter'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='encounter'
                 />
             }
@@ -130,7 +138,7 @@ const ImagingStudy = ({ resource }: { resource: TImagingStudy }): React.ReactEle
                     dateTime={resource.started}
                     name='Started'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='started'
                 />
             }
@@ -140,7 +148,7 @@ const ImagingStudy = ({ resource }: { resource: TImagingStudy }): React.ReactEle
                     reference={resource.basedOn}
                     name='Based On'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='based-on'
                 />
             }
@@ -150,7 +158,7 @@ const ImagingStudy = ({ resource }: { resource: TImagingStudy }): React.ReactEle
                     reference={resource.referrer}
                     name='Referrer'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='referrer'
                 />
             }
@@ -160,7 +168,7 @@ const ImagingStudy = ({ resource }: { resource: TImagingStudy }): React.ReactEle
                     reference={resource.interpreter}
                     name='Interpreter'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='interpreter'
                 />
             }
@@ -170,7 +178,7 @@ const ImagingStudy = ({ resource }: { resource: TImagingStudy }): React.ReactEle
                     reference={resource.endpoint}
                     name='Endpoint'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='endpoint'
                 />
             }
@@ -180,7 +188,7 @@ const ImagingStudy = ({ resource }: { resource: TImagingStudy }): React.ReactEle
                     reference={resource.procedureReference}
                     name='Procedure Reference'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='procedure-reference'
                 />
             }
@@ -190,7 +198,7 @@ const ImagingStudy = ({ resource }: { resource: TImagingStudy }): React.ReactEle
                     codeableConcept={resource.procedureCode}
                     name='Procedure Code'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='procedure-code'
                 />
             }
@@ -200,7 +208,7 @@ const ImagingStudy = ({ resource }: { resource: TImagingStudy }): React.ReactEle
                     reference={resource.location}
                     name='Location'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='location'
                 />
             }
@@ -210,7 +218,7 @@ const ImagingStudy = ({ resource }: { resource: TImagingStudy }): React.ReactEle
                     codeableConcept={resource.reasonCode}
                     name='Reason Code'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='reason-code'
                 />
             }
@@ -220,7 +228,7 @@ const ImagingStudy = ({ resource }: { resource: TImagingStudy }): React.ReactEle
                     reference={resource.reasonReference}
                     name='Reason Reference'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='reason-reference'
                 />
             }
@@ -230,7 +238,7 @@ const ImagingStudy = ({ resource }: { resource: TImagingStudy }): React.ReactEle
                     annotation={resource.note}
                     name='Note'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='note'
                 />
             }

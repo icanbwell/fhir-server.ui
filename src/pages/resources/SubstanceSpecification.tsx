@@ -16,12 +16,20 @@ import { TSubstanceSpecification } from '../../types/resources/SubstanceSpecific
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const SubstanceSpecification = ({ resource }: { resource: TSubstanceSpecification }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -29,7 +37,7 @@ const SubstanceSpecification = ({ resource }: { resource: TSubstanceSpecificatio
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -39,7 +47,7 @@ const SubstanceSpecification = ({ resource }: { resource: TSubstanceSpecificatio
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -53,7 +61,7 @@ const SubstanceSpecification = ({ resource }: { resource: TSubstanceSpecificatio
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -63,7 +71,7 @@ const SubstanceSpecification = ({ resource }: { resource: TSubstanceSpecificatio
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -73,7 +81,7 @@ const SubstanceSpecification = ({ resource }: { resource: TSubstanceSpecificatio
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -83,7 +91,7 @@ const SubstanceSpecification = ({ resource }: { resource: TSubstanceSpecificatio
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -93,7 +101,7 @@ const SubstanceSpecification = ({ resource }: { resource: TSubstanceSpecificatio
                     codeableConcept={resource.type}
                     name='Type'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='type'
                 />
             }
@@ -103,7 +111,7 @@ const SubstanceSpecification = ({ resource }: { resource: TSubstanceSpecificatio
                     codeableConcept={resource.status}
                     name='Status'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='status'
                 />
             }
@@ -113,7 +121,7 @@ const SubstanceSpecification = ({ resource }: { resource: TSubstanceSpecificatio
                     codeableConcept={resource.domain}
                     name='Domain'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='domain'
                 />
             }
@@ -123,7 +131,7 @@ const SubstanceSpecification = ({ resource }: { resource: TSubstanceSpecificatio
                     reference={resource.source}
                     name='Source'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='source'
                 />
             }
@@ -133,7 +141,7 @@ const SubstanceSpecification = ({ resource }: { resource: TSubstanceSpecificatio
                     reference={resource.referenceInformation}
                     name='Reference Information'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='reference-information'
                 />
             }
@@ -143,7 +151,7 @@ const SubstanceSpecification = ({ resource }: { resource: TSubstanceSpecificatio
                     reference={resource.nucleicAcid}
                     name='Nucleic Acid'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='nucleic-acid'
                 />
             }
@@ -153,7 +161,7 @@ const SubstanceSpecification = ({ resource }: { resource: TSubstanceSpecificatio
                     reference={resource.polymer}
                     name='Polymer'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='polymer'
                 />
             }
@@ -163,7 +171,7 @@ const SubstanceSpecification = ({ resource }: { resource: TSubstanceSpecificatio
                     reference={resource.protein}
                     name='Protein'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='protein'
                 />
             }
@@ -173,7 +181,7 @@ const SubstanceSpecification = ({ resource }: { resource: TSubstanceSpecificatio
                     reference={resource.sourceMaterial}
                     name='Source Material'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='source-material'
                 />
             }

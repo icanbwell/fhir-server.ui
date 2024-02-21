@@ -17,12 +17,20 @@ import { TEndpoint } from '../../types/resources/Endpoint';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const Endpoint = ({ resource }: { resource: TEndpoint }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -30,7 +38,7 @@ const Endpoint = ({ resource }: { resource: TEndpoint }): React.ReactElement => 
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -40,7 +48,7 @@ const Endpoint = ({ resource }: { resource: TEndpoint }): React.ReactElement => 
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -54,7 +62,7 @@ const Endpoint = ({ resource }: { resource: TEndpoint }): React.ReactElement => 
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -64,7 +72,7 @@ const Endpoint = ({ resource }: { resource: TEndpoint }): React.ReactElement => 
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -74,7 +82,7 @@ const Endpoint = ({ resource }: { resource: TEndpoint }): React.ReactElement => 
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -84,7 +92,7 @@ const Endpoint = ({ resource }: { resource: TEndpoint }): React.ReactElement => 
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -98,7 +106,7 @@ const Endpoint = ({ resource }: { resource: TEndpoint }): React.ReactElement => 
                     coding={resource.connectionType}
                     name='Connection Type'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='connection-type'
                 />
             }
@@ -108,7 +116,7 @@ const Endpoint = ({ resource }: { resource: TEndpoint }): React.ReactElement => 
                     reference={resource.managingOrganization}
                     name='Managing Organization'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='managing-organization'
                 />
             }
@@ -118,7 +126,7 @@ const Endpoint = ({ resource }: { resource: TEndpoint }): React.ReactElement => 
                     contactPoint={resource.contact}
                     name='Contact'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='contact'
                 />
             }
@@ -128,7 +136,7 @@ const Endpoint = ({ resource }: { resource: TEndpoint }): React.ReactElement => 
                     period={resource.period}
                     name='Period'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='period'
                 />
             }
@@ -138,7 +146,7 @@ const Endpoint = ({ resource }: { resource: TEndpoint }): React.ReactElement => 
                     codeableConcept={resource.payloadType}
                     name='Payload Type'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='payload-type'
                 />
             }

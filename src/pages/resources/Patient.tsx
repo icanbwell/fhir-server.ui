@@ -16,12 +16,20 @@ import { TPatient } from '../../types/resources/Patient';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const Patient = ({ resource }: { resource: TPatient }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -29,7 +37,7 @@ const Patient = ({ resource }: { resource: TPatient }): React.ReactElement => {
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -39,7 +47,7 @@ const Patient = ({ resource }: { resource: TPatient }): React.ReactElement => {
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -53,7 +61,7 @@ const Patient = ({ resource }: { resource: TPatient }): React.ReactElement => {
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -63,7 +71,7 @@ const Patient = ({ resource }: { resource: TPatient }): React.ReactElement => {
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -73,7 +81,7 @@ const Patient = ({ resource }: { resource: TPatient }): React.ReactElement => {
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -83,7 +91,7 @@ const Patient = ({ resource }: { resource: TPatient }): React.ReactElement => {
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -93,7 +101,7 @@ const Patient = ({ resource }: { resource: TPatient }): React.ReactElement => {
                     boolean={resource.active}
                     name='Active'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='active'
                 />
             }
@@ -103,7 +111,7 @@ const Patient = ({ resource }: { resource: TPatient }): React.ReactElement => {
                     humanName={resource.name}
                     name='Name'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='name'
                 />
             }
@@ -113,7 +121,7 @@ const Patient = ({ resource }: { resource: TPatient }): React.ReactElement => {
                     contactPoint={resource.telecom}
                     name='Telecom'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='telecom'
                 />
             }
@@ -127,7 +135,7 @@ const Patient = ({ resource }: { resource: TPatient }): React.ReactElement => {
                     boolean={resource.deceasedBoolean}
                     name='Deceased Boolean'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='deceased-boolean'
                 />
             }
@@ -137,7 +145,7 @@ const Patient = ({ resource }: { resource: TPatient }): React.ReactElement => {
                     dateTime={resource.deceasedDateTime}
                     name='Deceased Date Time'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='deceased-date-time'
                 />
             }
@@ -147,7 +155,7 @@ const Patient = ({ resource }: { resource: TPatient }): React.ReactElement => {
                     address={resource.address}
                     name='Address'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='address'
                 />
             }
@@ -157,7 +165,7 @@ const Patient = ({ resource }: { resource: TPatient }): React.ReactElement => {
                     codeableConcept={resource.maritalStatus}
                     name='Marital Status'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='marital-status'
                 />
             }
@@ -167,7 +175,7 @@ const Patient = ({ resource }: { resource: TPatient }): React.ReactElement => {
                     boolean={resource.multipleBirthBoolean}
                     name='Multiple Birth Boolean'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='multiple-birth-boolean'
                 />
             }
@@ -177,7 +185,7 @@ const Patient = ({ resource }: { resource: TPatient }): React.ReactElement => {
                     attachment={resource.photo}
                     name='Photo'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='photo'
                 />
             }
@@ -187,7 +195,7 @@ const Patient = ({ resource }: { resource: TPatient }): React.ReactElement => {
                     patientContact={resource.contact}
                     name='Contact'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='contact'
                 />
             }
@@ -197,7 +205,7 @@ const Patient = ({ resource }: { resource: TPatient }): React.ReactElement => {
                     reference={resource.generalPractitioner}
                     name='General Practitioner'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='general-practitioner'
                 />
             }
@@ -207,7 +215,7 @@ const Patient = ({ resource }: { resource: TPatient }): React.ReactElement => {
                     reference={resource.managingOrganization}
                     name='Managing Organization'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='managing-organization'
                 />
             }
@@ -217,7 +225,7 @@ const Patient = ({ resource }: { resource: TPatient }): React.ReactElement => {
                     reference={resource.link}
                     name='Link'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='link'
                     field='other'
                 />
@@ -227,127 +235,127 @@ const Patient = ({ resource }: { resource: TPatient }): React.ReactElement => {
             </Typography>
             <Partials.ReverseReference
                 name="Account"
-                id={resource.id}
+                id={uuid}
                 resourceType={resource.resourceType}
                 reverseReferences={[{'target': 'Account', 'property': 'patient'}]}
             />
             <Partials.ReverseReference
                 name="AllergyIntolerance"
-                id={resource.id}
+                id={uuid}
                 resourceType={resource.resourceType}
                 reverseReferences={[{'target': 'AllergyIntolerance', 'property': 'patient'}]}
             />
             <Partials.ReverseReference
                 name="Appointment"
-                id={resource.id}
+                id={uuid}
                 resourceType={resource.resourceType}
                 reverseReferences={[{'target': 'Appointment', 'property': 'patient'}]}
             />
             <Partials.ReverseReference
                 name="AuditEvent"
-                id={resource.id}
+                id={uuid}
                 resourceType={resource.resourceType}
                 reverseReferences={[{'target': 'AuditEvent', 'property': 'patient'}]}
             />
             <Partials.ReverseReference
                 name="CareTeam"
-                id={resource.id}
+                id={uuid}
                 resourceType={resource.resourceType}
                 reverseReferences={[{'target': 'CareTeam', 'property': 'patient'}]}
             />
             <Partials.ReverseReference
                 name="Condition"
-                id={resource.id}
+                id={uuid}
                 resourceType={resource.resourceType}
                 reverseReferences={[{'target': 'Condition', 'property': 'patient'}]}
             />
             <Partials.ReverseReference
                 name="ChargeItem"
-                id={resource.id}
+                id={uuid}
                 resourceType={resource.resourceType}
                 reverseReferences={[{'target': 'ChargeItem', 'property': 'patient'}]}
             />
             <Partials.ReverseReference
                 name="Coverage"
-                id={resource.id}
+                id={uuid}
                 resourceType={resource.resourceType}
                 reverseReferences={[{'target': 'Coverage', 'property': 'patient'}]}
             />
             <Partials.ReverseReference
                 name="DiagnosticReport"
-                id={resource.id}
+                id={uuid}
                 resourceType={resource.resourceType}
                 reverseReferences={[{'target': 'DiagnosticReport', 'property': 'patient'}]}
             />
             <Partials.ReverseReference
                 name="Encounter"
-                id={resource.id}
+                id={uuid}
                 resourceType={resource.resourceType}
                 reverseReferences={[{'target': 'Encounter', 'property': 'patient'}]}
             />
             <Partials.ReverseReference
                 name="Immunization"
-                id={resource.id}
+                id={uuid}
                 resourceType={resource.resourceType}
                 reverseReferences={[{'target': 'Immunization', 'property': 'patient'}]}
             />
             <Partials.ReverseReference
                 name="ExplanationOfBenefit"
-                id={resource.id}
+                id={uuid}
                 resourceType={resource.resourceType}
                 reverseReferences={[{'target': 'ExplanationOfBenefit', 'property': 'patient'}]}
             />
             <Partials.ReverseReference
                 name="MeasureReport"
-                id={resource.id}
+                id={uuid}
                 resourceType={resource.resourceType}
                 reverseReferences={[{'target': 'MeasureReport', 'property': 'patient'}]}
             />
             <Partials.ReverseReference
                 name="MedicationRequest"
-                id={resource.id}
+                id={uuid}
                 resourceType={resource.resourceType}
                 reverseReferences={[{'target': 'MedicationRequest', 'property': 'patient'}]}
             />
             <Partials.ReverseReference
                 name="MedicationStatement"
-                id={resource.id}
+                id={uuid}
                 resourceType={resource.resourceType}
                 reverseReferences={[{'target': 'MedicationStatement', 'property': 'patient'}]}
             />
             <Partials.ReverseReference
                 name="Observation"
-                id={resource.id}
+                id={uuid}
                 resourceType={resource.resourceType}
                 reverseReferences={[{'target': 'Observation', 'property': 'patient'}]}
             />
             <Partials.ReverseReference
                 name="Person"
-                id={resource.id}
+                id={uuid}
                 resourceType={resource.resourceType}
                 reverseReferences={[{'target': 'Person', 'property': 'patient'}]}
             />
             <Partials.ReverseReference
                 name="Procedure"
-                id={resource.id}
+                id={uuid}
                 resourceType={resource.resourceType}
                 reverseReferences={[{'target': 'Procedure', 'property': 'patient'}]}
             />
             <Partials.ReverseReference
                 name="Schedule"
-                id={resource.id}
+                id={uuid}
                 resourceType={resource.resourceType}
                 reverseReferences={[{'target': 'Schedule', 'property': 'patient'}]}
             />
             <Partials.ReverseReference
                 name="ServiceRequest"
-                id={resource.id}
+                id={uuid}
                 resourceType={resource.resourceType}
                 reverseReferences={[{'target': 'ServiceRequest', 'property': 'patient'}]}
             />
             <Partials.ReverseReference
                 name="Task"
-                id={resource.id}
+                id={uuid}
                 resourceType={resource.resourceType}
                 reverseReferences={[{'target': 'Task', 'property': 'patient'}]}
             />

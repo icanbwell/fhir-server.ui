@@ -16,12 +16,20 @@ import { TRiskAssessment } from '../../types/resources/RiskAssessment';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const RiskAssessment = ({ resource }: { resource: TRiskAssessment }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -29,7 +37,7 @@ const RiskAssessment = ({ resource }: { resource: TRiskAssessment }): React.Reac
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -39,7 +47,7 @@ const RiskAssessment = ({ resource }: { resource: TRiskAssessment }): React.Reac
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -53,7 +61,7 @@ const RiskAssessment = ({ resource }: { resource: TRiskAssessment }): React.Reac
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -63,7 +71,7 @@ const RiskAssessment = ({ resource }: { resource: TRiskAssessment }): React.Reac
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -73,7 +81,7 @@ const RiskAssessment = ({ resource }: { resource: TRiskAssessment }): React.Reac
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -83,7 +91,7 @@ const RiskAssessment = ({ resource }: { resource: TRiskAssessment }): React.Reac
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -93,7 +101,7 @@ const RiskAssessment = ({ resource }: { resource: TRiskAssessment }): React.Reac
                     reference={resource.basedOn}
                     name='Based On'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='based-on'
                 />
             }
@@ -103,7 +111,7 @@ const RiskAssessment = ({ resource }: { resource: TRiskAssessment }): React.Reac
                     reference={resource.parent}
                     name='Parent'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='parent'
                 />
             }
@@ -117,7 +125,7 @@ const RiskAssessment = ({ resource }: { resource: TRiskAssessment }): React.Reac
                     codeableConcept={resource.method}
                     name='Method'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='method'
                 />
             }
@@ -127,7 +135,7 @@ const RiskAssessment = ({ resource }: { resource: TRiskAssessment }): React.Reac
                     codeableConcept={resource.code}
                     name='Code'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='code'
                 />
             }
@@ -137,7 +145,7 @@ const RiskAssessment = ({ resource }: { resource: TRiskAssessment }): React.Reac
                     reference={resource.subject}
                     name='Subject'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='subject'
                 />
             }
@@ -147,7 +155,7 @@ const RiskAssessment = ({ resource }: { resource: TRiskAssessment }): React.Reac
                     reference={resource.encounter}
                     name='Encounter'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='encounter'
                 />
             }
@@ -157,7 +165,7 @@ const RiskAssessment = ({ resource }: { resource: TRiskAssessment }): React.Reac
                     dateTime={resource.occurrenceDateTime}
                     name='Occurrence Date Time'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='occurrence-date-time'
                 />
             }
@@ -167,7 +175,7 @@ const RiskAssessment = ({ resource }: { resource: TRiskAssessment }): React.Reac
                     period={resource.occurrencePeriod}
                     name='Occurrence Period'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='occurrence-period'
                 />
             }
@@ -177,7 +185,7 @@ const RiskAssessment = ({ resource }: { resource: TRiskAssessment }): React.Reac
                     reference={resource.condition}
                     name='Condition'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='condition'
                 />
             }
@@ -187,7 +195,7 @@ const RiskAssessment = ({ resource }: { resource: TRiskAssessment }): React.Reac
                     reference={resource.performer}
                     name='Performer'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='performer'
                 />
             }
@@ -197,7 +205,7 @@ const RiskAssessment = ({ resource }: { resource: TRiskAssessment }): React.Reac
                     codeableConcept={resource.reasonCode}
                     name='Reason Code'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='reason-code'
                 />
             }
@@ -207,7 +215,7 @@ const RiskAssessment = ({ resource }: { resource: TRiskAssessment }): React.Reac
                     reference={resource.reasonReference}
                     name='Reason Reference'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='reason-reference'
                 />
             }
@@ -217,7 +225,7 @@ const RiskAssessment = ({ resource }: { resource: TRiskAssessment }): React.Reac
                     reference={resource.basis}
                     name='Basis'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='basis'
                 />
             }
@@ -227,7 +235,7 @@ const RiskAssessment = ({ resource }: { resource: TRiskAssessment }): React.Reac
                     annotation={resource.note}
                     name='Note'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='note'
                 />
             }

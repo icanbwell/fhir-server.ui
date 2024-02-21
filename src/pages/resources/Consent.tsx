@@ -17,12 +17,20 @@ import { TConsent } from '../../types/resources/Consent';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const Consent = ({ resource }: { resource: TConsent }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -30,7 +38,7 @@ const Consent = ({ resource }: { resource: TConsent }): React.ReactElement => {
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -40,7 +48,7 @@ const Consent = ({ resource }: { resource: TConsent }): React.ReactElement => {
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -54,7 +62,7 @@ const Consent = ({ resource }: { resource: TConsent }): React.ReactElement => {
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -64,7 +72,7 @@ const Consent = ({ resource }: { resource: TConsent }): React.ReactElement => {
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -74,7 +82,7 @@ const Consent = ({ resource }: { resource: TConsent }): React.ReactElement => {
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -84,7 +92,7 @@ const Consent = ({ resource }: { resource: TConsent }): React.ReactElement => {
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -98,7 +106,7 @@ const Consent = ({ resource }: { resource: TConsent }): React.ReactElement => {
                     codeableConcept={resource.scope}
                     name='Scope'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='scope'
                 />
             }
@@ -108,7 +116,7 @@ const Consent = ({ resource }: { resource: TConsent }): React.ReactElement => {
                     codeableConcept={resource.category}
                     name='Category'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='category'
                 />
             }
@@ -118,7 +126,7 @@ const Consent = ({ resource }: { resource: TConsent }): React.ReactElement => {
                     reference={resource.patient}
                     name='Patient'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='patient'
                 />
             }
@@ -128,7 +136,7 @@ const Consent = ({ resource }: { resource: TConsent }): React.ReactElement => {
                     dateTime={resource.dateTime}
                     name='Date Time'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='date-time'
                 />
             }
@@ -138,7 +146,7 @@ const Consent = ({ resource }: { resource: TConsent }): React.ReactElement => {
                     reference={resource.performer}
                     name='Performer'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='performer'
                 />
             }
@@ -148,7 +156,7 @@ const Consent = ({ resource }: { resource: TConsent }): React.ReactElement => {
                     reference={resource.organization}
                     name='Organization'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='organization'
                 />
             }
@@ -158,7 +166,7 @@ const Consent = ({ resource }: { resource: TConsent }): React.ReactElement => {
                     attachment={resource.sourceAttachment}
                     name='Source Attachment'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='source-attachment'
                 />
             }
@@ -168,7 +176,7 @@ const Consent = ({ resource }: { resource: TConsent }): React.ReactElement => {
                     reference={resource.sourceReference}
                     name='Source Reference'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='source-reference'
                 />
             }
@@ -178,7 +186,7 @@ const Consent = ({ resource }: { resource: TConsent }): React.ReactElement => {
                     codeableConcept={resource.policyRule}
                     name='Policy Rule'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='policy-rule'
                 />
             }

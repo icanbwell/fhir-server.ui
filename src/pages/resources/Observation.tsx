@@ -16,12 +16,20 @@ import { TObservation } from '../../types/resources/Observation';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const Observation = ({ resource }: { resource: TObservation }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -29,7 +37,7 @@ const Observation = ({ resource }: { resource: TObservation }): React.ReactEleme
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -39,7 +47,7 @@ const Observation = ({ resource }: { resource: TObservation }): React.ReactEleme
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -53,7 +61,7 @@ const Observation = ({ resource }: { resource: TObservation }): React.ReactEleme
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -63,7 +71,7 @@ const Observation = ({ resource }: { resource: TObservation }): React.ReactEleme
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -73,7 +81,7 @@ const Observation = ({ resource }: { resource: TObservation }): React.ReactEleme
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -83,7 +91,7 @@ const Observation = ({ resource }: { resource: TObservation }): React.ReactEleme
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -93,7 +101,7 @@ const Observation = ({ resource }: { resource: TObservation }): React.ReactEleme
                     reference={resource.basedOn}
                     name='Based On'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='based-on'
                 />
             }
@@ -103,7 +111,7 @@ const Observation = ({ resource }: { resource: TObservation }): React.ReactEleme
                     reference={resource.partOf}
                     name='Part Of'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='part-of'
                 />
             }
@@ -117,7 +125,7 @@ const Observation = ({ resource }: { resource: TObservation }): React.ReactEleme
                     codeableConcept={resource.category}
                     name='Category'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='category'
                 />
             }
@@ -127,7 +135,7 @@ const Observation = ({ resource }: { resource: TObservation }): React.ReactEleme
                     codeableConcept={resource.code}
                     name='Code'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='code'
                 />
             }
@@ -137,7 +145,7 @@ const Observation = ({ resource }: { resource: TObservation }): React.ReactEleme
                     reference={resource.subject}
                     name='Subject'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='subject'
                 />
             }
@@ -147,7 +155,7 @@ const Observation = ({ resource }: { resource: TObservation }): React.ReactEleme
                     reference={resource.focus}
                     name='Focus'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='focus'
                 />
             }
@@ -157,7 +165,7 @@ const Observation = ({ resource }: { resource: TObservation }): React.ReactEleme
                     reference={resource.encounter}
                     name='Encounter'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='encounter'
                 />
             }
@@ -167,7 +175,7 @@ const Observation = ({ resource }: { resource: TObservation }): React.ReactEleme
                     dateTime={resource.effectiveDateTime}
                     name='Effective Date Time'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='effective-date-time'
                 />
             }
@@ -177,7 +185,7 @@ const Observation = ({ resource }: { resource: TObservation }): React.ReactEleme
                     period={resource.effectivePeriod}
                     name='Effective Period'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='effective-period'
                 />
             }
@@ -187,7 +195,7 @@ const Observation = ({ resource }: { resource: TObservation }): React.ReactEleme
                     timing={resource.effectiveTiming}
                     name='Effective Timing'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='effective-timing'
                 />
             }
@@ -197,7 +205,7 @@ const Observation = ({ resource }: { resource: TObservation }): React.ReactEleme
                     instant={resource.effectiveInstant}
                     name='Effective Instant'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='effective-instant'
                 />
             }
@@ -207,7 +215,7 @@ const Observation = ({ resource }: { resource: TObservation }): React.ReactEleme
                     instant={resource.issued}
                     name='Issued'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='issued'
                 />
             }
@@ -217,7 +225,7 @@ const Observation = ({ resource }: { resource: TObservation }): React.ReactEleme
                     reference={resource.performer}
                     name='Performer'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='performer'
                 />
             }
@@ -227,7 +235,7 @@ const Observation = ({ resource }: { resource: TObservation }): React.ReactEleme
                     quantity={resource.valueQuantity}
                     name='Value Quantity'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='value-quantity'
                 />
             }
@@ -237,7 +245,7 @@ const Observation = ({ resource }: { resource: TObservation }): React.ReactEleme
                     codeableConcept={resource.valueCodeableConcept}
                     name='Value Codeable Concept'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='value-codeable-concept'
                 />
             }
@@ -247,7 +255,7 @@ const Observation = ({ resource }: { resource: TObservation }): React.ReactEleme
                     boolean={resource.valueBoolean}
                     name='Value Boolean'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='value-boolean'
                 />
             }
@@ -257,7 +265,7 @@ const Observation = ({ resource }: { resource: TObservation }): React.ReactEleme
                     ratio={resource.valueRatio}
                     name='Value Ratio'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='value-ratio'
                 />
             }
@@ -267,7 +275,7 @@ const Observation = ({ resource }: { resource: TObservation }): React.ReactEleme
                     time={resource.valueTime}
                     name='Value Time'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='value-time'
                 />
             }
@@ -277,7 +285,7 @@ const Observation = ({ resource }: { resource: TObservation }): React.ReactEleme
                     dateTime={resource.valueDateTime}
                     name='Value Date Time'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='value-date-time'
                 />
             }
@@ -287,7 +295,7 @@ const Observation = ({ resource }: { resource: TObservation }): React.ReactEleme
                     period={resource.valuePeriod}
                     name='Value Period'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='value-period'
                 />
             }
@@ -297,7 +305,7 @@ const Observation = ({ resource }: { resource: TObservation }): React.ReactEleme
                     codeableConcept={resource.dataAbsentReason}
                     name='Data Absent Reason'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='data-absent-reason'
                 />
             }
@@ -307,7 +315,7 @@ const Observation = ({ resource }: { resource: TObservation }): React.ReactEleme
                     codeableConcept={resource.interpretation}
                     name='Interpretation'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='interpretation'
                 />
             }
@@ -317,7 +325,7 @@ const Observation = ({ resource }: { resource: TObservation }): React.ReactEleme
                     annotation={resource.note}
                     name='Note'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='note'
                 />
             }
@@ -327,7 +335,7 @@ const Observation = ({ resource }: { resource: TObservation }): React.ReactEleme
                     codeableConcept={resource.bodySite}
                     name='Body Site'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='body-site'
                 />
             }
@@ -337,7 +345,7 @@ const Observation = ({ resource }: { resource: TObservation }): React.ReactEleme
                     codeableConcept={resource.method}
                     name='Method'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='method'
                 />
             }
@@ -347,7 +355,7 @@ const Observation = ({ resource }: { resource: TObservation }): React.ReactEleme
                     reference={resource.specimen}
                     name='Specimen'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='specimen'
                 />
             }
@@ -357,7 +365,7 @@ const Observation = ({ resource }: { resource: TObservation }): React.ReactEleme
                     reference={resource.device}
                     name='Device'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='device'
                 />
             }
@@ -367,7 +375,7 @@ const Observation = ({ resource }: { resource: TObservation }): React.ReactEleme
                     observationReferenceRange={resource.referenceRange}
                     name='Reference Range'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='reference-range'
                 />
             }
@@ -377,7 +385,7 @@ const Observation = ({ resource }: { resource: TObservation }): React.ReactEleme
                     reference={resource.hasMember}
                     name='Has Member'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='has-member'
                 />
             }
@@ -387,7 +395,7 @@ const Observation = ({ resource }: { resource: TObservation }): React.ReactEleme
                     reference={resource.derivedFrom}
                     name='Derived From'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='derived-from'
                 />
             }

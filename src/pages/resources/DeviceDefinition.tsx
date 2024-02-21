@@ -16,12 +16,20 @@ import { TDeviceDefinition } from '../../types/resources/DeviceDefinition';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const DeviceDefinition = ({ resource }: { resource: TDeviceDefinition }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -29,7 +37,7 @@ const DeviceDefinition = ({ resource }: { resource: TDeviceDefinition }): React.
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -39,7 +47,7 @@ const DeviceDefinition = ({ resource }: { resource: TDeviceDefinition }): React.
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -53,7 +61,7 @@ const DeviceDefinition = ({ resource }: { resource: TDeviceDefinition }): React.
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -63,7 +71,7 @@ const DeviceDefinition = ({ resource }: { resource: TDeviceDefinition }): React.
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -73,7 +81,7 @@ const DeviceDefinition = ({ resource }: { resource: TDeviceDefinition }): React.
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -83,7 +91,7 @@ const DeviceDefinition = ({ resource }: { resource: TDeviceDefinition }): React.
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -93,7 +101,7 @@ const DeviceDefinition = ({ resource }: { resource: TDeviceDefinition }): React.
                     reference={resource.manufacturerReference}
                     name='Manufacturer Reference'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='manufacturer-reference'
                 />
             }
@@ -103,7 +111,7 @@ const DeviceDefinition = ({ resource }: { resource: TDeviceDefinition }): React.
                     codeableConcept={resource.type}
                     name='Type'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='type'
                 />
             }
@@ -113,7 +121,7 @@ const DeviceDefinition = ({ resource }: { resource: TDeviceDefinition }): React.
                     codeableConcept={resource.safety}
                     name='Safety'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='safety'
                 />
             }
@@ -123,7 +131,7 @@ const DeviceDefinition = ({ resource }: { resource: TDeviceDefinition }): React.
                     codeableConcept={resource.languageCode}
                     name='Language Code'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='language-code'
                 />
             }
@@ -133,7 +141,7 @@ const DeviceDefinition = ({ resource }: { resource: TDeviceDefinition }): React.
                     reference={resource.owner}
                     name='Owner'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='owner'
                 />
             }
@@ -143,7 +151,7 @@ const DeviceDefinition = ({ resource }: { resource: TDeviceDefinition }): React.
                     contactPoint={resource.contact}
                     name='Contact'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='contact'
                 />
             }
@@ -153,7 +161,7 @@ const DeviceDefinition = ({ resource }: { resource: TDeviceDefinition }): React.
                     uri={resource.url}
                     name='Url'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='url'
                 />
             }
@@ -163,7 +171,7 @@ const DeviceDefinition = ({ resource }: { resource: TDeviceDefinition }): React.
                     uri={resource.onlineInformation}
                     name='Online Information'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='online-information'
                 />
             }
@@ -173,7 +181,7 @@ const DeviceDefinition = ({ resource }: { resource: TDeviceDefinition }): React.
                     annotation={resource.note}
                     name='Note'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='note'
                 />
             }
@@ -183,7 +191,7 @@ const DeviceDefinition = ({ resource }: { resource: TDeviceDefinition }): React.
                     quantity={resource.quantity}
                     name='Quantity'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='quantity'
                 />
             }
@@ -193,7 +201,7 @@ const DeviceDefinition = ({ resource }: { resource: TDeviceDefinition }): React.
                     reference={resource.parentDevice}
                     name='Parent Device'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='parent-device'
                 />
             }

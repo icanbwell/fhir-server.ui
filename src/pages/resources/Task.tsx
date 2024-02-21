@@ -15,12 +15,20 @@ import { TTask } from '../../types/resources/Task';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const Task = ({ resource }: { resource: TTask }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -28,7 +36,7 @@ const Task = ({ resource }: { resource: TTask }): React.ReactElement => {
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -38,7 +46,7 @@ const Task = ({ resource }: { resource: TTask }): React.ReactElement => {
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -52,7 +60,7 @@ const Task = ({ resource }: { resource: TTask }): React.ReactElement => {
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -62,7 +70,7 @@ const Task = ({ resource }: { resource: TTask }): React.ReactElement => {
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -72,7 +80,7 @@ const Task = ({ resource }: { resource: TTask }): React.ReactElement => {
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -82,7 +90,7 @@ const Task = ({ resource }: { resource: TTask }): React.ReactElement => {
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -92,7 +100,7 @@ const Task = ({ resource }: { resource: TTask }): React.ReactElement => {
                     canonical={resource.instantiatesCanonical}
                     name='Instantiates Canonical'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='instantiates-canonical'
                 />
             }
@@ -102,7 +110,7 @@ const Task = ({ resource }: { resource: TTask }): React.ReactElement => {
                     uri={resource.instantiatesUri}
                     name='Instantiates Uri'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='instantiates-uri'
                 />
             }
@@ -112,7 +120,7 @@ const Task = ({ resource }: { resource: TTask }): React.ReactElement => {
                     reference={resource.basedOn}
                     name='Based On'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='based-on'
                 />
             }
@@ -122,7 +130,7 @@ const Task = ({ resource }: { resource: TTask }): React.ReactElement => {
                     identifier={resource.groupIdentifier}
                     name='Group Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='group-identifier'
                 />
             }
@@ -132,7 +140,7 @@ const Task = ({ resource }: { resource: TTask }): React.ReactElement => {
                     reference={resource.partOf}
                     name='Part Of'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='part-of'
                 />
             }
@@ -146,7 +154,7 @@ const Task = ({ resource }: { resource: TTask }): React.ReactElement => {
                     codeableConcept={resource.statusReason}
                     name='Status Reason'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='status-reason'
                 />
             }
@@ -156,7 +164,7 @@ const Task = ({ resource }: { resource: TTask }): React.ReactElement => {
                     codeableConcept={resource.businessStatus}
                     name='Business Status'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='business-status'
                 />
             }
@@ -174,7 +182,7 @@ const Task = ({ resource }: { resource: TTask }): React.ReactElement => {
                     codeableConcept={resource.code}
                     name='Code'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='code'
                 />
             }
@@ -184,7 +192,7 @@ const Task = ({ resource }: { resource: TTask }): React.ReactElement => {
                     reference={resource.focus}
                     name='Focus'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='focus'
                 />
             }
@@ -194,7 +202,7 @@ const Task = ({ resource }: { resource: TTask }): React.ReactElement => {
                     reference={resource.for_}
                     name='For_'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='for_'
                 />
             }
@@ -204,7 +212,7 @@ const Task = ({ resource }: { resource: TTask }): React.ReactElement => {
                     reference={resource.encounter}
                     name='Encounter'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='encounter'
                 />
             }
@@ -214,7 +222,7 @@ const Task = ({ resource }: { resource: TTask }): React.ReactElement => {
                     period={resource.executionPeriod}
                     name='Execution Period'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='execution-period'
                 />
             }
@@ -224,7 +232,7 @@ const Task = ({ resource }: { resource: TTask }): React.ReactElement => {
                     dateTime={resource.authoredOn}
                     name='Authored On'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='authored-on'
                 />
             }
@@ -234,7 +242,7 @@ const Task = ({ resource }: { resource: TTask }): React.ReactElement => {
                     dateTime={resource.lastModified}
                     name='Last Modified'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='last-modified'
                 />
             }
@@ -244,7 +252,7 @@ const Task = ({ resource }: { resource: TTask }): React.ReactElement => {
                     reference={resource.requester}
                     name='Requester'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='requester'
                 />
             }
@@ -254,7 +262,7 @@ const Task = ({ resource }: { resource: TTask }): React.ReactElement => {
                     codeableConcept={resource.performerType}
                     name='Performer Type'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='performer-type'
                 />
             }
@@ -264,7 +272,7 @@ const Task = ({ resource }: { resource: TTask }): React.ReactElement => {
                     reference={resource.owner}
                     name='Owner'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='owner'
                 />
             }
@@ -274,7 +282,7 @@ const Task = ({ resource }: { resource: TTask }): React.ReactElement => {
                     reference={resource.location}
                     name='Location'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='location'
                 />
             }
@@ -284,7 +292,7 @@ const Task = ({ resource }: { resource: TTask }): React.ReactElement => {
                     codeableConcept={resource.reasonCode}
                     name='Reason Code'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='reason-code'
                 />
             }
@@ -294,7 +302,7 @@ const Task = ({ resource }: { resource: TTask }): React.ReactElement => {
                     reference={resource.reasonReference}
                     name='Reason Reference'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='reason-reference'
                 />
             }
@@ -304,7 +312,7 @@ const Task = ({ resource }: { resource: TTask }): React.ReactElement => {
                     reference={resource.insurance}
                     name='Insurance'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='insurance'
                 />
             }
@@ -314,7 +322,7 @@ const Task = ({ resource }: { resource: TTask }): React.ReactElement => {
                     annotation={resource.note}
                     name='Note'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='note'
                 />
             }
@@ -324,7 +332,7 @@ const Task = ({ resource }: { resource: TTask }): React.ReactElement => {
                     reference={resource.relevantHistory}
                     name='Relevant History'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='relevant-history'
                 />
             }

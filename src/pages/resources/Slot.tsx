@@ -15,12 +15,20 @@ import { TSlot } from '../../types/resources/Slot';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const Slot = ({ resource }: { resource: TSlot }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -28,7 +36,7 @@ const Slot = ({ resource }: { resource: TSlot }): React.ReactElement => {
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -38,7 +46,7 @@ const Slot = ({ resource }: { resource: TSlot }): React.ReactElement => {
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -52,7 +60,7 @@ const Slot = ({ resource }: { resource: TSlot }): React.ReactElement => {
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -62,7 +70,7 @@ const Slot = ({ resource }: { resource: TSlot }): React.ReactElement => {
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -72,7 +80,7 @@ const Slot = ({ resource }: { resource: TSlot }): React.ReactElement => {
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -82,7 +90,7 @@ const Slot = ({ resource }: { resource: TSlot }): React.ReactElement => {
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -92,7 +100,7 @@ const Slot = ({ resource }: { resource: TSlot }): React.ReactElement => {
                     codeableConcept={resource.serviceCategory}
                     name='Service Category'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='service-category'
                 />
             }
@@ -102,7 +110,7 @@ const Slot = ({ resource }: { resource: TSlot }): React.ReactElement => {
                     codeableConcept={resource.serviceType}
                     name='Service Type'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='service-type'
                 />
             }
@@ -112,7 +120,7 @@ const Slot = ({ resource }: { resource: TSlot }): React.ReactElement => {
                     codeableConcept={resource.specialty}
                     name='Specialty'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='specialty'
                 />
             }
@@ -122,7 +130,7 @@ const Slot = ({ resource }: { resource: TSlot }): React.ReactElement => {
                     codeableConcept={resource.appointmentType}
                     name='Appointment Type'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='appointment-type'
                 />
             }
@@ -132,7 +140,7 @@ const Slot = ({ resource }: { resource: TSlot }): React.ReactElement => {
                     reference={resource.schedule}
                     name='Schedule'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='schedule'
                 />
             }
@@ -146,7 +154,7 @@ const Slot = ({ resource }: { resource: TSlot }): React.ReactElement => {
                     instant={resource.start}
                     name='Start'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='start'
                 />
             }
@@ -156,7 +164,7 @@ const Slot = ({ resource }: { resource: TSlot }): React.ReactElement => {
                     instant={resource.end}
                     name='End'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='end'
                 />
             }
@@ -166,7 +174,7 @@ const Slot = ({ resource }: { resource: TSlot }): React.ReactElement => {
                     boolean={resource.overbooked}
                     name='Overbooked'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='overbooked'
                 />
             }

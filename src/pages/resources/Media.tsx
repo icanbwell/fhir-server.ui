@@ -16,12 +16,20 @@ import { TMedia } from '../../types/resources/Media';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const Media = ({ resource }: { resource: TMedia }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -29,7 +37,7 @@ const Media = ({ resource }: { resource: TMedia }): React.ReactElement => {
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -39,7 +47,7 @@ const Media = ({ resource }: { resource: TMedia }): React.ReactElement => {
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -53,7 +61,7 @@ const Media = ({ resource }: { resource: TMedia }): React.ReactElement => {
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -63,7 +71,7 @@ const Media = ({ resource }: { resource: TMedia }): React.ReactElement => {
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -73,7 +81,7 @@ const Media = ({ resource }: { resource: TMedia }): React.ReactElement => {
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -83,7 +91,7 @@ const Media = ({ resource }: { resource: TMedia }): React.ReactElement => {
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -93,7 +101,7 @@ const Media = ({ resource }: { resource: TMedia }): React.ReactElement => {
                     reference={resource.basedOn}
                     name='Based On'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='based-on'
                 />
             }
@@ -103,7 +111,7 @@ const Media = ({ resource }: { resource: TMedia }): React.ReactElement => {
                     reference={resource.partOf}
                     name='Part Of'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='part-of'
                 />
             }
@@ -117,7 +125,7 @@ const Media = ({ resource }: { resource: TMedia }): React.ReactElement => {
                     codeableConcept={resource.type}
                     name='Type'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='type'
                 />
             }
@@ -127,7 +135,7 @@ const Media = ({ resource }: { resource: TMedia }): React.ReactElement => {
                     codeableConcept={resource.modality}
                     name='Modality'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modality'
                 />
             }
@@ -137,7 +145,7 @@ const Media = ({ resource }: { resource: TMedia }): React.ReactElement => {
                     codeableConcept={resource.view}
                     name='View'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='view'
                 />
             }
@@ -147,7 +155,7 @@ const Media = ({ resource }: { resource: TMedia }): React.ReactElement => {
                     reference={resource.subject}
                     name='Subject'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='subject'
                 />
             }
@@ -157,7 +165,7 @@ const Media = ({ resource }: { resource: TMedia }): React.ReactElement => {
                     reference={resource.encounter}
                     name='Encounter'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='encounter'
                 />
             }
@@ -167,7 +175,7 @@ const Media = ({ resource }: { resource: TMedia }): React.ReactElement => {
                     dateTime={resource.createdDateTime}
                     name='Created Date Time'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='created-date-time'
                 />
             }
@@ -177,7 +185,7 @@ const Media = ({ resource }: { resource: TMedia }): React.ReactElement => {
                     period={resource.createdPeriod}
                     name='Created Period'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='created-period'
                 />
             }
@@ -187,7 +195,7 @@ const Media = ({ resource }: { resource: TMedia }): React.ReactElement => {
                     instant={resource.issued}
                     name='Issued'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='issued'
                 />
             }
@@ -197,7 +205,7 @@ const Media = ({ resource }: { resource: TMedia }): React.ReactElement => {
                     reference={resource.operator}
                     name='Operator'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='operator'
                 />
             }
@@ -207,7 +215,7 @@ const Media = ({ resource }: { resource: TMedia }): React.ReactElement => {
                     codeableConcept={resource.reasonCode}
                     name='Reason Code'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='reason-code'
                 />
             }
@@ -217,7 +225,7 @@ const Media = ({ resource }: { resource: TMedia }): React.ReactElement => {
                     codeableConcept={resource.bodySite}
                     name='Body Site'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='body-site'
                 />
             }
@@ -227,7 +235,7 @@ const Media = ({ resource }: { resource: TMedia }): React.ReactElement => {
                     reference={resource.device}
                     name='Device'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='device'
                 />
             }
@@ -237,7 +245,7 @@ const Media = ({ resource }: { resource: TMedia }): React.ReactElement => {
                     decimal={resource.duration}
                     name='Duration'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='duration'
                 />
             }
@@ -247,7 +255,7 @@ const Media = ({ resource }: { resource: TMedia }): React.ReactElement => {
                     attachment={resource.content}
                     name='Content'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='content'
                 />
             }
@@ -257,7 +265,7 @@ const Media = ({ resource }: { resource: TMedia }): React.ReactElement => {
                     annotation={resource.note}
                     name='Note'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='note'
                 />
             }

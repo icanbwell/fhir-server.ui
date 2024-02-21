@@ -16,12 +16,20 @@ import { TRequestGroup } from '../../types/resources/RequestGroup';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const RequestGroup = ({ resource }: { resource: TRequestGroup }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -29,7 +37,7 @@ const RequestGroup = ({ resource }: { resource: TRequestGroup }): React.ReactEle
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -39,7 +47,7 @@ const RequestGroup = ({ resource }: { resource: TRequestGroup }): React.ReactEle
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -53,7 +61,7 @@ const RequestGroup = ({ resource }: { resource: TRequestGroup }): React.ReactEle
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -63,7 +71,7 @@ const RequestGroup = ({ resource }: { resource: TRequestGroup }): React.ReactEle
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -73,7 +81,7 @@ const RequestGroup = ({ resource }: { resource: TRequestGroup }): React.ReactEle
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -83,7 +91,7 @@ const RequestGroup = ({ resource }: { resource: TRequestGroup }): React.ReactEle
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -93,7 +101,7 @@ const RequestGroup = ({ resource }: { resource: TRequestGroup }): React.ReactEle
                     canonical={resource.instantiatesCanonical}
                     name='Instantiates Canonical'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='instantiates-canonical'
                 />
             }
@@ -103,7 +111,7 @@ const RequestGroup = ({ resource }: { resource: TRequestGroup }): React.ReactEle
                     uri={resource.instantiatesUri}
                     name='Instantiates Uri'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='instantiates-uri'
                 />
             }
@@ -113,7 +121,7 @@ const RequestGroup = ({ resource }: { resource: TRequestGroup }): React.ReactEle
                     reference={resource.basedOn}
                     name='Based On'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='based-on'
                 />
             }
@@ -123,7 +131,7 @@ const RequestGroup = ({ resource }: { resource: TRequestGroup }): React.ReactEle
                     reference={resource.replaces}
                     name='Replaces'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='replaces'
                 />
             }
@@ -133,7 +141,7 @@ const RequestGroup = ({ resource }: { resource: TRequestGroup }): React.ReactEle
                     identifier={resource.groupIdentifier}
                     name='Group Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='group-identifier'
                 />
             }
@@ -155,7 +163,7 @@ const RequestGroup = ({ resource }: { resource: TRequestGroup }): React.ReactEle
                     codeableConcept={resource.code}
                     name='Code'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='code'
                 />
             }
@@ -165,7 +173,7 @@ const RequestGroup = ({ resource }: { resource: TRequestGroup }): React.ReactEle
                     reference={resource.subject}
                     name='Subject'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='subject'
                 />
             }
@@ -175,7 +183,7 @@ const RequestGroup = ({ resource }: { resource: TRequestGroup }): React.ReactEle
                     reference={resource.encounter}
                     name='Encounter'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='encounter'
                 />
             }
@@ -185,7 +193,7 @@ const RequestGroup = ({ resource }: { resource: TRequestGroup }): React.ReactEle
                     dateTime={resource.authoredOn}
                     name='Authored On'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='authored-on'
                 />
             }
@@ -195,7 +203,7 @@ const RequestGroup = ({ resource }: { resource: TRequestGroup }): React.ReactEle
                     reference={resource.author}
                     name='Author'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='author'
                 />
             }
@@ -205,7 +213,7 @@ const RequestGroup = ({ resource }: { resource: TRequestGroup }): React.ReactEle
                     codeableConcept={resource.reasonCode}
                     name='Reason Code'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='reason-code'
                 />
             }
@@ -215,7 +223,7 @@ const RequestGroup = ({ resource }: { resource: TRequestGroup }): React.ReactEle
                     reference={resource.reasonReference}
                     name='Reason Reference'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='reason-reference'
                 />
             }
@@ -225,7 +233,7 @@ const RequestGroup = ({ resource }: { resource: TRequestGroup }): React.ReactEle
                     annotation={resource.note}
                     name='Note'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='note'
                 />
             }

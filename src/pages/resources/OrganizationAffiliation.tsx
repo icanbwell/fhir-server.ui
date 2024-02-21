@@ -16,12 +16,20 @@ import { TOrganizationAffiliation } from '../../types/resources/OrganizationAffi
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const OrganizationAffiliation = ({ resource }: { resource: TOrganizationAffiliation }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -29,7 +37,7 @@ const OrganizationAffiliation = ({ resource }: { resource: TOrganizationAffiliat
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -39,7 +47,7 @@ const OrganizationAffiliation = ({ resource }: { resource: TOrganizationAffiliat
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -53,7 +61,7 @@ const OrganizationAffiliation = ({ resource }: { resource: TOrganizationAffiliat
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -63,7 +71,7 @@ const OrganizationAffiliation = ({ resource }: { resource: TOrganizationAffiliat
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -73,7 +81,7 @@ const OrganizationAffiliation = ({ resource }: { resource: TOrganizationAffiliat
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -83,7 +91,7 @@ const OrganizationAffiliation = ({ resource }: { resource: TOrganizationAffiliat
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -93,7 +101,7 @@ const OrganizationAffiliation = ({ resource }: { resource: TOrganizationAffiliat
                     boolean={resource.active}
                     name='Active'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='active'
                 />
             }
@@ -103,7 +111,7 @@ const OrganizationAffiliation = ({ resource }: { resource: TOrganizationAffiliat
                     period={resource.period}
                     name='Period'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='period'
                 />
             }
@@ -113,7 +121,7 @@ const OrganizationAffiliation = ({ resource }: { resource: TOrganizationAffiliat
                     reference={resource.organization}
                     name='Organization'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='organization'
                 />
             }
@@ -123,7 +131,7 @@ const OrganizationAffiliation = ({ resource }: { resource: TOrganizationAffiliat
                     reference={resource.participatingOrganization}
                     name='Participating Organization'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='participating-organization'
                 />
             }
@@ -133,7 +141,7 @@ const OrganizationAffiliation = ({ resource }: { resource: TOrganizationAffiliat
                     reference={resource.network}
                     name='Network'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='network'
                 />
             }
@@ -143,7 +151,7 @@ const OrganizationAffiliation = ({ resource }: { resource: TOrganizationAffiliat
                     codeableConcept={resource.code}
                     name='Code'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='code'
                 />
             }
@@ -153,7 +161,7 @@ const OrganizationAffiliation = ({ resource }: { resource: TOrganizationAffiliat
                     codeableConcept={resource.specialty}
                     name='Specialty'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='specialty'
                 />
             }
@@ -163,7 +171,7 @@ const OrganizationAffiliation = ({ resource }: { resource: TOrganizationAffiliat
                     reference={resource.location}
                     name='Location'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='location'
                 />
             }
@@ -173,7 +181,7 @@ const OrganizationAffiliation = ({ resource }: { resource: TOrganizationAffiliat
                     reference={resource.healthcareService}
                     name='Healthcare Service'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='healthcare-service'
                 />
             }
@@ -183,7 +191,7 @@ const OrganizationAffiliation = ({ resource }: { resource: TOrganizationAffiliat
                     contactPoint={resource.telecom}
                     name='Telecom'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='telecom'
                 />
             }
@@ -193,7 +201,7 @@ const OrganizationAffiliation = ({ resource }: { resource: TOrganizationAffiliat
                     reference={resource.endpoint}
                     name='Endpoint'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='endpoint'
                 />
             }

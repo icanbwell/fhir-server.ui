@@ -17,12 +17,20 @@ import { TQuestionnaireResponse } from '../../types/resources/QuestionnaireRespo
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const QuestionnaireResponse = ({ resource }: { resource: TQuestionnaireResponse }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -30,7 +38,7 @@ const QuestionnaireResponse = ({ resource }: { resource: TQuestionnaireResponse 
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -40,7 +48,7 @@ const QuestionnaireResponse = ({ resource }: { resource: TQuestionnaireResponse 
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -54,7 +62,7 @@ const QuestionnaireResponse = ({ resource }: { resource: TQuestionnaireResponse 
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -64,7 +72,7 @@ const QuestionnaireResponse = ({ resource }: { resource: TQuestionnaireResponse 
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -74,7 +82,7 @@ const QuestionnaireResponse = ({ resource }: { resource: TQuestionnaireResponse 
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -84,7 +92,7 @@ const QuestionnaireResponse = ({ resource }: { resource: TQuestionnaireResponse 
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -94,7 +102,7 @@ const QuestionnaireResponse = ({ resource }: { resource: TQuestionnaireResponse 
                     reference={resource.basedOn}
                     name='Based On'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='based-on'
                 />
             }
@@ -104,7 +112,7 @@ const QuestionnaireResponse = ({ resource }: { resource: TQuestionnaireResponse 
                     reference={resource.partOf}
                     name='Part Of'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='part-of'
                 />
             }
@@ -114,7 +122,7 @@ const QuestionnaireResponse = ({ resource }: { resource: TQuestionnaireResponse 
                     canonical={resource.questionnaire}
                     name='Questionnaire'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='questionnaire'
                 />
             }
@@ -128,7 +136,7 @@ const QuestionnaireResponse = ({ resource }: { resource: TQuestionnaireResponse 
                     reference={resource.subject}
                     name='Subject'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='subject'
                 />
             }
@@ -138,7 +146,7 @@ const QuestionnaireResponse = ({ resource }: { resource: TQuestionnaireResponse 
                     reference={resource.encounter}
                     name='Encounter'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='encounter'
                 />
             }
@@ -148,7 +156,7 @@ const QuestionnaireResponse = ({ resource }: { resource: TQuestionnaireResponse 
                     dateTime={resource.authored}
                     name='Authored'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='authored'
                 />
             }
@@ -158,7 +166,7 @@ const QuestionnaireResponse = ({ resource }: { resource: TQuestionnaireResponse 
                     reference={resource.author}
                     name='Author'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='author'
                 />
             }
@@ -168,7 +176,7 @@ const QuestionnaireResponse = ({ resource }: { resource: TQuestionnaireResponse 
                     reference={resource.source}
                     name='Source'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='source'
                 />
             }

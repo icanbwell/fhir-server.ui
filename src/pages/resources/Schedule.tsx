@@ -15,12 +15,20 @@ import { TSchedule } from '../../types/resources/Schedule';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const Schedule = ({ resource }: { resource: TSchedule }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -28,7 +36,7 @@ const Schedule = ({ resource }: { resource: TSchedule }): React.ReactElement => 
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -38,7 +46,7 @@ const Schedule = ({ resource }: { resource: TSchedule }): React.ReactElement => 
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -52,7 +60,7 @@ const Schedule = ({ resource }: { resource: TSchedule }): React.ReactElement => 
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -62,7 +70,7 @@ const Schedule = ({ resource }: { resource: TSchedule }): React.ReactElement => 
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -72,7 +80,7 @@ const Schedule = ({ resource }: { resource: TSchedule }): React.ReactElement => 
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -82,7 +90,7 @@ const Schedule = ({ resource }: { resource: TSchedule }): React.ReactElement => 
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -92,7 +100,7 @@ const Schedule = ({ resource }: { resource: TSchedule }): React.ReactElement => 
                     boolean={resource.active}
                     name='Active'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='active'
                 />
             }
@@ -102,7 +110,7 @@ const Schedule = ({ resource }: { resource: TSchedule }): React.ReactElement => 
                     codeableConcept={resource.serviceCategory}
                     name='Service Category'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='service-category'
                 />
             }
@@ -112,7 +120,7 @@ const Schedule = ({ resource }: { resource: TSchedule }): React.ReactElement => 
                     codeableConcept={resource.serviceType}
                     name='Service Type'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='service-type'
                 />
             }
@@ -122,7 +130,7 @@ const Schedule = ({ resource }: { resource: TSchedule }): React.ReactElement => 
                     codeableConcept={resource.specialty}
                     name='Specialty'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='specialty'
                 />
             }
@@ -132,7 +140,7 @@ const Schedule = ({ resource }: { resource: TSchedule }): React.ReactElement => 
                     reference={resource.actor}
                     name='Actor'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='actor'
                 />
             }
@@ -142,7 +150,7 @@ const Schedule = ({ resource }: { resource: TSchedule }): React.ReactElement => 
                     period={resource.planningHorizon}
                     name='Planning Horizon'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='planning-horizon'
                 />
             }
@@ -151,31 +159,31 @@ const Schedule = ({ resource }: { resource: TSchedule }): React.ReactElement => 
             </Typography>
             <Partials.ReverseReference
                 name="Slot"
-                id={resource.id}
+                id={uuid}
                 resourceType={resource.resourceType}
                 reverseReferences={[{'target': 'Slot', 'property': 'schedule'}]}
             />
             <Partials.ReverseReference
                 name="HealthcareService"
-                id={resource.id}
+                id={uuid}
                 resourceType={resource.resourceType}
                 reverseReferences={[{'target': 'HealthcareService', 'property': 'actor'}]}
             />
             <Partials.ReverseReference
                 name="Location"
-                id={resource.id}
+                id={uuid}
                 resourceType={resource.resourceType}
                 reverseReferences={[{'target': 'Location', 'property': 'actor'}]}
             />
             <Partials.ReverseReference
                 name="Patient"
-                id={resource.id}
+                id={uuid}
                 resourceType={resource.resourceType}
                 reverseReferences={[{'target': 'Patient', 'property': 'actor'}]}
             />
             <Partials.ReverseReference
                 name="PractitionerRole"
-                id={resource.id}
+                id={uuid}
                 resourceType={resource.resourceType}
                 reverseReferences={[{'target': 'PractitionerRole', 'property': 'actor'}]}
             />

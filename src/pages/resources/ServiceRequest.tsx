@@ -16,12 +16,20 @@ import { TServiceRequest } from '../../types/resources/ServiceRequest';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const ServiceRequest = ({ resource }: { resource: TServiceRequest }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -29,7 +37,7 @@ const ServiceRequest = ({ resource }: { resource: TServiceRequest }): React.Reac
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -39,7 +47,7 @@ const ServiceRequest = ({ resource }: { resource: TServiceRequest }): React.Reac
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -53,7 +61,7 @@ const ServiceRequest = ({ resource }: { resource: TServiceRequest }): React.Reac
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -63,7 +71,7 @@ const ServiceRequest = ({ resource }: { resource: TServiceRequest }): React.Reac
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -73,7 +81,7 @@ const ServiceRequest = ({ resource }: { resource: TServiceRequest }): React.Reac
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -83,7 +91,7 @@ const ServiceRequest = ({ resource }: { resource: TServiceRequest }): React.Reac
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -93,7 +101,7 @@ const ServiceRequest = ({ resource }: { resource: TServiceRequest }): React.Reac
                     canonical={resource.instantiatesCanonical}
                     name='Instantiates Canonical'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='instantiates-canonical'
                 />
             }
@@ -103,7 +111,7 @@ const ServiceRequest = ({ resource }: { resource: TServiceRequest }): React.Reac
                     uri={resource.instantiatesUri}
                     name='Instantiates Uri'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='instantiates-uri'
                 />
             }
@@ -113,7 +121,7 @@ const ServiceRequest = ({ resource }: { resource: TServiceRequest }): React.Reac
                     reference={resource.basedOn}
                     name='Based On'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='based-on'
                 />
             }
@@ -123,7 +131,7 @@ const ServiceRequest = ({ resource }: { resource: TServiceRequest }): React.Reac
                     reference={resource.replaces}
                     name='Replaces'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='replaces'
                 />
             }
@@ -133,7 +141,7 @@ const ServiceRequest = ({ resource }: { resource: TServiceRequest }): React.Reac
                     identifier={resource.requisition}
                     name='Requisition'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='requisition'
                 />
             }
@@ -151,7 +159,7 @@ const ServiceRequest = ({ resource }: { resource: TServiceRequest }): React.Reac
                     codeableConcept={resource.category}
                     name='Category'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='category'
                 />
             }
@@ -165,7 +173,7 @@ const ServiceRequest = ({ resource }: { resource: TServiceRequest }): React.Reac
                     boolean={resource.doNotPerform}
                     name='Do Not Perform'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='do-not-perform'
                 />
             }
@@ -175,7 +183,7 @@ const ServiceRequest = ({ resource }: { resource: TServiceRequest }): React.Reac
                     codeableConcept={resource.code}
                     name='Code'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='code'
                 />
             }
@@ -185,7 +193,7 @@ const ServiceRequest = ({ resource }: { resource: TServiceRequest }): React.Reac
                     codeableConcept={resource.orderDetail}
                     name='Order Detail'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='order-detail'
                 />
             }
@@ -195,7 +203,7 @@ const ServiceRequest = ({ resource }: { resource: TServiceRequest }): React.Reac
                     quantity={resource.quantityQuantity}
                     name='Quantity Quantity'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='quantity-quantity'
                 />
             }
@@ -205,7 +213,7 @@ const ServiceRequest = ({ resource }: { resource: TServiceRequest }): React.Reac
                     ratio={resource.quantityRatio}
                     name='Quantity Ratio'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='quantity-ratio'
                 />
             }
@@ -215,7 +223,7 @@ const ServiceRequest = ({ resource }: { resource: TServiceRequest }): React.Reac
                     reference={resource.subject}
                     name='Subject'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='subject'
                 />
             }
@@ -225,7 +233,7 @@ const ServiceRequest = ({ resource }: { resource: TServiceRequest }): React.Reac
                     reference={resource.encounter}
                     name='Encounter'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='encounter'
                 />
             }
@@ -235,7 +243,7 @@ const ServiceRequest = ({ resource }: { resource: TServiceRequest }): React.Reac
                     dateTime={resource.occurrenceDateTime}
                     name='Occurrence Date Time'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='occurrence-date-time'
                 />
             }
@@ -245,7 +253,7 @@ const ServiceRequest = ({ resource }: { resource: TServiceRequest }): React.Reac
                     period={resource.occurrencePeriod}
                     name='Occurrence Period'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='occurrence-period'
                 />
             }
@@ -255,7 +263,7 @@ const ServiceRequest = ({ resource }: { resource: TServiceRequest }): React.Reac
                     timing={resource.occurrenceTiming}
                     name='Occurrence Timing'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='occurrence-timing'
                 />
             }
@@ -265,7 +273,7 @@ const ServiceRequest = ({ resource }: { resource: TServiceRequest }): React.Reac
                     boolean={resource.asNeededBoolean}
                     name='As Needed Boolean'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='as-needed-boolean'
                 />
             }
@@ -275,7 +283,7 @@ const ServiceRequest = ({ resource }: { resource: TServiceRequest }): React.Reac
                     codeableConcept={resource.asNeededCodeableConcept}
                     name='As Needed Codeable Concept'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='as-needed-codeable-concept'
                 />
             }
@@ -285,7 +293,7 @@ const ServiceRequest = ({ resource }: { resource: TServiceRequest }): React.Reac
                     dateTime={resource.authoredOn}
                     name='Authored On'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='authored-on'
                 />
             }
@@ -295,7 +303,7 @@ const ServiceRequest = ({ resource }: { resource: TServiceRequest }): React.Reac
                     reference={resource.requester}
                     name='Requester'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='requester'
                 />
             }
@@ -305,7 +313,7 @@ const ServiceRequest = ({ resource }: { resource: TServiceRequest }): React.Reac
                     codeableConcept={resource.performerType}
                     name='Performer Type'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='performer-type'
                 />
             }
@@ -315,7 +323,7 @@ const ServiceRequest = ({ resource }: { resource: TServiceRequest }): React.Reac
                     reference={resource.performer}
                     name='Performer'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='performer'
                 />
             }
@@ -325,7 +333,7 @@ const ServiceRequest = ({ resource }: { resource: TServiceRequest }): React.Reac
                     codeableConcept={resource.locationCode}
                     name='Location Code'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='location-code'
                 />
             }
@@ -335,7 +343,7 @@ const ServiceRequest = ({ resource }: { resource: TServiceRequest }): React.Reac
                     reference={resource.locationReference}
                     name='Location Reference'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='location-reference'
                 />
             }
@@ -345,7 +353,7 @@ const ServiceRequest = ({ resource }: { resource: TServiceRequest }): React.Reac
                     codeableConcept={resource.reasonCode}
                     name='Reason Code'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='reason-code'
                 />
             }
@@ -355,7 +363,7 @@ const ServiceRequest = ({ resource }: { resource: TServiceRequest }): React.Reac
                     reference={resource.reasonReference}
                     name='Reason Reference'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='reason-reference'
                 />
             }
@@ -365,7 +373,7 @@ const ServiceRequest = ({ resource }: { resource: TServiceRequest }): React.Reac
                     reference={resource.insurance}
                     name='Insurance'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='insurance'
                 />
             }
@@ -375,7 +383,7 @@ const ServiceRequest = ({ resource }: { resource: TServiceRequest }): React.Reac
                     reference={resource.supportingInfo}
                     name='Supporting Info'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='supporting-info'
                 />
             }
@@ -385,7 +393,7 @@ const ServiceRequest = ({ resource }: { resource: TServiceRequest }): React.Reac
                     reference={resource.specimen}
                     name='Specimen'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='specimen'
                 />
             }
@@ -395,7 +403,7 @@ const ServiceRequest = ({ resource }: { resource: TServiceRequest }): React.Reac
                     codeableConcept={resource.bodySite}
                     name='Body Site'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='body-site'
                 />
             }
@@ -405,7 +413,7 @@ const ServiceRequest = ({ resource }: { resource: TServiceRequest }): React.Reac
                     annotation={resource.note}
                     name='Note'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='note'
                 />
             }
@@ -415,7 +423,7 @@ const ServiceRequest = ({ resource }: { resource: TServiceRequest }): React.Reac
                     reference={resource.relevantHistory}
                     name='Relevant History'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='relevant-history'
                 />
             }

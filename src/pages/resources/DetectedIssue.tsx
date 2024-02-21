@@ -17,12 +17,20 @@ import { TDetectedIssue } from '../../types/resources/DetectedIssue';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const DetectedIssue = ({ resource }: { resource: TDetectedIssue }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -30,7 +38,7 @@ const DetectedIssue = ({ resource }: { resource: TDetectedIssue }): React.ReactE
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -40,7 +48,7 @@ const DetectedIssue = ({ resource }: { resource: TDetectedIssue }): React.ReactE
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -54,7 +62,7 @@ const DetectedIssue = ({ resource }: { resource: TDetectedIssue }): React.ReactE
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -64,7 +72,7 @@ const DetectedIssue = ({ resource }: { resource: TDetectedIssue }): React.ReactE
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -74,7 +82,7 @@ const DetectedIssue = ({ resource }: { resource: TDetectedIssue }): React.ReactE
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -84,7 +92,7 @@ const DetectedIssue = ({ resource }: { resource: TDetectedIssue }): React.ReactE
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -98,7 +106,7 @@ const DetectedIssue = ({ resource }: { resource: TDetectedIssue }): React.ReactE
                     codeableConcept={resource.code}
                     name='Code'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='code'
                 />
             }
@@ -112,7 +120,7 @@ const DetectedIssue = ({ resource }: { resource: TDetectedIssue }): React.ReactE
                     reference={resource.patient}
                     name='Patient'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='patient'
                 />
             }
@@ -122,7 +130,7 @@ const DetectedIssue = ({ resource }: { resource: TDetectedIssue }): React.ReactE
                     dateTime={resource.identifiedDateTime}
                     name='Identified Date Time'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identified-date-time'
                 />
             }
@@ -132,7 +140,7 @@ const DetectedIssue = ({ resource }: { resource: TDetectedIssue }): React.ReactE
                     period={resource.identifiedPeriod}
                     name='Identified Period'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identified-period'
                 />
             }
@@ -142,7 +150,7 @@ const DetectedIssue = ({ resource }: { resource: TDetectedIssue }): React.ReactE
                     reference={resource.author}
                     name='Author'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='author'
                 />
             }
@@ -152,7 +160,7 @@ const DetectedIssue = ({ resource }: { resource: TDetectedIssue }): React.ReactE
                     reference={resource.implicated}
                     name='Implicated'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicated'
                 />
             }
@@ -162,7 +170,7 @@ const DetectedIssue = ({ resource }: { resource: TDetectedIssue }): React.ReactE
                     uri={resource.reference}
                     name='Reference'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='reference'
                 />
             }

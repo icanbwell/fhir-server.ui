@@ -19,12 +19,20 @@ import { TDocumentReference } from '../../types/resources/DocumentReference';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const DocumentReference = ({ resource }: { resource: TDocumentReference }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -32,7 +40,7 @@ const DocumentReference = ({ resource }: { resource: TDocumentReference }): Reac
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -42,7 +50,7 @@ const DocumentReference = ({ resource }: { resource: TDocumentReference }): Reac
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -56,7 +64,7 @@ const DocumentReference = ({ resource }: { resource: TDocumentReference }): Reac
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -66,7 +74,7 @@ const DocumentReference = ({ resource }: { resource: TDocumentReference }): Reac
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -76,7 +84,7 @@ const DocumentReference = ({ resource }: { resource: TDocumentReference }): Reac
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -86,7 +94,7 @@ const DocumentReference = ({ resource }: { resource: TDocumentReference }): Reac
                     identifier={resource.masterIdentifier}
                     name='Master Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='master-identifier'
                 />
             }
@@ -96,7 +104,7 @@ const DocumentReference = ({ resource }: { resource: TDocumentReference }): Reac
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -114,7 +122,7 @@ const DocumentReference = ({ resource }: { resource: TDocumentReference }): Reac
                     codeableConcept={resource.type}
                     name='Type'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='type'
                 />
             }
@@ -124,7 +132,7 @@ const DocumentReference = ({ resource }: { resource: TDocumentReference }): Reac
                     codeableConcept={resource.category}
                     name='Category'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='category'
                 />
             }
@@ -134,7 +142,7 @@ const DocumentReference = ({ resource }: { resource: TDocumentReference }): Reac
                     reference={resource.subject}
                     name='Subject'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='subject'
                 />
             }
@@ -144,7 +152,7 @@ const DocumentReference = ({ resource }: { resource: TDocumentReference }): Reac
                     instant={resource.date}
                     name='Date'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='date'
                 />
             }
@@ -154,7 +162,7 @@ const DocumentReference = ({ resource }: { resource: TDocumentReference }): Reac
                     reference={resource.author}
                     name='Author'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='author'
                 />
             }
@@ -164,7 +172,7 @@ const DocumentReference = ({ resource }: { resource: TDocumentReference }): Reac
                     reference={resource.authenticator}
                     name='Authenticator'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='authenticator'
                 />
             }
@@ -174,7 +182,7 @@ const DocumentReference = ({ resource }: { resource: TDocumentReference }): Reac
                     reference={resource.custodian}
                     name='Custodian'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='custodian'
                 />
             }
@@ -184,7 +192,7 @@ const DocumentReference = ({ resource }: { resource: TDocumentReference }): Reac
                     reference={resource.relatesTo}
                     name='Relates To'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='relates-to'
                     field='target'
                 />
@@ -195,7 +203,7 @@ const DocumentReference = ({ resource }: { resource: TDocumentReference }): Reac
                     codeableConcept={resource.securityLabel}
                     name='Security Label'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='security-label'
                 />
             }

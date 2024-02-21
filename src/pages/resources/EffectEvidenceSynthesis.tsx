@@ -17,12 +17,20 @@ import { TEffectEvidenceSynthesis } from '../../types/resources/EffectEvidenceSy
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const EffectEvidenceSynthesis = ({ resource }: { resource: TEffectEvidenceSynthesis }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -30,7 +38,7 @@ const EffectEvidenceSynthesis = ({ resource }: { resource: TEffectEvidenceSynthe
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -40,7 +48,7 @@ const EffectEvidenceSynthesis = ({ resource }: { resource: TEffectEvidenceSynthe
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -54,7 +62,7 @@ const EffectEvidenceSynthesis = ({ resource }: { resource: TEffectEvidenceSynthe
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -64,7 +72,7 @@ const EffectEvidenceSynthesis = ({ resource }: { resource: TEffectEvidenceSynthe
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -74,7 +82,7 @@ const EffectEvidenceSynthesis = ({ resource }: { resource: TEffectEvidenceSynthe
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -84,7 +92,7 @@ const EffectEvidenceSynthesis = ({ resource }: { resource: TEffectEvidenceSynthe
                     uri={resource.url}
                     name='Url'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='url'
                 />
             }
@@ -94,7 +102,7 @@ const EffectEvidenceSynthesis = ({ resource }: { resource: TEffectEvidenceSynthe
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -108,7 +116,7 @@ const EffectEvidenceSynthesis = ({ resource }: { resource: TEffectEvidenceSynthe
                     dateTime={resource.date}
                     name='Date'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='date'
                 />
             }
@@ -118,7 +126,7 @@ const EffectEvidenceSynthesis = ({ resource }: { resource: TEffectEvidenceSynthe
                     markdown={resource.description}
                     name='Description'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='description'
                 />
             }
@@ -128,7 +136,7 @@ const EffectEvidenceSynthesis = ({ resource }: { resource: TEffectEvidenceSynthe
                     annotation={resource.note}
                     name='Note'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='note'
                 />
             }
@@ -138,7 +146,7 @@ const EffectEvidenceSynthesis = ({ resource }: { resource: TEffectEvidenceSynthe
                     codeableConcept={resource.jurisdiction}
                     name='Jurisdiction'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='jurisdiction'
                 />
             }
@@ -148,7 +156,7 @@ const EffectEvidenceSynthesis = ({ resource }: { resource: TEffectEvidenceSynthe
                     markdown={resource.copyright}
                     name='Copyright'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='copyright'
                 />
             }
@@ -158,7 +166,7 @@ const EffectEvidenceSynthesis = ({ resource }: { resource: TEffectEvidenceSynthe
                     period={resource.effectivePeriod}
                     name='Effective Period'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='effective-period'
                 />
             }
@@ -168,7 +176,7 @@ const EffectEvidenceSynthesis = ({ resource }: { resource: TEffectEvidenceSynthe
                     codeableConcept={resource.topic}
                     name='Topic'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='topic'
                 />
             }
@@ -178,7 +186,7 @@ const EffectEvidenceSynthesis = ({ resource }: { resource: TEffectEvidenceSynthe
                     codeableConcept={resource.synthesisType}
                     name='Synthesis Type'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='synthesis-type'
                 />
             }
@@ -188,7 +196,7 @@ const EffectEvidenceSynthesis = ({ resource }: { resource: TEffectEvidenceSynthe
                     codeableConcept={resource.studyType}
                     name='Study Type'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='study-type'
                 />
             }
@@ -198,7 +206,7 @@ const EffectEvidenceSynthesis = ({ resource }: { resource: TEffectEvidenceSynthe
                     reference={resource.population}
                     name='Population'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='population'
                 />
             }
@@ -208,7 +216,7 @@ const EffectEvidenceSynthesis = ({ resource }: { resource: TEffectEvidenceSynthe
                     reference={resource.exposure}
                     name='Exposure'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='exposure'
                 />
             }
@@ -218,7 +226,7 @@ const EffectEvidenceSynthesis = ({ resource }: { resource: TEffectEvidenceSynthe
                     reference={resource.exposureAlternative}
                     name='Exposure Alternative'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='exposure-alternative'
                 />
             }
@@ -228,7 +236,7 @@ const EffectEvidenceSynthesis = ({ resource }: { resource: TEffectEvidenceSynthe
                     reference={resource.outcome}
                     name='Outcome'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='outcome'
                 />
             }
@@ -238,7 +246,7 @@ const EffectEvidenceSynthesis = ({ resource }: { resource: TEffectEvidenceSynthe
                     reference={resource.resultsByExposure}
                     name='Results By Exposure'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='results-by-exposure'
                     field='riskEvidenceSynthesis'
                 />

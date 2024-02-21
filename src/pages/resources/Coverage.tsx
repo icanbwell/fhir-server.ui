@@ -16,12 +16,20 @@ import { TCoverage } from '../../types/resources/Coverage';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const Coverage = ({ resource }: { resource: TCoverage }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -29,7 +37,7 @@ const Coverage = ({ resource }: { resource: TCoverage }): React.ReactElement => 
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -39,7 +47,7 @@ const Coverage = ({ resource }: { resource: TCoverage }): React.ReactElement => 
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -53,7 +61,7 @@ const Coverage = ({ resource }: { resource: TCoverage }): React.ReactElement => 
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -63,7 +71,7 @@ const Coverage = ({ resource }: { resource: TCoverage }): React.ReactElement => 
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -73,7 +81,7 @@ const Coverage = ({ resource }: { resource: TCoverage }): React.ReactElement => 
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -83,7 +91,7 @@ const Coverage = ({ resource }: { resource: TCoverage }): React.ReactElement => 
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -97,7 +105,7 @@ const Coverage = ({ resource }: { resource: TCoverage }): React.ReactElement => 
                     codeableConcept={resource.type}
                     name='Type'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='type'
                 />
             }
@@ -107,7 +115,7 @@ const Coverage = ({ resource }: { resource: TCoverage }): React.ReactElement => 
                     reference={resource.policyHolder}
                     name='Policy Holder'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='policy-holder'
                 />
             }
@@ -117,7 +125,7 @@ const Coverage = ({ resource }: { resource: TCoverage }): React.ReactElement => 
                     reference={resource.subscriber}
                     name='Subscriber'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='subscriber'
                 />
             }
@@ -127,7 +135,7 @@ const Coverage = ({ resource }: { resource: TCoverage }): React.ReactElement => 
                     reference={resource.beneficiary}
                     name='Beneficiary'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='beneficiary'
                 />
             }
@@ -137,7 +145,7 @@ const Coverage = ({ resource }: { resource: TCoverage }): React.ReactElement => 
                     codeableConcept={resource.relationship}
                     name='Relationship'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='relationship'
                 />
             }
@@ -147,7 +155,7 @@ const Coverage = ({ resource }: { resource: TCoverage }): React.ReactElement => 
                     period={resource.period}
                     name='Period'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='period'
                 />
             }
@@ -157,7 +165,7 @@ const Coverage = ({ resource }: { resource: TCoverage }): React.ReactElement => 
                     reference={resource.payor}
                     name='Payor'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='payor'
                 />
             }
@@ -167,7 +175,7 @@ const Coverage = ({ resource }: { resource: TCoverage }): React.ReactElement => 
                     boolean={resource.subrogation}
                     name='Subrogation'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='subrogation'
                 />
             }
@@ -177,7 +185,7 @@ const Coverage = ({ resource }: { resource: TCoverage }): React.ReactElement => 
                     reference={resource.contract}
                     name='Contract'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='contract'
                 />
             }

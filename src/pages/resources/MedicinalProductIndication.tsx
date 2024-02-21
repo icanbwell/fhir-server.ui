@@ -15,12 +15,20 @@ import { TMedicinalProductIndication } from '../../types/resources/MedicinalProd
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const MedicinalProductIndication = ({ resource }: { resource: TMedicinalProductIndication }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -28,7 +36,7 @@ const MedicinalProductIndication = ({ resource }: { resource: TMedicinalProductI
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -38,7 +46,7 @@ const MedicinalProductIndication = ({ resource }: { resource: TMedicinalProductI
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -52,7 +60,7 @@ const MedicinalProductIndication = ({ resource }: { resource: TMedicinalProductI
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -62,7 +70,7 @@ const MedicinalProductIndication = ({ resource }: { resource: TMedicinalProductI
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -72,7 +80,7 @@ const MedicinalProductIndication = ({ resource }: { resource: TMedicinalProductI
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -82,7 +90,7 @@ const MedicinalProductIndication = ({ resource }: { resource: TMedicinalProductI
                     reference={resource.subject}
                     name='Subject'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='subject'
                 />
             }
@@ -92,7 +100,7 @@ const MedicinalProductIndication = ({ resource }: { resource: TMedicinalProductI
                     codeableConcept={resource.diseaseSymptomProcedure}
                     name='Disease Symptom Procedure'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='disease-symptom-procedure'
                 />
             }
@@ -102,7 +110,7 @@ const MedicinalProductIndication = ({ resource }: { resource: TMedicinalProductI
                     codeableConcept={resource.diseaseStatus}
                     name='Disease Status'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='disease-status'
                 />
             }
@@ -112,7 +120,7 @@ const MedicinalProductIndication = ({ resource }: { resource: TMedicinalProductI
                     codeableConcept={resource.comorbidity}
                     name='Comorbidity'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='comorbidity'
                 />
             }
@@ -122,7 +130,7 @@ const MedicinalProductIndication = ({ resource }: { resource: TMedicinalProductI
                     codeableConcept={resource.intendedEffect}
                     name='Intended Effect'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='intended-effect'
                 />
             }
@@ -132,7 +140,7 @@ const MedicinalProductIndication = ({ resource }: { resource: TMedicinalProductI
                     quantity={resource.duration}
                     name='Duration'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='duration'
                 />
             }
@@ -142,7 +150,7 @@ const MedicinalProductIndication = ({ resource }: { resource: TMedicinalProductI
                     reference={resource.undesirableEffect}
                     name='Undesirable Effect'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='undesirable-effect'
                 />
             }

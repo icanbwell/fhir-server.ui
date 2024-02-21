@@ -15,12 +15,20 @@ import { TMeasure } from '../../types/resources/Measure';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const Measure = ({ resource }: { resource: TMeasure }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -28,7 +36,7 @@ const Measure = ({ resource }: { resource: TMeasure }): React.ReactElement => {
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -38,7 +46,7 @@ const Measure = ({ resource }: { resource: TMeasure }): React.ReactElement => {
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -52,7 +60,7 @@ const Measure = ({ resource }: { resource: TMeasure }): React.ReactElement => {
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -62,7 +70,7 @@ const Measure = ({ resource }: { resource: TMeasure }): React.ReactElement => {
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -72,7 +80,7 @@ const Measure = ({ resource }: { resource: TMeasure }): React.ReactElement => {
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -82,7 +90,7 @@ const Measure = ({ resource }: { resource: TMeasure }): React.ReactElement => {
                     uri={resource.url}
                     name='Url'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='url'
                 />
             }
@@ -92,7 +100,7 @@ const Measure = ({ resource }: { resource: TMeasure }): React.ReactElement => {
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -106,7 +114,7 @@ const Measure = ({ resource }: { resource: TMeasure }): React.ReactElement => {
                     boolean={resource.experimental}
                     name='Experimental'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='experimental'
                 />
             }
@@ -116,7 +124,7 @@ const Measure = ({ resource }: { resource: TMeasure }): React.ReactElement => {
                     codeableConcept={resource.subjectCodeableConcept}
                     name='Subject Codeable Concept'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='subject-codeable-concept'
                 />
             }
@@ -126,7 +134,7 @@ const Measure = ({ resource }: { resource: TMeasure }): React.ReactElement => {
                     reference={resource.subjectReference}
                     name='Subject Reference'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='subject-reference'
                 />
             }
@@ -136,7 +144,7 @@ const Measure = ({ resource }: { resource: TMeasure }): React.ReactElement => {
                     dateTime={resource.date}
                     name='Date'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='date'
                 />
             }
@@ -146,7 +154,7 @@ const Measure = ({ resource }: { resource: TMeasure }): React.ReactElement => {
                     markdown={resource.description}
                     name='Description'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='description'
                 />
             }
@@ -156,7 +164,7 @@ const Measure = ({ resource }: { resource: TMeasure }): React.ReactElement => {
                     codeableConcept={resource.jurisdiction}
                     name='Jurisdiction'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='jurisdiction'
                 />
             }
@@ -166,7 +174,7 @@ const Measure = ({ resource }: { resource: TMeasure }): React.ReactElement => {
                     markdown={resource.purpose}
                     name='Purpose'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='purpose'
                 />
             }
@@ -176,7 +184,7 @@ const Measure = ({ resource }: { resource: TMeasure }): React.ReactElement => {
                     markdown={resource.copyright}
                     name='Copyright'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='copyright'
                 />
             }
@@ -186,7 +194,7 @@ const Measure = ({ resource }: { resource: TMeasure }): React.ReactElement => {
                     period={resource.effectivePeriod}
                     name='Effective Period'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='effective-period'
                 />
             }
@@ -196,7 +204,7 @@ const Measure = ({ resource }: { resource: TMeasure }): React.ReactElement => {
                     codeableConcept={resource.topic}
                     name='Topic'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='topic'
                 />
             }
@@ -206,7 +214,7 @@ const Measure = ({ resource }: { resource: TMeasure }): React.ReactElement => {
                     canonical={resource.library}
                     name='Library'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='library'
                 />
             }
@@ -216,7 +224,7 @@ const Measure = ({ resource }: { resource: TMeasure }): React.ReactElement => {
                     markdown={resource.disclaimer}
                     name='Disclaimer'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='disclaimer'
                 />
             }
@@ -226,7 +234,7 @@ const Measure = ({ resource }: { resource: TMeasure }): React.ReactElement => {
                     codeableConcept={resource.scoring}
                     name='Scoring'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='scoring'
                 />
             }
@@ -236,7 +244,7 @@ const Measure = ({ resource }: { resource: TMeasure }): React.ReactElement => {
                     codeableConcept={resource.compositeScoring}
                     name='Composite Scoring'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='composite-scoring'
                 />
             }
@@ -246,7 +254,7 @@ const Measure = ({ resource }: { resource: TMeasure }): React.ReactElement => {
                     codeableConcept={resource.type}
                     name='Type'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='type'
                 />
             }
@@ -256,7 +264,7 @@ const Measure = ({ resource }: { resource: TMeasure }): React.ReactElement => {
                     markdown={resource.rationale}
                     name='Rationale'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='rationale'
                 />
             }
@@ -266,7 +274,7 @@ const Measure = ({ resource }: { resource: TMeasure }): React.ReactElement => {
                     markdown={resource.clinicalRecommendationStatement}
                     name='Clinical Recommendation Statement'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='clinical-recommendation-statement'
                 />
             }
@@ -276,7 +284,7 @@ const Measure = ({ resource }: { resource: TMeasure }): React.ReactElement => {
                     codeableConcept={resource.improvementNotation}
                     name='Improvement Notation'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='improvement-notation'
                 />
             }
@@ -286,7 +294,7 @@ const Measure = ({ resource }: { resource: TMeasure }): React.ReactElement => {
                     markdown={resource.definition}
                     name='Definition'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='definition'
                 />
             }
@@ -296,7 +304,7 @@ const Measure = ({ resource }: { resource: TMeasure }): React.ReactElement => {
                     markdown={resource.guidance}
                     name='Guidance'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='guidance'
                 />
             }

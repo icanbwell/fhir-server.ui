@@ -16,12 +16,20 @@ import { TSupplyRequest } from '../../types/resources/SupplyRequest';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const SupplyRequest = ({ resource }: { resource: TSupplyRequest }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -29,7 +37,7 @@ const SupplyRequest = ({ resource }: { resource: TSupplyRequest }): React.ReactE
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -39,7 +47,7 @@ const SupplyRequest = ({ resource }: { resource: TSupplyRequest }): React.ReactE
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -53,7 +61,7 @@ const SupplyRequest = ({ resource }: { resource: TSupplyRequest }): React.ReactE
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -63,7 +71,7 @@ const SupplyRequest = ({ resource }: { resource: TSupplyRequest }): React.ReactE
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -73,7 +81,7 @@ const SupplyRequest = ({ resource }: { resource: TSupplyRequest }): React.ReactE
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -83,7 +91,7 @@ const SupplyRequest = ({ resource }: { resource: TSupplyRequest }): React.ReactE
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -97,7 +105,7 @@ const SupplyRequest = ({ resource }: { resource: TSupplyRequest }): React.ReactE
                     codeableConcept={resource.category}
                     name='Category'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='category'
                 />
             }
@@ -111,7 +119,7 @@ const SupplyRequest = ({ resource }: { resource: TSupplyRequest }): React.ReactE
                     codeableConcept={resource.itemCodeableConcept}
                     name='Item Codeable Concept'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='item-codeable-concept'
                 />
             }
@@ -121,7 +129,7 @@ const SupplyRequest = ({ resource }: { resource: TSupplyRequest }): React.ReactE
                     reference={resource.itemReference}
                     name='Item Reference'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='item-reference'
                 />
             }
@@ -131,7 +139,7 @@ const SupplyRequest = ({ resource }: { resource: TSupplyRequest }): React.ReactE
                     quantity={resource.quantity}
                     name='Quantity'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='quantity'
                 />
             }
@@ -141,7 +149,7 @@ const SupplyRequest = ({ resource }: { resource: TSupplyRequest }): React.ReactE
                     dateTime={resource.occurrenceDateTime}
                     name='Occurrence Date Time'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='occurrence-date-time'
                 />
             }
@@ -151,7 +159,7 @@ const SupplyRequest = ({ resource }: { resource: TSupplyRequest }): React.ReactE
                     period={resource.occurrencePeriod}
                     name='Occurrence Period'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='occurrence-period'
                 />
             }
@@ -161,7 +169,7 @@ const SupplyRequest = ({ resource }: { resource: TSupplyRequest }): React.ReactE
                     timing={resource.occurrenceTiming}
                     name='Occurrence Timing'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='occurrence-timing'
                 />
             }
@@ -171,7 +179,7 @@ const SupplyRequest = ({ resource }: { resource: TSupplyRequest }): React.ReactE
                     dateTime={resource.authoredOn}
                     name='Authored On'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='authored-on'
                 />
             }
@@ -181,7 +189,7 @@ const SupplyRequest = ({ resource }: { resource: TSupplyRequest }): React.ReactE
                     reference={resource.requester}
                     name='Requester'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='requester'
                 />
             }
@@ -191,7 +199,7 @@ const SupplyRequest = ({ resource }: { resource: TSupplyRequest }): React.ReactE
                     reference={resource.supplier}
                     name='Supplier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='supplier'
                 />
             }
@@ -201,7 +209,7 @@ const SupplyRequest = ({ resource }: { resource: TSupplyRequest }): React.ReactE
                     codeableConcept={resource.reasonCode}
                     name='Reason Code'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='reason-code'
                 />
             }
@@ -211,7 +219,7 @@ const SupplyRequest = ({ resource }: { resource: TSupplyRequest }): React.ReactE
                     reference={resource.reasonReference}
                     name='Reason Reference'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='reason-reference'
                 />
             }
@@ -221,7 +229,7 @@ const SupplyRequest = ({ resource }: { resource: TSupplyRequest }): React.ReactE
                     reference={resource.deliverFrom}
                     name='Deliver From'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='deliver-from'
                 />
             }
@@ -231,7 +239,7 @@ const SupplyRequest = ({ resource }: { resource: TSupplyRequest }): React.ReactE
                     reference={resource.deliverTo}
                     name='Deliver To'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='deliver-to'
                 />
             }

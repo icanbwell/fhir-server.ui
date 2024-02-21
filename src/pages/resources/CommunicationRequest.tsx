@@ -17,12 +17,20 @@ import { TCommunicationRequest } from '../../types/resources/CommunicationReques
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const CommunicationRequest = ({ resource }: { resource: TCommunicationRequest }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -30,7 +38,7 @@ const CommunicationRequest = ({ resource }: { resource: TCommunicationRequest })
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -40,7 +48,7 @@ const CommunicationRequest = ({ resource }: { resource: TCommunicationRequest })
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -54,7 +62,7 @@ const CommunicationRequest = ({ resource }: { resource: TCommunicationRequest })
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -64,7 +72,7 @@ const CommunicationRequest = ({ resource }: { resource: TCommunicationRequest })
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -74,7 +82,7 @@ const CommunicationRequest = ({ resource }: { resource: TCommunicationRequest })
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -84,7 +92,7 @@ const CommunicationRequest = ({ resource }: { resource: TCommunicationRequest })
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -94,7 +102,7 @@ const CommunicationRequest = ({ resource }: { resource: TCommunicationRequest })
                     reference={resource.basedOn}
                     name='Based On'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='based-on'
                 />
             }
@@ -104,7 +112,7 @@ const CommunicationRequest = ({ resource }: { resource: TCommunicationRequest })
                     reference={resource.replaces}
                     name='Replaces'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='replaces'
                 />
             }
@@ -114,7 +122,7 @@ const CommunicationRequest = ({ resource }: { resource: TCommunicationRequest })
                     identifier={resource.groupIdentifier}
                     name='Group Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='group-identifier'
                 />
             }
@@ -128,7 +136,7 @@ const CommunicationRequest = ({ resource }: { resource: TCommunicationRequest })
                     codeableConcept={resource.statusReason}
                     name='Status Reason'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='status-reason'
                 />
             }
@@ -138,7 +146,7 @@ const CommunicationRequest = ({ resource }: { resource: TCommunicationRequest })
                     codeableConcept={resource.category}
                     name='Category'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='category'
                 />
             }
@@ -152,7 +160,7 @@ const CommunicationRequest = ({ resource }: { resource: TCommunicationRequest })
                     boolean={resource.doNotPerform}
                     name='Do Not Perform'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='do-not-perform'
                 />
             }
@@ -162,7 +170,7 @@ const CommunicationRequest = ({ resource }: { resource: TCommunicationRequest })
                     codeableConcept={resource.medium}
                     name='Medium'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='medium'
                 />
             }
@@ -172,7 +180,7 @@ const CommunicationRequest = ({ resource }: { resource: TCommunicationRequest })
                     reference={resource.subject}
                     name='Subject'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='subject'
                 />
             }
@@ -182,7 +190,7 @@ const CommunicationRequest = ({ resource }: { resource: TCommunicationRequest })
                     reference={resource.about}
                     name='About'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='about'
                 />
             }
@@ -192,7 +200,7 @@ const CommunicationRequest = ({ resource }: { resource: TCommunicationRequest })
                     reference={resource.encounter}
                     name='Encounter'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='encounter'
                 />
             }
@@ -202,7 +210,7 @@ const CommunicationRequest = ({ resource }: { resource: TCommunicationRequest })
                     dateTime={resource.occurrenceDateTime}
                     name='Occurrence Date Time'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='occurrence-date-time'
                 />
             }
@@ -212,7 +220,7 @@ const CommunicationRequest = ({ resource }: { resource: TCommunicationRequest })
                     period={resource.occurrencePeriod}
                     name='Occurrence Period'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='occurrence-period'
                 />
             }
@@ -222,7 +230,7 @@ const CommunicationRequest = ({ resource }: { resource: TCommunicationRequest })
                     dateTime={resource.authoredOn}
                     name='Authored On'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='authored-on'
                 />
             }
@@ -232,7 +240,7 @@ const CommunicationRequest = ({ resource }: { resource: TCommunicationRequest })
                     reference={resource.requester}
                     name='Requester'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='requester'
                 />
             }
@@ -242,7 +250,7 @@ const CommunicationRequest = ({ resource }: { resource: TCommunicationRequest })
                     reference={resource.recipient}
                     name='Recipient'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='recipient'
                 />
             }
@@ -252,7 +260,7 @@ const CommunicationRequest = ({ resource }: { resource: TCommunicationRequest })
                     reference={resource.sender}
                     name='Sender'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='sender'
                 />
             }
@@ -262,7 +270,7 @@ const CommunicationRequest = ({ resource }: { resource: TCommunicationRequest })
                     codeableConcept={resource.reasonCode}
                     name='Reason Code'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='reason-code'
                 />
             }
@@ -272,7 +280,7 @@ const CommunicationRequest = ({ resource }: { resource: TCommunicationRequest })
                     reference={resource.reasonReference}
                     name='Reason Reference'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='reason-reference'
                 />
             }
@@ -282,7 +290,7 @@ const CommunicationRequest = ({ resource }: { resource: TCommunicationRequest })
                     annotation={resource.note}
                     name='Note'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='note'
                 />
             }

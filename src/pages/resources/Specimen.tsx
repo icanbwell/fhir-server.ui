@@ -15,12 +15,20 @@ import { TSpecimen } from '../../types/resources/Specimen';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const Specimen = ({ resource }: { resource: TSpecimen }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -28,7 +36,7 @@ const Specimen = ({ resource }: { resource: TSpecimen }): React.ReactElement => 
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -38,7 +46,7 @@ const Specimen = ({ resource }: { resource: TSpecimen }): React.ReactElement => 
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -52,7 +60,7 @@ const Specimen = ({ resource }: { resource: TSpecimen }): React.ReactElement => 
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -62,7 +70,7 @@ const Specimen = ({ resource }: { resource: TSpecimen }): React.ReactElement => 
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -72,7 +80,7 @@ const Specimen = ({ resource }: { resource: TSpecimen }): React.ReactElement => 
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -82,7 +90,7 @@ const Specimen = ({ resource }: { resource: TSpecimen }): React.ReactElement => 
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -92,7 +100,7 @@ const Specimen = ({ resource }: { resource: TSpecimen }): React.ReactElement => 
                     identifier={resource.accessionIdentifier}
                     name='Accession Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='accession-identifier'
                 />
             }
@@ -106,7 +114,7 @@ const Specimen = ({ resource }: { resource: TSpecimen }): React.ReactElement => 
                     codeableConcept={resource.type}
                     name='Type'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='type'
                 />
             }
@@ -116,7 +124,7 @@ const Specimen = ({ resource }: { resource: TSpecimen }): React.ReactElement => 
                     reference={resource.subject}
                     name='Subject'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='subject'
                 />
             }
@@ -126,7 +134,7 @@ const Specimen = ({ resource }: { resource: TSpecimen }): React.ReactElement => 
                     dateTime={resource.receivedTime}
                     name='Received Time'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='received-time'
                 />
             }
@@ -136,7 +144,7 @@ const Specimen = ({ resource }: { resource: TSpecimen }): React.ReactElement => 
                     reference={resource.parent}
                     name='Parent'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='parent'
                 />
             }
@@ -146,7 +154,7 @@ const Specimen = ({ resource }: { resource: TSpecimen }): React.ReactElement => 
                     reference={resource.request}
                     name='Request'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='request'
                 />
             }
@@ -156,7 +164,7 @@ const Specimen = ({ resource }: { resource: TSpecimen }): React.ReactElement => 
                     codeableConcept={resource.condition}
                     name='Condition'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='condition'
                 />
             }
@@ -166,7 +174,7 @@ const Specimen = ({ resource }: { resource: TSpecimen }): React.ReactElement => 
                     annotation={resource.note}
                     name='Note'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='note'
                 />
             }

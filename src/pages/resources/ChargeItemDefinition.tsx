@@ -18,12 +18,20 @@ import { TChargeItemDefinition } from '../../types/resources/ChargeItemDefinitio
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const ChargeItemDefinition = ({ resource }: { resource: TChargeItemDefinition }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -31,7 +39,7 @@ const ChargeItemDefinition = ({ resource }: { resource: TChargeItemDefinition })
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -41,7 +49,7 @@ const ChargeItemDefinition = ({ resource }: { resource: TChargeItemDefinition })
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -55,7 +63,7 @@ const ChargeItemDefinition = ({ resource }: { resource: TChargeItemDefinition })
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -65,7 +73,7 @@ const ChargeItemDefinition = ({ resource }: { resource: TChargeItemDefinition })
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -75,7 +83,7 @@ const ChargeItemDefinition = ({ resource }: { resource: TChargeItemDefinition })
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -85,7 +93,7 @@ const ChargeItemDefinition = ({ resource }: { resource: TChargeItemDefinition })
                     uri={resource.url}
                     name='Url'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='url'
                 />
             }
@@ -95,7 +103,7 @@ const ChargeItemDefinition = ({ resource }: { resource: TChargeItemDefinition })
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -105,7 +113,7 @@ const ChargeItemDefinition = ({ resource }: { resource: TChargeItemDefinition })
                     uri={resource.derivedFromUri}
                     name='Derived From Uri'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='derived-from-uri'
                 />
             }
@@ -115,7 +123,7 @@ const ChargeItemDefinition = ({ resource }: { resource: TChargeItemDefinition })
                     canonical={resource.partOf}
                     name='Part Of'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='part-of'
                 />
             }
@@ -125,7 +133,7 @@ const ChargeItemDefinition = ({ resource }: { resource: TChargeItemDefinition })
                     canonical={resource.replaces}
                     name='Replaces'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='replaces'
                 />
             }
@@ -139,7 +147,7 @@ const ChargeItemDefinition = ({ resource }: { resource: TChargeItemDefinition })
                     boolean={resource.experimental}
                     name='Experimental'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='experimental'
                 />
             }
@@ -149,7 +157,7 @@ const ChargeItemDefinition = ({ resource }: { resource: TChargeItemDefinition })
                     dateTime={resource.date}
                     name='Date'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='date'
                 />
             }
@@ -159,7 +167,7 @@ const ChargeItemDefinition = ({ resource }: { resource: TChargeItemDefinition })
                     markdown={resource.description}
                     name='Description'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='description'
                 />
             }
@@ -169,7 +177,7 @@ const ChargeItemDefinition = ({ resource }: { resource: TChargeItemDefinition })
                     codeableConcept={resource.jurisdiction}
                     name='Jurisdiction'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='jurisdiction'
                 />
             }
@@ -179,7 +187,7 @@ const ChargeItemDefinition = ({ resource }: { resource: TChargeItemDefinition })
                     markdown={resource.copyright}
                     name='Copyright'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='copyright'
                 />
             }
@@ -189,7 +197,7 @@ const ChargeItemDefinition = ({ resource }: { resource: TChargeItemDefinition })
                     period={resource.effectivePeriod}
                     name='Effective Period'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='effective-period'
                 />
             }
@@ -199,7 +207,7 @@ const ChargeItemDefinition = ({ resource }: { resource: TChargeItemDefinition })
                     codeableConcept={resource.code}
                     name='Code'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='code'
                 />
             }
@@ -209,7 +217,7 @@ const ChargeItemDefinition = ({ resource }: { resource: TChargeItemDefinition })
                     reference={resource.instance}
                     name='Instance'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='instance'
                 />
             }

@@ -16,12 +16,20 @@ import { TImmunization } from '../../types/resources/Immunization';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const Immunization = ({ resource }: { resource: TImmunization }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -29,7 +37,7 @@ const Immunization = ({ resource }: { resource: TImmunization }): React.ReactEle
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -39,7 +47,7 @@ const Immunization = ({ resource }: { resource: TImmunization }): React.ReactEle
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -53,7 +61,7 @@ const Immunization = ({ resource }: { resource: TImmunization }): React.ReactEle
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -63,7 +71,7 @@ const Immunization = ({ resource }: { resource: TImmunization }): React.ReactEle
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -73,7 +81,7 @@ const Immunization = ({ resource }: { resource: TImmunization }): React.ReactEle
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -83,7 +91,7 @@ const Immunization = ({ resource }: { resource: TImmunization }): React.ReactEle
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -97,7 +105,7 @@ const Immunization = ({ resource }: { resource: TImmunization }): React.ReactEle
                     codeableConcept={resource.statusReason}
                     name='Status Reason'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='status-reason'
                 />
             }
@@ -107,7 +115,7 @@ const Immunization = ({ resource }: { resource: TImmunization }): React.ReactEle
                     codeableConcept={resource.vaccineCode}
                     name='Vaccine Code'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='vaccine-code'
                 />
             }
@@ -117,7 +125,7 @@ const Immunization = ({ resource }: { resource: TImmunization }): React.ReactEle
                     reference={resource.patient}
                     name='Patient'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='patient'
                 />
             }
@@ -127,7 +135,7 @@ const Immunization = ({ resource }: { resource: TImmunization }): React.ReactEle
                     reference={resource.encounter}
                     name='Encounter'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='encounter'
                 />
             }
@@ -137,7 +145,7 @@ const Immunization = ({ resource }: { resource: TImmunization }): React.ReactEle
                     dateTime={resource.occurrenceDateTime}
                     name='Occurrence Date Time'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='occurrence-date-time'
                 />
             }
@@ -147,7 +155,7 @@ const Immunization = ({ resource }: { resource: TImmunization }): React.ReactEle
                     dateTime={resource.recorded}
                     name='Recorded'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='recorded'
                 />
             }
@@ -157,7 +165,7 @@ const Immunization = ({ resource }: { resource: TImmunization }): React.ReactEle
                     boolean={resource.primarySource}
                     name='Primary Source'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='primary-source'
                 />
             }
@@ -167,7 +175,7 @@ const Immunization = ({ resource }: { resource: TImmunization }): React.ReactEle
                     codeableConcept={resource.reportOrigin}
                     name='Report Origin'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='report-origin'
                 />
             }
@@ -177,7 +185,7 @@ const Immunization = ({ resource }: { resource: TImmunization }): React.ReactEle
                     reference={resource.location}
                     name='Location'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='location'
                 />
             }
@@ -187,7 +195,7 @@ const Immunization = ({ resource }: { resource: TImmunization }): React.ReactEle
                     reference={resource.manufacturer}
                     name='Manufacturer'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='manufacturer'
                 />
             }
@@ -197,7 +205,7 @@ const Immunization = ({ resource }: { resource: TImmunization }): React.ReactEle
                     codeableConcept={resource.site}
                     name='Site'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='site'
                 />
             }
@@ -207,7 +215,7 @@ const Immunization = ({ resource }: { resource: TImmunization }): React.ReactEle
                     codeableConcept={resource.route}
                     name='Route'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='route'
                 />
             }
@@ -217,7 +225,7 @@ const Immunization = ({ resource }: { resource: TImmunization }): React.ReactEle
                     quantity={resource.doseQuantity}
                     name='Dose Quantity'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='dose-quantity'
                 />
             }
@@ -227,7 +235,7 @@ const Immunization = ({ resource }: { resource: TImmunization }): React.ReactEle
                     reference={resource.performer}
                     name='Performer'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='performer'
                     field='actor'
                 />
@@ -238,7 +246,7 @@ const Immunization = ({ resource }: { resource: TImmunization }): React.ReactEle
                     annotation={resource.note}
                     name='Note'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='note'
                 />
             }
@@ -248,7 +256,7 @@ const Immunization = ({ resource }: { resource: TImmunization }): React.ReactEle
                     codeableConcept={resource.reasonCode}
                     name='Reason Code'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='reason-code'
                 />
             }
@@ -258,7 +266,7 @@ const Immunization = ({ resource }: { resource: TImmunization }): React.ReactEle
                     reference={resource.reasonReference}
                     name='Reason Reference'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='reason-reference'
                 />
             }
@@ -268,7 +276,7 @@ const Immunization = ({ resource }: { resource: TImmunization }): React.ReactEle
                     boolean={resource.isSubpotent}
                     name='Is Subpotent'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='is-subpotent'
                 />
             }
@@ -278,7 +286,7 @@ const Immunization = ({ resource }: { resource: TImmunization }): React.ReactEle
                     codeableConcept={resource.subpotentReason}
                     name='Subpotent Reason'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='subpotent-reason'
                 />
             }
@@ -288,7 +296,7 @@ const Immunization = ({ resource }: { resource: TImmunization }): React.ReactEle
                     codeableConcept={resource.programEligibility}
                     name='Program Eligibility'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='program-eligibility'
                 />
             }
@@ -298,7 +306,7 @@ const Immunization = ({ resource }: { resource: TImmunization }): React.ReactEle
                     codeableConcept={resource.fundingSource}
                     name='Funding Source'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='funding-source'
                 />
             }

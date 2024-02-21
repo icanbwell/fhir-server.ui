@@ -17,12 +17,20 @@ import { TGoal } from '../../types/resources/Goal';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const Goal = ({ resource }: { resource: TGoal }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -30,7 +38,7 @@ const Goal = ({ resource }: { resource: TGoal }): React.ReactElement => {
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -40,7 +48,7 @@ const Goal = ({ resource }: { resource: TGoal }): React.ReactElement => {
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -54,7 +62,7 @@ const Goal = ({ resource }: { resource: TGoal }): React.ReactElement => {
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -64,7 +72,7 @@ const Goal = ({ resource }: { resource: TGoal }): React.ReactElement => {
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -74,7 +82,7 @@ const Goal = ({ resource }: { resource: TGoal }): React.ReactElement => {
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -84,7 +92,7 @@ const Goal = ({ resource }: { resource: TGoal }): React.ReactElement => {
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -98,7 +106,7 @@ const Goal = ({ resource }: { resource: TGoal }): React.ReactElement => {
                     codeableConcept={resource.achievementStatus}
                     name='Achievement Status'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='achievement-status'
                 />
             }
@@ -108,7 +116,7 @@ const Goal = ({ resource }: { resource: TGoal }): React.ReactElement => {
                     codeableConcept={resource.category}
                     name='Category'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='category'
                 />
             }
@@ -118,7 +126,7 @@ const Goal = ({ resource }: { resource: TGoal }): React.ReactElement => {
                     codeableConcept={resource.priority}
                     name='Priority'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='priority'
                 />
             }
@@ -128,7 +136,7 @@ const Goal = ({ resource }: { resource: TGoal }): React.ReactElement => {
                     codeableConcept={resource.description}
                     name='Description'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='description'
                 />
             }
@@ -138,7 +146,7 @@ const Goal = ({ resource }: { resource: TGoal }): React.ReactElement => {
                     reference={resource.subject}
                     name='Subject'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='subject'
                 />
             }
@@ -148,7 +156,7 @@ const Goal = ({ resource }: { resource: TGoal }): React.ReactElement => {
                     codeableConcept={resource.startCodeableConcept}
                     name='Start Codeable Concept'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='start-codeable-concept'
                 />
             }
@@ -158,7 +166,7 @@ const Goal = ({ resource }: { resource: TGoal }): React.ReactElement => {
                     reference={resource.expressedBy}
                     name='Expressed By'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='expressed-by'
                 />
             }
@@ -168,7 +176,7 @@ const Goal = ({ resource }: { resource: TGoal }): React.ReactElement => {
                     reference={resource.addresses}
                     name='Addresses'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='addresses'
                 />
             }
@@ -178,7 +186,7 @@ const Goal = ({ resource }: { resource: TGoal }): React.ReactElement => {
                     annotation={resource.note}
                     name='Note'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='note'
                 />
             }
@@ -188,7 +196,7 @@ const Goal = ({ resource }: { resource: TGoal }): React.ReactElement => {
                     codeableConcept={resource.outcomeCode}
                     name='Outcome Code'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='outcome-code'
                 />
             }
@@ -198,7 +206,7 @@ const Goal = ({ resource }: { resource: TGoal }): React.ReactElement => {
                     reference={resource.outcomeReference}
                     name='Outcome Reference'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='outcome-reference'
                 />
             }

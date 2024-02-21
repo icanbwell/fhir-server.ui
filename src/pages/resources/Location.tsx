@@ -17,12 +17,20 @@ import { TLocation } from '../../types/resources/Location';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const Location = ({ resource }: { resource: TLocation }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -30,7 +38,7 @@ const Location = ({ resource }: { resource: TLocation }): React.ReactElement => 
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -40,7 +48,7 @@ const Location = ({ resource }: { resource: TLocation }): React.ReactElement => 
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -54,7 +62,7 @@ const Location = ({ resource }: { resource: TLocation }): React.ReactElement => 
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -64,7 +72,7 @@ const Location = ({ resource }: { resource: TLocation }): React.ReactElement => 
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -74,7 +82,7 @@ const Location = ({ resource }: { resource: TLocation }): React.ReactElement => 
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -84,7 +92,7 @@ const Location = ({ resource }: { resource: TLocation }): React.ReactElement => 
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -98,7 +106,7 @@ const Location = ({ resource }: { resource: TLocation }): React.ReactElement => 
                     coding={resource.operationalStatus}
                     name='Operational Status'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='operational-status'
                 />
             }
@@ -112,7 +120,7 @@ const Location = ({ resource }: { resource: TLocation }): React.ReactElement => 
                     codeableConcept={resource.type}
                     name='Type'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='type'
                 />
             }
@@ -122,7 +130,7 @@ const Location = ({ resource }: { resource: TLocation }): React.ReactElement => 
                     contactPoint={resource.telecom}
                     name='Telecom'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='telecom'
                 />
             }
@@ -132,7 +140,7 @@ const Location = ({ resource }: { resource: TLocation }): React.ReactElement => 
                     address={resource.address}
                     name='Address'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='address'
                 />
             }
@@ -142,7 +150,7 @@ const Location = ({ resource }: { resource: TLocation }): React.ReactElement => 
                     codeableConcept={resource.physicalType}
                     name='Physical Type'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='physical-type'
                 />
             }
@@ -152,7 +160,7 @@ const Location = ({ resource }: { resource: TLocation }): React.ReactElement => 
                     reference={resource.managingOrganization}
                     name='Managing Organization'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='managing-organization'
                 />
             }
@@ -162,7 +170,7 @@ const Location = ({ resource }: { resource: TLocation }): React.ReactElement => 
                     reference={resource.partOf}
                     name='Part Of'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='part-of'
                 />
             }
@@ -172,7 +180,7 @@ const Location = ({ resource }: { resource: TLocation }): React.ReactElement => 
                     reference={resource.endpoint}
                     name='Endpoint'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='endpoint'
                 />
             }
@@ -181,25 +189,25 @@ const Location = ({ resource }: { resource: TLocation }): React.ReactElement => 
             </Typography>
             <Partials.ReverseReference
                 name="PractitionerRole"
-                id={resource.id}
+                id={uuid}
                 resourceType={resource.resourceType}
                 reverseReferences={[{'target': 'PractitionerRole', 'property': 'location'}]}
             />
             <Partials.ReverseReference
                 name="HealthcareService"
-                id={resource.id}
+                id={uuid}
                 resourceType={resource.resourceType}
                 reverseReferences={[{'target': 'HealthcareService', 'property': 'location'}]}
             />
             <Partials.ReverseReference
                 name="Organization"
-                id={resource.id}
+                id={uuid}
                 resourceType={resource.resourceType}
                 reverseReferences={[{'target': 'Organization', 'property': 'location'}]}
             />
             <Partials.ReverseReference
                 name="Schedule"
-                id={resource.id}
+                id={uuid}
                 resourceType={resource.resourceType}
                 reverseReferences={[{'target': 'Schedule', 'property': 'location'}]}
             />

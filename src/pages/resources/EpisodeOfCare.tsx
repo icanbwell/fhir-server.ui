@@ -17,12 +17,20 @@ import { TEpisodeOfCare } from '../../types/resources/EpisodeOfCare';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const EpisodeOfCare = ({ resource }: { resource: TEpisodeOfCare }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -30,7 +38,7 @@ const EpisodeOfCare = ({ resource }: { resource: TEpisodeOfCare }): React.ReactE
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -40,7 +48,7 @@ const EpisodeOfCare = ({ resource }: { resource: TEpisodeOfCare }): React.ReactE
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -54,7 +62,7 @@ const EpisodeOfCare = ({ resource }: { resource: TEpisodeOfCare }): React.ReactE
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -64,7 +72,7 @@ const EpisodeOfCare = ({ resource }: { resource: TEpisodeOfCare }): React.ReactE
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -74,7 +82,7 @@ const EpisodeOfCare = ({ resource }: { resource: TEpisodeOfCare }): React.ReactE
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -84,7 +92,7 @@ const EpisodeOfCare = ({ resource }: { resource: TEpisodeOfCare }): React.ReactE
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -98,7 +106,7 @@ const EpisodeOfCare = ({ resource }: { resource: TEpisodeOfCare }): React.ReactE
                     codeableConcept={resource.type}
                     name='Type'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='type'
                 />
             }
@@ -108,7 +116,7 @@ const EpisodeOfCare = ({ resource }: { resource: TEpisodeOfCare }): React.ReactE
                     reference={resource.diagnosis}
                     name='Diagnosis'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='diagnosis'
                     field='condition'
                 />
@@ -119,7 +127,7 @@ const EpisodeOfCare = ({ resource }: { resource: TEpisodeOfCare }): React.ReactE
                     reference={resource.patient}
                     name='Patient'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='patient'
                 />
             }
@@ -129,7 +137,7 @@ const EpisodeOfCare = ({ resource }: { resource: TEpisodeOfCare }): React.ReactE
                     reference={resource.managingOrganization}
                     name='Managing Organization'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='managing-organization'
                 />
             }
@@ -139,7 +147,7 @@ const EpisodeOfCare = ({ resource }: { resource: TEpisodeOfCare }): React.ReactE
                     period={resource.period}
                     name='Period'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='period'
                 />
             }
@@ -149,7 +157,7 @@ const EpisodeOfCare = ({ resource }: { resource: TEpisodeOfCare }): React.ReactE
                     reference={resource.referralRequest}
                     name='Referral Request'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='referral-request'
                 />
             }
@@ -159,7 +167,7 @@ const EpisodeOfCare = ({ resource }: { resource: TEpisodeOfCare }): React.ReactE
                     reference={resource.careManager}
                     name='Care Manager'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='care-manager'
                 />
             }
@@ -169,7 +177,7 @@ const EpisodeOfCare = ({ resource }: { resource: TEpisodeOfCare }): React.ReactE
                     reference={resource.team}
                     name='Team'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='team'
                 />
             }
@@ -179,7 +187,7 @@ const EpisodeOfCare = ({ resource }: { resource: TEpisodeOfCare }): React.ReactE
                     reference={resource.account}
                     name='Account'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='account'
                 />
             }

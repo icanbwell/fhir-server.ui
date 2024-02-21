@@ -15,12 +15,20 @@ import { TInsurancePlan } from '../../types/resources/InsurancePlan';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const InsurancePlan = ({ resource }: { resource: TInsurancePlan }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -28,7 +36,7 @@ const InsurancePlan = ({ resource }: { resource: TInsurancePlan }): React.ReactE
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -38,7 +46,7 @@ const InsurancePlan = ({ resource }: { resource: TInsurancePlan }): React.ReactE
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -52,7 +60,7 @@ const InsurancePlan = ({ resource }: { resource: TInsurancePlan }): React.ReactE
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -62,7 +70,7 @@ const InsurancePlan = ({ resource }: { resource: TInsurancePlan }): React.ReactE
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -72,7 +80,7 @@ const InsurancePlan = ({ resource }: { resource: TInsurancePlan }): React.ReactE
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -82,7 +90,7 @@ const InsurancePlan = ({ resource }: { resource: TInsurancePlan }): React.ReactE
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -96,7 +104,7 @@ const InsurancePlan = ({ resource }: { resource: TInsurancePlan }): React.ReactE
                     codeableConcept={resource.type}
                     name='Type'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='type'
                 />
             }
@@ -106,7 +114,7 @@ const InsurancePlan = ({ resource }: { resource: TInsurancePlan }): React.ReactE
                     period={resource.period}
                     name='Period'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='period'
                 />
             }
@@ -116,7 +124,7 @@ const InsurancePlan = ({ resource }: { resource: TInsurancePlan }): React.ReactE
                     reference={resource.ownedBy}
                     name='Owned By'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='owned-by'
                 />
             }
@@ -126,7 +134,7 @@ const InsurancePlan = ({ resource }: { resource: TInsurancePlan }): React.ReactE
                     reference={resource.administeredBy}
                     name='Administered By'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='administered-by'
                 />
             }
@@ -136,7 +144,7 @@ const InsurancePlan = ({ resource }: { resource: TInsurancePlan }): React.ReactE
                     reference={resource.coverageArea}
                     name='Coverage Area'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='coverage-area'
                 />
             }
@@ -146,7 +154,7 @@ const InsurancePlan = ({ resource }: { resource: TInsurancePlan }): React.ReactE
                     reference={resource.endpoint}
                     name='Endpoint'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='endpoint'
                 />
             }
@@ -156,7 +164,7 @@ const InsurancePlan = ({ resource }: { resource: TInsurancePlan }): React.ReactE
                     reference={resource.network}
                     name='Network'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='network'
                 />
             }

@@ -16,12 +16,20 @@ import { TObservationDefinition } from '../../types/resources/ObservationDefinit
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const ObservationDefinition = ({ resource }: { resource: TObservationDefinition }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -29,7 +37,7 @@ const ObservationDefinition = ({ resource }: { resource: TObservationDefinition 
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -39,7 +47,7 @@ const ObservationDefinition = ({ resource }: { resource: TObservationDefinition 
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -53,7 +61,7 @@ const ObservationDefinition = ({ resource }: { resource: TObservationDefinition 
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -63,7 +71,7 @@ const ObservationDefinition = ({ resource }: { resource: TObservationDefinition 
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -73,7 +81,7 @@ const ObservationDefinition = ({ resource }: { resource: TObservationDefinition 
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -83,7 +91,7 @@ const ObservationDefinition = ({ resource }: { resource: TObservationDefinition 
                     codeableConcept={resource.category}
                     name='Category'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='category'
                 />
             }
@@ -93,7 +101,7 @@ const ObservationDefinition = ({ resource }: { resource: TObservationDefinition 
                     codeableConcept={resource.code}
                     name='Code'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='code'
                 />
             }
@@ -103,7 +111,7 @@ const ObservationDefinition = ({ resource }: { resource: TObservationDefinition 
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -117,7 +125,7 @@ const ObservationDefinition = ({ resource }: { resource: TObservationDefinition 
                     boolean={resource.multipleResultsAllowed}
                     name='Multiple Results Allowed'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='multiple-results-allowed'
                 />
             }
@@ -127,7 +135,7 @@ const ObservationDefinition = ({ resource }: { resource: TObservationDefinition 
                     codeableConcept={resource.method}
                     name='Method'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='method'
                 />
             }
@@ -137,7 +145,7 @@ const ObservationDefinition = ({ resource }: { resource: TObservationDefinition 
                     reference={resource.validCodedValueSet}
                     name='Valid Coded Value Set'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='valid-coded-value-set'
                 />
             }
@@ -147,7 +155,7 @@ const ObservationDefinition = ({ resource }: { resource: TObservationDefinition 
                     reference={resource.normalCodedValueSet}
                     name='Normal Coded Value Set'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='normal-coded-value-set'
                 />
             }
@@ -157,7 +165,7 @@ const ObservationDefinition = ({ resource }: { resource: TObservationDefinition 
                     reference={resource.abnormalCodedValueSet}
                     name='Abnormal Coded Value Set'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='abnormal-coded-value-set'
                 />
             }
@@ -167,7 +175,7 @@ const ObservationDefinition = ({ resource }: { resource: TObservationDefinition 
                     reference={resource.criticalCodedValueSet}
                     name='Critical Coded Value Set'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='critical-coded-value-set'
                 />
             }

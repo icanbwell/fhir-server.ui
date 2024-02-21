@@ -16,12 +16,20 @@ import { TEventDefinition } from '../../types/resources/EventDefinition';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const EventDefinition = ({ resource }: { resource: TEventDefinition }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -29,7 +37,7 @@ const EventDefinition = ({ resource }: { resource: TEventDefinition }): React.Re
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -39,7 +47,7 @@ const EventDefinition = ({ resource }: { resource: TEventDefinition }): React.Re
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -53,7 +61,7 @@ const EventDefinition = ({ resource }: { resource: TEventDefinition }): React.Re
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -63,7 +71,7 @@ const EventDefinition = ({ resource }: { resource: TEventDefinition }): React.Re
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -73,7 +81,7 @@ const EventDefinition = ({ resource }: { resource: TEventDefinition }): React.Re
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -83,7 +91,7 @@ const EventDefinition = ({ resource }: { resource: TEventDefinition }): React.Re
                     uri={resource.url}
                     name='Url'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='url'
                 />
             }
@@ -93,7 +101,7 @@ const EventDefinition = ({ resource }: { resource: TEventDefinition }): React.Re
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -107,7 +115,7 @@ const EventDefinition = ({ resource }: { resource: TEventDefinition }): React.Re
                     boolean={resource.experimental}
                     name='Experimental'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='experimental'
                 />
             }
@@ -117,7 +125,7 @@ const EventDefinition = ({ resource }: { resource: TEventDefinition }): React.Re
                     codeableConcept={resource.subjectCodeableConcept}
                     name='Subject Codeable Concept'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='subject-codeable-concept'
                 />
             }
@@ -127,7 +135,7 @@ const EventDefinition = ({ resource }: { resource: TEventDefinition }): React.Re
                     reference={resource.subjectReference}
                     name='Subject Reference'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='subject-reference'
                 />
             }
@@ -137,7 +145,7 @@ const EventDefinition = ({ resource }: { resource: TEventDefinition }): React.Re
                     dateTime={resource.date}
                     name='Date'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='date'
                 />
             }
@@ -147,7 +155,7 @@ const EventDefinition = ({ resource }: { resource: TEventDefinition }): React.Re
                     markdown={resource.description}
                     name='Description'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='description'
                 />
             }
@@ -157,7 +165,7 @@ const EventDefinition = ({ resource }: { resource: TEventDefinition }): React.Re
                     codeableConcept={resource.jurisdiction}
                     name='Jurisdiction'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='jurisdiction'
                 />
             }
@@ -167,7 +175,7 @@ const EventDefinition = ({ resource }: { resource: TEventDefinition }): React.Re
                     markdown={resource.purpose}
                     name='Purpose'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='purpose'
                 />
             }
@@ -177,7 +185,7 @@ const EventDefinition = ({ resource }: { resource: TEventDefinition }): React.Re
                     markdown={resource.copyright}
                     name='Copyright'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='copyright'
                 />
             }
@@ -187,7 +195,7 @@ const EventDefinition = ({ resource }: { resource: TEventDefinition }): React.Re
                     period={resource.effectivePeriod}
                     name='Effective Period'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='effective-period'
                 />
             }
@@ -197,7 +205,7 @@ const EventDefinition = ({ resource }: { resource: TEventDefinition }): React.Re
                     codeableConcept={resource.topic}
                     name='Topic'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='topic'
                 />
             }

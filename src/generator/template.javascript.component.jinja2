@@ -19,15 +19,23 @@ import Partials from '../../partials';
 {% if fhir_entity.cleaned_name == 'Person' %}
 import UserContext from '../../context/UserContext';
 {% endif %}
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const {{ fhir_entity.cleaned_name }} = ({ resource }: { resource: {{ 'T' + fhir_entity.cleaned_name + ' ' -}}}): React.ReactElement => {
 {% if fhir_entity.cleaned_name == 'Person' %}
     const { userDetails } = React.useContext(UserContext);
 {% endif %}
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
     {% for property in fhir_entity.properties %}
     {% if not property.is_v2_supported %}
@@ -43,7 +51,7 @@ const {{ fhir_entity.cleaned_name }} = ({ resource }: { resource: {{ 'T' + fhir_
                     {{ property.type_snake_case }}={resource.{{- property.javascript_clean_name }}}
                     name='{{- generate_name(property.javascript_clean_name) -}}'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='{{- generate_search_parameter(property.javascript_clean_name) -}}'
                 />
             }
@@ -54,7 +62,7 @@ const {{ fhir_entity.cleaned_name }} = ({ resource }: { resource: {{ 'T' + fhir_
                     {{ partials_mapping[get_component_name(property.cleaned_type)]['prop_name'] }}={resource.{{- property.javascript_clean_name }}}
                     name='{{- generate_name(property.javascript_clean_name) -}}'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='{{- generate_search_parameter(property.javascript_clean_name) -}}'
                     field='{{- partials_mapping[get_component_name(property.cleaned_type)]['field'] -}}'
                 />
@@ -73,7 +81,7 @@ const {{ fhir_entity.cleaned_name }} = ({ resource }: { resource: {{ 'T' + fhir_
         {% for reference in reverse_references.get(fhir_entity.cleaned_name) %}
             <Partials.ReverseReference
                 name="{{- reference.get("name") -}}"
-                id={resource.id}
+                id={uuid}
                 resourceType={resource.resourceType}
                 reverseReferences={{- '{' }}{{ reference.get("reverseReferences") }}{{ '}' }}
             />
@@ -83,8 +91,8 @@ const {{ fhir_entity.cleaned_name }} = ({ resource }: { resource: {{ 'T' + fhir_
             <hr/>
             <div>
                 <Typography variant="h5" sx={{- '{{ mt: 1 }}' -}}>Person Data Graph (in json)</Typography>
-                <Link to={`/4_0_0/Person/${resource.id}/$everything?contained=true&_format=json`}>
-                    /4_0_0/Person/{resource.id}/$everything?contained=true&_format=json
+                <Link to={`/4_0_0/Person/${uuid}/$everything?contained=true&_format=json`}>
+                    /4_0_0/Person/{uuid}/$everything?contained=true&_format=json
                 </Link>
             </div>
             { userDetails?.isAdmin && (
@@ -93,14 +101,14 @@ const {{ fhir_entity.cleaned_name }} = ({ resource }: { resource: {{ 'T' + fhir_
                     <Typography variant="h4" sx={{- '{{ mt: 1 }}' -}}>Admin Functions</Typography>
                     <div>
                         <Typography variant="h5">Connected Person-Patient Graph</Typography>
-                        <Link to='/admin/personPatientLink' state={{- '{{ bwellPersonId: resource.id }}' -}}>
-                            /admin/showPersonToPersonLink?bwellPersonId={resource.id}
+                        <Link to='/admin/personPatientLink' state={{- '{{ bwellPersonId: uuid }}' -}}>
+                            /admin/showPersonToPersonLink?bwellPersonId={uuid}
                         </Link>
                     </div>
                     <div>
                         <Typography variant="h5" sx={{- '{{ mt: 1 }}' -}}>Delete all data</Typography>
-                        <Link to='/admin/patientData' state={{- '{{ personId: resource.id }}' -}}>
-                            /admin/deletePersonDataGraph?id={resource.id}
+                        <Link to='/admin/patientData' state={{- '{{ personId: uuid }}' -}}>
+                            /admin/deletePersonDataGraph?id={uuid}
                         </Link>
                     </div>
                 </>

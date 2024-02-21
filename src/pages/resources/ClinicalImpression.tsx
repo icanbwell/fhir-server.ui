@@ -21,12 +21,20 @@ import { TClinicalImpression } from '../../types/resources/ClinicalImpression';
 
 // Import all the partial resource
 import Partials from '../../partials';
+import { SecurityTagSystem } from '../../utils/securityTagSystem';
+import { generateUuidV5, isUuid } from '../../utils/uid.util';
 
 const ClinicalImpression = ({ resource }: { resource: TClinicalImpression }): React.ReactElement => {
+    const sourceAssigningAuthority = resource?.meta?.security?.find(
+        s => s.system === SecurityTagSystem.sourceAssigningAuthority
+    )?.code;
+    const uuid = resource.id && isUuid(`${resource.id}`) ?
+        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${resource.id}`}>
-                {resource.resourceType}/{resource.id}
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+                {resource.resourceType}/{uuid}
             </Link>
             {
                 resource.meta &&
@@ -34,7 +42,7 @@ const ClinicalImpression = ({ resource }: { resource: TClinicalImpression }): Re
                     meta={resource.meta}
                     name='Meta'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='meta'
                 />
             }
@@ -44,7 +52,7 @@ const ClinicalImpression = ({ resource }: { resource: TClinicalImpression }): Re
                     uri={resource.implicitRules}
                     name='Implicit Rules'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='implicit-rules'
                 />
             }
@@ -58,7 +66,7 @@ const ClinicalImpression = ({ resource }: { resource: TClinicalImpression }): Re
                     narrative={resource.text}
                     name='Text'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='text'
                 />
             }
@@ -68,7 +76,7 @@ const ClinicalImpression = ({ resource }: { resource: TClinicalImpression }): Re
                     extension={resource.extension}
                     name='Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='extension'
                 />
             }
@@ -78,7 +86,7 @@ const ClinicalImpression = ({ resource }: { resource: TClinicalImpression }): Re
                     extension={resource.modifierExtension}
                     name='Modifier Extension'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='modifier-extension'
                 />
             }
@@ -88,7 +96,7 @@ const ClinicalImpression = ({ resource }: { resource: TClinicalImpression }): Re
                     identifier={resource.identifier}
                     name='Identifier'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='identifier'
                 />
             }
@@ -102,7 +110,7 @@ const ClinicalImpression = ({ resource }: { resource: TClinicalImpression }): Re
                     codeableConcept={resource.statusReason}
                     name='Status Reason'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='status-reason'
                 />
             }
@@ -112,7 +120,7 @@ const ClinicalImpression = ({ resource }: { resource: TClinicalImpression }): Re
                     codeableConcept={resource.code}
                     name='Code'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='code'
                 />
             }
@@ -122,7 +130,7 @@ const ClinicalImpression = ({ resource }: { resource: TClinicalImpression }): Re
                     reference={resource.subject}
                     name='Subject'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='subject'
                 />
             }
@@ -132,7 +140,7 @@ const ClinicalImpression = ({ resource }: { resource: TClinicalImpression }): Re
                     reference={resource.encounter}
                     name='Encounter'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='encounter'
                 />
             }
@@ -142,7 +150,7 @@ const ClinicalImpression = ({ resource }: { resource: TClinicalImpression }): Re
                     dateTime={resource.effectiveDateTime}
                     name='Effective Date Time'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='effective-date-time'
                 />
             }
@@ -152,7 +160,7 @@ const ClinicalImpression = ({ resource }: { resource: TClinicalImpression }): Re
                     period={resource.effectivePeriod}
                     name='Effective Period'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='effective-period'
                 />
             }
@@ -162,7 +170,7 @@ const ClinicalImpression = ({ resource }: { resource: TClinicalImpression }): Re
                     dateTime={resource.date}
                     name='Date'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='date'
                 />
             }
@@ -172,7 +180,7 @@ const ClinicalImpression = ({ resource }: { resource: TClinicalImpression }): Re
                     reference={resource.assessor}
                     name='Assessor'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='assessor'
                 />
             }
@@ -182,7 +190,7 @@ const ClinicalImpression = ({ resource }: { resource: TClinicalImpression }): Re
                     reference={resource.previous}
                     name='Previous'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='previous'
                 />
             }
@@ -192,7 +200,7 @@ const ClinicalImpression = ({ resource }: { resource: TClinicalImpression }): Re
                     reference={resource.problem}
                     name='Problem'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='problem'
                 />
             }
@@ -202,7 +210,7 @@ const ClinicalImpression = ({ resource }: { resource: TClinicalImpression }): Re
                     uri={resource.protocol}
                     name='Protocol'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='protocol'
                 />
             }
@@ -212,7 +220,7 @@ const ClinicalImpression = ({ resource }: { resource: TClinicalImpression }): Re
                     codeableConcept={resource.prognosisCodeableConcept}
                     name='Prognosis Codeable Concept'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='prognosis-codeable-concept'
                 />
             }
@@ -222,7 +230,7 @@ const ClinicalImpression = ({ resource }: { resource: TClinicalImpression }): Re
                     reference={resource.prognosisReference}
                     name='Prognosis Reference'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='prognosis-reference'
                 />
             }
@@ -232,7 +240,7 @@ const ClinicalImpression = ({ resource }: { resource: TClinicalImpression }): Re
                     reference={resource.supportingInfo}
                     name='Supporting Info'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='supporting-info'
                 />
             }
@@ -242,7 +250,7 @@ const ClinicalImpression = ({ resource }: { resource: TClinicalImpression }): Re
                     annotation={resource.note}
                     name='Note'
                     resourceType={resource.resourceType}
-                    id={resource.id}
+                    id={uuid}
                     searchParameter='note'
                 />
             }
