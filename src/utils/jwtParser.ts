@@ -23,7 +23,7 @@ export const jwtParser = ({
         let scope: string =
             (decodedToken.scope ? decodedToken.scope : decodedToken[`${customScope}`]) || '';
         scope =
-            scope ? scope + ' ' : '' +
+            (scope ? scope + ' ' : '') +
             (decodedToken[`${customGroup}`] ? decodedToken[`${customGroup}`] : []).join(' ');
 
         // checking admin scopes
