@@ -21,7 +21,7 @@ import UserContext from '../context/UserContext';
  */
 const IndexPage = ({ search }: { search?: boolean }) => {
     const { fhirUrl } = useContext(EnvironmentContext);
-    const { setIsLoggedIn } = useContext(UserContext);
+    const { setUserDetails } = useContext(UserContext);
     const [resources, setResources] = useState<any>();
     const [bundle, setBundle] = useState<TBundle | undefined>();
     const [status, setStatus] = useState<number | undefined>();
@@ -121,7 +121,7 @@ const IndexPage = ({ search }: { search?: boolean }) => {
             try {
                 setLoading(true);
                 if (fhirUrl) {
-                    const fhirApi = new FhirApi({ fhirUrl, setIsLoggedIn });
+                    const fhirApi = new FhirApi({ fhirUrl, setUserDetails });
                     const { json, status: statusCode } = await fhirApi.getBundleAsync({
                         resourceType,
                         id,
@@ -170,7 +170,7 @@ const IndexPage = ({ search }: { search?: boolean }) => {
      * @param {SearchFormQuery} searchFormQuery
      */
     const handleSearch = (searchFormQuery: any) => {
-        const fhirApi = new FhirApi({ fhirUrl, setIsLoggedIn });
+        const fhirApi = new FhirApi({ fhirUrl, setUserDetails });
 
         /**
          * @type {URL}

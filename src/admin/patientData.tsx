@@ -10,8 +10,8 @@ import UserContext from '../context/UserContext';
 
 const PatientDataPage: React.FC = () => {
     const { fhirUrl } = useContext(EnvironmentContext);
-    const { setIsLoggedIn } = useContext(UserContext);
-    const adminApi = new AdminApi({ fhirUrl, setIsLoggedIn });
+    const { setUserDetails } = useContext(UserContext);
+    const adminApi = new AdminApi({ fhirUrl, setUserDetails });
 
     const [patientDataForSearch, setPatientDataForSearch] = useState({
         patientId: '',

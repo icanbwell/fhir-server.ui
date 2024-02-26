@@ -8,17 +8,17 @@ export const jwtParser = ({
 }: {
     customGroup: string | undefined;
     customScope: string | undefined;
-}): TUserDetails => {
+}): TUserDetails|null => {
     const token: string | null = getLocalData('jwt');
     if (!token) {
-        return {};
+        return null;
     }
     try {
         // calculating scope
         const decodedToken: any = jwtDecode(token);
 
         if (decodedToken.exp < new Date().getTime() / 1000) {
-            return {};
+            return null;
         }
         let scope: string =
             (decodedToken.scope ? decodedToken.scope : decodedToken[`${customScope}`]) || '';
@@ -36,7 +36,7 @@ export const jwtParser = ({
         };
     } catch (err) {
         if (err instanceof InvalidTokenError) {
-            return {};
+            return null;
         }
         throw err;
     }

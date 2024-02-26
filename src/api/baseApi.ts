@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { InternalAxiosRequestConfig } from 'axios';
 import { getLocalData, removeLocalData } from '../utils/localData.utils';
+import { TUserDetails } from '../types/baseTypes';
 
 interface GetDataParams {
     urlString: string;
@@ -10,17 +11,17 @@ interface GetDataParams {
 
 class BaseApi {
     private readonly fhirUrl: string | undefined;
-    private readonly setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>> | undefined;
+    private readonly setUserDetails: React.Dispatch<React.SetStateAction<TUserDetails|null>> | undefined;
 
     constructor({
         fhirUrl,
-        setIsLoggedIn,
+        setUserDetails,
     }: {
         fhirUrl: string | undefined;
-        setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>> | undefined;
+        setUserDetails: React.Dispatch<React.SetStateAction<TUserDetails|null>> | undefined;
     }) {
         this.fhirUrl = fhirUrl;
-        this.setIsLoggedIn = setIsLoggedIn;
+        this.setUserDetails = setUserDetails;
         axios.interceptors.request.use(this.requestInterceptor);
     }
 
@@ -45,9 +46,9 @@ class BaseApi {
             const response = await axios.get(url.toString());
             return { status: response.status, json: response.data };
         } catch (err: any) {
-            if (err.response?.status === 401 && this.setIsLoggedIn) {
+            if (err.response?.status === 401 && this.setUserDetails) {
                 removeLocalData('jwt');
-                this.setIsLoggedIn(false);
+                this.setUserDetails(null);
             }
             return { status: err.response?.status, json: err.response?.data };
         }

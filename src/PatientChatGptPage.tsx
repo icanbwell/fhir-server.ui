@@ -8,7 +8,7 @@ import UserContext from './context/UserContext';
 function PatientChatGptPage() {
     const { id } = useParams();
     const { fhirUrl } = useContext(EnvironmentContext);
-    const { setIsLoggedIn } = useContext(UserContext);
+    const { setUserDetails } = useContext(UserContext);
     const [textInput, setTextInput] = useState('What is the age of this patient?');
 
     const [textResponse, setTextResponse] = useState('');
@@ -24,7 +24,7 @@ function PatientChatGptPage() {
             setApiData({});
             setTextResponse('Running...');
             const patientId = 'john-muir-health-e.k-4ea143ZrQGvdUvf-b2y.tdyiVMBWgblY4f6y2zis3';
-            const fhirApi = new FhirApi({ fhirUrl, setIsLoggedIn });
+            const fhirApi = new FhirApi({ fhirUrl, setUserDetails });
             const data = await fhirApi.getPatientEverythingAsync({
                 patientId,
                 question: textInput,
