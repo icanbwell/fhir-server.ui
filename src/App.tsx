@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
     Routes,
     Route,
@@ -21,7 +21,13 @@ import { jwtParser } from './utils/jwtParser';
 
 function App(): React.ReactElement {
     const env = useContext(EnvContext);
-    const [userDetails, setUserDetails] = useState<TUserDetails|null>(null);
+    const [userDetails, setUserDetails] = useState<TUserDetails | null>(
+        jwtParser({
+            customGroup: env.AUTH_CUSTOM_GROUP,
+            customScope: env.AUTH_CUSTOM_SCOPE,
+        })
+    );
+    console.log(`Setting fhirUrl to ${env.fhirUrl}`);
 
     // Changed from App to Root
     function Root() {
@@ -66,16 +72,6 @@ function App(): React.ReactElement {
         [{ path: '*', Component: Root, errorElement: <ErrorPage /> }],
         { basename: '/' }
     );
-
-    useEffect(() => {
-        const parsedJwt = jwtParser({
-            customGroup: env.AUTH_CUSTOM_GROUP,
-            customScope: env.AUTH_CUSTOM_SCOPE,
-        });
-        setUserDetails(parsedJwt);
-
-        console.log(`Setting fhirUrl to ${env.fhirUrl}`);
-    }, []);
 
     return (
         <UserContext.Provider value={{ userDetails, setUserDetails }}>
