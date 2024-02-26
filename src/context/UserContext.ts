@@ -2,13 +2,10 @@ import React, { createContext } from 'react';
 import { TUserDetails } from '../types/baseTypes';
 
 const UserContext = createContext<{
-    userDetails: TUserDetails;
-    isLoggedIn: boolean;
-    setIsLoggedIn?: React.Dispatch<React.SetStateAction<boolean>>;
+    userDetails: TUserDetails|null;
+    setUserDetails?: React.Dispatch<React.SetStateAction<TUserDetails|null>>;
 }>({
-    userDetails: {},
-    isLoggedIn: false,
-    setIsLoggedIn: undefined,
+    userDetails: null,
 });
 
 export default UserContext;

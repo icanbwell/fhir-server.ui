@@ -10,7 +10,7 @@ import { removeLocalData } from '../utils/localData.utils';
 
 const Header = () => {
     const env = useContext(EnvContext);
-    const { isLoggedIn } = useContext(UserContext);
+    const { userDetails } = useContext(UserContext);
     const location = useLocation();
     const url = location.pathname;
     const [anchorEl, setAnchorEl] = useState(null);
@@ -67,7 +67,7 @@ const Header = () => {
                             FHIR Server: {env.FHIR_SERVER_VERSION}
                         </Typography>
                     </Popover>
-                    {env?.AUTH_ENABLED && isLoggedIn && (
+                    {env?.AUTH_ENABLED && userDetails && (
                         <Button
                             color="inherit"
                             startIcon={<LogoutIcon />}

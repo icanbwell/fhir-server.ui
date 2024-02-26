@@ -16,8 +16,8 @@ type TIndexCollectionEntries = {
 
 const Indexes = () => {
     const { fhirUrl } = useContext(EnvContext);
-    const { setIsLoggedIn } = useContext(UserContext);
-    const adminApi = new AdminApi({ fhirUrl, setIsLoggedIn });
+    const { setUserDetails } = useContext(UserContext);
+    const adminApi = new AdminApi({ fhirUrl, setUserDetails });
     const location = useLocation();
     const [isLoading, setIsLoading] = useState(true);
     const [indexes, setIndexes] = useState<TIndexCollectionEntries[]>([]);

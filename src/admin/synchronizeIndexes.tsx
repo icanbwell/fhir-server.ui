@@ -6,10 +6,10 @@ import UserContext from '../context/UserContext';
 
 const SynchronizeIndexes = () => {
     const { fhirUrl } = useContext(EnvContext);
-    const { setIsLoggedIn } = useContext(UserContext);
+    const { setUserDetails } = useContext(UserContext);
     const navigate = useNavigate();
     const location = useLocation();
-    const adminApi = new AdminApi({ fhirUrl, setIsLoggedIn });
+    const adminApi = new AdminApi({ fhirUrl, setUserDetails });
 
     useEffect(() => {
         adminApi.indexApi(location.pathname, location.search.includes('audit')).then(() => {

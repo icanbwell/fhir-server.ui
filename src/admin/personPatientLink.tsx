@@ -10,8 +10,8 @@ import UserContext from '../context/UserContext';
 
 const PersonPatientLinkPage: React.FC = () => {
     const { fhirUrl } = useContext(EnvironmentContext);
-    const { setIsLoggedIn } = useContext(UserContext);
-    const adminApi = new AdminApi({ fhirUrl, setIsLoggedIn });
+    const { setUserDetails } = useContext(UserContext);
+    const adminApi = new AdminApi({ fhirUrl, setUserDetails });
 
     const [showLinkGraphData, setShowLinkGraphData] = useState({
         bwellPersonId: '',
@@ -98,7 +98,7 @@ const PersonPatientLinkPage: React.FC = () => {
     const location = useLocation();
     useEffect(() => {
         if (location.state?.bwellPersonId) {
-            new AdminApi({ fhirUrl, setIsLoggedIn })
+            new AdminApi({ fhirUrl, setUserDetails })
                 .showPersonToPersonLink(location.state.bwellPersonId)
                 .then((data: any) => {
                     setShowLinkGraphData({

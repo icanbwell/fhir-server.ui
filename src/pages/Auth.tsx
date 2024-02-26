@@ -5,10 +5,11 @@ import { Buffer } from 'buffer';
 import { setLocalData } from '../utils/localData.utils';
 import EnvironmentContext from '../context/EnvironmentContext';
 import UserContext from '../context/UserContext';
+import { jwtParser } from '../utils/jwtParser';
 
 const Auth = () => {
     const env = useContext(EnvironmentContext);
-    const { setIsLoggedIn } = useContext(UserContext);
+    const { setUserDetails } = useContext(UserContext);
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
 
@@ -44,8 +45,11 @@ const Auth = () => {
             });
 
             setLocalData('jwt', res.data.access_token);
-            if (setIsLoggedIn) {
-                setIsLoggedIn(true);
+            if (setUserDetails) {
+                setUserDetails(jwtParser({
+                    customGroup: env.AUTH_CUSTOM_GROUP,
+                    customScope: env.AUTH_CUSTOM_SCOPE,
+                }));
             }
             // redirect to the url user is trying to access and replace it with current url
             window.location.replace(resourceUrl);

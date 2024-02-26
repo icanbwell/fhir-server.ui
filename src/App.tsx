@@ -16,15 +16,13 @@ import AdminRoutes from './routes/adminRoutes';
 import FhirRoutes from './routes/fhirRoutes';
 import EnvContext from './context/EnvironmentContext';
 import UserContext from './context/UserContext';
-import { getLocalData } from './utils/localData.utils';
 import { TUserDetails } from './types/baseTypes';
 import { jwtParser } from './utils/jwtParser';
 import FhirApi from './api/fhirApi';
 
 function App(): React.ReactElement {
     const env = useContext(EnvContext);
-    const [isLoggedIn, setIsLoggedIn] = useState(!!getLocalData('jwt'));
-    const [userDetails, setUserDetails] = useState<TUserDetails>({});
+    const [userDetails, setUserDetails] = useState<TUserDetails|null>(null);
     const [fhirServerVersion, setFhirServerVersion] = useState('null');
 
     // Changed from App to Root
@@ -35,7 +33,7 @@ function App(): React.ReactElement {
                 <Route path="/authcallback" element={<Auth />} />
                 <Route
                     element={
-                        !env.AUTH_ENABLED || isLoggedIn ? (
+                        !env.AUTH_ENABLED || userDetails ? (
                             <Outlet />
                         ) : (
                             <Navigate
@@ -48,9 +46,9 @@ function App(): React.ReactElement {
                 />
                 <Route
                     element={
-                        !env.AUTH_ENABLED || (isLoggedIn && userDetails.isAdmin) ? (
+                        !env.AUTH_ENABLED || userDetails?.isAdmin ? (
                             <Outlet />
-                        ) : !isLoggedIn && env.AUTH_ENABLED ? (
+                        ) : !userDetails && env.AUTH_ENABLED ? (
                             <Navigate
                                 to="/authcallback"
                                 state={{ resourceUrl: window.location.href }}
@@ -77,11 +75,8 @@ function App(): React.ReactElement {
             customScope: env.AUTH_CUSTOM_SCOPE,
         });
         setUserDetails(parsedJwt);
-        if (!parsedJwt?.scope) {
-            setIsLoggedIn(false);
-        }
 
-        new FhirApi({ fhirUrl: env.fhirUrl, setIsLoggedIn })
+        new FhirApi({ fhirUrl: env.fhirUrl, setUserDetails })
             .getVersion()
             .then((version: string) => setFhirServerVersion(version));
         console.log(`Setting fhirUrl to ${env.fhirUrl}`);
@@ -89,7 +84,7 @@ function App(): React.ReactElement {
 
     return (
         <EnvContext.Provider value={{ ...env, FHIR_SERVER_VERSION: fhirServerVersion }}>
-            <UserContext.Provider value={{ isLoggedIn, setIsLoggedIn, userDetails }}>
+            <UserContext.Provider value={{ userDetails, setUserDetails }}>
                 <RouterProvider router={router} />
             </UserContext.Provider>
         </EnvContext.Provider>

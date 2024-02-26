@@ -6,9 +6,9 @@ export type TBaseResourceProps = {
 }
 
 export type TUserDetails = {
-    username?: string;
-    scope?: string;
-    isAdmin?: boolean;
+    username: string;
+    scope: string;
+    isAdmin: boolean;
 }
 
 export type TIndexConfig = {

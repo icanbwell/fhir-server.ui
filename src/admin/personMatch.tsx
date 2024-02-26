@@ -19,8 +19,8 @@ import UserContext from '../context/UserContext';
 
 const PersonMatchPage: React.FC = () => {
     const { fhirUrl } = useContext(EnvironmentContext);
-    const { setIsLoggedIn } = useContext(UserContext);
-    const adminApi = new AdminApi({ fhirUrl, setIsLoggedIn });
+    const { setUserDetails } = useContext(UserContext);
+    const adminApi = new AdminApi({ fhirUrl, setUserDetails });
     const [sourceId, setSourceId] = useState<string>('');
     const [sourceType, setSourceType] = useState<string>('Patient');
     const [targetId, setTargetId] = useState<string>('');

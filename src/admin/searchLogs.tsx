@@ -10,10 +10,10 @@ import UserContext from '../context/UserContext';
 
 const SearchLogsPage: React.FC = () => {
     const { fhirUrl } = useContext(EnvironmentContext);
-    const { setIsLoggedIn } = useContext(UserContext);
+    const { setUserDetails } = useContext(UserContext);
     const location = useLocation();
     const navigate = useNavigate();
-    const adminApi = new AdminApi({ fhirUrl, setIsLoggedIn });
+    const adminApi = new AdminApi({ fhirUrl, setUserDetails });
     const [id, setId] = useState<string>('');
     const [results, setResults] = useState<String | Object | null>(null);
 
