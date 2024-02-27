@@ -1,5 +1,5 @@
 import { InvalidTokenError, jwtDecode } from 'jwt-decode';
-import { getLocalData } from './localData.utils';
+import { getLocalData, removeLocalData } from './localData.utils';
 import { TUserDetails } from '../types/baseTypes';
 
 export const jwtParser = ({
@@ -18,6 +18,7 @@ export const jwtParser = ({
         const decodedToken: any = jwtDecode(token);
 
         if (decodedToken.exp < new Date().getTime() / 1000) {
+            removeLocalData('jwt');
             return null;
         }
         let scope: string =
