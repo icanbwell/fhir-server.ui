@@ -37,7 +37,7 @@ function App(): React.ReactElement {
                 <Route path="/authcallback" element={<Auth />} />
                 <Route
                     element={
-                        !env.AUTH_ENABLED || userDetails ? (
+                        userDetails ? (
                             <Outlet />
                         ) : (
                             <Navigate
@@ -50,9 +50,9 @@ function App(): React.ReactElement {
                 />
                 <Route
                     element={
-                        !env.AUTH_ENABLED || userDetails?.isAdmin ? (
+                        userDetails?.isAdmin ? (
                             <Outlet />
-                        ) : !userDetails && env.AUTH_ENABLED ? (
+                        ) : !userDetails ? (
                             <Navigate
                                 to="/authcallback"
                                 state={{ resourceUrl: window.location.href }}
