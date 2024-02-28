@@ -67,7 +67,7 @@ const Header = () => {
                             FHIR Server: {env.getFhirServerVersion()}
                         </Typography>
                     </Popover>
-                    {env?.AUTH_ENABLED && userDetails && (
+                    {userDetails && (
                         <Button
                             color="inherit"
                             startIcon={<LogoutIcon />}

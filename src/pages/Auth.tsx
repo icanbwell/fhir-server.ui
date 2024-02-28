@@ -59,9 +59,6 @@ const Auth = () => {
     };
 
     useEffect(() => {
-        if (!env.AUTH_ENABLED) {
-            return;
-        }
         const code = queryParams.get('code');
         const redirectUri = `${window.location.origin}/authcallback`;
 
