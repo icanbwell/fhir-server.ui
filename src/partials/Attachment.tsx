@@ -47,7 +47,7 @@ const Attachment = ({ attachment, name }: TAttachmentProps) => {
         items[0] &&
         items.map((item: TAttachment, index: Number) => (
           <>
-            <Typography><b>{name}:</b></Typography>
+            {name && <Typography><b>{name}:</b></Typography>}
             <Accordion key={`${index}`}>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}

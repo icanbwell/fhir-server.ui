@@ -28,6 +28,7 @@ import OperationOutcomeIssue from './OperationOutcomeIssue';
 import PatientContact from './PatientContact';
 import Period from './Period';
 import Quantity from './Quantity';
+import QuestionnaireResponseItem from './QuestionnaireResponseItem';
 import Ratio from './Ratio';
 import Reference from './Reference';
 import ReverseReference from './ReverseReference';
@@ -66,6 +67,7 @@ export default {
   PatientContact,
   Period,
   Quantity,
+  QuestionnaireResponseItem,
   Ratio,
   Reference,
   ReverseReference,
