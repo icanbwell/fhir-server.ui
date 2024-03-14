@@ -180,6 +180,16 @@ const QuestionnaireResponse = ({ resource }: { resource: TQuestionnaireResponse 
                     searchParameter='source'
                 />
             }
+            {
+                resource.item &&
+                <Partials.QuestionnaireResponseItem
+                    questionnaireResponseItem={resource.item}
+                    name='Item'
+                    resourceType={resource.resourceType}
+                    id={uuid}
+                    searchParameter='item'
+                />
+            }
         </>
     );
 };

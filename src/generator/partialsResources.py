@@ -29,6 +29,7 @@ available_partial_resources = [
   'PatientContact',
   'Period',
   'Quantity',
+  'QuestionnaireResponseItem',
   'Ratio',
   'Reference',
   'ReverseReference',
