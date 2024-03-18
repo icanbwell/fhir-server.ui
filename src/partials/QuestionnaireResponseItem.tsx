@@ -10,14 +10,14 @@ type TQuestionnaireResponseItemProps = TBaseResourceProps & {
 
 const QuestionnaireResponseItem = ({ name, questionnaireResponseItem }: TQuestionnaireResponseItemProps) => {
     return (
-        <Box>
-            <Typography variant="h4">{name}</Typography>
-            {
-                questionnaireResponseItem &&
-                questionnaireResponseItem.length > 0 &&
-                <PreJson data={questionnaireResponseItem} />
-            }
-        </Box>
+        <>
+            {questionnaireResponseItem && questionnaireResponseItem.length > 0 && (
+                <Box>
+                    <Typography variant="h4">{name}</Typography>
+                    <PreJson data={questionnaireResponseItem} />
+                </Box>
+            )}
+        </>
     );
 };
 
