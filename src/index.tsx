@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import * as Sentry from '@sentry/react';
 import './index.css';
 // Get material fonts: https://mui.com/material-ui/getting-started/installation/#font-installation
 import '@fontsource/roboto/300.css';
@@ -11,6 +12,14 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+
+// Initialize Sentry
+if (process.env.REACT_APP_ENVIRONMENT) {
+  Sentry.init({
+    dsn: process.env.REACT_APP_SENTRY_DSN,
+    environment: process.env.REACT_APP_ENVIRONMENT
+  });
+}
 
 const container = document.getElementById('root');
 

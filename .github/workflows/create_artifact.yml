@@ -15,7 +15,10 @@ jobs:
         run: yarn cache clean && yarn config delete proxy && yarn config delete https-proxy && yarn config delete registry && yarn install --no-optional --production=true --network-timeout 1000000
 
       - name: Convert Env variables to string
-        run: sed -i "s/process\.env\.[a-zA-Z0-9_]*/'&'/g" src/context/EnvironmentContext.ts
+        run: |
+          sed -i "s/process\.env\.[a-zA-Z0-9_]*/'&'/g" src/context/EnvironmentContext.ts
+          sed -i "s/process\.env\.[a-zA-Z0-9_]*/'&'/g" src/index.tsx
+          sed -i "s/process\.env\.[a-zA-Z0-9_]*/'&'/g" config/webpack.config.js
 
       - name: Add version
         run: |

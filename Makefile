@@ -9,6 +9,15 @@ init:
 	nvm install
 	make update
 
+.PHONY:up
+up:
+	docker compose build --parallel && \
+	docker compose up -d
+
+.PHONY:down
+down:
+	docker compose down
+
 .PHONY:update
 update:down
 	. ${NVM_DIR}/nvm.sh && nvm use && \
