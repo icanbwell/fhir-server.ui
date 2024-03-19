@@ -18,7 +18,6 @@ jobs:
         run: |
           sed -i "s/process\.env\.[a-zA-Z0-9_]*/'&'/g" src/context/EnvironmentContext.ts
           sed -i "s/process\.env\.[a-zA-Z0-9_]*/'&'/g" src/index.tsx
-          sed -i "s/process\.env\.[a-zA-Z0-9_]*/'&'/g" config/webpack.config.js
 
       - name: Add version
         run: |

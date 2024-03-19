@@ -9,9 +9,6 @@ services:
       REACT_APP_AUTH_CUSTOM_SCOPE: 'custom:scope'
       REACT_APP_FHIR_SERVER_URL: 'http://localhost:3000'
       REACT_APP_AUTH_CODE_FLOW_CLIENT_ID: '5et51l3beeahp016i4qe6hurtr'
-      REACT_APP_SENTRY_DSN: 'https://501d1c6be5164ce2bd6159de339afbf6@sentry.icanbwell.com/271'
-      REACT_APP_ENVIRONMENT: 'dev'
-      REACT_APP_SENTRY_BASE_URL: 'https://sentry.icanbwell.com'
       REACT_APP_AUTH_CODE_FLOW_URL: 'https://bwell-dev.auth.us-east-1.amazoncognito.com'
     ports:
       - "5051:5051"

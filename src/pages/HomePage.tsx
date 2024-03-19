@@ -24,7 +24,6 @@ const Home = () => {
     const searchResource = (name: String) => {
         // implementation of searchResource
     };
-    // throw new Error('Sentry Test Error');
 
     useEffect(() => {
         document.title = 'Helix FHIR Server';
@@ -33,14 +32,6 @@ const Home = () => {
     // noinspection JSValidateTypes
     return (
         <Container maxWidth={false}>
-            <button
-            type="button"
-            onClick={() => {
-                throw new Error('Sentry Test Error');
-            }}
-            >
-            Break the world
-            </button>
             <div style={{ minHeight: '92vh' }}>
                 <Header />
                 <TableContainer>
