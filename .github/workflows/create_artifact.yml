@@ -8,12 +8,16 @@ jobs:
   Trigger-Build:
     runs-on: ubuntu-latest
     steps:
+      - name: Current directory
+        run: |
+          echo ls -l
+          ls -l
       - name: Upload Artifact
         id: upload_artifact
         uses: actions/upload-artifact@v4
         with:
           name: ${{ github.ref_name }}
-          path:
+          path: /
 
       - name: Trigger Build Workflow
         run: |
