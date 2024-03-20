@@ -19,7 +19,7 @@ jobs:
           path: ./
 
       - name: print
-        run: echo "${{ steps.upload_artifact.outputs.artifact_url }}"
+        run: echo "${{ steps.upload_artifact.outputs }}"
 
       - name: Download code of fhir-server-ui from artifact
         run: 'curl -o source-code.zip -L -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2022-11-28" -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" ${{ steps.upload_artifact.outputs.artifact_url }}'
