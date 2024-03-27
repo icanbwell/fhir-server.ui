@@ -6,6 +6,10 @@ import { TResource } from '../types/resources/Resource';
 const Json = ({ resource, error }: { resource: TResource, error?: boolean }) => {
   const queryParams = new URLSearchParams(error ? window.location.search : '');
   queryParams.set('_format', 'json');
+  if (resource.resourceType === 'AuditEvent' && resource.meta?.lastUpdated) {
+    queryParams.append('date', `le${resource.meta.lastUpdated}`);
+    queryParams.append('date', `ge${resource.meta.lastUpdated}`);
+  }
 
   const pathName = error ? window.location.pathname : `/4_0_0/${resource.resourceType}/${resource.id}`;
   return (
