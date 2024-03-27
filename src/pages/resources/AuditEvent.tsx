@@ -27,9 +27,11 @@ const AuditEvent = ({ resource }: { resource: TAuditEvent }): React.ReactElement
     const uuid = resource.id && isUuid(`${resource.id}`) ?
         resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
 
+    const lastUpdated = resource?.meta?.lastUpdated;
+    const queryString = `?date=ge${lastUpdated?.toString()}&date=le${lastUpdated?.toString()}`;
     return (
         <>
-            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
+            <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}${queryString}`}>
                 {resource.resourceType}/{uuid}
             </Link>
             {
