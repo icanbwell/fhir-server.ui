@@ -32,7 +32,7 @@ const AuditEvent = ({ resource }: { resource: TAuditEvent }): React.ReactElement
     return (
         <>
             <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}${queryString}`}>
-                {resource.resourceType}/{uuid}
+                {resource.resourceType}/{uuid}{queryString}
             </Link>
             {
                 resource.meta &&

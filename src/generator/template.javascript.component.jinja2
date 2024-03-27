@@ -40,10 +40,11 @@ const {{ fhir_entity.cleaned_name }} = ({ resource }: { resource: {{ 'T' + fhir_
         <>
         {% if fhir_entity.cleaned_name == 'AuditEvent' %}
             <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}${queryString}`}>
+                {resource.resourceType}/{uuid}{queryString}
         {% else %}
             <Link title="Direct link to Resource" to={`/4_0_0/${resource.resourceType}/${uuid}`}>
-        {% endif %}
                 {resource.resourceType}/{uuid}
+        {% endif %}
             </Link>
     {% for property in fhir_entity.properties %}
     {% if not property.is_v2_supported %}
