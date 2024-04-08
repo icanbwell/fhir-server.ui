@@ -47,7 +47,7 @@ function App(): React.ReactElement {
                     }
                     children={FhirRoutes}
                 />
-                <Route path="/*" element={<>Invalid Route</>} />
+                <Route path="/*" element={<Navigate to="/"/>} />
             </Routes>
         );
     }
