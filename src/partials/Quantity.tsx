@@ -28,11 +28,11 @@ function Quantity({ quantity: value = [], name = '' }: TQuantityProps) {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>comparator</TableCell>
-                <TableCell>value</TableCell>
-                <TableCell>unit</TableCell>
-                <TableCell>system</TableCell>
-                <TableCell>code</TableCell>
+                <TableCell>Comparator</TableCell>
+                <TableCell>Value</TableCell>
+                <TableCell>Unit</TableCell>
+                <TableCell>System</TableCell>
+                <TableCell>Code</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

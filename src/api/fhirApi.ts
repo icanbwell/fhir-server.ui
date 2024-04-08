@@ -1,3 +1,4 @@
+import { getStartAndEndDate } from '../utils/auditEventDateFilter';
 import BaseApi from './baseApi';
 
 interface GetPatientEverythingAsyncParams {
@@ -59,9 +60,19 @@ class FhirApi extends BaseApi {
         return await this.getData({urlString: url.toString()});
     }
 
-    addMissingRequiredParams({ queryParams, id }: { queryParams: URLSearchParams; id?: string }) {
+    addMissingRequiredParams({
+        queryParams,
+        id,
+        resourceType
+    }: { queryParams: URLSearchParams; id?: string, resourceType: string }) {
         if (!id && !queryParams.has('_count')) {
             queryParams.append('_count', '10');
+        }
+        if (resourceType === 'AuditEvent' && !queryParams.has('date')) {
+            const { startDate, endDate } = getStartAndEndDate();
+            // Append 'date' query parameters for AuditEvent
+            queryParams.append('date', `ge${startDate.toISOString().split('T')[0]}`);
+            queryParams.append('date', `le${endDate.toISOString().split('T')[0]}`);
         }
         return queryParams;
     }
@@ -98,7 +109,7 @@ class FhirApi extends BaseApi {
                 url.searchParams.append(name, value);
             });
         }
-        this.addMissingRequiredParams({ queryParams: url.searchParams, id });
+        this.addMissingRequiredParams({ queryParams: url.searchParams, id, resourceType });
         return url;
     }
 }

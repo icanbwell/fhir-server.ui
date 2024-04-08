@@ -131,7 +131,7 @@ const IndexPage = ({ search }: { search?: boolean }) => {
 
                     // set indexStart
                     const queryParams = new URLSearchParams(location.search || '');
-                    fhirApi.addMissingRequiredParams({ queryParams });
+                    fhirApi.addMissingRequiredParams({ queryParams, resourceType });
                     const pagesOffSet = parseInt(queryParams.get('_getpagesoffset') || '0');
                     const count = parseInt(queryParams.get('_count') || '0');
                     setIndexStart(pagesOffSet * count);

@@ -18,6 +18,7 @@ const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent')
 const ESLintPlugin = require('eslint-webpack-plugin');
 const paths = require('./paths');
 const modules = require('./modules');
+const SentryWebpackPlugin = require("@sentry/webpack-plugin");
 const getClientEnvironment = require('./env');
 const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const ForkTsCheckerWebpackPlugin = process.env.TSC_COMPILE_ON_ERROR === 'true' ?
@@ -29,7 +30,6 @@ const createEnvironmentHash = require('./webpack/persistentCache/createEnvironme
 
 // Source maps are resource heavy and can cause out of memory issue for large source files.
 const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
-
 const reactRefreshRuntimeEntry = require.resolve('react-refresh/runtime');
 const reactRefreshWebpackPluginRuntimeEntry = require.resolve(
   '@pmmmwh/react-refresh-webpack-plugin'
@@ -579,6 +579,13 @@ module.exports = function (webpackEnv) {
       isEnvProduction &&
         shouldInlineRuntimeChunk &&
         new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/runtime-.+[.]js/]),
+      isEnvProduction && new SentryWebpackPlugin({
+        // Below environment variables are declared as string here, they will be replaced by their actual values while deploying
+        url: 'process.env.REACT_APP_SENTRY_BASE_URL',
+        org: 'process.env.REACT_APP_SENTRY_ORGANISATION',
+        project: 'process.env.REACT_APP_SENTRY_PROJECT',
+        authToken: 'process.env.REACT_APP_SENTRY_AUTH_TOKEN',
+      }),
       // Makes some environment variables available in index.html.
       // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
       // <link rel="icon" href="%PUBLIC_URL%/favicon.ico">

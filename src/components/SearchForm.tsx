@@ -3,8 +3,8 @@ import { TextField, Button, Box, Grid } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import SearchFormQuery from '../utils/searchFormQuery';
 import { getAdvSearchFormData, getFormData } from '../utils/searchForm.utils';
+import { getStartAndEndDate } from '../utils/auditEventDateFilter';
 import { TFieldInfo } from '../types/baseTypes';
-import dayjs from 'dayjs';
 
 export default function SearchForm({
     onSearch,
@@ -16,13 +16,11 @@ export default function SearchForm({
     const advSearchFormData = getAdvSearchFormData(resourceType);
     const formData = getFormData(resourceType);
     let defaultValues: any;
-
-    const dateBeforeWeek = new Date();
-    dateBeforeWeek.setDate(dateBeforeWeek.getDate() - 7);
+    const { startDate, endDate } = getStartAndEndDate();
 
     // create defaultValues for searchParams
     defaultValues = resourceType === 'AuditEvent' ?
-        ({ start: dayjs(dateBeforeWeek), end: dayjs(new Date()), resourceType }) :
+        ({ start: startDate, end: endDate, resourceType }) :
         ({ start: null, end: null, resourceType });
     formData.forEach((data) => {
         defaultValues[`${data.name}`] = '';
