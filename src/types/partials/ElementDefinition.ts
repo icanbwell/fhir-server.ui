@@ -27,6 +27,7 @@ import { TQuantity } from '../partials/Quantity';
 import { TAnnotation } from '../partials/Annotation';
 import { TAttachment } from '../partials/Attachment';
 import { TCodeableConcept } from '../partials/CodeableConcept';
+import { TCodeableReference } from '../partials/CodeableReference';
 import { TContactPoint } from '../partials/ContactPoint';
 import { THumanName } from '../partials/HumanName';
 import { TIdentifier } from '../partials/Identifier';
@@ -34,6 +35,7 @@ import { TMoney } from '../partials/Money';
 import { TPeriod } from '../partials/Period';
 import { TRange } from '../partials/Range';
 import { TRatio } from '../partials/Ratio';
+import { TRatioRange } from '../partials/RatioRange';
 import { TReference } from '../partials/Reference';
 import { TSampledData } from '../partials/SampledData';
 import { TSignature } from '../partials/Signature';
@@ -47,7 +49,6 @@ import { TRelatedArtifact } from '../partials/RelatedArtifact';
 import { TTriggerDefinition } from '../partials/TriggerDefinition';
 import { TUsageContext } from '../partials/UsageContext';
 import { TDosage } from '../partials/Dosage';
-import { TMeta } from '../partials/Meta';
 import { TElementDefinitionExample } from '../partials/ElementDefinitionExample';
 import { TElementDefinitionConstraint } from '../partials/ElementDefinitionConstraint';
 import { TElementDefinitionBinding } from '../partials/ElementDefinitionBinding';
@@ -98,6 +99,7 @@ export type TElementDefinition = {
     defaultValueAnnotation?: TAnnotation;
     defaultValueAttachment?: TAttachment;
     defaultValueCodeableConcept?: TCodeableConcept;
+    defaultValueCodeableReference?: TCodeableReference;
     defaultValueCoding?: TCoding;
     defaultValueContactPoint?: TContactPoint;
     defaultValueCount?: TQuantity;
@@ -110,6 +112,7 @@ export type TElementDefinition = {
     defaultValueQuantity?: TQuantity;
     defaultValueRange?: TRange;
     defaultValueRatio?: TRatio;
+    defaultValueRatioRange?: TRatioRange;
     defaultValueReference?: TReference;
     defaultValueSampledData?: TSampledData;
     defaultValueSignature?: TSignature;
@@ -123,7 +126,6 @@ export type TElementDefinition = {
     defaultValueTriggerDefinition?: TTriggerDefinition;
     defaultValueUsageContext?: TUsageContext;
     defaultValueDosage?: TDosage;
-    defaultValueMeta?: TMeta;
     meaningWhenMissing?: TMarkdown;
     orderMeaning?: String;
     fixedBase64Binary?: TBase64Binary;
@@ -150,6 +152,7 @@ export type TElementDefinition = {
     fixedAnnotation?: TAnnotation;
     fixedAttachment?: TAttachment;
     fixedCodeableConcept?: TCodeableConcept;
+    fixedCodeableReference?: TCodeableReference;
     fixedCoding?: TCoding;
     fixedContactPoint?: TContactPoint;
     fixedCount?: TQuantity;
@@ -162,6 +165,7 @@ export type TElementDefinition = {
     fixedQuantity?: TQuantity;
     fixedRange?: TRange;
     fixedRatio?: TRatio;
+    fixedRatioRange?: TRatioRange;
     fixedReference?: TReference;
     fixedSampledData?: TSampledData;
     fixedSignature?: TSignature;
@@ -175,7 +179,6 @@ export type TElementDefinition = {
     fixedTriggerDefinition?: TTriggerDefinition;
     fixedUsageContext?: TUsageContext;
     fixedDosage?: TDosage;
-    fixedMeta?: TMeta;
     patternBase64Binary?: TBase64Binary;
     patternBoolean?: Boolean;
     patternCanonical?: TCanonical;
@@ -200,6 +203,7 @@ export type TElementDefinition = {
     patternAnnotation?: TAnnotation;
     patternAttachment?: TAttachment;
     patternCodeableConcept?: TCodeableConcept;
+    patternCodeableReference?: TCodeableReference;
     patternCoding?: TCoding;
     patternContactPoint?: TContactPoint;
     patternCount?: TQuantity;
@@ -212,6 +216,7 @@ export type TElementDefinition = {
     patternQuantity?: TQuantity;
     patternRange?: TRange;
     patternRatio?: TRatio;
+    patternRatioRange?: TRatioRange;
     patternReference?: TReference;
     patternSampledData?: TSampledData;
     patternSignature?: TSignature;
@@ -225,7 +230,6 @@ export type TElementDefinition = {
     patternTriggerDefinition?: TTriggerDefinition;
     patternUsageContext?: TUsageContext;
     patternDosage?: TDosage;
-    patternMeta?: TMeta;
     example?: TElementDefinitionExample[];
     minValueDate?: TDate;
     minValueDateTime?: TDateTime;

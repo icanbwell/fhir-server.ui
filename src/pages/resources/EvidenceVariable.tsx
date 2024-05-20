@@ -4,8 +4,8 @@
 
 /**
 EvidenceVariable
-    The EvidenceVariable resource describes a "PICO" element that knowledge
-    (evidence, assertion, recommendation) is about.
+    The EvidenceVariable resource describes an element that knowledge (Evidence)
+    is about.
     If the element is present, it must have either a @value, an @id, or extensions
 */
 
@@ -140,48 +140,22 @@ const EvidenceVariable = ({ resource }: { resource: TEvidenceVariable }): React.
                 />
             }
             {
-                resource.jurisdiction &&
-                <Partials.CodeableConcept
-                    codeableConcept={resource.jurisdiction}
-                    name='Jurisdiction'
+                resource.actual &&
+                <Partials.Boolean
+                    boolean={resource.actual}
+                    name='Actual'
                     resourceType={resource.resourceType}
                     id={uuid}
-                    searchParameter='jurisdiction'
+                    searchParameter='actual'
                 />
             }
             {
-                resource.copyright &&
-                <Partials.Markdown
-                    markdown={resource.copyright}
-                    name='Copyright'
-                    resourceType={resource.resourceType}
-                    id={uuid}
-                    searchParameter='copyright'
-                />
+                resource.characteristicCombination &&
+                <Partials.Code code={resource.characteristicCombination} name='Characteristic Combination'/>
             }
             {
-                resource.effectivePeriod &&
-                <Partials.Period
-                    period={resource.effectivePeriod}
-                    name='Effective Period'
-                    resourceType={resource.resourceType}
-                    id={uuid}
-                    searchParameter='effective-period'
-                />
-            }
-            {
-                resource.topic &&
-                <Partials.CodeableConcept
-                    codeableConcept={resource.topic}
-                    name='Topic'
-                    resourceType={resource.resourceType}
-                    id={uuid}
-                    searchParameter='topic'
-                />
-            }
-            {
-                resource.type &&
-                <Partials.Code code={resource.type} name='Type'/>
+                resource.handling &&
+                <Partials.Code code={resource.handling} name='Handling'/>
             }
         </>
     );

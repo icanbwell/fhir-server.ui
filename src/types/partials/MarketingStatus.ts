@@ -11,10 +11,10 @@ export type TMarketingStatus = {
     id?: String;
     extension?: TExtension[];
     modifierExtension?: TExtension[];
-    country: TCodeableConcept;
+    country?: TCodeableConcept;
     jurisdiction?: TCodeableConcept;
     status: TCodeableConcept;
-    dateRange: TPeriod;
+    dateRange?: TPeriod;
     restoreDate?: TDateTime;
 };
 

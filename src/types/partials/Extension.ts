@@ -22,6 +22,7 @@ import { TQuantity } from '../partials/Quantity';
 import { TAnnotation } from '../partials/Annotation';
 import { TAttachment } from '../partials/Attachment';
 import { TCodeableConcept } from '../partials/CodeableConcept';
+import { TCodeableReference } from '../partials/CodeableReference';
 import { TCoding } from '../partials/Coding';
 import { TContactPoint } from '../partials/ContactPoint';
 import { THumanName } from '../partials/HumanName';
@@ -30,6 +31,7 @@ import { TMoney } from '../partials/Money';
 import { TPeriod } from '../partials/Period';
 import { TRange } from '../partials/Range';
 import { TRatio } from '../partials/Ratio';
+import { TRatioRange } from '../partials/RatioRange';
 import { TReference } from '../partials/Reference';
 import { TSampledData } from '../partials/SampledData';
 import { TSignature } from '../partials/Signature';
@@ -43,7 +45,6 @@ import { TRelatedArtifact } from '../partials/RelatedArtifact';
 import { TTriggerDefinition } from '../partials/TriggerDefinition';
 import { TUsageContext } from '../partials/UsageContext';
 import { TDosage } from '../partials/Dosage';
-import { TMeta } from '../partials/Meta';
 
 export type TExtension = {
     id?: String;
@@ -73,6 +74,7 @@ export type TExtension = {
     valueAnnotation?: TAnnotation;
     valueAttachment?: TAttachment;
     valueCodeableConcept?: TCodeableConcept;
+    valueCodeableReference?: TCodeableReference;
     valueCoding?: TCoding;
     valueContactPoint?: TContactPoint;
     valueCount?: TQuantity;
@@ -85,6 +87,7 @@ export type TExtension = {
     valueQuantity?: TQuantity;
     valueRange?: TRange;
     valueRatio?: TRatio;
+    valueRatioRange?: TRatioRange;
     valueReference?: TReference;
     valueSampledData?: TSampledData;
     valueSignature?: TSignature;
@@ -98,6 +101,5 @@ export type TExtension = {
     valueTriggerDefinition?: TTriggerDefinition;
     valueUsageContext?: TUsageContext;
     valueDosage?: TDosage;
-    valueMeta?: TMeta;
 };
 

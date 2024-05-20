@@ -7,13 +7,7 @@ import { TReference } from '../partials/Reference';
 import { TCanonical } from '../simpleTypes/Canonical';
 import { TCodeableConcept } from '../partials/CodeableConcept';
 import { TExpression } from '../partials/Expression';
-import { TDataRequirement } from '../partials/DataRequirement';
-import { TTriggerDefinition } from '../partials/TriggerDefinition';
-import { TUsageContext } from '../partials/UsageContext';
-import { TDateTime } from '../simpleTypes/DateTime';
-import { TPeriod } from '../partials/Period';
-import { TQuantity } from '../partials/Quantity';
-import { TTiming } from '../partials/Timing';
+import { TEvidenceVariableTimeFromStart } from '../partials/EvidenceVariableTimeFromStart';
 
 export type TEvidenceVariableCharacteristic = {
     id?: String;
@@ -24,15 +18,10 @@ export type TEvidenceVariableCharacteristic = {
     definitionCanonical?: TCanonical;
     definitionCodeableConcept?: TCodeableConcept;
     definitionExpression?: TExpression;
-    definitionDataRequirement?: TDataRequirement;
-    definitionTriggerDefinition?: TTriggerDefinition;
-    usageContext?: TUsageContext[];
+    method?: TCodeableConcept;
+    device?: TReference;
     exclude?: Boolean;
-    participantEffectiveDateTime?: TDateTime;
-    participantEffectivePeriod?: TPeriod;
-    participantEffectiveDuration?: TQuantity;
-    participantEffectiveTiming?: TTiming;
-    timeFromStart?: TQuantity;
+    timeFromStart?: TEvidenceVariableTimeFromStart;
     groupMeasure?: String;
 };
 
