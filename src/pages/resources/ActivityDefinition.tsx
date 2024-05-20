@@ -141,6 +141,16 @@ const ActivityDefinition = ({ resource }: { resource: TActivityDefinition }): Re
                 />
             }
             {
+                resource.subjectCanonical &&
+                <Partials.Canonical
+                    canonical={resource.subjectCanonical}
+                    name='Subject Canonical'
+                    resourceType={resource.resourceType}
+                    id={uuid}
+                    searchParameter='subject-canonical'
+                />
+            }
+            {
                 resource.date &&
                 <Partials.DateTime
                     dateTime={resource.date}

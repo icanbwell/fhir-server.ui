@@ -4,9 +4,10 @@
 
 /**
 Evidence
-    The Evidence resource describes the conditional state (population and any
-    exposures being compared within the population) and outcome (if specified)
-    that the knowledge (evidence, assertion, recommendation) is about.
+    The Evidence Resource provides a machine-interpretable expression of an
+    evidence concept including the evidence variables (eg population,
+    exposures/interventions, comparators, outcomes, measured variables,
+    confounding variables), the statistics, and the certainty of this evidence.
     If the element is present, it must have either a @value, an @id, or extensions
 */
 
@@ -107,6 +108,26 @@ const Evidence = ({ resource }: { resource: TEvidence }): React.ReactElement => 
                 />
             }
             {
+                resource.citeAsReference &&
+                <Partials.Reference
+                    reference={resource.citeAsReference}
+                    name='Cite As Reference'
+                    resourceType={resource.resourceType}
+                    id={uuid}
+                    searchParameter='cite-as-reference'
+                />
+            }
+            {
+                resource.citeAsMarkdown &&
+                <Partials.Markdown
+                    markdown={resource.citeAsMarkdown}
+                    name='Cite As Markdown'
+                    resourceType={resource.resourceType}
+                    id={uuid}
+                    searchParameter='cite-as-markdown'
+                />
+            }
+            {
                 resource.status &&
                 <Partials.Code code={resource.status} name='Status'/>
             }
@@ -131,6 +152,16 @@ const Evidence = ({ resource }: { resource: TEvidence }): React.ReactElement => 
                 />
             }
             {
+                resource.assertion &&
+                <Partials.Markdown
+                    markdown={resource.assertion}
+                    name='Assertion'
+                    resourceType={resource.resourceType}
+                    id={uuid}
+                    searchParameter='assertion'
+                />
+            }
+            {
                 resource.note &&
                 <Partials.Annotation
                     annotation={resource.note}
@@ -141,73 +172,23 @@ const Evidence = ({ resource }: { resource: TEvidence }): React.ReactElement => 
                 />
             }
             {
-                resource.jurisdiction &&
+                resource.synthesisType &&
                 <Partials.CodeableConcept
-                    codeableConcept={resource.jurisdiction}
-                    name='Jurisdiction'
+                    codeableConcept={resource.synthesisType}
+                    name='Synthesis Type'
                     resourceType={resource.resourceType}
                     id={uuid}
-                    searchParameter='jurisdiction'
+                    searchParameter='synthesis-type'
                 />
             }
             {
-                resource.copyright &&
-                <Partials.Markdown
-                    markdown={resource.copyright}
-                    name='Copyright'
-                    resourceType={resource.resourceType}
-                    id={uuid}
-                    searchParameter='copyright'
-                />
-            }
-            {
-                resource.effectivePeriod &&
-                <Partials.Period
-                    period={resource.effectivePeriod}
-                    name='Effective Period'
-                    resourceType={resource.resourceType}
-                    id={uuid}
-                    searchParameter='effective-period'
-                />
-            }
-            {
-                resource.topic &&
+                resource.studyType &&
                 <Partials.CodeableConcept
-                    codeableConcept={resource.topic}
-                    name='Topic'
+                    codeableConcept={resource.studyType}
+                    name='Study Type'
                     resourceType={resource.resourceType}
                     id={uuid}
-                    searchParameter='topic'
-                />
-            }
-            {
-                resource.exposureBackground &&
-                <Partials.Reference
-                    reference={resource.exposureBackground}
-                    name='Exposure Background'
-                    resourceType={resource.resourceType}
-                    id={uuid}
-                    searchParameter='exposure-background'
-                />
-            }
-            {
-                resource.exposureVariant &&
-                <Partials.Reference
-                    reference={resource.exposureVariant}
-                    name='Exposure Variant'
-                    resourceType={resource.resourceType}
-                    id={uuid}
-                    searchParameter='exposure-variant'
-                />
-            }
-            {
-                resource.outcome &&
-                <Partials.Reference
-                    reference={resource.outcome}
-                    name='Outcome'
-                    resourceType={resource.resourceType}
-                    id={uuid}
-                    searchParameter='outcome'
+                    searchParameter='study-type'
                 />
             }
         </>

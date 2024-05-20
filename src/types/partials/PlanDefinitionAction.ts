@@ -7,6 +7,7 @@ import { TCodeableConcept } from '../partials/CodeableConcept';
 import { TRelatedArtifact } from '../partials/RelatedArtifact';
 import { TId } from '../simpleTypes/Id';
 import { TReference } from '../partials/Reference';
+import { TCanonical } from '../simpleTypes/Canonical';
 import { TTriggerDefinition } from '../partials/TriggerDefinition';
 import { TPlanDefinitionCondition } from '../partials/PlanDefinitionCondition';
 import { TDataRequirement } from '../partials/DataRequirement';
@@ -17,7 +18,6 @@ import { TPeriod } from '../partials/Period';
 import { TRange } from '../partials/Range';
 import { TTiming } from '../partials/Timing';
 import { TPlanDefinitionParticipant } from '../partials/PlanDefinitionParticipant';
-import { TCanonical } from '../simpleTypes/Canonical';
 import { TUri } from '../simpleTypes/Uri';
 import { TPlanDefinitionDynamicValue } from '../partials/PlanDefinitionDynamicValue';
 
@@ -36,6 +36,7 @@ export type TPlanDefinitionAction = {
     goalId?: TId[];
     subjectCodeableConcept?: TCodeableConcept;
     subjectReference?: TReference;
+    subjectCanonical?: TCanonical;
     trigger?: TTriggerDefinition[];
     condition?: TPlanDefinitionCondition[];
     input?: TDataRequirement[];

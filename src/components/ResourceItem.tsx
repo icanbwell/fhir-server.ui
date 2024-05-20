@@ -5,6 +5,7 @@
 import DomainResource from '../pages/resources/DomainResource';
 import Account from '../pages/resources/Account';
 import ActivityDefinition from '../pages/resources/ActivityDefinition';
+import AdministrableProductDefinition from '../pages/resources/AdministrableProductDefinition';
 import AdverseEvent from '../pages/resources/AdverseEvent';
 import AllergyIntolerance from '../pages/resources/AllergyIntolerance';
 import Appointment from '../pages/resources/Appointment';
@@ -21,9 +22,11 @@ import CareTeam from '../pages/resources/CareTeam';
 import CatalogEntry from '../pages/resources/CatalogEntry';
 import ChargeItem from '../pages/resources/ChargeItem';
 import ChargeItemDefinition from '../pages/resources/ChargeItemDefinition';
+import Citation from '../pages/resources/Citation';
 import Claim from '../pages/resources/Claim';
 import ClaimResponse from '../pages/resources/ClaimResponse';
 import ClinicalImpression from '../pages/resources/ClinicalImpression';
+import ClinicalUseDefinition from '../pages/resources/ClinicalUseDefinition';
 import CodeSystem from '../pages/resources/CodeSystem';
 import Communication from '../pages/resources/Communication';
 import CommunicationRequest from '../pages/resources/CommunicationRequest';
@@ -45,7 +48,6 @@ import DeviceUseStatement from '../pages/resources/DeviceUseStatement';
 import DiagnosticReport from '../pages/resources/DiagnosticReport';
 import DocumentManifest from '../pages/resources/DocumentManifest';
 import DocumentReference from '../pages/resources/DocumentReference';
-import EffectEvidenceSynthesis from '../pages/resources/EffectEvidenceSynthesis';
 import Encounter from '../pages/resources/Encounter';
 import Endpoint from '../pages/resources/Endpoint';
 import EnrollmentRequest from '../pages/resources/EnrollmentRequest';
@@ -53,6 +55,7 @@ import EnrollmentResponse from '../pages/resources/EnrollmentResponse';
 import EpisodeOfCare from '../pages/resources/EpisodeOfCare';
 import EventDefinition from '../pages/resources/EventDefinition';
 import Evidence from '../pages/resources/Evidence';
+import EvidenceReport from '../pages/resources/EvidenceReport';
 import EvidenceVariable from '../pages/resources/EvidenceVariable';
 import ExampleScenario from '../pages/resources/ExampleScenario';
 import ExplanationOfBenefit from '../pages/resources/ExplanationOfBenefit';
@@ -68,12 +71,14 @@ import Immunization from '../pages/resources/Immunization';
 import ImmunizationEvaluation from '../pages/resources/ImmunizationEvaluation';
 import ImmunizationRecommendation from '../pages/resources/ImmunizationRecommendation';
 import ImplementationGuide from '../pages/resources/ImplementationGuide';
+import Ingredient from '../pages/resources/Ingredient';
 import InsurancePlan from '../pages/resources/InsurancePlan';
 import Invoice from '../pages/resources/Invoice';
 import Library from '../pages/resources/Library';
 import Linkage from '../pages/resources/Linkage';
 import List from '../pages/resources/List';
 import Location from '../pages/resources/Location';
+import ManufacturedItemDefinition from '../pages/resources/ManufacturedItemDefinition';
 import Measure from '../pages/resources/Measure';
 import MeasureReport from '../pages/resources/MeasureReport';
 import Media from '../pages/resources/Media';
@@ -83,27 +88,20 @@ import MedicationDispense from '../pages/resources/MedicationDispense';
 import MedicationKnowledge from '../pages/resources/MedicationKnowledge';
 import MedicationRequest from '../pages/resources/MedicationRequest';
 import MedicationStatement from '../pages/resources/MedicationStatement';
-import MedicinalProduct from '../pages/resources/MedicinalProduct';
-import MedicinalProductAuthorization from '../pages/resources/MedicinalProductAuthorization';
-import MedicinalProductContraindication from '../pages/resources/MedicinalProductContraindication';
-import MedicinalProductIndication from '../pages/resources/MedicinalProductIndication';
-import MedicinalProductIngredient from '../pages/resources/MedicinalProductIngredient';
-import MedicinalProductInteraction from '../pages/resources/MedicinalProductInteraction';
-import MedicinalProductManufactured from '../pages/resources/MedicinalProductManufactured';
-import MedicinalProductPackaged from '../pages/resources/MedicinalProductPackaged';
-import MedicinalProductPharmaceutical from '../pages/resources/MedicinalProductPharmaceutical';
-import MedicinalProductUndesirableEffect from '../pages/resources/MedicinalProductUndesirableEffect';
+import MedicinalProductDefinition from '../pages/resources/MedicinalProductDefinition';
 import MessageDefinition from '../pages/resources/MessageDefinition';
 import MessageHeader from '../pages/resources/MessageHeader';
 import MolecularSequence from '../pages/resources/MolecularSequence';
 import NamingSystem from '../pages/resources/NamingSystem';
 import NutritionOrder from '../pages/resources/NutritionOrder';
+import NutritionProduct from '../pages/resources/NutritionProduct';
 import Observation from '../pages/resources/Observation';
 import ObservationDefinition from '../pages/resources/ObservationDefinition';
 import OperationDefinition from '../pages/resources/OperationDefinition';
 import OperationOutcome from '../pages/resources/OperationOutcome';
 import Organization from '../pages/resources/Organization';
 import OrganizationAffiliation from '../pages/resources/OrganizationAffiliation';
+import PackagedProductDefinition from '../pages/resources/PackagedProductDefinition';
 import Parameters from '../pages/resources/Parameters';
 import Patient from '../pages/resources/Patient';
 import PaymentNotice from '../pages/resources/PaymentNotice';
@@ -116,6 +114,7 @@ import Procedure from '../pages/resources/Procedure';
 import Provenance from '../pages/resources/Provenance';
 import Questionnaire from '../pages/resources/Questionnaire';
 import QuestionnaireResponse from '../pages/resources/QuestionnaireResponse';
+import RegulatedAuthorization from '../pages/resources/RegulatedAuthorization';
 import RelatedPerson from '../pages/resources/RelatedPerson';
 import RequestGroup from '../pages/resources/RequestGroup';
 import ResearchDefinition from '../pages/resources/ResearchDefinition';
@@ -123,7 +122,6 @@ import ResearchElementDefinition from '../pages/resources/ResearchElementDefinit
 import ResearchStudy from '../pages/resources/ResearchStudy';
 import ResearchSubject from '../pages/resources/ResearchSubject';
 import RiskAssessment from '../pages/resources/RiskAssessment';
-import RiskEvidenceSynthesis from '../pages/resources/RiskEvidenceSynthesis';
 import Schedule from '../pages/resources/Schedule';
 import SearchParameter from '../pages/resources/SearchParameter';
 import ServiceRequest from '../pages/resources/ServiceRequest';
@@ -133,13 +131,10 @@ import SpecimenDefinition from '../pages/resources/SpecimenDefinition';
 import StructureDefinition from '../pages/resources/StructureDefinition';
 import StructureMap from '../pages/resources/StructureMap';
 import Subscription from '../pages/resources/Subscription';
+import SubscriptionStatus from '../pages/resources/SubscriptionStatus';
+import SubscriptionTopic from '../pages/resources/SubscriptionTopic';
 import Substance from '../pages/resources/Substance';
-import SubstanceNucleicAcid from '../pages/resources/SubstanceNucleicAcid';
-import SubstancePolymer from '../pages/resources/SubstancePolymer';
-import SubstanceProtein from '../pages/resources/SubstanceProtein';
-import SubstanceReferenceInformation from '../pages/resources/SubstanceReferenceInformation';
-import SubstanceSourceMaterial from '../pages/resources/SubstanceSourceMaterial';
-import SubstanceSpecification from '../pages/resources/SubstanceSpecification';
+import SubstanceDefinition from '../pages/resources/SubstanceDefinition';
 import SupplyDelivery from '../pages/resources/SupplyDelivery';
 import SupplyRequest from '../pages/resources/SupplyRequest';
 import Task from '../pages/resources/Task';
@@ -162,6 +157,8 @@ const ResourceItem = ({ resourceType, resource }: TResourceItemProps) => {
             return <Account resource={resource}/>;
         case 'ActivityDefinition':
             return <ActivityDefinition resource={resource}/>;
+        case 'AdministrableProductDefinition':
+            return <AdministrableProductDefinition resource={resource}/>;
         case 'AdverseEvent':
             return <AdverseEvent resource={resource}/>;
         case 'AllergyIntolerance':
@@ -194,12 +191,16 @@ const ResourceItem = ({ resourceType, resource }: TResourceItemProps) => {
             return <ChargeItem resource={resource}/>;
         case 'ChargeItemDefinition':
             return <ChargeItemDefinition resource={resource}/>;
+        case 'Citation':
+            return <Citation resource={resource}/>;
         case 'Claim':
             return <Claim resource={resource}/>;
         case 'ClaimResponse':
             return <ClaimResponse resource={resource}/>;
         case 'ClinicalImpression':
             return <ClinicalImpression resource={resource}/>;
+        case 'ClinicalUseDefinition':
+            return <ClinicalUseDefinition resource={resource}/>;
         case 'CodeSystem':
             return <CodeSystem resource={resource}/>;
         case 'Communication':
@@ -242,8 +243,6 @@ const ResourceItem = ({ resourceType, resource }: TResourceItemProps) => {
             return <DocumentManifest resource={resource}/>;
         case 'DocumentReference':
             return <DocumentReference resource={resource}/>;
-        case 'EffectEvidenceSynthesis':
-            return <EffectEvidenceSynthesis resource={resource}/>;
         case 'Encounter':
             return <Encounter resource={resource}/>;
         case 'Endpoint':
@@ -258,6 +257,8 @@ const ResourceItem = ({ resourceType, resource }: TResourceItemProps) => {
             return <EventDefinition resource={resource}/>;
         case 'Evidence':
             return <Evidence resource={resource}/>;
+        case 'EvidenceReport':
+            return <EvidenceReport resource={resource}/>;
         case 'EvidenceVariable':
             return <EvidenceVariable resource={resource}/>;
         case 'ExampleScenario':
@@ -288,6 +289,8 @@ const ResourceItem = ({ resourceType, resource }: TResourceItemProps) => {
             return <ImmunizationRecommendation resource={resource}/>;
         case 'ImplementationGuide':
             return <ImplementationGuide resource={resource}/>;
+        case 'Ingredient':
+            return <Ingredient resource={resource}/>;
         case 'InsurancePlan':
             return <InsurancePlan resource={resource}/>;
         case 'Invoice':
@@ -300,6 +303,8 @@ const ResourceItem = ({ resourceType, resource }: TResourceItemProps) => {
             return <List resource={resource}/>;
         case 'Location':
             return <Location resource={resource}/>;
+        case 'ManufacturedItemDefinition':
+            return <ManufacturedItemDefinition resource={resource}/>;
         case 'Measure':
             return <Measure resource={resource}/>;
         case 'MeasureReport':
@@ -318,26 +323,8 @@ const ResourceItem = ({ resourceType, resource }: TResourceItemProps) => {
             return <MedicationRequest resource={resource}/>;
         case 'MedicationStatement':
             return <MedicationStatement resource={resource}/>;
-        case 'MedicinalProduct':
-            return <MedicinalProduct resource={resource}/>;
-        case 'MedicinalProductAuthorization':
-            return <MedicinalProductAuthorization resource={resource}/>;
-        case 'MedicinalProductContraindication':
-            return <MedicinalProductContraindication resource={resource}/>;
-        case 'MedicinalProductIndication':
-            return <MedicinalProductIndication resource={resource}/>;
-        case 'MedicinalProductIngredient':
-            return <MedicinalProductIngredient resource={resource}/>;
-        case 'MedicinalProductInteraction':
-            return <MedicinalProductInteraction resource={resource}/>;
-        case 'MedicinalProductManufactured':
-            return <MedicinalProductManufactured resource={resource}/>;
-        case 'MedicinalProductPackaged':
-            return <MedicinalProductPackaged resource={resource}/>;
-        case 'MedicinalProductPharmaceutical':
-            return <MedicinalProductPharmaceutical resource={resource}/>;
-        case 'MedicinalProductUndesirableEffect':
-            return <MedicinalProductUndesirableEffect resource={resource}/>;
+        case 'MedicinalProductDefinition':
+            return <MedicinalProductDefinition resource={resource}/>;
         case 'MessageDefinition':
             return <MessageDefinition resource={resource}/>;
         case 'MessageHeader':
@@ -348,6 +335,8 @@ const ResourceItem = ({ resourceType, resource }: TResourceItemProps) => {
             return <NamingSystem resource={resource}/>;
         case 'NutritionOrder':
             return <NutritionOrder resource={resource}/>;
+        case 'NutritionProduct':
+            return <NutritionProduct resource={resource}/>;
         case 'Observation':
             return <Observation resource={resource}/>;
         case 'ObservationDefinition':
@@ -360,6 +349,8 @@ const ResourceItem = ({ resourceType, resource }: TResourceItemProps) => {
             return <Organization resource={resource}/>;
         case 'OrganizationAffiliation':
             return <OrganizationAffiliation resource={resource}/>;
+        case 'PackagedProductDefinition':
+            return <PackagedProductDefinition resource={resource}/>;
         case 'Parameters':
             return <Parameters resource={resource}/>;
         case 'Patient':
@@ -384,6 +375,8 @@ const ResourceItem = ({ resourceType, resource }: TResourceItemProps) => {
             return <Questionnaire resource={resource}/>;
         case 'QuestionnaireResponse':
             return <QuestionnaireResponse resource={resource}/>;
+        case 'RegulatedAuthorization':
+            return <RegulatedAuthorization resource={resource}/>;
         case 'RelatedPerson':
             return <RelatedPerson resource={resource}/>;
         case 'RequestGroup':
@@ -398,8 +391,6 @@ const ResourceItem = ({ resourceType, resource }: TResourceItemProps) => {
             return <ResearchSubject resource={resource}/>;
         case 'RiskAssessment':
             return <RiskAssessment resource={resource}/>;
-        case 'RiskEvidenceSynthesis':
-            return <RiskEvidenceSynthesis resource={resource}/>;
         case 'Schedule':
             return <Schedule resource={resource}/>;
         case 'SearchParameter':
@@ -418,20 +409,14 @@ const ResourceItem = ({ resourceType, resource }: TResourceItemProps) => {
             return <StructureMap resource={resource}/>;
         case 'Subscription':
             return <Subscription resource={resource}/>;
+        case 'SubscriptionStatus':
+            return <SubscriptionStatus resource={resource}/>;
+        case 'SubscriptionTopic':
+            return <SubscriptionTopic resource={resource}/>;
         case 'Substance':
             return <Substance resource={resource}/>;
-        case 'SubstanceNucleicAcid':
-            return <SubstanceNucleicAcid resource={resource}/>;
-        case 'SubstancePolymer':
-            return <SubstancePolymer resource={resource}/>;
-        case 'SubstanceProtein':
-            return <SubstanceProtein resource={resource}/>;
-        case 'SubstanceReferenceInformation':
-            return <SubstanceReferenceInformation resource={resource}/>;
-        case 'SubstanceSourceMaterial':
-            return <SubstanceSourceMaterial resource={resource}/>;
-        case 'SubstanceSpecification':
-            return <SubstanceSpecification resource={resource}/>;
+        case 'SubstanceDefinition':
+            return <SubstanceDefinition resource={resource}/>;
         case 'SupplyDelivery':
             return <SupplyDelivery resource={resource}/>;
         case 'SupplyRequest':

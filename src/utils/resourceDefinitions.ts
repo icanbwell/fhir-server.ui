@@ -16,6 +16,11 @@ export const resourceDefinitions: TResourceDefinition[] = [
         url: 'https://www.hl7.org/fhir/ActivityDefinition.html'
     },
     {
+        name: 'AdministrableProductDefinition',
+        description: 'A medicinal product in the final form which is suitable for administering to a patient (after any mixing of multiple components, dissolution etc. has been performed).',
+        url: 'https://www.hl7.org/fhir/AdministrableProductDefinition.html'
+    },
+    {
         name: 'AdverseEvent',
         description: 'Actual or  potential/avoided event causing unintended physical injury resulting from or contributed to by medical care, a research study or other healthcare setting factors that requires additional monitoring, treatment, or hospitalization, or that results in death.',
         url: 'https://www.hl7.org/fhir/AdverseEvent.html'
@@ -96,6 +101,11 @@ export const resourceDefinitions: TResourceDefinition[] = [
         url: 'https://www.hl7.org/fhir/ChargeItemDefinition.html'
     },
     {
+        name: 'Citation',
+        description: 'The Citation Resource enables reference to any knowledge artifact for purposes of identification and attribution. The Citation Resource supports existing reference structures and developing publication practices such as versioning, expressing complex contributorship roles, and referencing computable resources.',
+        url: 'https://www.hl7.org/fhir/Citation.html'
+    },
+    {
         name: 'Claim',
         description: 'A provider issued list of professional services and products which have been provided, or are to be provided, to a patient which is sent to an insurer for reimbursement.',
         url: 'https://www.hl7.org/fhir/Claim.html'
@@ -109,6 +119,11 @@ export const resourceDefinitions: TResourceDefinition[] = [
         name: 'ClinicalImpression',
         description: 'A record of a clinical assessment performed to determine what problem(s) may affect the patient and before planning the treatments or management strategies that are best to manage a patient\'s condition. Assessments are often 1:1 with a clinical consultation / encounter,  but this varies greatly depending on the clinical workflow. This resource is called "ClinicalImpression" rather than "ClinicalAssessment" to avoid confusion with the recording of assessment tools such as Apgar score.',
         url: 'https://www.hl7.org/fhir/ClinicalImpression.html'
+    },
+    {
+        name: 'ClinicalUseDefinition',
+        description: 'A single issue - either an indication, contraindication, interaction or an undesirable effect for a medicinal product, medication, device or procedure.',
+        url: 'https://www.hl7.org/fhir/ClinicalUseDefinition.html'
     },
     {
         name: 'CodeSystem',
@@ -216,11 +231,6 @@ export const resourceDefinitions: TResourceDefinition[] = [
         url: 'https://www.hl7.org/fhir/DocumentReference.html'
     },
     {
-        name: 'EffectEvidenceSynthesis',
-        description: 'The EffectEvidenceSynthesis resource describes the difference in an outcome between exposures states in a population where the effect estimate is derived from a combination of research studies.',
-        url: 'https://www.hl7.org/fhir/EffectEvidenceSynthesis.html'
-    },
-    {
         name: 'Encounter',
         description: 'An interaction between a patient and healthcare provider(s) for the purpose of providing healthcare service(s) or assessing the health status of a patient.',
         url: 'https://www.hl7.org/fhir/Encounter.html'
@@ -252,12 +262,17 @@ export const resourceDefinitions: TResourceDefinition[] = [
     },
     {
         name: 'Evidence',
-        description: 'The Evidence resource describes the conditional state (population and any exposures being compared within the population) and outcome (if specified) that the knowledge (evidence, assertion, recommendation) is about.',
+        description: 'The Evidence Resource provides a machine-interpretable expression of an evidence concept including the evidence variables (eg population, exposures/interventions, comparators, outcomes, measured variables, confounding variables), the statistics, and the certainty of this evidence.',
         url: 'https://www.hl7.org/fhir/Evidence.html'
     },
     {
+        name: 'EvidenceReport',
+        description: 'The EvidenceReport Resource is a specialized container for a collection of resources and codable concepts, adapted to support compositions of Evidence, EvidenceVariable, and Citation resources and related concepts.',
+        url: 'https://www.hl7.org/fhir/EvidenceReport.html'
+    },
+    {
         name: 'EvidenceVariable',
-        description: 'The EvidenceVariable resource describes a "PICO" element that knowledge (evidence, assertion, recommendation) is about.',
+        description: 'The EvidenceVariable resource describes an element that knowledge (Evidence) is about.',
         url: 'https://www.hl7.org/fhir/EvidenceVariable.html'
     },
     {
@@ -331,6 +346,11 @@ export const resourceDefinitions: TResourceDefinition[] = [
         url: 'https://www.hl7.org/fhir/ImplementationGuide.html'
     },
     {
+        name: 'Ingredient',
+        description: 'An ingredient of a manufactured item or pharmaceutical product.',
+        url: 'https://www.hl7.org/fhir/Ingredient.html'
+    },
+    {
         name: 'InsurancePlan',
         description: 'Details of a Health Insurance product/plan provided by an organization.',
         url: 'https://www.hl7.org/fhir/InsurancePlan.html'
@@ -359,6 +379,11 @@ export const resourceDefinitions: TResourceDefinition[] = [
         name: 'Location',
         description: 'Details and position information for a physical place where services are provided and resources and participants may be stored, found, contained, or accommodated.',
         url: 'https://www.hl7.org/fhir/Location.html'
+    },
+    {
+        name: 'ManufacturedItemDefinition',
+        description: 'The definition and characteristics of a medicinal manufactured item, such as a tablet or capsule, as contained in a packaged medicinal product.',
+        url: 'https://www.hl7.org/fhir/ManufacturedItemDefinition.html'
     },
     {
         name: 'Measure',
@@ -406,54 +431,9 @@ export const resourceDefinitions: TResourceDefinition[] = [
         url: 'https://www.hl7.org/fhir/MedicationStatement.html'
     },
     {
-        name: 'MedicinalProduct',
-        description: 'Detailed definition of a medicinal product, typically for uses other than direct patient care (e.g. regulatory use).',
-        url: 'https://www.hl7.org/fhir/MedicinalProduct.html'
-    },
-    {
-        name: 'MedicinalProductAuthorization',
-        description: 'The regulatory authorization of a medicinal product.',
-        url: 'https://www.hl7.org/fhir/MedicinalProductAuthorization.html'
-    },
-    {
-        name: 'MedicinalProductContraindication',
-        description: 'The clinical particulars - indications, contraindications etc. of a medicinal product, including for regulatory purposes.',
-        url: 'https://www.hl7.org/fhir/MedicinalProductContraindication.html'
-    },
-    {
-        name: 'MedicinalProductIndication',
-        description: 'Indication for the Medicinal Product.',
-        url: 'https://www.hl7.org/fhir/MedicinalProductIndication.html'
-    },
-    {
-        name: 'MedicinalProductIngredient',
-        description: 'An ingredient of a manufactured item or pharmaceutical product.',
-        url: 'https://www.hl7.org/fhir/MedicinalProductIngredient.html'
-    },
-    {
-        name: 'MedicinalProductInteraction',
-        description: 'The interactions of the medicinal product with other medicinal products, or other forms of interactions.',
-        url: 'https://www.hl7.org/fhir/MedicinalProductInteraction.html'
-    },
-    {
-        name: 'MedicinalProductManufactured',
-        description: 'The manufactured item as contained in the packaged medicinal product.',
-        url: 'https://www.hl7.org/fhir/MedicinalProductManufactured.html'
-    },
-    {
-        name: 'MedicinalProductPackaged',
-        description: 'A medicinal product in a container or package.',
-        url: 'https://www.hl7.org/fhir/MedicinalProductPackaged.html'
-    },
-    {
-        name: 'MedicinalProductPharmaceutical',
-        description: 'A pharmaceutical product described in terms of its composition and dose form.',
-        url: 'https://www.hl7.org/fhir/MedicinalProductPharmaceutical.html'
-    },
-    {
-        name: 'MedicinalProductUndesirableEffect',
-        description: 'Describe the undesirable effects of the medicinal product.',
-        url: 'https://www.hl7.org/fhir/MedicinalProductUndesirableEffect.html'
+        name: 'MedicinalProductDefinition',
+        description: 'A medicinal product, being a substance or combination of substances that is intended to treat, prevent or diagnose a disease, or to restore, correct or modify physiological functions by exerting a pharmacological, immunological or metabolic action. This resource is intended to define and detail such products and their properties, for uses other than direct patient care (e.g. regulatory use, or drug catalogs).',
+        url: 'https://www.hl7.org/fhir/MedicinalProductDefinition.html'
     },
     {
         name: 'MessageDefinition',
@@ -479,6 +459,11 @@ export const resourceDefinitions: TResourceDefinition[] = [
         name: 'NutritionOrder',
         description: 'A request to supply a diet, formula feeding (enteral) or oral nutritional supplement to a patient/resident.',
         url: 'https://www.hl7.org/fhir/NutritionOrder.html'
+    },
+    {
+        name: 'NutritionProduct',
+        description: 'A food or fluid product that is consumed by patients.',
+        url: 'https://www.hl7.org/fhir/NutritionProduct.html'
     },
     {
         name: 'Observation',
@@ -511,6 +496,11 @@ export const resourceDefinitions: TResourceDefinition[] = [
         url: 'https://www.hl7.org/fhir/OrganizationAffiliation.html'
     },
     {
+        name: 'PackagedProductDefinition',
+        description: 'A medically related item or items, in a container or package.',
+        url: 'https://www.hl7.org/fhir/PackagedProductDefinition.html'
+    },
+    {
         name: 'Parameters',
         description: 'This resource is a non-persisted resource used to pass information into and back from an [operation](operations.html). It has no other use, and there is no RESTful endpoint associated with it.',
         url: 'https://www.hl7.org/fhir/Parameters.html'
@@ -537,7 +527,7 @@ export const resourceDefinitions: TResourceDefinition[] = [
     },
     {
         name: 'PlanDefinition',
-        description: 'This resource allows for the definition of various types of plans as a sharable, consumable, and executable artifact. The resource is general enough to support the description of a broad range of clinical artifacts such as clinical decision support rules, order sets and protocols.',
+        description: 'This resource allows for the definition of various types of plans as a sharable, consumable, and executable artifact. The resource is general enough to support the description of a broad range of clinical and non-clinical artifacts such as clinical decision support rules, order sets, protocols, and drug quality specifications.',
         url: 'https://www.hl7.org/fhir/PlanDefinition.html'
     },
     {
@@ -569,6 +559,11 @@ export const resourceDefinitions: TResourceDefinition[] = [
         name: 'QuestionnaireResponse',
         description: 'A structured set of questions and their answers. The questions are ordered and grouped into coherent subsets, corresponding to the structure of the grouping of the questionnaire being responded to.',
         url: 'https://www.hl7.org/fhir/QuestionnaireResponse.html'
+    },
+    {
+        name: 'RegulatedAuthorization',
+        description: 'Regulatory approval, clearance or licencing related to a regulated product, treatment, facility or activity that is cited in a guidance, regulation, rule or legislative act. An example is Market Authorization relating to a Medicinal Product.',
+        url: 'https://www.hl7.org/fhir/RegulatedAuthorization.html'
     },
     {
         name: 'RelatedPerson',
@@ -604,11 +599,6 @@ export const resourceDefinitions: TResourceDefinition[] = [
         name: 'RiskAssessment',
         description: 'An assessment of the likely outcome(s) for a patient or other subject as well as the likelihood of each outcome.',
         url: 'https://www.hl7.org/fhir/RiskAssessment.html'
-    },
-    {
-        name: 'RiskEvidenceSynthesis',
-        description: 'The RiskEvidenceSynthesis resource describes the likelihood of an outcome in a population plus exposure state where the risk estimate is derived from a combination of research studies.',
-        url: 'https://www.hl7.org/fhir/RiskEvidenceSynthesis.html'
     },
     {
         name: 'Schedule',
@@ -656,39 +646,24 @@ export const resourceDefinitions: TResourceDefinition[] = [
         url: 'https://www.hl7.org/fhir/Subscription.html'
     },
     {
+        name: 'SubscriptionStatus',
+        description: 'The SubscriptionStatus resource describes the state of a Subscription during notifications.',
+        url: 'https://www.hl7.org/fhir/SubscriptionStatus.html'
+    },
+    {
+        name: 'SubscriptionTopic',
+        description: 'Describes a stream of resource state changes or events and annotated with labels useful to filter projections from this topic.',
+        url: 'https://www.hl7.org/fhir/SubscriptionTopic.html'
+    },
+    {
         name: 'Substance',
         description: 'A homogeneous material with a definite composition.',
         url: 'https://www.hl7.org/fhir/Substance.html'
     },
     {
-        name: 'SubstanceNucleicAcid',
-        description: 'Nucleic acids are defined by three distinct elements: the base, sugar and linkage. Individual substance/moiety IDs will be created for each of these elements. The nucleotide sequence will be always entered in the 5’-3’ direction.',
-        url: 'https://www.hl7.org/fhir/SubstanceNucleicAcid.html'
-    },
-    {
-        name: 'SubstancePolymer',
-        description: 'Todo.',
-        url: 'https://www.hl7.org/fhir/SubstancePolymer.html'
-    },
-    {
-        name: 'SubstanceProtein',
-        description: 'A SubstanceProtein is defined as a single unit of a linear amino acid sequence, or a combination of subunits that are either covalently linked or have a defined invariant stoichiometric relationship. This includes all synthetic, recombinant and purified SubstanceProteins of defined sequence, whether the use is therapeutic or prophylactic. This set of elements will be used to describe albumins, coagulation factors, cytokines, growth factors, peptide/SubstanceProtein hormones, enzymes, toxins, toxoids, recombinant vaccines, and immunomodulators.',
-        url: 'https://www.hl7.org/fhir/SubstanceProtein.html'
-    },
-    {
-        name: 'SubstanceReferenceInformation',
-        description: 'Todo.',
-        url: 'https://www.hl7.org/fhir/SubstanceReferenceInformation.html'
-    },
-    {
-        name: 'SubstanceSourceMaterial',
-        description: 'Source material shall capture information on the taxonomic and anatomical origins as well as the fraction of a material that can result in or can be modified to form a substance. This set of data elements shall be used to define polymer substances isolated from biological matrices. Taxonomic and anatomical origins shall be described using a controlled vocabulary as required. This information is captured for naturally derived polymers ( . starch) and structurally diverse substances. For Organisms belonging to the Kingdom Plantae the Substance level defines the fresh material of a single species or infraspecies, the Herbal Drug and the Herbal preparation. For Herbal preparations, the fraction information will be captured at the Substance information level and additional information for herbal extracts will be captured at the Specified Substance Group 1 information level. See for further explanation the Substance Class: Structurally Diverse and the herbal annex.',
-        url: 'https://www.hl7.org/fhir/SubstanceSourceMaterial.html'
-    },
-    {
-        name: 'SubstanceSpecification',
+        name: 'SubstanceDefinition',
         description: 'The detailed description of a substance, typically at a level beyond what is used for prescribing.',
-        url: 'https://www.hl7.org/fhir/SubstanceSpecification.html'
+        url: 'https://www.hl7.org/fhir/SubstanceDefinition.html'
     },
     {
         name: 'SupplyDelivery',
@@ -722,7 +697,7 @@ export const resourceDefinitions: TResourceDefinition[] = [
     },
     {
         name: 'ValueSet',
-        description: 'A ValueSet resource instance specifies a set of codes drawn from one or more code systems, intended for use in a particular context. Value sets link between [[[CodeSystem]]] definitions and their use in [coded elements](terminologies.html).',
+        description: 'A ValueSet resource instance specifies a set of codes drawn from one or more code systems, intended for use in a particular context. Value sets link between [CodeSystem](codesystem.html) definitions and their use in [coded elements](terminologies.html).',
         url: 'https://www.hl7.org/fhir/ValueSet.html'
     },
     {
