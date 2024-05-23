@@ -80,9 +80,7 @@ function CodeableConcept({
                     codeableConcept.coding.map((coding: TCoding, index2: Number) => (
                       <TableRow key={`${index}.${index2}`}>
                         <TableCell>{coding.id}</TableCell>
-                        <TableCell>
-                          {codeableConcept.text || coding.display}
-                        </TableCell>
+                        <TableCell>{coding.display}</TableCell>
                         {searchParameter ? (
                           <>
                             <TableCell>
