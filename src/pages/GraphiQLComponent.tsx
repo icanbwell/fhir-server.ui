@@ -2,6 +2,7 @@ import { createGraphiQLFetcher } from '@graphiql/toolkit';
 import { useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import GraphiQL from 'graphiql';
+import 'graphiql/graphiql.css';
 
 import { getLocalData } from '../utils/localData.utils';
 import EnvironmentContext from '../context/EnvironmentContext';
