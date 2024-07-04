@@ -52,7 +52,7 @@ const Extension = ({ extension: extensions }: TExtensionProps) => {
                             ? `${detailExtension.valueCodeableConcept.coding[0].code || ''} (${detailExtension.valueCodeableConcept.text || ''})`
                             : detailExtension.valueRange?.low && detailExtension.valueRange?.high
                             ? `${detailExtension.valueRange.low.value || ''} ${detailExtension.valueRange.low.unit || ''} to ${detailExtension.valueRange.high.value || ''} ${detailExtension.valueRange.high.unit || ''}`
-                            : `${detailExtension.valueString || ''}${detailExtension.valueUri || ''}`}
+                            : `${detailExtension.valueString || ''}${detailExtension.valueDateTime || ''}${detailExtension.valueUri || ''}`}
                         </TableCell>
                       </TableRow>
                     );
@@ -66,7 +66,7 @@ const Extension = ({ extension: extensions }: TExtensionProps) => {
                     <TableCell>
                       {extension.valueCodeableConcept?.coding
                         ? `${extension.valueCodeableConcept.coding[0].code || ''} (${extension.valueCodeableConcept.text || ''})`
-                        : `${extension.valueString || ''}${extension.valueUri || ''}`}
+                        : `${extension.valueString || ''}${extension.valueDateTime || ''}${extension.valueUri || ''}`}
                     </TableCell>
                   </TableRow>
                 );
