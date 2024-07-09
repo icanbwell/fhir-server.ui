@@ -90,7 +90,9 @@ class FhirApi extends BaseApi {
         const url = new URL(urlString, window.location.origin);
         if (queryParameters && queryParameters.length > 0) {
             queryParameters.forEach((queryParameter) => {
-                const [name, value] = queryParameter.split('=');
+                const firstEquals = queryParameter.indexOf('=');
+                const name = queryParameter.substring(0, firstEquals);
+                const value = queryParameter.substring(firstEquals + 1);
                 url.searchParams.append(name, value);
             });
         }
