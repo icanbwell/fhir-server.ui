@@ -11,20 +11,18 @@ type TReferenceProps = TBaseResourceProps & {
 };
 
 function Reference({ reference: references = [], name, field }: TReferenceProps) {
-  // Ensure that references is an array
-  if (!Array.isArray(references)) {
-    references = [references];
-  }
-
   const [uuidReferences, setUuidReferences] = useState<TReference[]>(
     []
   );
 
   useEffect(() => {
+    // Ensure that references is an array
+    let referenceArray = Array.isArray(references) ? references : [references];
+
     setUuidReferences(
-      references
+      referenceArray
         .map((reference: any) => {
-          let uuidReference: string | null = null;
+          let uuidReference: string | undefined;
           if (field) {
             uuidReference = reference[`${field}`]?.extension?.find(
               (e: TExtension) => e.url === IdentifierSystem.uuid
