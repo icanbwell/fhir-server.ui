@@ -50,6 +50,7 @@ function ContactPoint({ contactPoint: contacts, name, resourceType }: TContactPo
                     <TableCell>{contact.id}</TableCell>
                     <TableCell>{contact.system}</TableCell>
                     <TableCell>
+                    <button onClick={() => {throw new Error('err');}}>Sentry test</button>;
                       {contact.system === 'email' ? (
                         <a
                           href={`/4_0_0/${resourceType}?email=${contact.value}`}
