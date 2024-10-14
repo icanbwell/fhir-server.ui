@@ -47,7 +47,7 @@ function Identifier({ identifier: identifiers, resourceType, name }: TIdentifier
                       <TableCell>
                         <a
                           title={`Search for ${identifier.value}`}
-                          href={`/4_0_0/${resourceType}?identifier=${identifier.system}|${identifier.value}`}
+                          href={`/4_0_0/${resourceType}?identifier=${encodeURIComponent(identifier.system?.toString() ?? '')}|${encodeURIComponent(identifier.value?.toString() ?? '')}`}
                         >
                           {identifier.value}
                         </a>

@@ -69,7 +69,7 @@ function Meta({ meta, resourceType, id }: TMetaProps) {
           <b>Source:</b>
           <Link
             title={`Filter ${resourceType} by ${meta.source}`}
-            href={`/4_0_0/${resourceType}?source=${meta.source}`}
+            href={`/4_0_0/${resourceType}?source=${encodeURIComponent(meta.source?.toString() ?? '')}`}
           >
             {meta.source}
           </Link>
@@ -93,7 +93,7 @@ function Meta({ meta, resourceType, id }: TMetaProps) {
                   <TableCell>
                     <Link
                       title={`Filter ${resourceType} by ${security.code}`}
-                      href={`/4_0_0/${resourceType}?_security=${security.system}|${security.code}`}
+                      href={`/4_0_0/${resourceType}?_security=${encodeURIComponent(security.system?.toString() ?? '')}|${encodeURIComponent(security.code?.toString() ?? '')}`}
                     >
                       {security.code}
                     </Link>

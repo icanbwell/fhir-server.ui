@@ -52,13 +52,13 @@ function ContactPoint({ contactPoint: contacts, name, resourceType }: TContactPo
                     <TableCell>
                       {contact.system === 'email' ? (
                         <a
-                          href={`/4_0_0/${resourceType}?email=${contact.value}`}
+                          href={`/4_0_0/${resourceType}?email=${encodeURIComponent(contact.value?.toString() ?? '')}`}
                         >
                           {contact.value}
                         </a>
                       ) : contact.system === 'phone' ? (
                         <a
-                          href={`/4_0_0/${resourceType}?phone=${contact.value}`}
+                          href={`/4_0_0/${resourceType}?phone=${encodeURIComponent(contact.value?.toString() ?? '')}`}
                         >
                           {contact.value}
                         </a>
