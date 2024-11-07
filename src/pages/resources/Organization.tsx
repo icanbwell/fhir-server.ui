@@ -44,6 +44,14 @@ const Organization = ({ resource }: { resource: TOrganization }): React.ReactEle
                 />
             }
             {
+                resource.name &&
+                <Partials.NameValue
+                    name='Name'
+                    value={resource.name}
+                    searchParameter='name'
+                />
+            }
+            {
                 resource.implicitRules &&
                 <Partials.Uri
                     uri={resource.implicitRules}
