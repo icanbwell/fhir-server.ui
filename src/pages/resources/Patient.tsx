@@ -264,10 +264,22 @@ const Patient = ({ resource }: { resource: TPatient }): React.ReactElement => {
                 reverseReferences={[{'target': 'CareTeam', 'property': 'patient'}]}
             />
             <Partials.ReverseReference
+                name="Composition"
+                id={uuid}
+                resourceType={resource.resourceType}
+                reverseReferences={[{'target': 'Composition', 'property': 'person'}]}
+            />
+            <Partials.ReverseReference
                 name="Condition"
                 id={uuid}
                 resourceType={resource.resourceType}
                 reverseReferences={[{'target': 'Condition', 'property': 'patient'}]}
+            />
+            <Partials.ReverseReference
+                name="Consent"
+                id={uuid}
+                resourceType={resource.resourceType}
+                reverseReferences={[{'target': 'Consent', 'property': 'patient'}]}
             />
             <Partials.ReverseReference
                 name="ChargeItem"
@@ -286,6 +298,12 @@ const Patient = ({ resource }: { resource: TPatient }): React.ReactElement => {
                 id={uuid}
                 resourceType={resource.resourceType}
                 reverseReferences={[{'target': 'DiagnosticReport', 'property': 'patient'}]}
+            />
+            <Partials.ReverseReference
+                name="DocumentReference"
+                id={uuid}
+                resourceType={resource.resourceType}
+                reverseReferences={[{'target': 'DocumentReference', 'property': 'patient'}]}
             />
             <Partials.ReverseReference
                 name="Encounter"
