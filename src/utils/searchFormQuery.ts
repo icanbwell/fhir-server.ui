@@ -39,7 +39,14 @@ class SearchFormQuery {
         }
         if (this.params) {
             Object.entries(this.params).forEach(
-                ([name, value]) => value && queryParameters.push(`${name}=${value}`)
+                ([name, value]) => {
+                    if (name === 'given' || name === 'family') {
+                        name = name + ':exact';
+                    }
+                    if (value) {
+                        queryParameters.push(`${name}=${value}`);
+                    }
+                }
             );
         }
         return queryParameters;
