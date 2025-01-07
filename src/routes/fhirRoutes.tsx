@@ -1,7 +1,6 @@
 import { Route } from 'react-router-dom';
 
 import AboutPage from '../pages/AboutPage';
-import GraphiQLComponent from '../pages/GraphiQLComponent';
 import IndexPage from '../pages/IndexPage';
 import ObservationGraph from '../ObservationGraph';
 import ObservationTimeline from '../ObservationTimeline';
@@ -10,8 +9,6 @@ import SearchPage from '../pages/SearchPage';
 
 export default [
     <Route path="/about" element={<AboutPage />} />,
-    <Route path="/$graphql" element={<GraphiQLComponent />} />,
-    <Route path="/$graphqlv2" element={<GraphiQLComponent />} />,
     <Route path="/patientTimeline" element={<PatientTimeline />} />,
     <Route path="/observationGraph" element={<ObservationGraph />} />,
     <Route path="/observationTimeline" element={<ObservationTimeline />} />,
