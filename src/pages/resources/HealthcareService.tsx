@@ -15,15 +15,11 @@ import { THealthcareService } from '../../types/resources/HealthcareService';
 
 // Import all the partial resource
 import Partials from '../../partials';
-import { SecurityTagSystem } from '../../utils/securityTagSystem';
-import { generateUuidV5, isUuid } from '../../utils/uid.util';
+import { IdentifierSystem } from '../../utils/identifierSystem';
 
 const HealthcareService = ({ resource }: { resource: THealthcareService }): React.ReactElement => {
-    const sourceAssigningAuthority = resource?.meta?.security?.find(
-        s => s.system === SecurityTagSystem.sourceAssigningAuthority
-    )?.code;
-    const uuid = resource.id && isUuid(`${resource.id}`) ?
-        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+    const tagUUID = resource?.meta?.tag?.find((s) => s.system === IdentifierSystem.uuid)?.code;
+    const uuid = tagUUID ? tagUUID : resource.id;
 
     return (
         <>
