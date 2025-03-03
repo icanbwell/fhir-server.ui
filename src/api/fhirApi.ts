@@ -53,6 +53,9 @@ class FhirApi extends BaseApi {
         if (!id && !queryParams.has('_count')) {
             queryParams.append('_count', '10');
         }
+        if (!queryParams.has('_metaUuid')) {
+            queryParams.append('_metaUuid', '1');
+        }
         if (resourceType === 'AuditEvent' && !queryParams.has('date')) {
             const { startDate, endDate } = getStartAndEndDate();
             // Append 'date' query parameters for AuditEvent

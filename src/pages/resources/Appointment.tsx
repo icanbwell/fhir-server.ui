@@ -12,20 +12,15 @@ Appointment
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Typography } from '@mui/material';
 import { TAppointment } from '../../types/resources/Appointment';
 
 // Import all the partial resource
 import Partials from '../../partials';
-import { SecurityTagSystem } from '../../utils/securityTagSystem';
-import { generateUuidV5, isUuid } from '../../utils/uid.util';
+import { IdentifierSystem } from '../../utils/identifierSystem';
 
 const Appointment = ({ resource }: { resource: TAppointment }): React.ReactElement => {
-    const sourceAssigningAuthority = resource?.meta?.security?.find(
-        s => s.system === SecurityTagSystem.sourceAssigningAuthority
-    )?.code;
-    const uuid = resource.id && isUuid(`${resource.id}`) ?
-        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+    const tagUUID = resource?.meta?.tag?.find((s) => s.system === IdentifierSystem.uuid)?.code;
+    const uuid = tagUUID ? tagUUID : resource.id;
 
     return (
         <>

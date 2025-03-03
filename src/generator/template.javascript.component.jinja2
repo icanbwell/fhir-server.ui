@@ -15,7 +15,9 @@ import React, { useContext } from 'react';
 import React from 'react';
 {% endif %}
 import { Link } from 'react-router-dom';
+{% if reverse_references.get(fhir_entity.cleaned_name) %}
 import { Typography } from '@mui/material';
+{% endif %}
 import {{ '{ T' + fhir_entity.cleaned_name + ' }' }} from '../../types/resources/ {{- fhir_entity.cleaned_name -}}';
 
 // Import all the partial resource
@@ -24,19 +26,15 @@ import Partials from '../../partials';
 import EnvironmentContext from '../../context/EnvironmentContext';
 import UserContext from '../../context/UserContext';
 {% endif %}
-import { SecurityTagSystem } from '../../utils/securityTagSystem';
-import { generateUuidV5, isUuid } from '../../utils/uid.util';
+import { IdentifierSystem } from '../../utils/identifierSystem';
 
 const {{ fhir_entity.cleaned_name }} = ({ resource }: { resource: {{ 'T' + fhir_entity.cleaned_name + ' ' -}}}): React.ReactElement => {
 {% if fhir_entity.cleaned_name == 'Person' %}
     const { userDetails } = React.useContext(UserContext);
     const { fhirAdminUrl } = useContext(EnvironmentContext);
 {% endif %}
-    const sourceAssigningAuthority = resource?.meta?.security?.find(
-        s => s.system === SecurityTagSystem.sourceAssigningAuthority
-    )?.code;
-    const uuid = resource.id && isUuid(`${resource.id}`) ?
-        resource.id : generateUuidV5(`${resource.id}|${sourceAssigningAuthority}`);
+    const tagUUID = resource?.meta?.tag?.find((s) => s.system === IdentifierSystem.uuid)?.code;
+    const uuid = tagUUID ? tagUUID : resource.id;
 
 {% if fhir_entity.cleaned_name == 'AuditEvent' %}
     const lastUpdated = resource?.meta?.lastUpdated;
@@ -80,6 +78,15 @@ const {{ fhir_entity.cleaned_name }} = ({ resource }: { resource: {{ 'T' + fhir_
                     id={uuid}
                     searchParameter='{{- generate_search_parameter(property.javascript_clean_name) -}}'
                     field='{{- partials_mapping[get_component_name(property.cleaned_type)]['field'] -}}'
+                />
+            }
+        {% elif fhir_entity.cleaned_name == "Organization" and property.javascript_clean_name == "name" %}
+            {
+                resource.name &&
+                <Partials.NameValue
+                    name='Name'
+                    value={resource.name}
+                    searchParameter='name'
                 />
             }
         {% endif %}
