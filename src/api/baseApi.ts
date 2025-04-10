@@ -63,6 +63,7 @@ class BaseApi {
         req.headers['Cache-Control'] = 'no-cache';
         req.headers['Pragma'] = 'no-cache';
         req.headers['Expires'] = '0';
+        req.headers['Origin-Service'] = 'fhir-ui';
         return req;
     }
 }
