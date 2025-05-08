@@ -12,7 +12,8 @@ init:
 .PHONY:up
 up:
 	docker compose build --parallel && \
-	docker compose up -d
+	docker compose up -d && \
+	echo 'FHIR UI: http://localhost:5051'
 
 .PHONY:down
 down:

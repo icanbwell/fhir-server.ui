@@ -45,6 +45,8 @@ const IndexPage = ({ search }: { search?: boolean }) => {
     const queryString = location.search;
     const shouldBeJsonFormat =
         (new URLSearchParams(queryString || '').get('_format') || '').toLowerCase() === 'json';
+    const shouldBeCsvFormat =
+        (new URLSearchParams(queryString || '').get('_format') || '').toLowerCase() === 'text/csv';
     function getBox() {
         if (loading) {
             return <LinearProgress />;
@@ -118,16 +120,37 @@ const IndexPage = ({ search }: { search?: boolean }) => {
                 setSearchTabExpanded(true);
                 return;
             }
+            if (shouldBeCsvFormat) {
+                const csvUrl = window.location.href;
+                const a = document.createElement('a');
+                a.href = csvUrl;
+                a.download = 'data.csv';
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                return;
+            }
             try {
                 setLoading(true);
                 if (fhirUrl) {
                     const fhirApi = new FhirApi({ fhirUrl, setUserDetails });
-                    const { json, status: statusCode } = await fhirApi.getBundleAsync({
+                    const { json, status: statusCode, contentType, contentDisposition } = await fhirApi.getResponseAsync({
                         resourceType,
                         id,
                         queryString,
                         operation,
                     });
+
+                    // if contentDisposition is not empty then we are downloading a file
+                    if (contentDisposition) {
+                        const fileName = contentDisposition.split('filename=')[1].replace(/"/g, '');
+                        const blob = new Blob([json], { type: contentType });
+                        const url = window.URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = fileName;
+                        a.click();
+                    }
 
                     // set indexStart
                     const queryParams = new URLSearchParams(location.search || '');
