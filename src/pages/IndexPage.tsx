@@ -1,6 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { Accordion, Alert, AlertTitle, Box, Button, Container, LinearProgress } from '@mui/material';
+import {
+    Accordion,
+    Alert,
+    AlertTitle,
+    Box,
+    Button,
+    Container,
+    LinearProgress,
+} from '@mui/material';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -47,6 +55,7 @@ const IndexPage = ({ search }: { search?: boolean }) => {
         (new URLSearchParams(queryString || '').get('_format') || '').toLowerCase() === 'json';
     const shouldBeCsvFormat =
         (new URLSearchParams(queryString || '').get('_format') || '').toLowerCase() === 'text/csv';
+
     function getBox() {
         if (loading) {
             return <LinearProgress />;
@@ -60,12 +69,26 @@ const IndexPage = ({ search }: { search?: boolean }) => {
         // If narrative is returned then show it at top level
         return (
             <>
-                {resources?.length > 1 &&
-                    <Box display='flex' justifyContent='end'>
-                        <Button onClick={() => {setExpandAll(true); setCollapseAll(false);}}>Expand All</Button>
-                        <Button onClick={() => {setExpandAll(false); setCollapseAll(true);}}>Collapse All</Button>
+                {resources?.length > 1 && (
+                    <Box display="flex" justifyContent="end">
+                        <Button
+                            onClick={() => {
+                                setExpandAll(true);
+                                setCollapseAll(false);
+                            }}
+                        >
+                            Expand All
+                        </Button>
+                        <Button
+                            onClick={() => {
+                                setExpandAll(false);
+                                setCollapseAll(true);
+                            }}
+                        >
+                            Collapse All
+                        </Button>
                     </Box>
-                }
+                )}
                 {/* if we have a single resource*/}
                 {resources && resources.length === 1 && resources[0].text?.div && (
                     <Alert severity="success">
@@ -110,6 +133,16 @@ const IndexPage = ({ search }: { search?: boolean }) => {
             ` search: ${search}, operation: ${operation}`
     );
 
+    function downloadFile() {
+        const csvUrl = window.location.href;
+        const a = document.createElement('a');
+        a.href = csvUrl;
+        a.download = 'data.csv';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+    }
+
     useEffect(() => {
         if (id) {
             setResourceCardExpanded(true);
@@ -121,20 +154,19 @@ const IndexPage = ({ search }: { search?: boolean }) => {
                 return;
             }
             if (shouldBeCsvFormat) {
-                const csvUrl = window.location.href;
-                const a = document.createElement('a');
-                a.href = csvUrl;
-                a.download = 'data.csv';
-                document.body.appendChild(a);
-                a.click();
-                a.remove();
+                downloadFile();
                 return;
             }
             try {
                 setLoading(true);
                 if (fhirUrl) {
                     const fhirApi = new FhirApi({ fhirUrl, setUserDetails });
-                    const { json, status: statusCode, contentType, contentDisposition } = await fhirApi.getResponseAsync({
+                    const {
+                        json,
+                        status: statusCode,
+                        // contentType,
+                        contentDisposition,
+                    } = await fhirApi.getResponseAsync({
                         resourceType,
                         id,
                         queryString,
@@ -143,13 +175,8 @@ const IndexPage = ({ search }: { search?: boolean }) => {
 
                     // if contentDisposition is not empty then we are downloading a file
                     if (contentDisposition) {
-                        const fileName = contentDisposition.split('filename=')[1].replace(/"/g, '');
-                        const blob = new Blob([json], { type: contentType });
-                        const url = window.URL.createObjectURL(blob);
-                        const a = document.createElement('a');
-                        a.href = url;
-                        a.download = fileName;
-                        a.click();
+                        downloadFile();
+                        return;
                     }
 
                     // set indexStart
@@ -224,10 +251,15 @@ const IndexPage = ({ search }: { search?: boolean }) => {
                         aria-controls={'searchCollapse'}
                         id={'searchAccordion'}
                     >
-                        <Typography variant="h5" sx={{ ml: 1 }}>Search</Typography>
+                        <Typography variant="h5" sx={{ ml: 1 }}>
+                            Search
+                        </Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                        <SearchContainer resourceType={resourceType} onSearch={handleSearch}></SearchContainer>
+                        <SearchContainer
+                            resourceType={resourceType}
+                            onSearch={handleSearch}
+                        ></SearchContainer>
                     </AccordionDetails>
                 </Accordion>
                 <Box my={2}>{getBox()}</Box>
