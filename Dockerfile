@@ -1,4 +1,4 @@
-FROM node:20.11.1-bookworm-slim
+FROM node:20.19.1-bookworm-slim
 
 # Set the working directory inside the container
 RUN mkdir -p /app && chown node:node /app
