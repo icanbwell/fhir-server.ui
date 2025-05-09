@@ -73,7 +73,7 @@ const FileDownload: React.FC<FileDownloadProps> = ({ resource, format, error }) 
     return (
         <React.Fragment>
             <Typography variant="h4">
-                Download Summary ({format === 'text/csv' ? 'CSV' : 'Excel'})
+                Download Summary ({format === 'text/csv' ? 'csv' : 'Excel'})
                 {isLoading && <CircularProgress size={16} sx={{ ml: 1 }} />}
             </Typography>
             <Link
