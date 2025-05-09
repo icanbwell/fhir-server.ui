@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import { Link, CircularProgress } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import axios, { AxiosResponse } from 'axios';
 import { saveAs } from 'file-saver';
 import { TResource } from '../types/resources/Resource';
+import EnvironmentContext from '../context/EnvironmentContext';
 
 interface FileDownloadProps {
     resource: TResource;
@@ -13,21 +14,21 @@ interface FileDownloadProps {
 
 const FileDownload: React.FC<FileDownloadProps> = ({ resource, error }) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const { fhirUrl } = useContext(EnvironmentContext);
 
     // Construct the URL with query parameters
     const queryParams = new URLSearchParams(error ? window.location.search : '');
-    queryParams.set('_format', 'json');
-
-    if (resource.resourceType === 'AuditEvent' && resource.meta?.lastUpdated) {
-        queryParams.append('date', `le${resource.meta.lastUpdated}`);
-        queryParams.append('date', `ge${resource.meta.lastUpdated}`);
-    }
+    queryParams.set('_format', 'text/csv');
 
     const pathName = error
         ? window.location.pathname
         : `/4_0_0/${resource.resourceType}/${resource.id}`;
 
-    const downloadUrl = `${pathName}?${queryParams.toString()}`;
+    let downloadUrl = `${pathName}?${queryParams.toString()}`;
+    // console.info('downloadUrl', downloadUrl);
+    // console.info('fhirUrl', fhirUrl);
+    downloadUrl = fhirUrl + downloadUrl;
+    // console.info('downloadUrl', downloadUrl);
 
     const extractFilenameFromHeader = (contentDisposition: string): string => {
         const filenameMatch = contentDisposition.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/i);
