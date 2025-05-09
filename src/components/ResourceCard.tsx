@@ -59,7 +59,8 @@ const ResourceCard = ({
                 <CardContent>
                     <ResourceItem resourceType={resource.resourceType} resource={resource} />
                     <Json resource={resource} error={error} />
-                    <FileDownload resource={resource} />
+                    <FileDownload resource={resource} format="text/csv" />
+                    <FileDownload resource={resource} format="application/vnd.ms-excel" />
                 </CardContent>
             </Collapse>
         </Card>

@@ -9,16 +9,17 @@ import EnvironmentContext from '../context/EnvironmentContext';
 
 interface FileDownloadProps {
     resource: TResource;
+    format: string;
     error?: boolean;
 }
 
-const FileDownload: React.FC<FileDownloadProps> = ({ resource, error }) => {
+const FileDownload: React.FC<FileDownloadProps> = ({ resource, format, error }) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const { fhirUrl } = useContext(EnvironmentContext);
 
     // Construct the URL with query parameters
     const queryParams = new URLSearchParams(error ? window.location.search : '');
-    queryParams.set('_format', 'text/csv');
+    queryParams.set('_format', format);
 
     const pathName = error
         ? window.location.pathname
@@ -72,7 +73,7 @@ const FileDownload: React.FC<FileDownloadProps> = ({ resource, error }) => {
     return (
         <React.Fragment>
             <Typography variant="h4">
-                Download Summary
+                Download Summary ({format === 'text/csv' ? 'CSV' : 'Excel'})
                 {isLoading && <CircularProgress size={16} sx={{ ml: 1 }} />}
             </Typography>
             <Link
