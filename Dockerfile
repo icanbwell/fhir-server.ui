@@ -9,6 +9,7 @@ USER node
 
 # Copy package.json to the working directory
 COPY --chown=node:node package.json .
+COPY --chown=node:node yarn.lock .
 
 # Install dependencies
 RUN yarn install

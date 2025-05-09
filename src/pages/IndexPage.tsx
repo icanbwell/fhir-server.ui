@@ -135,9 +135,16 @@ const IndexPage = ({ search }: { search?: boolean }) => {
 
     function downloadFile() {
         const csvUrl = window.location.href;
+        console.info('csvUrl', csvUrl);
+        // replace serverUrl with fhirUrl
+        const serverUrl = new URL(csvUrl);
+        console.info('fhirUrl', fhirUrl);
+        const fhirUri = new URL(fhirUrl);
+        serverUrl.hostname = fhirUri?.hostname || '';
         const a = document.createElement('a');
-        a.href = csvUrl;
-        a.download = 'data.csv';
+        console.info('serverUrl', serverUrl);
+        a.href = serverUrl.toString();
+        a.download = 'data.zip';
         document.body.appendChild(a);
         a.click();
         a.remove();
