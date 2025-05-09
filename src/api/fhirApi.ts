@@ -25,21 +25,16 @@ interface GetUrlParams {
 class FhirApi extends BaseApi {
     async getResource({ id, resourceType }: GetResourceParams) {
         const urlString = `/4_0_0/${resourceType}/${id}/`;
-        return await this.getData({ urlString });
+        return await this.getData({urlString});
     }
 
-    async getResponseAsync({
+    async getBundleAsync({
         resourceType,
         id,
         queryString,
         queryParameters,
         operation,
-    }: GetBundleAsyncParams): Promise<{
-        status: number;
-        json: any;
-        contentType: string | undefined;
-        contentDisposition: string | undefined;
-    }> {
+    }: GetBundleAsyncParams): Promise<{ status: number; json: any }> {
         const url = this.getUrl({
             resourceType,
             id,
@@ -47,18 +42,14 @@ class FhirApi extends BaseApi {
             queryParameters,
             operation,
         });
-        return await this.getData({ urlString: url.toString() });
+        return await this.getData({urlString: url.toString()});
     }
 
     addMissingRequiredParams({
         queryParams,
         id,
-        resourceType,
-    }: {
-        queryParams: URLSearchParams;
-        id?: string;
-        resourceType: string;
-    }) {
+        resourceType
+    }: { queryParams: URLSearchParams; id?: string, resourceType: string }) {
         if (!id && !queryParams.has('_count')) {
             queryParams.append('_count', '10');
         }
@@ -74,7 +65,13 @@ class FhirApi extends BaseApi {
         return queryParams;
     }
 
-    getUrl({ resourceType, id, queryString, queryParameters, operation }: GetUrlParams): URL {
+    getUrl({
+        resourceType,
+        id,
+        queryString,
+        queryParameters,
+        operation,
+    }: GetUrlParams): URL {
         let urlString = `/4_0_0/${resourceType}`;
         if (id) {
             urlString += `/${id}`;

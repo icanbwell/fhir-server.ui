@@ -1,5 +1,5 @@
 import React from 'react';
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 import { InternalAxiosRequestConfig } from 'axios';
 import { getLocalData, removeLocalData } from '../utils/localData.utils';
 import { TUserDetails } from '../types/baseTypes';
@@ -11,16 +11,14 @@ interface GetDataParams {
 
 class BaseApi {
     private readonly fhirUrl: string | undefined;
-    private readonly setUserDetails:
-        | React.Dispatch<React.SetStateAction<TUserDetails | null>>
-        | undefined;
+    private readonly setUserDetails: React.Dispatch<React.SetStateAction<TUserDetails|null>> | undefined;
 
     constructor({
         fhirUrl,
         setUserDetails,
     }: {
         fhirUrl: string | undefined;
-        setUserDetails: React.Dispatch<React.SetStateAction<TUserDetails | null>> | undefined;
+        setUserDetails: React.Dispatch<React.SetStateAction<TUserDetails|null>> | undefined;
     }) {
         this.fhirUrl = fhirUrl;
         this.setUserDetails = setUserDetails;
@@ -45,13 +43,8 @@ class BaseApi {
         }
 
         try {
-            const response: AxiosResponse = await axios.get(url.toString());
-            return {
-                status: response.status,
-                json: response.data,
-                contentType: response.headers['content-type'],
-                contentDisposition: response.headers['content-disposition'],
-            };
+            const response = await axios.get(url.toString());
+            return { status: response.status, json: response.data };
         } catch (err: any) {
             if (err.response?.status === 401 && this.setUserDetails) {
                 removeLocalData('jwt');
