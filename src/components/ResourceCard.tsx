@@ -47,6 +47,9 @@ const ResourceCard = ({
         setOpen(expanded);
     }, [expanded]);
 
+    // List of resource types that should show FileDownload
+    const downloadableResourceTypes = ['Patient', 'Person'];
+
     return (
         <Card key={index}>
             <CardHeader
@@ -59,8 +62,13 @@ const ResourceCard = ({
                 <CardContent>
                     <ResourceItem resourceType={resource.resourceType} resource={resource} />
                     <Json resource={resource} error={error} />
-                    <FileDownload resource={resource} format="text/csv" />
-                    <FileDownload resource={resource} format="application/vnd.ms-excel" />
+                    {/* Conditionally render FileDownload based on resource type */}
+                    {resource.resourceType && downloadableResourceTypes.includes(resource.resourceType.toString()) && (
+                        <>
+                            <FileDownload resource={resource} format="text/csv" />
+                            <FileDownload resource={resource} format="application/vnd.ms-excel" />
+                        </>
+                    )}
                 </CardContent>
             </Collapse>
         </Card>
