@@ -172,10 +172,7 @@ const IndexPage = ({ search }: { search?: boolean }) => {
     const handleSearch = (searchFormQuery: any) => {
         const fhirApi = new FhirApi({ fhirUrl, setUserDetails });
 
-        /**
-         * @type {URL}
-         */
-        const newUrl = fhirApi.getUrl({
+        const newUrl: URL = fhirApi.getUrl({
             resourceType: resourceType,
             id: id,
             queryParameters: searchFormQuery.getQueryParameters(),

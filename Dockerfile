@@ -1,4 +1,4 @@
-FROM node:20.11.1-bookworm-slim
+FROM node:20.19.1-bookworm-slim
 
 # Set the working directory inside the container
 RUN mkdir -p /app && chown node:node /app
@@ -9,9 +9,10 @@ USER node
 
 # Copy package.json to the working directory
 COPY --chown=node:node package.json .
+COPY --chown=node:node yarn.lock .
 
 # Install dependencies
-RUN yarn install
+RUN yarn install --frozen-lockfile
 
 # Copy the rest of the application files to the working directory
 COPY --chown=node:node . .

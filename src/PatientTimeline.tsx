@@ -1,8 +1,11 @@
 import React from 'react';
 import {
-  VerticalTimeline,
-  VerticalTimelineElement,
+  VerticalTimeline as OriginalVerticalTimeline,
+  VerticalTimelineElement as OriginalVerticalTimelineElement,
 } from 'react-vertical-timeline-component';
+// set to any: https://github.com/stephane-monnot/react-vertical-timeline/issues/171
+const VerticalTimeline: any = OriginalVerticalTimeline;
+const VerticalTimelineElement: any = OriginalVerticalTimelineElement;
 import 'react-vertical-timeline-component/style.min.css';
 import MedicalInformationIcon from '@mui/icons-material/MedicalInformation';
 import SettingsAccessibilityIcon from '@mui/icons-material/SettingsAccessibility';
