@@ -22,7 +22,7 @@ const FileDownload: React.FC<FileDownloadProps> = ({ resource, error }) => {
 
     const pathName = error
         ? window.location.pathname
-        : `/4_0_0/${resource.resourceType}/${resource.id}`;
+        : `/4_0_0/${resource.resourceType}/${resource.id}/$summary`;
 
     let downloadUrl = `${pathName}?${queryParams.toString()}`;
     // console.info('downloadUrl', downloadUrl);
