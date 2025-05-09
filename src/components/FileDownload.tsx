@@ -31,13 +31,21 @@ const FileDownload: React.FC<FileDownloadProps> = ({ resource, error }) => {
     // console.info('downloadUrl', downloadUrl);
 
     const extractFilenameFromHeader = (contentDisposition: string): string => {
-        const filenameMatch = contentDisposition.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/i);
-
-        if (filenameMatch && filenameMatch[1]) {
-            return filenameMatch[1].replace(/['"]/g, '');
+        // Extract filename
+        let filename = null;
+        if (contentDisposition && contentDisposition.includes('filename=')) {
+            const filenameMatch = contentDisposition.split('filename=')[1];
+            filename = filenameMatch.split(';')[0].trim().replace(/"/g, ''); // Remove quotes
+        } else if (contentDisposition && contentDisposition.includes('filename*=')) {
+            const filenameMatch = contentDisposition.split("filename*=UTF-8''")[1];
+            filename = decodeURIComponent(filenameMatch.split(';')[0].trim());
         }
 
-        return `${resource.resourceType}-${resource.id}.json`;
+        if (filename) {
+            return filename;
+        }
+
+        return `${resource.resourceType}-${resource.id}.zip`;
     };
 
     const downloadFile = async (e: React.MouseEvent): Promise<void> => {
@@ -64,7 +72,7 @@ const FileDownload: React.FC<FileDownloadProps> = ({ resource, error }) => {
     return (
         <React.Fragment>
             <Typography variant="h4">
-                Download JSON
+                Download Summary
                 {isLoading && <CircularProgress size={16} sx={{ ml: 1 }} />}
             </Typography>
             <Link
