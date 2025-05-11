@@ -48,7 +48,7 @@ const ResourceCard = ({
     }, [expanded]);
 
     // List of resource types that should show FileDownload
-    const downloadableResourceTypes = ['Patient', 'Person'];
+    const downloadableResourceTypes = ['Patient', 'Person', 'Practitioner'];
 
     return (
         <Card key={index}>
