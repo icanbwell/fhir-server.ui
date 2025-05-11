@@ -9,26 +9,14 @@ import EnvironmentContext from '../context/EnvironmentContext';
 interface FileDownloadProps {
     relativeUrl?: string;
     format: string;
-    error?: boolean;
 }
 
-const FileDownload: React.FC<FileDownloadProps> = ({ relativeUrl, format, error }) => {
+const FileDownload: React.FC<FileDownloadProps> = ({ relativeUrl, format }) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const { fhirUrl } = useContext(EnvironmentContext);
 
-    // Construct the URL with query parameters
-    const queryParams = new URLSearchParams(error ? window.location.search : '');
-    queryParams.set('_format', format);
-
-    const pathName = error
-        ? window.location.pathname
-        : relativeUrl;
-
-    let downloadUrl = `${pathName}?${queryParams.toString()}`;
-    // console.info('downloadUrl', downloadUrl);
-    // console.info('fhirUrl', fhirUrl);
-    downloadUrl = fhirUrl + downloadUrl;
-    // console.info('downloadUrl', downloadUrl);
+    const downloadUri: URL = new URL(fhirUrl, relativeUrl);
+    downloadUri.searchParams.set('_format', format);
 
     const extractFilenameFromHeader = (contentDisposition: string): string | undefined => {
         // Extract filename
@@ -52,7 +40,7 @@ const FileDownload: React.FC<FileDownloadProps> = ({ relativeUrl, format, error 
         e.preventDefault();
         setIsLoading(true);
         try {
-            const response: AxiosResponse<Blob> = await axios.get(downloadUrl, {
+            const response: AxiosResponse<Blob> = await axios.get(downloadUri.toString(), {
                 responseType: 'blob',
             });
 
@@ -91,7 +79,7 @@ const FileDownload: React.FC<FileDownloadProps> = ({ relativeUrl, format, error 
                 }}
             >
                 <DownloadIcon fontSize="small" />
-                {downloadUrl}
+                {downloadUri.toString()}
             </Link>
         </React.Fragment>
     );
