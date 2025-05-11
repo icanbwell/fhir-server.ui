@@ -4,16 +4,15 @@ import { Link, CircularProgress } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import axios, { AxiosResponse } from 'axios';
 import { saveAs } from 'file-saver';
-import { TResource } from '../types/resources/Resource';
 import EnvironmentContext from '../context/EnvironmentContext';
 
 interface FileDownloadProps {
-    resource: TResource;
+    relativeUrl?: string;
     format: string;
     error?: boolean;
 }
 
-const FileDownload: React.FC<FileDownloadProps> = ({ resource, format, error }) => {
+const FileDownload: React.FC<FileDownloadProps> = ({ relativeUrl, format, error }) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const { fhirUrl } = useContext(EnvironmentContext);
 
@@ -23,7 +22,7 @@ const FileDownload: React.FC<FileDownloadProps> = ({ resource, format, error }) 
 
     const pathName = error
         ? window.location.pathname
-        : `/4_0_0/${resource.resourceType}/${resource.id}/$summary`;
+        : relativeUrl;
 
     let downloadUrl = `${pathName}?${queryParams.toString()}`;
     // console.info('downloadUrl', downloadUrl);
@@ -31,9 +30,9 @@ const FileDownload: React.FC<FileDownloadProps> = ({ resource, format, error }) 
     downloadUrl = fhirUrl + downloadUrl;
     // console.info('downloadUrl', downloadUrl);
 
-    const extractFilenameFromHeader = (contentDisposition: string): string => {
+    const extractFilenameFromHeader = (contentDisposition: string): string | undefined => {
         // Extract filename
-        let filename = null;
+        let filename: string | undefined;
         if (contentDisposition && contentDisposition.includes('filename=')) {
             const filenameMatch = contentDisposition.split('filename=')[1];
             filename = filenameMatch.split(';')[0].trim().replace(/"/g, ''); // Remove quotes
@@ -46,7 +45,7 @@ const FileDownload: React.FC<FileDownloadProps> = ({ resource, format, error }) 
             return filename;
         }
 
-        return `${resource.resourceType}-${resource.id}.zip`;
+        return undefined;
     };
 
     const downloadFile = async (e: React.MouseEvent): Promise<void> => {
@@ -58,9 +57,12 @@ const FileDownload: React.FC<FileDownloadProps> = ({ resource, format, error }) 
             });
 
             const contentDisposition = response.headers['content-disposition'];
-            const filename = contentDisposition
-                ? extractFilenameFromHeader(contentDisposition)
-                : `${resource.resourceType}-${resource.id}.json`;
+            if (!contentDisposition) {
+                console.error('Content-Disposition header not found');
+                setIsLoading(false);
+                return;
+            }
+            const filename = extractFilenameFromHeader(contentDisposition);
 
             saveAs(response.data, filename);
             setIsLoading(false);
@@ -73,7 +75,7 @@ const FileDownload: React.FC<FileDownloadProps> = ({ resource, format, error }) 
     return (
         <React.Fragment>
             <Typography variant="h4">
-                Download Summary ({format === 'text/csv' ? 'csv' : 'Excel'})
+                Download ({format === 'text/csv' ? 'csv' : 'Excel'})
                 {isLoading && <CircularProgress size={16} sx={{ ml: 1 }} />}
             </Typography>
             <Link

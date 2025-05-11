@@ -1,6 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { Accordion, Alert, AlertTitle, Box, Button, Container, LinearProgress } from '@mui/material';
+import {
+    Accordion,
+    Alert,
+    AlertTitle,
+    Box,
+    Button,
+    Container,
+    LinearProgress,
+} from '@mui/material';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -14,6 +22,7 @@ import PreJson from '../components/PreJson';
 import EnvironmentContext from '../context/EnvironmentContext';
 import { TBundle } from '../types/resources/Bundle';
 import UserContext from '../context/UserContext';
+import FileDownload from '../components/FileDownload';
 
 /**
  * IndexPage/home/ubuntu/Documents/code/EFS/fhir-server/src/pages/SearchPage.jsx
@@ -45,6 +54,7 @@ const IndexPage = ({ search }: { search?: boolean }) => {
     const queryString = location.search;
     const shouldBeJsonFormat =
         (new URLSearchParams(queryString || '').get('_format') || '').toLowerCase() === 'json';
+
     function getBox() {
         if (loading) {
             return <LinearProgress />;
@@ -58,12 +68,26 @@ const IndexPage = ({ search }: { search?: boolean }) => {
         // If narrative is returned then show it at top level
         return (
             <>
-                {resources?.length > 1 &&
-                    <Box display='flex' justifyContent='end'>
-                        <Button onClick={() => {setExpandAll(true); setCollapseAll(false);}}>Expand All</Button>
-                        <Button onClick={() => {setExpandAll(false); setCollapseAll(true);}}>Collapse All</Button>
+                {resources?.length > 1 && (
+                    <Box display="flex" justifyContent="end">
+                        <Button
+                            onClick={() => {
+                                setExpandAll(true);
+                                setCollapseAll(false);
+                            }}
+                        >
+                            Expand All
+                        </Button>
+                        <Button
+                            onClick={() => {
+                                setExpandAll(false);
+                                setCollapseAll(true);
+                            }}
+                        >
+                            Collapse All
+                        </Button>
                     </Box>
-                }
+                )}
                 {/* if we have a single resource*/}
                 {resources && resources.length === 1 && resources[0].text?.div && (
                     <Alert severity="success">
@@ -99,6 +123,7 @@ const IndexPage = ({ search }: { search?: boolean }) => {
                         />
                     );
                 })}
+                <FileDownload relativeUrl={useLocation().pathname + useLocation().search} format="application/vnd.ms-excel" />
             </>
         );
     }
@@ -198,10 +223,15 @@ const IndexPage = ({ search }: { search?: boolean }) => {
                         aria-controls={'searchCollapse'}
                         id={'searchAccordion'}
                     >
-                        <Typography variant="h5" sx={{ ml: 1 }}>Search</Typography>
+                        <Typography variant="h5" sx={{ ml: 1 }}>
+                            Search
+                        </Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                        <SearchContainer resourceType={resourceType} onSearch={handleSearch}></SearchContainer>
+                        <SearchContainer
+                            resourceType={resourceType}
+                            onSearch={handleSearch}
+                        ></SearchContainer>
                     </AccordionDetails>
                 </Accordion>
                 <Box my={2}>{getBox()}</Box>
