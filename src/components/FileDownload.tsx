@@ -7,7 +7,7 @@ import { saveAs } from 'file-saver';
 import EnvironmentContext from '../context/EnvironmentContext';
 
 interface FileDownloadProps {
-    relativeUrl?: string;
+    relativeUrl: string;
     format: string;
 }
 
@@ -15,7 +15,7 @@ const FileDownload: React.FC<FileDownloadProps> = ({ relativeUrl, format }) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const { fhirUrl } = useContext(EnvironmentContext);
 
-    const downloadUri: URL = new URL(fhirUrl, relativeUrl);
+    const downloadUri: URL = new URL(relativeUrl, fhirUrl);
     downloadUri.searchParams.set('_format', format);
 
     const extractFilenameFromHeader = (contentDisposition: string): string | undefined => {
@@ -51,7 +51,11 @@ const FileDownload: React.FC<FileDownloadProps> = ({ relativeUrl, format }) => {
                 return;
             }
             const filename = extractFilenameFromHeader(contentDisposition);
-
+            if (!filename) {
+                console.error('Filename not found in Content-Disposition header');
+                setIsLoading(false);
+                return;
+            }
             saveAs(response.data, filename);
             setIsLoading(false);
         } catch (error1: unknown) {
