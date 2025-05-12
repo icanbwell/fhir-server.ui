@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Typography, Box } from '@mui/material';
+import { Typography, Box, Paper } from '@mui/material';
 import SpreadsheetViewer from '../components/SpreadsheetViewer';
 
 const ExcelViewerPage: React.FC = () => {
@@ -11,7 +11,6 @@ const ExcelViewerPage: React.FC = () => {
     }>();
 
     const [relativeUrl, setRelativeUrl] = useState<string>('');
-    const [viewSpreadsheet, setViewSpreadsheet] = useState<boolean>(false);
 
     // Construct relative URL based on route parameters
     useEffect(() => {
@@ -27,40 +26,53 @@ const ExcelViewerPage: React.FC = () => {
             }
 
             setRelativeUrl(url);
-            setViewSpreadsheet(true);
         }
     }, [resourceType, id, operation]);
 
     return (
         <Box
             sx={{
-                width: '100%',
+                width: '100%', // Full width
                 height: '100vh',
                 display: 'flex',
                 flexDirection: 'column',
-                p: 2,
+                overflow: 'auto', // Allow scrolling if needed
+                margin: 0,
+                padding: 0,
                 boxSizing: 'border-box',
             }}
         >
-            <Typography variant="h4" gutterBottom>
-                Excel Viewer: {resourceType} {id ? `- ${id}` : ''}{' '}
-                {operation ? `(${operation})` : ''}
-            </Typography>
+            <Paper
+                elevation={0}
+                sx={{
+                    p: 2,
+                    borderBottom: '1px solid rgba(0,0,0,0.12)',
+                    width: '100%',
+                    boxSizing: 'border-box',
+                }}
+            >
+                <Typography variant="h4">
+                    Excel Viewer: {resourceType} {id ? `- ${id}` : ''}{' '}
+                    {operation ? `(${operation})` : ''}
+                </Typography>
+            </Paper>
 
-            {viewSpreadsheet && (
-                <Box
-                    sx={{
-                        flex: 1,
-                        overflow: 'hidden',
-                        width: '100%',
-                    }}
-                >
+            <Box
+                sx={{
+                    flex: 1,
+                    width: '100%',
+                    overflowX: 'auto', // Horizontal scrolling
+                    overflowY: 'hidden',
+                    position: 'relative',
+                }}
+            >
+                {relativeUrl && (
                     <SpreadsheetViewer
                         relativeUrl={relativeUrl}
                         format="application/vnd.ms-excel"
                     />
-                </Box>
-            )}
+                )}
+            </Box>
         </Box>
     );
 };
