@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Box } from '@mui/material';
 import SpreadsheetViewer from '../components/SpreadsheetViewer';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 const ExcelViewerPage: React.FC = () => {
     const { resourceType, id, operation } = useParams<{
@@ -70,6 +71,7 @@ const ExcelViewerPage: React.FC = () => {
                     />
                 )}
             </Box>
+            <Footer/>
         </Box>
     );
 };
