@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Link, Alert } from '@mui/material';
+import { Link, Alert, Tooltip } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import axios, { AxiosResponse } from 'axios';
 import { saveAs } from 'file-saver';
@@ -57,7 +57,9 @@ const FileDownload: React.FC<FileDownloadProps> = ({ relativeUrl, format }) => {
             setIsLoading(false);
         } catch (error1: unknown) {
             console.error('Error downloading the file:', error1);
-            setErrorMessage(`An error occurred while downloading the file: ${(error1 as Error).message}`);
+            setErrorMessage(
+                `An error occurred while downloading the file: ${(error1 as Error).message}`
+            );
             setIsLoading(false);
         }
     };
@@ -69,20 +71,22 @@ const FileDownload: React.FC<FileDownloadProps> = ({ relativeUrl, format }) => {
                     {errorMessage}
                 </Alert>
             )}
-            <Link
-                component="button"
-                onClick={downloadFile}
-                disabled={isLoading}
-                sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 1,
-                    cursor: isLoading ? 'not-allowed' : 'pointer',
-                    opacity: isLoading ? 0.5 : 1,
-                }}
-            >
-                <DownloadIcon fontSize="small" />
-            </Link>
+            <Tooltip title="Download" arrow>
+                <Link
+                    component="button"
+                    onClick={downloadFile}
+                    disabled={isLoading}
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 1,
+                        cursor: isLoading ? 'not-allowed' : 'pointer',
+                        opacity: isLoading ? 0.5 : 1,
+                    }}
+                >
+                    <DownloadIcon fontSize="small" />
+                </Link>
+            </Tooltip>
         </React.Fragment>
     );
 };
