@@ -116,6 +116,7 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                         headerName: String(header),
                         field: `col${index}`,
                         width: 150,
+                        editable: false
                     }));
 
                     // Transform data rows
