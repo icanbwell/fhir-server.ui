@@ -13,7 +13,8 @@ import EnvironmentContext from '../context/EnvironmentContext';
 // Import ModuleRegistry and the required module
 import {
     ModuleRegistry,
-    AllCommunityModule, // or AllEnterpriseModule
+    AllCommunityModule,
+    themeBalham
 } from 'ag-grid-community';
 
 // Register the module
@@ -122,7 +123,7 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
             }
         };
 
-        fetchSpreadsheetData();
+        fetchSpreadsheetData().then(r => r);
     }, [relativeUrl]);
 
     // AG-Grid default options
@@ -192,18 +193,19 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
 
             {/* AG-Grid Spreadsheet */}
             <Box
-                className="ag-theme-alpine"
                 sx={{
                     height: 'calc(100vh - 200px)',
                     width: '100%',
                 }}
             >
                 <AgGridReact
+                    theme={themeBalham}
                     columnDefs={sheets[`${activeSheet}`].columnDefs}
                     rowData={sheets[`${activeSheet}`].rowData}
                     defaultColDef={defaultColDef}
                     pagination={true}
                     paginationPageSize={100}
+                    sideBar
                 />
             </Box>
         </Box>
