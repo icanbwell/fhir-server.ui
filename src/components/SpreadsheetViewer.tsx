@@ -80,6 +80,12 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                     };
                 });
 
+                // Log parsed sheet names
+                console.log(
+                    'Parsed Sheet Names:',
+                    parsedSheets.map((sheet) => sheet.name)
+                );
+
                 setSheets(parsedSheets);
                 setIsLoading(false);
             } catch (error) {
@@ -137,7 +143,10 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                         key={index}
                         variant={activeSheet === index ? 'contained' : 'outlined'}
                         onClick={() => setActiveSheet(index)}
-                        sx={{ flexShrink: 0 }}
+                        sx={{
+                            flexShrink: 0,
+                            textTransform: 'none', // This prevents automatic text transformation
+                        }}
                     >
                         {sheet.name} ({sheet.data.length - 1})
                     </Button>
