@@ -7,12 +7,32 @@ import { Typography, Box, CircularProgress, Alert, Tabs, Tab } from '@mui/materi
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import EnvironmentContext from '../context/EnvironmentContext';
-// Import ModuleRegistry and the required module
-import { ModuleRegistry, AllCommunityModule, themeBalham } from 'ag-grid-community';
+import {
+    ModuleRegistry,
+    ColumnAutoSizeModule,
+    ColumnHoverModule,
+    RowAutoHeightModule,
+    RowStyleModule,
+    TooltipModule,
+    TextFilterModule,
+    NumberFilterModule,
+    DateFilterModule,
+    QuickFilterModule,
+    ClientSideRowModelModule,
+} from 'ag-grid-community';
+import {themeBalham } from 'ag-grid-community';
 
-// Register the module
 ModuleRegistry.registerModules([
-    AllCommunityModule, // or AllEnterpriseModule
+    ColumnAutoSizeModule,
+    ColumnHoverModule,
+    RowAutoHeightModule,
+    RowStyleModule,
+    TooltipModule,
+    TextFilterModule,
+    NumberFilterModule,
+    DateFilterModule,
+    QuickFilterModule,
+    ClientSideRowModelModule,
 ]);
 
 // Type definitions
@@ -208,7 +228,6 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                     columnDefs={sheets[`${activeSheet}`].columnDefs}
                     rowData={sheets[`${activeSheet}`].rowData}
                     defaultColDef={defaultColDef}
-                    sideBar
                 />
             </Box>
         </Box>
