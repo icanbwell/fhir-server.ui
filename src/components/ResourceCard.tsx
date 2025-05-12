@@ -75,8 +75,8 @@ const ResourceCard = ({
                                     relativeUrl={`/4_0_0/${resource.resourceType}/${resource.id}/$summary`}
                                     format="application/vnd.ms-excel"
                                 />
-                                <Link to="/excel/4_0_0/Patient/patient1/$summary">
-                                    View Patient Excel
+                                <Link to={`/excel/4_0_0/${resource.resourceType}/${resource.id}/$summary`}>
+                                    {`/excel/4_0_0/${resource.resourceType}/${resource.id}/$summary`}
                                 </Link>
                             </>
                         )}
