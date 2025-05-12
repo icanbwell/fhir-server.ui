@@ -3,9 +3,6 @@ import { AgGridReact } from 'ag-grid-react';
 import * as XLSX from 'xlsx';
 import axios, { AxiosResponse } from 'axios';
 import { Typography, Box, CircularProgress, Alert, Tabs, Tab } from '@mui/material';
-// AG-Grid styles
-import 'ag-grid-community/styles/ag-grid.css';
-import 'ag-grid-community/styles/ag-theme-alpine.css';
 import EnvironmentContext from '../context/EnvironmentContext';
 import {
     ModuleRegistry,
