@@ -115,7 +115,6 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                     const columnDefs = headers.map((header, index) => ({
                         headerName: String(header),
                         field: `col${index}`,
-                        width: 150,
                         editable: false,
                         filter: true,
                         floatingFilter: true,
