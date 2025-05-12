@@ -18,6 +18,7 @@ import {
     ClientSideRowModelModule,
 } from 'ag-grid-community';
 import { themeBalham } from 'ag-grid-community';
+import FileDownload from './FileDownload';
 
 ModuleRegistry.registerModules([
     ColumnAutoSizeModule,
@@ -191,32 +192,41 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
             }}
         >
             {/* Sheet Tabs */}
-            <Tabs
-                ref={tabsRef}
-                value={activeSheet}
-                onChange={(e, newValue) => setActiveSheet(newValue)}
-                variant="scrollable"
-                scrollButtons="auto"
+            <Box
                 sx={{
+                    display: 'flex',
+                    alignItems: 'center',
                     borderBottom: 1,
                     borderColor: 'divider',
                     mb: 2,
-                    height: '28px'
+                    height: '28px',
                 }}
             >
-                {sheets.map((sheet, index) => (
-                    <Tab
-                        key={index}
-                        label={`${sheet.name} (${sheet.rowData.length})`}
-                        sx={{
-                            textTransform: 'none',
-                            minWidth: 'auto',
-                            padding: '6px 12px',
-                        }}
-                    />
-                ))}
-            </Tabs>
+                <Tabs
+                    ref={tabsRef}
+                    value={activeSheet}
+                    onChange={(e, newValue) => setActiveSheet(newValue)}
+                    variant="scrollable"
+                    scrollButtons="auto"
+                    sx={{
+                        flexGrow: 1,
+                    }}
+                >
+                    {sheets.map((sheet, index) => (
+                        <Tab
+                            key={index}
+                            label={`${sheet.name} (${sheet.rowData.length})`}
+                            sx={{
+                                textTransform: 'none',
+                                minWidth: 'auto',
+                                padding: '6px 12px',
+                            }}
+                        />
+                    ))}
+                </Tabs>
 
+                <FileDownload relativeUrl={relativeUrl} format="application/vnd.ms-excel" />
+            </Box>
             <Box
                 sx={{
                     flexGrow: 1, // This makes the grid take up remaining space

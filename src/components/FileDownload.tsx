@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react';
-import Typography from '@mui/material/Typography';
-import { Link, CircularProgress, Alert } from '@mui/material';
+import { Link, Alert } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import axios, { AxiosResponse } from 'axios';
 import { saveAs } from 'file-saver';
@@ -65,10 +64,6 @@ const FileDownload: React.FC<FileDownloadProps> = ({ relativeUrl, format }) => {
 
     return (
         <React.Fragment>
-            <Typography variant="h4">
-                Download ({format === 'text/csv' ? 'csv' : 'Excel'})
-                {isLoading && <CircularProgress size={16} sx={{ ml: 1 }} />}
-            </Typography>
             {errorMessage && (
                 <Alert severity="error" sx={{ my: 2 }}>
                     {errorMessage}
@@ -87,7 +82,6 @@ const FileDownload: React.FC<FileDownloadProps> = ({ relativeUrl, format }) => {
                 }}
             >
                 <DownloadIcon fontSize="small" />
-                {downloadUri.toString()}
             </Link>
         </React.Fragment>
     );
