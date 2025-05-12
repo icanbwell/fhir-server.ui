@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Typography, Box, Paper } from '@mui/material';
 import SpreadsheetViewer from '../components/SpreadsheetViewer';
+import { Box } from '@mui/material';
 
 const ExcelViewerPage: React.FC = () => {
     const { resourceType, id, operation } = useParams<{
@@ -37,25 +37,11 @@ const ExcelViewerPage: React.FC = () => {
                 display: 'flex',
                 flexDirection: 'column',
                 overflow: 'auto', // Allow scrolling if needed
-                margin: 0,
                 padding: 0,
                 boxSizing: 'border-box',
+                margin: '2pt',
             }}
         >
-            <Paper
-                elevation={0}
-                sx={{
-                    p: 2,
-                    borderBottom: '1px solid rgba(0,0,0,0.12)',
-                    width: '100%',
-                    boxSizing: 'border-box',
-                }}
-            >
-                <Typography variant="h4">
-                    Excel Viewer: {resourceType} {id ? `- ${id}` : ''}{' '}
-                    {operation ? `(${operation})` : ''}
-                </Typography>
-            </Paper>
 
             <Box
                 sx={{
