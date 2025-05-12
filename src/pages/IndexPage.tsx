@@ -123,7 +123,7 @@ const IndexPage = ({ search }: { search?: boolean }) => {
                         />
                     );
                 })}
-                <FileDownload relativeUrl={useLocation().pathname + useLocation().search} format="application/vnd.ms-excel" />
+                <FileDownload relativeUrl={location.pathname + location.search} format="application/vnd.ms-excel" />
             </>
         );
     }
