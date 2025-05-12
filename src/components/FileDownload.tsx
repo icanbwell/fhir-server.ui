@@ -47,6 +47,7 @@ const FileDownload: React.FC<FileDownloadProps> = ({ relativeUrl, format }) => {
             const contentDisposition = response.headers['content-disposition'];
             if (!contentDisposition) {
                 console.error('Content-Disposition header not found');
+                setErrorMessage('Failed to download the file: Missing Content-Disposition header.');
                 setIsLoading(false);
                 return;
             }
