@@ -50,7 +50,6 @@ interface SheetData {
 const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, format }) => {
     // Ref for tabs to measure height
     const tabsRef = useRef<HTMLDivElement>(null);
-    const [tabsHeight, setTabsHeight] = useState(48); // Default height
 
     // State management
     const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -64,13 +63,6 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
     // Construct download URL
     const downloadUri: URL = new URL(relativeUrl, fhirUrl);
     downloadUri.searchParams.set('_format', format);
-
-    // Effect to measure tabs height
-    useEffect(() => {
-        if (tabsRef.current) {
-            setTabsHeight(tabsRef.current.clientHeight);
-        }
-    }, [sheets]); // Recalculate when sheets change
 
     // Fetch and parse spreadsheet
     useEffect(() => {
@@ -104,7 +96,7 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                         header: 1,
                         raw: true,
                         rawNumbers: true,
-                        UTC: true
+                        UTC: true,
                     });
 
                     // Extract headers and data
@@ -190,7 +182,14 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
 
     // Main render
     return (
-        <Box sx={{ width: '100%', height: '100%' }}>
+        <Box
+            sx={{
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+            }}
+        >
             {/* Sheet Tabs */}
             <Tabs
                 ref={tabsRef}
@@ -202,6 +201,7 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                     borderBottom: 1,
                     borderColor: 'divider',
                     mb: 2,
+                    height: '28px'
                 }}
             >
                 {sheets.map((sheet, index) => (
@@ -217,13 +217,13 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                 ))}
             </Tabs>
 
-            {/* AG-Grid Spreadsheet */}
             <Box
                 sx={{
-                    height: `calc(100vh - ${tabsHeight + 16}px)`, // 16px for additional margin
+                    flexGrow: 1, // This makes the grid take up remaining space
                     width: '100%',
                 }}
             >
+                {/* AG-Grid Spreadsheet */}
                 <AgGridReact
                     theme={themeBalham}
                     columnDefs={sheets[`${activeSheet}`].columnDefs}

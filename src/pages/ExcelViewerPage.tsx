@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Box } from '@mui/material';
 import SpreadsheetViewer from '../components/SpreadsheetViewer';
+import Header from '../components/Header';
 
 const ExcelViewerPage: React.FC = () => {
     const { resourceType, id, operation } = useParams<{
@@ -52,6 +53,7 @@ const ExcelViewerPage: React.FC = () => {
                 boxSizing: 'border-box',
             }}
         >
+            <Header />
             <Box
                 sx={{
                     flex: 1,
