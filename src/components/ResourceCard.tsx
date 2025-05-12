@@ -3,8 +3,8 @@ import { Button, Card, CardContent, CardHeader, Collapse } from '@mui/material';
 import ResourceItem from './ResourceItem';
 import Json from './Json';
 import { TResource } from '../types/resources/Resource';
-import FileDownload from './FileDownload';
 import { Link } from 'react-router-dom';
+import Typography from '@mui/material/Typography';
 
 type TResourceCardProps = {
     index: number;
@@ -67,15 +67,12 @@ const ResourceCard = ({
                     {resource.resourceType &&
                         downloadableResourceTypes.includes(resource.resourceType.toString()) && (
                             <>
-                                <FileDownload
-                                    relativeUrl={`/4_0_0/${resource.resourceType}/${resource.id}/$summary`}
-                                    format="text/csv"
-                                />
-                                <FileDownload
-                                    relativeUrl={`/4_0_0/${resource.resourceType}/${resource.id}/$summary`}
-                                    format="application/vnd.ms-excel"
-                                />
-                                <Link to={`/excel/4_0_0/${resource.resourceType}/${resource.id}/$summary`}>
+                                <Typography variant="h4">
+                                    Open as Spreadsheet Online
+                                </Typography>
+                                <Link
+                                    to={`/excel/4_0_0/${resource.resourceType}/${resource.id}/$summary`}
+                                >
                                     {`/excel/4_0_0/${resource.resourceType}/${resource.id}/$summary`}
                                 </Link>
                             </>
