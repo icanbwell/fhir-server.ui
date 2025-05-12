@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import Spreadsheet from 'react-spreadsheet';
 import * as XLSX from 'xlsx';
 import axios, { AxiosResponse } from 'axios';
-import { Typography, Box, CircularProgress, Alert, Button, Stack } from '@mui/material';
+import { Typography, Box, CircularProgress, Alert, Tabs, Tab } from '@mui/material';
 import EnvironmentContext from '../context/EnvironmentContext';
 
 // Type definitions
@@ -129,29 +129,30 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
     return (
         <Box sx={{ width: '100%' }}>
             {/* Sheet Tabs */}
-            <Stack
-                direction="row"
-                spacing={2}
+            {/* Sheet Tabs */}
+            <Tabs
+                value={activeSheet}
+                onChange={(e, newValue) => setActiveSheet(newValue)}
+                variant="scrollable"
+                scrollButtons="auto"
                 sx={{
+                    borderBottom: 1,
+                    borderColor: 'divider',
                     mb: 2,
-                    overflowX: 'auto',
-                    maxWidth: '100%',
                 }}
             >
                 {sheets.map((sheet, index) => (
-                    <Button
+                    <Tab
                         key={index}
-                        variant={activeSheet === index ? 'contained' : 'outlined'}
-                        onClick={() => setActiveSheet(index)}
+                        label={`${sheet.name} (${sheet.data.length - 1})`}
                         sx={{
-                            flexShrink: 0,
-                            textTransform: 'none', // This prevents automatic text transformation
+                            textTransform: 'none',
+                            minWidth: 'auto',
+                            padding: '6px 12px',
                         }}
-                    >
-                        {sheet.name} ({sheet.data.length - 1})
-                    </Button>
+                    />
                 ))}
-            </Stack>
+            </Tabs>
 
             {/* Spreadsheet */}
             <Spreadsheet
