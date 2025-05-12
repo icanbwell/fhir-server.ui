@@ -1,21 +1,14 @@
-import React, { useContext, useState, useEffect, useMemo } from 'react';
+import React, { useContext, useState, useEffect, useMemo, useRef } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import * as XLSX from 'xlsx';
 import axios, { AxiosResponse } from 'axios';
 import { Typography, Box, CircularProgress, Alert, Tabs, Tab } from '@mui/material';
-
 // AG-Grid styles
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
-
 import EnvironmentContext from '../context/EnvironmentContext';
-
 // Import ModuleRegistry and the required module
-import {
-    ModuleRegistry,
-    AllCommunityModule,
-    themeBalham
-} from 'ag-grid-community';
+import { ModuleRegistry, AllCommunityModule, themeBalham } from 'ag-grid-community';
 
 // Register the module
 ModuleRegistry.registerModules([
@@ -38,6 +31,10 @@ interface SheetData {
 }
 
 const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, format }) => {
+    // Ref for tabs to measure height
+    const tabsRef = useRef<HTMLDivElement>(null);
+    const [tabsHeight, setTabsHeight] = useState(48); // Default height
+
     // State management
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -50,6 +47,13 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
     // Construct download URL
     const downloadUri: URL = new URL(relativeUrl, fhirUrl);
     downloadUri.searchParams.set('_format', format);
+
+    // Effect to measure tabs height
+    useEffect(() => {
+        if (tabsRef.current) {
+            setTabsHeight(tabsRef.current.clientHeight);
+        }
+    }, [sheets]); // Recalculate when sheets change
 
     // Fetch and parse spreadsheet
     useEffect(() => {
@@ -123,7 +127,7 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
             }
         };
 
-        fetchSpreadsheetData().then(r => r);
+        fetchSpreadsheetData().then((r) => r);
     }, [relativeUrl]);
 
     // AG-Grid default options
@@ -168,6 +172,7 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
         <Box sx={{ width: '100%', height: '100%' }}>
             {/* Sheet Tabs */}
             <Tabs
+                ref={tabsRef}
                 value={activeSheet}
                 onChange={(e, newValue) => setActiveSheet(newValue)}
                 variant="scrollable"
@@ -194,7 +199,7 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
             {/* AG-Grid Spreadsheet */}
             <Box
                 sx={{
-                    height: 'calc(100vh - 100px)',
+                    height: `calc(100vh - ${tabsHeight + 16}px)`, // 16px for additional margin
                     width: '100%',
                 }}
             >
