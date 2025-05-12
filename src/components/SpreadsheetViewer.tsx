@@ -1,9 +1,25 @@
-import React, { useContext, useState, useEffect } from 'react';
-import Spreadsheet from 'react-spreadsheet';
+import React, { useContext, useState, useEffect, useMemo } from 'react';
+import { AgGridReact } from 'ag-grid-react';
 import * as XLSX from 'xlsx';
 import axios, { AxiosResponse } from 'axios';
 import { Typography, Box, CircularProgress, Alert, Tabs, Tab } from '@mui/material';
+
+// AG-Grid styles
+import 'ag-grid-community/styles/ag-grid.css';
+import 'ag-grid-community/styles/ag-theme-alpine.css';
+
 import EnvironmentContext from '../context/EnvironmentContext';
+
+// Import ModuleRegistry and the required module
+import {
+    ModuleRegistry,
+    AllCommunityModule, // or AllEnterpriseModule
+} from 'ag-grid-community';
+
+// Register the module
+ModuleRegistry.registerModules([
+    AllCommunityModule, // or AllEnterpriseModule
+]);
 
 // Type definitions
 interface SpreadsheetViewerProps {
@@ -16,7 +32,8 @@ interface SpreadsheetViewerProps {
 
 interface SheetData {
     name: string;
-    data: Array<Array<{ value: string }>>;
+    columnDefs: any[];
+    rowData: any[];
 }
 
 const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, format }) => {
@@ -53,34 +70,44 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                 if (format === 'text/csv') {
                     workbook = XLSX.read(arrayBuffer, { type: 'buffer', codepage: 65001 });
                 } else {
-                    // Works for both 'application/vnd.ms-excel' and 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
                     workbook = XLSX.read(arrayBuffer, { type: 'buffer' });
                 }
 
-                // Transform workbook to our sheet format
+                // Transform workbook to AG-Grid format
                 const parsedSheets: SheetData[] = workbook.SheetNames.map((sheetName) => {
                     const worksheet = workbook.Sheets[`${sheetName}`];
 
                     // Convert worksheet to 2D array
-                    // @ts-ignore
-                    const sheetData: Array<Array<{ value: string }>> = XLSX.utils
-                        .sheet_to_json(worksheet, {
-                            header: 1,
-                            defval: '',
-                        })
-                        .map((row: any) =>
-                            row.map((cell: any) => ({
-                                value: cell !== undefined ? String(cell) : '',
-                            }))
-                        );
+                    const rawData: any[][] = XLSX.utils.sheet_to_json(worksheet, {
+                        header: 1,
+                        defval: '',
+                    });
+
+                    // Extract headers and data
+                    const [headers, ...dataRows] = rawData;
+
+                    // Generate column definitions
+                    const columnDefs = headers.map((header, index) => ({
+                        headerName: String(header),
+                        field: `col${index}`,
+                        width: 150,
+                    }));
+
+                    // Transform data rows
+                    const rowData = dataRows.map((row) =>
+                        row.reduce((acc, cell, index) => {
+                            acc[`col${index}`] = cell !== undefined ? String(cell) : '';
+                            return acc;
+                        }, {})
+                    );
 
                     return {
                         name: sheetName,
-                        data: sheetData,
+                        columnDefs,
+                        rowData,
                     };
                 });
 
-                // Log parsed sheet names
                 console.log(
                     'Parsed Sheet Names:',
                     parsedSheets.map((sheet) => sheet.name)
@@ -95,8 +122,18 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
             }
         };
 
-        fetchSpreadsheetData().then((r) => r);
+        fetchSpreadsheetData();
     }, [relativeUrl]);
+
+    // AG-Grid default options
+    const defaultColDef = useMemo(
+        () => ({
+            resizable: true,
+            sortable: true,
+            filter: true,
+        }),
+        []
+    );
 
     // Loading state
     if (isLoading) {
@@ -127,8 +164,7 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
 
     // Main render
     return (
-        <Box sx={{ width: '100%' }}>
-            {/* Sheet Tabs */}
+        <Box sx={{ width: '100%', height: '100%' }}>
             {/* Sheet Tabs */}
             <Tabs
                 value={activeSheet}
@@ -144,7 +180,7 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                 {sheets.map((sheet, index) => (
                     <Tab
                         key={index}
-                        label={`${sheet.name} (${sheet.data.length - 1})`}
+                        label={`${sheet.name} (${sheet.rowData.length})`}
                         sx={{
                             textTransform: 'none',
                             minWidth: 'auto',
@@ -154,16 +190,22 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                 ))}
             </Tabs>
 
-            {/* Spreadsheet */}
-            <Spreadsheet
-                data={sheets[`${activeSheet}`].data}
-                onChange={(newData) => {
-                    const updatedSheets = [...sheets];
-                    // @ts-ignore
-                    updatedSheets[`${activeSheet}`].data = newData;
-                    setSheets(updatedSheets);
+            {/* AG-Grid Spreadsheet */}
+            <Box
+                className="ag-theme-alpine"
+                sx={{
+                    height: 'calc(100vh - 200px)',
+                    width: '100%',
                 }}
-            />
+            >
+                <AgGridReact
+                    columnDefs={sheets[`${activeSheet}`].columnDefs}
+                    rowData={sheets[`${activeSheet}`].rowData}
+                    defaultColDef={defaultColDef}
+                    pagination={true}
+                    paginationPageSize={100}
+                />
+            </Box>
         </Box>
     );
 };

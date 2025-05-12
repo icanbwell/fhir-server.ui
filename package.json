@@ -39,6 +39,7 @@
     "@types/react-dom": "^18.2.7",
     "@types/react-vertical-timeline-component": "^3.3.6",
     "@types/uuid": "^9.0.8",
+    "ag-grid-react": "^33.2.4",
     "axios": "^1.8.3",
     "babel-jest": "^29.7.0",
     "babel-loader": "^8.2.3",
