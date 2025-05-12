@@ -20,7 +20,7 @@ import {
     QuickFilterModule,
     ClientSideRowModelModule,
 } from 'ag-grid-community';
-import {themeBalham } from 'ag-grid-community';
+import { themeBalham } from 'ag-grid-community';
 
 ModuleRegistry.registerModules([
     ColumnAutoSizeModule,
@@ -116,7 +116,9 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                         headerName: String(header),
                         field: `col${index}`,
                         width: 150,
-                        editable: false
+                        editable: false,
+                        filter: true,
+                        floatingFilter: true,
                     }));
 
                     // Transform data rows
