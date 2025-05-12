@@ -194,7 +194,7 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
             {/* AG-Grid Spreadsheet */}
             <Box
                 sx={{
-                    height: 'calc(100vh - 200px)',
+                    height: 'calc(100vh - 100px)',
                     width: '100%',
                 }}
             >
@@ -203,8 +203,6 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                     columnDefs={sheets[`${activeSheet}`].columnDefs}
                     rowData={sheets[`${activeSheet}`].rowData}
                     defaultColDef={defaultColDef}
-                    pagination={true}
-                    paginationPageSize={100}
                     sideBar
                 />
             </Box>
