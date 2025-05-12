@@ -8,7 +8,10 @@ import EnvironmentContext from '../context/EnvironmentContext';
 // Type definitions
 interface SpreadsheetViewerProps {
     relativeUrl: string;
-    format: 'text/csv' | 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+    format:
+        | 'text/csv'
+        | 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        | 'application/vnd.ms-excel';
 }
 
 interface SheetData {
@@ -50,6 +53,7 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                 if (format === 'text/csv') {
                     workbook = XLSX.read(arrayBuffer, { type: 'buffer', codepage: 65001 });
                 } else {
+                    // Works for both 'application/vnd.ms-excel' and 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
                     workbook = XLSX.read(arrayBuffer, { type: 'buffer' });
                 }
 
@@ -85,7 +89,7 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
             }
         };
 
-        fetchSpreadsheetData().then(r => r);
+        fetchSpreadsheetData().then((r) => r);
     }, [relativeUrl]);
 
     // Loading state

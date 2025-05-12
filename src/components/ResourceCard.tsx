@@ -4,6 +4,7 @@ import ResourceItem from './ResourceItem';
 import Json from './Json';
 import { TResource } from '../types/resources/Resource';
 import FileDownload from './FileDownload';
+import { Link as RouterLink } from 'react-router-dom';
 
 type TResourceCardProps = {
     index: number;
@@ -17,15 +18,15 @@ type TResourceCardProps = {
 };
 
 const ResourceCard = ({
-    index,
-    resource,
-    expanded,
-    error,
-    expandAll,
-    collapseAll,
-    setExpandAll,
-    setCollapseAll,
-}: TResourceCardProps) => {
+                          index,
+                          resource,
+                          expanded,
+                          error,
+                          expandAll,
+                          collapseAll,
+                          setExpandAll,
+                          setCollapseAll,
+                      }: TResourceCardProps) => {
     const [open, setOpen] = useState(false);
 
     const handleOpen = () => {
@@ -63,12 +64,25 @@ const ResourceCard = ({
                     <ResourceItem resourceType={resource.resourceType} resource={resource} />
                     <Json resource={resource} error={error} />
                     {/* Conditionally render FileDownload based on resource type */}
-                    {resource.resourceType && downloadableResourceTypes.includes(resource.resourceType.toString()) && (
-                        <>
-                            <FileDownload relativeUrl={`/4_0_0/${resource.resourceType}/${resource.id}/$summary`} format="text/csv" />
-                            <FileDownload relativeUrl={`/4_0_0/${resource.resourceType}/${resource.id}/$summary`} format="application/vnd.ms-excel" />
-                        </>
-                    )}
+                    {resource.resourceType &&
+                        downloadableResourceTypes.includes(resource.resourceType.toString()) && (
+                            <>
+                                <FileDownload
+                                    relativeUrl={`/4_0_0/${resource.resourceType}/${resource.id}/$summary`}
+                                    format="text/csv"
+                                />
+                                <FileDownload
+                                    relativeUrl={`/4_0_0/${resource.resourceType}/${resource.id}/$summary`}
+                                    format="application/vnd.ms-excel"
+                                />
+                                <RouterLink
+                                    to="/excel-viewer"
+                                    state={{ relativeUrl: `/4_0_0/${resource.resourceType}/${resource.id}/$summary` }}
+                                >
+                                    View Excel
+                                </RouterLink>
+                            </>
+                        )}
                 </CardContent>
             </Collapse>
         </Card>

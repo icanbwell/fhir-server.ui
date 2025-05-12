@@ -6,6 +6,7 @@ import ObservationGraph from '../ObservationGraph';
 import ObservationTimeline from '../ObservationTimeline';
 import PatientTimeline from '../PatientTimeline';
 import SearchPage from '../pages/SearchPage';
+import ExcelViewerPage from '../pages/ExcelViewerPage';
 
 export default [
     <Route path="/about" element={<AboutPage />} />,
@@ -14,5 +15,6 @@ export default [
     <Route path="/observationTimeline" element={<ObservationTimeline />} />,
     <Route path="/4_0_0/:resourceType/_search/*" element={<SearchPage />} />,
     <Route path="/4_0_0/:resourceType/:id?/:operation?/*" element={<IndexPage />} />,
-    <Route path="/4_0_0/:resourceType/:operation?/*" element={<IndexPage />} />
+    <Route path="/4_0_0/:resourceType/:operation?/*" element={<IndexPage />} />,
+    <Route path="/excel-viewer" element={<ExcelViewerPage />} />,
 ];
