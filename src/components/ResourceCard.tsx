@@ -4,7 +4,7 @@ import ResourceItem from './ResourceItem';
 import Json from './Json';
 import { TResource } from '../types/resources/Resource';
 import FileDownload from './FileDownload';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 type TResourceCardProps = {
     index: number;
@@ -18,15 +18,15 @@ type TResourceCardProps = {
 };
 
 const ResourceCard = ({
-                          index,
-                          resource,
-                          expanded,
-                          error,
-                          expandAll,
-                          collapseAll,
-                          setExpandAll,
-                          setCollapseAll,
-                      }: TResourceCardProps) => {
+    index,
+    resource,
+    expanded,
+    error,
+    expandAll,
+    collapseAll,
+    setExpandAll,
+    setCollapseAll,
+}: TResourceCardProps) => {
     const [open, setOpen] = useState(false);
 
     const handleOpen = () => {
@@ -75,12 +75,9 @@ const ResourceCard = ({
                                     relativeUrl={`/4_0_0/${resource.resourceType}/${resource.id}/$summary`}
                                     format="application/vnd.ms-excel"
                                 />
-                                <RouterLink
-                                    to="/excel-viewer"
-                                    state={{ relativeUrl: `/4_0_0/${resource.resourceType}/${resource.id}/$summary` }}
-                                >
-                                    View Excel
-                                </RouterLink>
+                                <Link to="/excel/4_0_0/Patient/patient1/$summary">
+                                    View Patient Excel
+                                </Link>
                             </>
                         )}
                 </CardContent>

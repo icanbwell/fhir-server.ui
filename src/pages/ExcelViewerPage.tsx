@@ -1,27 +1,35 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import { Typography, Box, TextField, Button, Paper } from '@mui/material';
+import { useParams } from 'react-router-dom';
+import { Typography, Box } from '@mui/material';
 import SpreadsheetViewer from '../components/SpreadsheetViewer';
 
 const ExcelViewerPage: React.FC = () => {
-    const location = useLocation();
+    const { resourceType, id, operation } = useParams<{
+        resourceType: string;
+        id?: string;
+        operation?: string;
+    }>();
+
     const [relativeUrl, setRelativeUrl] = useState<string>('');
     const [viewSpreadsheet, setViewSpreadsheet] = useState<boolean>(false);
 
-    // Extract passed URL from location state
+    // Construct relative URL based on route parameters
     useEffect(() => {
-        const state = location.state as { relativeUrl?: string };
-        if (state?.relativeUrl) {
-            setRelativeUrl(state.relativeUrl);
-            setViewSpreadsheet(true);
-        }
-    }, [location]);
+        if (resourceType) {
+            let url = `/4_0_0/${resourceType}`;
 
-    const handleLoadSpreadsheet = () => {
-        if (relativeUrl.trim()) {
+            if (id) {
+                url += `/${id}`;
+            }
+
+            if (operation) {
+                url += `/${operation}`;
+            }
+
+            setRelativeUrl(url);
             setViewSpreadsheet(true);
         }
-    };
+    }, [resourceType, id, operation]);
 
     return (
         <Box
@@ -35,28 +43,9 @@ const ExcelViewerPage: React.FC = () => {
             }}
         >
             <Typography variant="h4" gutterBottom>
-                Excel Viewer
+                Excel Viewer: {resourceType} {id ? `- ${id}` : ''}{' '}
+                {operation ? `(${operation})` : ''}
             </Typography>
-
-            <Paper elevation={3} sx={{ p: 2, mb: 2 }}>
-                <Box sx={{ display: 'flex', gap: 2 }}>
-                    <TextField
-                        fullWidth
-                        label="Relative URL"
-                        variant="outlined"
-                        value={relativeUrl}
-                        onChange={(e) => setRelativeUrl(e.target.value)}
-                        placeholder="Enter relative URL (e.g., /path/to/file)"
-                    />
-                    <Button
-                        variant="contained"
-                        onClick={handleLoadSpreadsheet}
-                        disabled={!relativeUrl.trim()}
-                    >
-                        Load Spreadsheet
-                    </Button>
-                </Box>
-            </Paper>
 
             {viewSpreadsheet && (
                 <Box
