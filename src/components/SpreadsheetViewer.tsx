@@ -139,7 +139,7 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                         onClick={() => setActiveSheet(index)}
                         sx={{ flexShrink: 0 }}
                     >
-                        {sheet.name}
+                        {sheet.name} ({sheet.data.length - 1})
                     </Button>
                 ))}
             </Stack>
