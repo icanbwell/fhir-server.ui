@@ -102,7 +102,9 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                     // Convert worksheet to 2D array
                     const rawData: any[][] = XLSX.utils.sheet_to_json(worksheet, {
                         header: 1,
-                        defval: '',
+                        raw: true,
+                        rawNumbers: true,
+                        UTC: true
                     });
 
                     // Extract headers and data
