@@ -2,6 +2,7 @@ import React from 'react';
 import Typography from '@mui/material/Typography';
 import { Link } from '@mui/material';
 import { TResource } from '../types/resources/Resource';
+import DataObjectIcon from '@mui/icons-material/DataObject';
 
 const Json = ({ resource, error }: { resource: TResource, error?: boolean }) => {
   const queryParams = new URLSearchParams(error ? window.location.search : '');
@@ -15,6 +16,7 @@ const Json = ({ resource, error }: { resource: TResource, error?: boolean }) => 
   return (
     <React.Fragment>
       <Typography variant="h4">Raw Json</Typography>
+        <DataObjectIcon />
       <Link
         href={`${pathName}?${queryParams.toString()}`}
         target="_blank"

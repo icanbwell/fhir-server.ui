@@ -5,6 +5,7 @@ import Json from './Json';
 import { TResource } from '../types/resources/Resource';
 import { Link } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
+import GridOnIcon from '@mui/icons-material/GridOn';
 
 type TResourceCardProps = {
     index: number;
@@ -67,9 +68,8 @@ const ResourceCard = ({
                     {resource.resourceType &&
                         downloadableResourceTypes.includes(resource.resourceType.toString()) && (
                             <>
-                                <Typography variant="h4">
-                                    Open as Spreadsheet Online
-                                </Typography>
+                                <Typography variant="h4">Open as Spreadsheet Online</Typography>
+                                <GridOnIcon />
                                 <Link
                                     to={`/excel/4_0_0/${resource.resourceType}/${resource.id}/$summary`}
                                 >

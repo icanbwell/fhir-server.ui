@@ -22,6 +22,7 @@ import PreJson from '../components/PreJson';
 import EnvironmentContext from '../context/EnvironmentContext';
 import { TBundle } from '../types/resources/Bundle';
 import UserContext from '../context/UserContext';
+import GridOnIcon from '@mui/icons-material/GridOn'; // New icon for spreadsheet
 
 /**
  * IndexPage/home/ubuntu/Documents/code/EFS/fhir-server/src/pages/SearchPage.jsx
@@ -123,6 +124,7 @@ const IndexPage = ({ search }: { search?: boolean }) => {
                     );
                 })}
                 <Typography variant="h5">Open List as Spreadsheet Online</Typography>
+                <GridOnIcon />
                 <Link to={'/excel' + location.pathname + location.search}>
                     {'/excel' + location.pathname + location.search}
                 </Link>
