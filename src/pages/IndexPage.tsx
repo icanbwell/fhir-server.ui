@@ -7,7 +7,7 @@ import {
     Box,
     Button,
     Container,
-    LinearProgress,
+    LinearProgress, Tooltip,
 } from '@mui/material';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -132,24 +132,26 @@ const IndexPage = ({ search }: { search?: boolean }) => {
                         mt: 2,
                     }}
                 >
-                    <Link
-                        to={'/excel' + location.pathname + location.search}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: 8,
-                            textDecoration: 'none',
-                            color: 'inherit',
-                        }}
-                    >
-                        <GridOnIcon color="primary" fontSize="small" />
-                        <Typography variant="body1" color="primary">
-                            Open Search Results as Spreadsheet
-                        </Typography>
-                        <OpenInNewIcon color='primary'/>
-                    </Link>
+                    <Tooltip title="Open Search Results in New Spreadsheet Tab" arrow>
+                        <Link
+                            to={'/excel' + location.pathname + location.search}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 8,
+                                textDecoration: 'none',
+                                color: 'inherit',
+                            }}
+                        >
+                            <GridOnIcon color="primary" fontSize="small" />
+                            <Typography variant="body1" color="primary">
+                                Open Search Results as Spreadsheet
+                            </Typography>
+                            <OpenInNewIcon color="primary" />
+                        </Link>
+                    </Tooltip>
                 </Box>
             </>
         );

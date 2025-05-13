@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Card, CardContent, CardHeader, Collapse } from '@mui/material';
+import { Box, Button, Card, CardContent, CardHeader, Collapse, Tooltip } from '@mui/material';
 import ResourceItem from './ResourceItem';
 import Json from './Json';
 import { TResource } from '../types/resources/Resource';
@@ -76,24 +76,26 @@ const ResourceCard = ({
                                     mt: 2,
                                 }}
                             >
-                                <Link
-                                    to={`/excel/4_0_0/${resource.resourceType}/${resource.id}/$summary`}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    style={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: 8,
-                                        textDecoration: 'none',
-                                        color: 'inherit',
-                                    }}
-                                >
-                                    <GridOnIcon color="primary" fontSize="small" />
-                                    <Typography variant="body1" color="primary">
-                                        Open as Spreadsheet
-                                    </Typography>
-                                    <OpenInNewIcon color="primary" />
-                                </Link>
+                                <Tooltip title="Open Summary in New Spreadsheet Tab">
+                                    <Link
+                                        to={`/excel/4_0_0/${resource.resourceType}/${resource.id}/$summary`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        style={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: 8,
+                                            textDecoration: 'none',
+                                            color: 'inherit',
+                                        }}
+                                    >
+                                        <GridOnIcon color="primary" fontSize="small" />
+                                        <Typography variant="body1" color="primary">
+                                            Open as Spreadsheet
+                                        </Typography>
+                                        <OpenInNewIcon color="primary" />
+                                    </Link>
+                                </Tooltip>
                             </Box>
                         )}
                 </CardContent>
