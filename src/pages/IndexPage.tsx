@@ -133,6 +133,8 @@ const IndexPage = ({ search }: { search?: boolean }) => {
                 >
                     <Link
                         to={'/excel' + location.pathname + location.search}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         style={{
                             display: 'flex',
                             alignItems: 'center',
@@ -145,6 +147,7 @@ const IndexPage = ({ search }: { search?: boolean }) => {
                         <Typography variant="body1" color="primary">
                             Open Search Results as Spreadsheet
                         </Typography>
+
                     </Link>
                 </Box>
             </>

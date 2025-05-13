@@ -77,6 +77,8 @@ const ResourceCard = ({
                             >
                                 <Link
                                     to={`/excel/4_0_0/${resource.resourceType}/${resource.id}/$summary`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
                                     style={{
                                         display: 'flex',
                                         alignItems: 'center',
