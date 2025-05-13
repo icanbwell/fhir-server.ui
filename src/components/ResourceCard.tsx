@@ -64,6 +64,8 @@ const ResourceCard = ({
             <Collapse in={open}>
                 <CardContent>
                     <ResourceItem resourceType={resource.resourceType} resource={resource} />
+                    <Box sx={{ borderBottom: '1px solid #ccc', my: 2 }} />
+                    {/* Render JSON component */}
                     <Json resource={resource} error={error} />
                     {/* Conditionally render FileDownload based on resource type */}
                     {resource.resourceType &&
