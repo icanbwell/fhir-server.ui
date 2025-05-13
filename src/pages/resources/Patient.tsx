@@ -226,7 +226,7 @@ const Patient = ({ resource }: { resource: TPatient }): React.ReactElement => {
                     field='other'
                 />
             }
-            <Typography variant="h4" sx={{ mt: 1 }}>
+            <Typography variant="h6" color="text.secondary" sx={{ mt: 1 }}>
                 Related Resources
             </Typography>
             <Partials.ReverseReference
