@@ -122,7 +122,7 @@ const IndexPage = ({ search }: { search?: boolean }) => {
                         />
                     );
                 })}
-                <Typography variant="h4">Open as Spreadsheet Online</Typography>
+                <Typography variant="h5">Open List as Spreadsheet Online</Typography>
                 <Link to={'/excel' + location.pathname + location.search}>
                     {'/excel' + location.pathname + location.search}
                 </Link>

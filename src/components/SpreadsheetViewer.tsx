@@ -64,6 +64,12 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
     // Construct download URL
     const downloadUri: URL = new URL(relativeUrl, fhirUrl);
     downloadUri.searchParams.set('_format', format);
+    const queryString = new URLSearchParams(location.search);
+    for (const [key, value] of queryString.entries()) {
+        if (key !== '_format') {
+            downloadUri.searchParams.set(key, value);
+        }
+    }
 
     // Fetch and parse spreadsheet
     useEffect(() => {
