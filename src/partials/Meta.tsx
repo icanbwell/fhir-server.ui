@@ -31,61 +31,63 @@ function Meta({ meta, resourceType, id }: TMetaProps) {
 
     const formatDate = (date: Date) => new Date(date).toISOString();
 
-    const renderDateLinks = () => {
-        if (!meta.lastUpdated) {return (<></>);}
-
-        const formattedDate = formatDate(new Date(`${meta.lastUpdated}`));
-        const datePrefix = formattedDate.substring(0, 10);
-
-        return (
-            <Box sx={{ display: 'flex', gap: 1, mt: 1 }}>
-                <Tooltip title={`Get ${resourceType} resources on this date`}>
-                    <Chip
-                        icon={<CalendarTodayIcon fontSize="small" />}
-                        label="On This Date"
-                        size="small"
-                        component="a"
-                        href={`/4_0_0/${resourceType}?_lastUpdated=eq.${datePrefix}`}
-                        clickable
-                    />
-                </Tooltip>
-                <Tooltip title={`Get ${resourceType} resources before this date`}>
-                    <Chip
-                        icon={<FilterAltIcon fontSize="small" />}
-                        label="Before This"
-                        size="small"
-                        component="a"
-                        href={`/4_0_0/${resourceType}?_lastUpdated=lt${formattedDate.split('.')[0] + 'Z'}`}
-                        clickable
-                    />
-                </Tooltip>
-                <Tooltip title={`Get ${resourceType} resources after this date`}>
-                    <Chip
-                        icon={<FilterAltIcon fontSize="small" />}
-                        label="After This"
-                        size="small"
-                        component="a"
-                        href={`/4_0_0/${resourceType}?_lastUpdated=gt${formattedDate.split('.')[0] + 'Z'}`}
-                        clickable
-                    />
-                </Tooltip>
-            </Box>
-        );
-    };
+    const renderDateLinks = (formattedDate: string, datePrefix: string) => (
+        <Box sx={{ display: 'inline-flex', gap: 1, ml: 1, alignItems: 'center' }}>
+            <Tooltip title={`Get ${resourceType} resources on this date`}>
+                <Chip
+                    icon={<CalendarTodayIcon fontSize="small" />}
+                    label="On This Date"
+                    size="small"
+                    component="a"
+                    href={`/4_0_0/${resourceType}?_lastUpdated=eq.${datePrefix}`}
+                    clickable
+                />
+            </Tooltip>
+            <Tooltip title={`Get ${resourceType} resources before this date`}>
+                <Chip
+                    icon={<FilterAltIcon fontSize="small" />}
+                    label="Before This"
+                    size="small"
+                    component="a"
+                    href={`/4_0_0/${resourceType}?_lastUpdated=lt${formattedDate.split('.')[0] + 'Z'}`}
+                    clickable
+                />
+            </Tooltip>
+            <Tooltip title={`Get ${resourceType} resources after this date`}>
+                <Chip
+                    icon={<FilterAltIcon fontSize="small" />}
+                    label="After This"
+                    size="small"
+                    component="a"
+                    href={`/4_0_0/${resourceType}?_lastUpdated=gt${formattedDate.split('.')[0] + 'Z'}`}
+                    clickable
+                />
+            </Tooltip>
+        </Box>
+    );
 
     return (
         <Box sx={{ width: '100%', mb: 2 }}>
             <Typography variant="h6" color="text.secondary" sx={{ mb: 2 }}>
-                Meta Information
             </Typography>
 
             <Paper elevation={0} variant="outlined" sx={{ p: 2, mb: 2 }}>
                 {meta.lastUpdated && (
-                    <Box sx={{ mb: 2 }}>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 1,
+                            mb: 2,
+                        }}
+                    >
                         <Typography variant="body2" color="text.secondary">
                             <b>Last Updated:</b> {`${meta.lastUpdated}`}
                         </Typography>
-                        {renderDateLinks()}
+                        {renderDateLinks(
+                            formatDate(new Date(`${meta.lastUpdated}`)),
+                            formatDate(new Date(`${meta.lastUpdated}`)).substring(0, 10)
+                        )}
                     </Box>
                 )}
 
