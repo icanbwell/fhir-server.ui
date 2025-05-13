@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import {
     Accordion,
     Alert,
@@ -22,7 +22,6 @@ import PreJson from '../components/PreJson';
 import EnvironmentContext from '../context/EnvironmentContext';
 import { TBundle } from '../types/resources/Bundle';
 import UserContext from '../context/UserContext';
-import FileDownload from '../components/FileDownload';
 
 /**
  * IndexPage/home/ubuntu/Documents/code/EFS/fhir-server/src/pages/SearchPage.jsx
@@ -123,7 +122,10 @@ const IndexPage = ({ search }: { search?: boolean }) => {
                         />
                     );
                 })}
-                <FileDownload relativeUrl={location.pathname + location.search} format="application/vnd.ms-excel" />
+                <Typography variant="h4">Open as Spreadsheet Online</Typography>
+                <Link to={'/excel' + location.pathname + location.search}>
+                    {'/excel' + location.pathname + location.search}
+                </Link>
             </>
         );
     }

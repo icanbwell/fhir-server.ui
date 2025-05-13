@@ -16,12 +16,9 @@ const ExcelViewerPage: React.FC = () => {
 
     // Set page title when component mounts or params change
     useEffect(() => {
-        // Construct title
-        // Update document title
-        document.title = id ? `${resourceType}/${id} Sheet` : (resourceType ?? 'Excel');
-
         // Construct relative URL
         if (resourceType) {
+            document.title = id ? `${resourceType}/${id} Sheet` : (resourceType ?? 'Excel');
             let url = `/4_0_0/${resourceType}`;
 
             if (id) {
@@ -30,6 +27,12 @@ const ExcelViewerPage: React.FC = () => {
 
             if (operation) {
                 url += `/${operation}`;
+            }
+
+            // include query parameters if present
+            const queryString = new URLSearchParams(location.search);
+            if (queryString.toString()) {
+                url += `?${queryString}`;
             }
 
             setRelativeUrl(url);

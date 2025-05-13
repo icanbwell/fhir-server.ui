@@ -72,6 +72,8 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                 setIsLoading(true);
                 setErrorMessage(null);
 
+                console.info(`Fetching spreadsheet from: ${downloadUri.toString()}`);
+
                 // Fetch file
                 const response: AxiosResponse<Blob> = await axios.get(downloadUri.toString(), {
                     responseType: 'blob',
@@ -199,7 +201,7 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                     borderBottom: 1,
                     borderColor: 'divider',
                     mb: 2,
-                    height: '28px',
+                    height: '30px',
                 }}
             >
                 <Tabs
