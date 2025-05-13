@@ -16,7 +16,7 @@ const InvoiceLineItem = ({ invoiceLineItem: lineItems, name }: TInvoiceLineItemP
     if (lineItems && lineItems.length > 0 && lineItems[0]) {
         return (
             <Box>
-                <Typography variant="h4">{name}</Typography>
+                <Typography variant="h6" color="text.secondary" sx={{ mb: 2 }}>{name}</Typography>
                 <Table className="table">
                     <TableHead>
                         <TableRow>

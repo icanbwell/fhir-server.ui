@@ -9,7 +9,7 @@ import {
     TableHead,
     TableRow,
     IconButton,
-    Container,
+    Container, Paper,
 } from '@mui/material';
 import DescriptionIcon from '@mui/icons-material/Description';
 
@@ -29,12 +29,11 @@ const Home = () => {
         document.title = 'Helix FHIR Server';
     }, []);
 
-    // noinspection JSValidateTypes
     return (
         <Container maxWidth={false}>
             <div style={{ minHeight: '92vh' }}>
                 <Header />
-                <TableContainer>
+                <TableContainer component={Paper} variant="outlined">
                     <Table stickyHeader className="sticky-table">
                         <TableHead>
                             <TableRow>

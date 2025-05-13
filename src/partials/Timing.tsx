@@ -18,7 +18,7 @@ function Timing({ timing = [], name }: TTimingProps) {
     <>
       {timingArray.length > 0 && timingArray[0] && timingArray[0].code && (
           <Box>
-            <Typography variant="h4">{name}</Typography>
+            <Typography variant="h6" color="text.secondary" sx={{ mb: 2 }}>{name}</Typography>
             {timingArray.map((t: TTiming, index: Number) => (
               <CodeableConcept
                 key={`${index}`}

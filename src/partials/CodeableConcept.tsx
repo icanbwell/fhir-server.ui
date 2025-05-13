@@ -1,13 +1,13 @@
 import React from 'react';
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-  Link,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Typography,
+    Link, Paper,
 } from '@mui/material';
 import { TBaseResourceProps } from '../types/baseTypes';
 import { TCodeableConcept } from '../types/partials/CodeableConcept';
@@ -62,8 +62,8 @@ function CodeableConcept({
   if (codeableConcepts && codeableConcepts.length > 0 && codeableConcepts[0]) {
     return (
       <React.Fragment>
-        <Typography variant="h4">{name}</Typography>
-        <TableContainer>
+        <Typography variant="h6" color="text.secondary" sx={{ mb: 2 }}>{name}</Typography>
+        <TableContainer component={Paper} variant="outlined">
           <Table>
             <TableHead>
               <TableRow>

@@ -155,7 +155,7 @@ const Practitioner = ({ resource }: { resource: TPractitioner }): React.ReactEle
                     searchParameter='communication'
                 />
             }
-            <Typography variant="h4" sx={{ mt: 1 }}>
+            <Typography variant="h6" color="text.secondary" sx={{ mt: 1 }}>
                 Related Resources
             </Typography>
             <Partials.ReverseReference

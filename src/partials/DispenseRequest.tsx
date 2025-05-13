@@ -1,13 +1,13 @@
 import React from 'react';
 import {
-  Typography,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Box,
+    Typography,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Box, Paper,
 } from '@mui/material';
 import { TBaseResourceProps } from '../types/baseTypes';
 import { TMedicationRequestDispenseRequest } from '../types/partials/MedicationRequestDispenseRequest';
@@ -25,7 +25,7 @@ const DispenseRequest = ({ name, value }: TDispenseRequestProps) => {
     <Box>
       {value && value.length > 0 && value[0] && (
         <React.Fragment>
-          <Typography variant="h4">{name}</Typography>
+          <Typography variant="h6" color="text.secondary" sx={{ mb: 2 }}>{name}</Typography>
           {value.map((dispenseRequest: TMedicationRequestDispenseRequest, index: Number) => (
             <div key={`${index}`}>
               {dispenseRequest.initialFill && (
@@ -39,7 +39,7 @@ const DispenseRequest = ({ name, value }: TDispenseRequestProps) => {
                   </Typography>
                 </React.Fragment>
               )}
-              <TableContainer>
+              <TableContainer component={Paper} variant="outlined">
                 <Table className="table">
                   <TableHead>
                     <TableRow>

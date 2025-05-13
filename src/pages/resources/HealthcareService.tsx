@@ -260,7 +260,7 @@ const HealthcareService = ({ resource }: { resource: THealthcareService }): Reac
                     searchParameter='endpoint'
                 />
             }
-            <Typography variant="h4" sx={{ mt: 1 }}>
+            <Typography variant="h6" color="text.secondary" sx={{ mt: 1 }}>
                 Related Resources
             </Typography>
             <Partials.ReverseReference

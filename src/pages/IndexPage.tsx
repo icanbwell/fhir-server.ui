@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import {
     Accordion,
     Alert,
@@ -7,7 +7,7 @@ import {
     Box,
     Button,
     Container,
-    LinearProgress,
+    LinearProgress, Tooltip,
 } from '@mui/material';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -22,7 +22,8 @@ import PreJson from '../components/PreJson';
 import EnvironmentContext from '../context/EnvironmentContext';
 import { TBundle } from '../types/resources/Bundle';
 import UserContext from '../context/UserContext';
-import FileDownload from '../components/FileDownload';
+import GridOnIcon from '@mui/icons-material/GridOn'; // New icon for spreadsheet
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 /**
  * IndexPage/home/ubuntu/Documents/code/EFS/fhir-server/src/pages/SearchPage.jsx
@@ -123,7 +124,35 @@ const IndexPage = ({ search }: { search?: boolean }) => {
                         />
                     );
                 })}
-                <FileDownload relativeUrl={location.pathname + location.search} format="application/vnd.ms-excel" />
+                <Box
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 2,
+                        mt: 2,
+                    }}
+                >
+                    <Tooltip title="Open Search Results in New Spreadsheet Tab" arrow>
+                        <Link
+                            to={'/excel' + location.pathname + location.search}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 8,
+                                textDecoration: 'none',
+                                color: 'inherit',
+                            }}
+                        >
+                            <GridOnIcon color="primary" fontSize="small" />
+                            <Typography variant="body1" color="primary">
+                                Open Search Results as Spreadsheet
+                            </Typography>
+                            <OpenInNewIcon color="primary" />
+                        </Link>
+                    </Tooltip>
+                </Box>
             </>
         );
     }

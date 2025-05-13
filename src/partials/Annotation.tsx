@@ -1,12 +1,12 @@
 import {
-  Typography,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Box,
+    Typography,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Box, Paper,
 } from '@mui/material';
 import { TAnnotation } from '../types/partials/Annotation';
 import { TBaseResourceProps } from '../types/baseTypes';
@@ -35,8 +35,8 @@ const Annotation = ({ annotation: annotations }: TAnnotationProps) => {
 
   return (
     <Box>
-      <Typography variant="h4">Names</Typography>
-      <TableContainer>
+      <Typography variant="h6" color="text.secondary" sx={{ mb: 2 }}>Names</Typography>
+      <TableContainer component={Paper} variant="outlined">
         <Table>
           <TableHead>
             <TableRow>

@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react';
-import Typography from '@mui/material/Typography';
-import { Link, CircularProgress, Alert } from '@mui/material';
+import { Link, Alert, Tooltip } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import axios, { AxiosResponse } from 'axios';
 import { saveAs } from 'file-saver';
@@ -58,37 +57,36 @@ const FileDownload: React.FC<FileDownloadProps> = ({ relativeUrl, format }) => {
             setIsLoading(false);
         } catch (error1: unknown) {
             console.error('Error downloading the file:', error1);
-            setErrorMessage(`An error occurred while downloading the file: ${(error1 as Error).message}`);
+            setErrorMessage(
+                `An error occurred while downloading the file: ${(error1 as Error).message}`
+            );
             setIsLoading(false);
         }
     };
 
     return (
         <React.Fragment>
-            <Typography variant="h4">
-                Download ({format === 'text/csv' ? 'csv' : 'Excel'})
-                {isLoading && <CircularProgress size={16} sx={{ ml: 1 }} />}
-            </Typography>
             {errorMessage && (
                 <Alert severity="error" sx={{ my: 2 }}>
                     {errorMessage}
                 </Alert>
             )}
-            <Link
-                component="button"
-                onClick={downloadFile}
-                disabled={isLoading}
-                sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 1,
-                    cursor: isLoading ? 'not-allowed' : 'pointer',
-                    opacity: isLoading ? 0.5 : 1,
-                }}
-            >
-                <DownloadIcon fontSize="small" />
-                {downloadUri.toString()}
-            </Link>
+            <Tooltip title="Download" arrow>
+                <Link
+                    component="button"
+                    onClick={downloadFile}
+                    disabled={isLoading}
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 1,
+                        cursor: isLoading ? 'not-allowed' : 'pointer',
+                        opacity: isLoading ? 0.5 : 1,
+                    }}
+                >
+                    <DownloadIcon fontSize="small" />
+                </Link>
+            </Tooltip>
         </React.Fragment>
     );
 };

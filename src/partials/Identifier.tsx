@@ -5,7 +5,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { Typography } from '@mui/material';
+import { Paper, Typography } from '@mui/material';
 import { TBaseResourceProps } from '../types/baseTypes';
 import { TIdentifier } from '../types/partials/Identifier';
 import { TCoding } from '../types/partials/Coding';
@@ -25,8 +25,8 @@ function Identifier({ identifier: identifiers, resourceType, name }: TIdentifier
 
   return (
     <React.Fragment>
-      <Typography variant="h4">{name}</Typography>
-      <TableContainer>
+      <Typography variant="h6" color="text.secondary" sx={{ mb: 2 }}>{name}</Typography>
+      <TableContainer component={Paper} variant="outlined">
         <Table aria-label="identifier table">
           <TableHead>
             <TableRow>

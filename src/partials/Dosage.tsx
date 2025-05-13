@@ -14,7 +14,7 @@ const Dosage = ({ dosage: dosages, name }: TDosageProps) => {
     <>
       {dosages && dosages.length > 0 && dosages[0] && (
         <Box>
-          <Typography variant="h4">{name}</Typography>
+          <Typography variant="h6" color="text.secondary" sx={{ mb: 2 }}>{name}</Typography>
           {dosages.map((dosage, index) => (
             <Box key={index}>
               <Typography variant="h5">
