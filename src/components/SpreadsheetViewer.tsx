@@ -99,7 +99,6 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                 // Transform workbook to AG-Grid format
                 const parsedSheets: SheetData[] = workbook.SheetNames.map((sheetName) => {
                     const worksheet = workbook.Sheets[`${sheetName}`];
-
                     // Convert worksheet to 2D array
                     const rawData: any[][] = XLSX.utils.sheet_to_json(worksheet, {
                         header: 1,
@@ -111,14 +110,25 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                     // Extract headers and data
                     const [headers, ...dataRows] = rawData;
 
-                    // Generate column definitions
-                    const columnDefs = headers.map((header, index) => ({
-                        headerName: String(header),
-                        field: `col${index}`,
-                        editable: false,
-                        filter: true,
-                        floatingFilter: true,
-                    }));
+                    // Generate column definitions with data check
+                    const columnDefs = headers.map((header, index) => {
+                        // Check if any row in this column has non-empty data
+                        const hasData = dataRows.some(
+                            (row) =>
+                                row[index] !== undefined &&
+                                row[index] !== null &&
+                                String(row[index]).trim() !== ''
+                        );
+
+                        return {
+                            headerName: String(header),
+                            field: `col${index}`,
+                            editable: false,
+                            filter: true,
+                            floatingFilter: true,
+                            hide: !hasData, // Hide column if no data
+                        };
+                    });
 
                     // Transform data rows
                     const rowData = dataRows.map((row) =>
