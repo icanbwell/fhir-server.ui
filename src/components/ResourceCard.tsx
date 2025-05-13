@@ -6,6 +6,7 @@ import { TResource } from '../types/resources/Resource';
 import { Link } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import GridOnIcon from '@mui/icons-material/GridOn';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 type TResourceCardProps = {
     index: number;
@@ -91,6 +92,7 @@ const ResourceCard = ({
                                     <Typography variant="body1" color="primary">
                                         Open as Spreadsheet
                                     </Typography>
+                                    <OpenInNewIcon color="primary" />
                                 </Link>
                             </Box>
                         )}

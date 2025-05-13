@@ -23,6 +23,7 @@ import EnvironmentContext from '../context/EnvironmentContext';
 import { TBundle } from '../types/resources/Bundle';
 import UserContext from '../context/UserContext';
 import GridOnIcon from '@mui/icons-material/GridOn'; // New icon for spreadsheet
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 /**
  * IndexPage/home/ubuntu/Documents/code/EFS/fhir-server/src/pages/SearchPage.jsx
@@ -147,7 +148,7 @@ const IndexPage = ({ search }: { search?: boolean }) => {
                         <Typography variant="body1" color="primary">
                             Open Search Results as Spreadsheet
                         </Typography>
-
+                        <OpenInNewIcon color='primary'/>
                     </Link>
                 </Box>
             </>
