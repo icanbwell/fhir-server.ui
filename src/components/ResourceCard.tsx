@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, CardContent, CardHeader, Collapse } from '@mui/material';
+import { Box, Button, Card, CardContent, CardHeader, Collapse } from '@mui/material';
 import ResourceItem from './ResourceItem';
 import Json from './Json';
 import { TResource } from '../types/resources/Resource';
@@ -67,15 +67,30 @@ const ResourceCard = ({
                     {/* Conditionally render FileDownload based on resource type */}
                     {resource.resourceType &&
                         downloadableResourceTypes.includes(resource.resourceType.toString()) && (
-                            <>
-                                <Typography variant="h4">Open as Spreadsheet Online</Typography>
-                                <GridOnIcon />
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: 2,
+                                    mt: 2,
+                                }}
+                            >
                                 <Link
                                     to={`/excel/4_0_0/${resource.resourceType}/${resource.id}/$summary`}
+                                    style={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: 8,
+                                        textDecoration: 'none',
+                                        color: 'inherit',
+                                    }}
                                 >
-                                    {`/excel/4_0_0/${resource.resourceType}/${resource.id}/$summary`}
+                                    <GridOnIcon color="primary" fontSize="small" />
+                                    <Typography variant="body1" color="primary">
+                                        Open as Spreadsheet
+                                    </Typography>
                                 </Link>
-                            </>
+                            </Box>
                         )}
                 </CardContent>
             </Collapse>

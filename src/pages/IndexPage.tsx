@@ -123,11 +123,30 @@ const IndexPage = ({ search }: { search?: boolean }) => {
                         />
                     );
                 })}
-                <Typography variant="h5">Open List as Spreadsheet Online</Typography>
-                <GridOnIcon />
-                <Link to={'/excel' + location.pathname + location.search}>
-                    {'/excel' + location.pathname + location.search}
-                </Link>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 2,
+                        mt: 2,
+                    }}
+                >
+                    <Link
+                        to={'/excel' + location.pathname + location.search}
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 8,
+                            textDecoration: 'none',
+                            color: 'inherit',
+                        }}
+                    >
+                        <GridOnIcon color="primary" fontSize="small" />
+                        <Typography variant="body1" color="primary">
+                            Open Search Results as Spreadsheet
+                        </Typography>
+                    </Link>
+                </Box>
             </>
         );
     }
