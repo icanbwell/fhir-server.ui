@@ -26,7 +26,7 @@ const PatientContact = ({ patientContact, name, resourceType }: TPatientContactP
         <Box>
           {values.map((contact: TPatientContact, index: Number) => (
             <Box key={`${index}`}>
-              <Typography variant="h4">{name}</Typography>
+              <Typography variant="h6" color="text.secondary" sx={{ mb: 2 }}>{name}</Typography>
               {
                 <React.Fragment>
                   <CodeableConcept

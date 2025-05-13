@@ -39,7 +39,7 @@ function Reference({ reference: references = [], name, field }: TReferenceProps)
 
     return uuidReferences && uuidReferences.length > 0 && uuidReferences[0] ? (
         <Box>
-            <Typography variant="h4">{name}</Typography>
+            <Typography variant="h6" color="text.secondary" sx={{ mb: 2 }}>{name}</Typography>
             {uuidReferences.map((reference: TReference, index: Number) =>
                 reference ? (
                     <Link

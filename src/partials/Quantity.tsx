@@ -1,12 +1,12 @@
 import {
-  Typography,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Box,
+    Typography,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Box, Paper,
 } from '@mui/material';
 import { TBaseResourceProps } from '../types/baseTypes';
 import { TQuantity } from '../types/partials/Quantity';
@@ -23,8 +23,8 @@ function Quantity({ quantity: value = [], name = '' }: TQuantityProps) {
   if (value && value.length > 0 && value[0]) {
     return (
       <Box>
-        <Typography variant="h4">{name}</Typography>
-        <TableContainer>
+        <Typography variant="h6" color="text.secondary" sx={{ mb: 2 }}>{name}</Typography>
+        <TableContainer component={Paper} variant="outlined">
           <Table>
             <TableHead>
               <TableRow>

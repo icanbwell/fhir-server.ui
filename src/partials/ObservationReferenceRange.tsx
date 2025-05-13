@@ -1,12 +1,12 @@
 import {
-  Box,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
+    Box, Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Typography,
 } from '@mui/material';
 import { TBaseResourceProps } from '../types/baseTypes';
 import { TObservationReferenceRange } from '../types/partials/ObservationReferenceRange';
@@ -27,8 +27,8 @@ const ObservationReferenceRange = ({
     : [referenceRange];
   return referenceRange && referenceRange.length > 0 && referenceRange[0] ? (
     <Box>
-      <Typography variant="h4">{name}</Typography>
-      <TableContainer>
+      <Typography variant="h6" color="text.secondary" sx={{ mb: 2 }}>{name}</Typography>
+      <TableContainer component={Paper} variant="outlined">
         <Table>
           <TableHead>
             <TableRow>

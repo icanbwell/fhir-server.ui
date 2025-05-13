@@ -1,13 +1,13 @@
 import {
-  Typography,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Link,
-  Box,
+    Typography,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Link,
+    Box, Paper,
 } from '@mui/material';
 import { TBaseResourceProps } from '../types/baseTypes';
 import { TCoding } from '../types/partials/Coding';
@@ -27,8 +27,8 @@ const Coding = ({ coding: codings, name, resourceType, searchParameter }: TCodin
     codings.length > 0 &&
     codings[0] && (
       <Box>
-        <Typography variant="h4">{name}</Typography>
-        <TableContainer>
+        <Typography variant="h6" color="text.secondary" sx={{ mb: 2 }}>{name}</Typography>
+        <TableContainer component={Paper} variant="outlined">
           <Table>
             <TableHead>
               <TableRow>

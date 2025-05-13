@@ -1,12 +1,12 @@
 import {
-  Box,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
+    Box, Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Typography,
 } from '@mui/material';
 
 import { TBaseResourceProps } from '../types/baseTypes';
@@ -29,8 +29,8 @@ function ContactPoint({ contactPoint: contacts, name, resourceType }: TContactPo
 
   return (
     <Box>
-      <Typography variant="h4">{name}</Typography>
-      <TableContainer>
+      <Typography variant="h6" color="text.secondary" sx={{ mb: 2 }}>{name}</Typography>
+      <TableContainer component={Paper} variant="outlined">
         <Table>
           <TableHead>
             <TableRow>

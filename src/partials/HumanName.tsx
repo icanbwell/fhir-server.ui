@@ -1,12 +1,12 @@
 import {
-  Box,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
+    Box, Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Typography,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { TBaseResourceProps } from '../types/baseTypes';
@@ -27,8 +27,8 @@ function HumanName({ humanName, resourceType }: THumanNameProps) {
 
   return (
     <Box>
-      <Typography variant="h4">Name</Typography>
-      <TableContainer>
+      <Typography variant="h6" color="text.secondary" sx={{ mb: 2 }}>Name</Typography>
+      <TableContainer component={Paper} variant="outlined">
         <Table>
           <TableHead>
             <TableRow>

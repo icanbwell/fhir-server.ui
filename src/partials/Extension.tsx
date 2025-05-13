@@ -1,12 +1,12 @@
 import {
-  Box,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
+    Box, Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Typography,
 } from '@mui/material';
 import { TBaseResourceProps } from '../types/baseTypes';
 import { TExtension } from '../types/partials/Extension';
@@ -25,8 +25,8 @@ const Extension = ({ extension: extensions }: TExtensionProps) => {
   }
   return extensions && extensions.length > 0 && extensions[0] ? (
     <Box>
-      <Typography variant="h4">Extension</Typography>
-      <TableContainer>
+      <Typography variant="h6" color="text.secondary" sx={{ mb: 2 }}>Extension</Typography>
+      <TableContainer component={Paper} variant="outlined">
         <Table>
           <TableHead>
             <TableRow>
