@@ -18,7 +18,7 @@ const Code = ({ code, name }: TCodeProps) => {
   return (
     <Box>
       {code.map((value: TCode) => (
-        <Typography variant="body1" component="span">
+        <Typography variant="h6" color="text.secondary" component="span">
           <b>{name}:</b>&nbsp;{value}
         </Typography>
       ))}
