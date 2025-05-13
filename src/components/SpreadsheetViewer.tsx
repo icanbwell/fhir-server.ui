@@ -2,7 +2,16 @@ import React, { useContext, useState, useEffect, useMemo, useRef } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import * as XLSX from 'xlsx';
 import axios, { AxiosResponse } from 'axios';
-import { Typography, Box, CircularProgress, Alert, Tabs, Tab } from '@mui/material';
+import {
+    Typography,
+    Box,
+    CircularProgress,
+    Alert,
+    Tabs,
+    Tab,
+    FormControlLabel,
+    Checkbox,
+} from '@mui/material';
 import EnvironmentContext from '../context/EnvironmentContext';
 import {
     ModuleRegistry,
@@ -57,6 +66,8 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [sheets, setSheets] = useState<SheetData[]>([]);
     const [activeSheet, setActiveSheet] = useState<number>(0);
+
+    const [hideEmptyColumns, setHideEmptyColumns] = useState<boolean>(true);
 
     // Context
     const { fhirUrl } = useContext(EnvironmentContext);
@@ -115,9 +126,9 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                         // Check if any row in this column has non-empty data
                         const hasData = dataRows.some(
                             (row) =>
-                                row[index] !== undefined &&
-                                row[index] !== null &&
-                                String(row[index]).trim() !== ''
+                                row[`${index}`] !== undefined &&
+                                row[`${index}`] !== null &&
+                                String(row[`${index}`]).trim() !== ''
                         );
 
                         return {
@@ -126,7 +137,7 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                             editable: false,
                             filter: true,
                             floatingFilter: true,
-                            hide: !hasData, // Hide column if no data
+                            hide: hideEmptyColumns && !hasData, // Conditional hiding based on state
                         };
                     });
 
@@ -160,7 +171,7 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
         };
 
         fetchSpreadsheetData().then((r) => r);
-    }, [relativeUrl]);
+    }, [relativeUrl, hideEmptyColumns]);
 
     // AG-Grid default options
     const defaultColDef = useMemo(
@@ -242,7 +253,17 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                         />
                     ))}
                 </Tabs>
-
+                <FormControlLabel
+                    control={
+                        <Checkbox
+                            checked={hideEmptyColumns}
+                            onChange={(e) => setHideEmptyColumns(e.target.checked)}
+                            size="small"
+                        />
+                    }
+                    label={<Typography variant="caption">Hide Empty Columns</Typography>}
+                    sx={{ mr: 1 }}
+                />
                 <FileDownload relativeUrl={relativeUrl} format="application/vnd.ms-excel" />
             </Box>
             <Box
