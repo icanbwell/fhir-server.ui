@@ -1,8 +1,9 @@
 import { Buffer } from 'buffer';
 import axios from 'axios';
 import AuthUrlProvider from '../utils/authUrlProvider';
+import { IAuthService } from './IAuthService';
 
-class AuthService {
+class AuthService implements IAuthService{
     private authUrlProvider: AuthUrlProvider;
 
     constructor() {
