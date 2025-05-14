@@ -61,7 +61,7 @@ const Auth = () => {
     };
 
     const fetchToken = async (code: string) => {
-        console.log('Fetching token....');
+        console.log('Fetching token....' + queryParams);
 
         // Retrieve code verifier from sessionStorage
         const storedVerifier = sessionStorage.getItem('code_verifier');
