@@ -8,12 +8,8 @@ services:
       REACT_APP_AUTH_CUSTOM_GROUP: 'cognito:groups'
       REACT_APP_AUTH_CUSTOM_SCOPE: 'custom:scope'
       REACT_APP_FHIR_SERVER_URL: 'http://localhost:3000'
-      REACT_APP_AUTH_CODE_FLOW_CLIENT_ID: '0oarey6c541SzLNmv697'
-      REACT_APP_AUTH_CODE_FLOW_AUTHORIZE_URL: 'https://icanbwell.okta.com/oauth2/v1/authorize'
-      REACT_APP_AUTH_CODE_FLOW_TOKEN_URL: 'https://icanbwell.okta.com/oauth2/v1/token'
-      REACT_APP_AUTH_CODE_FLOW_REDIRECT_URL: 'http://localhost:5051/authcallback'
-      REACT_APP_AUTH_CODE_FLOW_LOGOUT_URL: 'https://icanbwell.okta.com/oauth2/v1/logout'
-      REACT_APP_AUTH_WELL_KNOWN_URL: 'https://icanbwell.okta.com/.well-known/openid-configuration'
+      REACT_APP_AUTH_CODE_FLOW_CLIENT_ID: '5et51l3beeahp016i4qe6hurtr'
+      REACT_APP_AUTH_CODE_FLOW_URL: 'https://bwell-dev.auth.us-east-1.amazoncognito.com'
     ports:
       - "5051:5051"
     volumes:
