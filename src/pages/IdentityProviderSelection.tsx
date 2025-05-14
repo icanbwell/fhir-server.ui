@@ -1,16 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Typography, Button, Box } from '@mui/material';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import EnvContext from '../context/EnvironmentContext';
 
 const IdentityProviderSelection = () => {
+    const env = useContext(EnvContext);
     const navigate = useNavigate();
 
     const handleProviderSelection = (provider: string) => {
         sessionStorage.setItem('identityProvider', provider);
         navigate('/authcallback');
     };
+
+    const providers: string[] = env.AUTH_PROVIDERS.split(',').map((s) => s.trim());
 
     return (
         <Container maxWidth={false}>
@@ -30,22 +34,17 @@ const IdentityProviderSelection = () => {
                     Select Identity Provider
                 </Typography>
                 <Box sx={{ mt: 4 }}>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        sx={{ mb: 2, width: '100%' }}
-                        onClick={() => handleProviderSelection('okta')}
-                    >
-                        Login with Okta
-                    </Button>
-                    <Button
-                        variant="contained"
-                        color="secondary"
-                        sx={{ width: '100%' }}
-                        onClick={() => handleProviderSelection('cognito')}
-                    >
-                        Login with Cognito
-                    </Button>
+                    {providers.map((provider) => (
+                        <Button
+                            key={provider}
+                            variant="contained"
+                            color={provider.toLowerCase() === 'okta' ? 'primary' : 'secondary'}
+                            sx={{ mb: 2, width: '100%' }}
+                            onClick={() => handleProviderSelection(provider)}
+                        >
+                            Login with {provider.charAt(0).toUpperCase() + provider.slice(1)}
+                        </Button>
+                    ))}
                 </Box>
             </Container>
             <Footer />
