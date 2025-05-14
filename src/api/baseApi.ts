@@ -12,16 +12,20 @@ interface GetDataParams {
 class BaseApi {
     private readonly fhirUrl: string | undefined;
     private readonly setUserDetails: React.Dispatch<React.SetStateAction<TUserDetails|null>> | undefined;
+    private readonly tokenToSendToFhirServer: string | undefined;
 
     constructor({
         fhirUrl,
         setUserDetails,
+        tokenToSendToFhirServer,
     }: {
         fhirUrl: string | undefined;
         setUserDetails: React.Dispatch<React.SetStateAction<TUserDetails|null>> | undefined;
+        tokenToSendToFhirServer: string | undefined;
     }) {
         this.fhirUrl = fhirUrl;
         this.setUserDetails = setUserDetails;
+        this.tokenToSendToFhirServer = tokenToSendToFhirServer;
         axios.interceptors.request.use(this.requestInterceptor);
     }
 
@@ -55,7 +59,7 @@ class BaseApi {
     }
 
     requestInterceptor(req: InternalAxiosRequestConfig<any>): InternalAxiosRequestConfig<any> {
-        const token = getLocalData('jwt');
+        const token = getLocalData(this.tokenToSendToFhirServer || 'jwt');
         if (typeof token === 'string') {
             req.headers.Authorization = `Bearer ${token}`;
         }

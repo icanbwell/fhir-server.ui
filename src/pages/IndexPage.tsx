@@ -30,7 +30,7 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
  * Note: Any route parameters are available via useParams()
  */
 const IndexPage = ({ search }: { search?: boolean }) => {
-    const { fhirUrl } = useContext(EnvironmentContext);
+    const { fhirUrl, TOKEN_TO_SEND_TO_FHIR_SERVER } = useContext(EnvironmentContext);
     const { setUserDetails } = useContext(UserContext);
     const [resources, setResources] = useState<any>();
     const [bundle, setBundle] = useState<TBundle | undefined>();
@@ -175,7 +175,7 @@ const IndexPage = ({ search }: { search?: boolean }) => {
             try {
                 setLoading(true);
                 if (fhirUrl) {
-                    const fhirApi = new FhirApi({ fhirUrl, setUserDetails });
+                    const fhirApi = new FhirApi({ fhirUrl, setUserDetails, tokenToSendToFhirServer: TOKEN_TO_SEND_TO_FHIR_SERVER });
                     const { json, status: statusCode } = await fhirApi.getBundleAsync({
                         resourceType,
                         id,
@@ -224,7 +224,7 @@ const IndexPage = ({ search }: { search?: boolean }) => {
      * @param {SearchFormQuery} searchFormQuery
      */
     const handleSearch = (searchFormQuery: any) => {
-        const fhirApi = new FhirApi({ fhirUrl, setUserDetails });
+        const fhirApi = new FhirApi({ fhirUrl, setUserDetails, tokenToSendToFhirServer: TOKEN_TO_SEND_TO_FHIR_SERVER });
 
         const newUrl: URL = fhirApi.getUrl({
             resourceType: resourceType,

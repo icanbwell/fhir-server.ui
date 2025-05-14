@@ -2,7 +2,7 @@ import { createContext } from 'react';
 import FhirApi from '../api/fhirApi';
 
 let fhirServerVersion = 'null';
-new FhirApi({ fhirUrl: process.env.REACT_APP_FHIR_SERVER_URL, setUserDetails: undefined })
+new FhirApi({ fhirUrl: process.env.REACT_APP_FHIR_SERVER_URL, setUserDetails: undefined, tokenToSendToFhirServer: process.env.REACT_APP_TOKEN_TO_SEND_TO_FHIR_SERVER })
     .getVersion()
     .then((version: string) => (fhirServerVersion = version));
 
@@ -18,6 +18,7 @@ const EnvContext = createContext<{
     AUTH_WELL_KNOWN_URL: string;
     AUTH_CODE_FLOW_REDIRECT_URL: string;
     FHIR_APP_VERSION: string;
+    TOKEN_TO_SEND_TO_FHIR_SERVER: string;
     getFhirServerVersion:() => string;
 }>({
     fhirUrl: process.env.REACT_APP_FHIR_SERVER_URL || '',
@@ -31,6 +32,7 @@ const EnvContext = createContext<{
     FHIR_APP_VERSION: process.env.FHIR_APP_VERSION || 'null',
     AUTH_WELL_KNOWN_URL: process.env.REACT_APP_AUTH_WELL_KNOWN_URL || '',
     AUTH_CODE_FLOW_REDIRECT_URL: process.env.REACT_APP_AUTH_CODE_FLOW_REDIRECT_URL || '',
+    TOKEN_TO_SEND_TO_FHIR_SERVER: process.env.REACT_APP_TOKEN_TO_SEND_TO_FHIR_SERVER || '',
     getFhirServerVersion: () => fhirServerVersion,
 });
 

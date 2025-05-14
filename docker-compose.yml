@@ -14,6 +14,7 @@ services:
       REACT_APP_AUTH_CODE_FLOW_REDIRECT_URL: 'http://localhost:5051/authcallback'
       REACT_APP_AUTH_CODE_FLOW_LOGOUT_URL: 'https://icanbwell.okta.com/oauth2/v1/logout'
       REACT_APP_AUTH_WELL_KNOWN_URL: 'https://icanbwell.okta.com/.well-known/openid-configuration'
+      REACT_APP_TOKEN_TO_SEND_TO_FHIR_SERVER: 'id_token' # other option is `jwt'
     ports:
       - "5051:5051"
     volumes:
