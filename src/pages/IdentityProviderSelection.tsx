@@ -6,7 +6,8 @@ const IdentityProviderSelection = () => {
 
     const handleProviderSelection = (provider: string) => {
         // Redirect to the Auth page with the selected provider
-        navigate(`/authcallback?provider=${provider}`);
+        sessionStorage.setItem('identityProvider', provider);
+        navigate('/authcallback');
     };
 
     return (

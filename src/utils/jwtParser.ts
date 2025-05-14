@@ -1,19 +1,15 @@
 import { InvalidTokenError, jwtDecode } from 'jwt-decode';
 import { getLocalData, removeLocalData } from './localData.utils';
 import { TUserDetails } from '../types/baseTypes';
+import AuthUrlProvider from './authUrlProvider';
 
-export const jwtParser = ({
-    customUserName,
-    customGroup,
-    customScope,
-    tokenToSendToFhirServer
-}: {
-    customUserName: string | undefined;
-    customGroup: string | undefined;
-    customScope: string | undefined;
-    tokenToSendToFhirServer: string | undefined;
-}): TUserDetails | null => {
-    const token = getLocalData(tokenToSendToFhirServer || 'jwt');
+export const jwtParser = (): TUserDetails | null => {
+    const identityProvider = sessionStorage.getItem('identityProvider');
+    if (!identityProvider) {
+        return null; // no identity provider has been chosen by the user yet
+    }
+    const authUrls = new AuthUrlProvider().getAuthUrls(identityProvider);
+    const token = getLocalData(authUrls.tokenToSendToFhirServer || 'jwt');
     if (!token) {
         return null;
     }
@@ -26,10 +22,10 @@ export const jwtParser = ({
             return null;
         }
         let scope: string =
-            (decodedToken.scope ? decodedToken.scope : decodedToken[`${customScope}`]) || '';
+            (decodedToken.scope ? decodedToken.scope : decodedToken[`${authUrls.customScope}`]) || '';
 
         // split customGroup into a string array on comma
-        const customGroupArray: string[] = customGroup ? customGroup.split(',') : [];
+        const customGroupArray: string[] = authUrls.customGroup ? authUrls.customGroup.split(',') : [];
         // see if any of the custom groups are in the token
         const groupsInToken: string[] = customGroupArray
             .map((group) => decodedToken[`${group}`] || null)
@@ -41,7 +37,7 @@ export const jwtParser = ({
         const isAdmin: boolean = scope.split(' ').some((s) => s.startsWith('admin/'));
 
         // check if any of the custom usernames are in the token
-        const customUserNameArray: string[] = customUserName ? customUserName.split(',') : [];
+        const customUserNameArray: string[] = authUrls.customUserName ? authUrls.customUserName.split(',') : [];
         // see if any of the custom groups are in the token
         const userNameInToken: string | undefined = customUserNameArray
             .map((group) => decodedToken[`${group}`] || null)

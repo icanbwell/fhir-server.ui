@@ -7,6 +7,7 @@ import BwellIcon from '../dist/images/bwell.png';
 import EnvContext from '../context/EnvironmentContext';
 import UserContext from '../context/UserContext';
 import { removeLocalData } from '../utils/localData.utils';
+import AuthUrlProvider from '../utils/authUrlProvider';
 
 const Header = () => {
     const env = useContext(EnvContext);
@@ -22,31 +23,35 @@ const Header = () => {
             // Retrieve ID token from local storage
             const idToken = localStorage.getItem('id_token');
 
-            // Construct logout parameters
-            const logoutParams = new URLSearchParams({
-                client_id: env.AUTH_CODE_FLOW_CLIENT_ID,
-                post_logout_redirect_uri: window.location.origin,
-            });
+            const identityProvider = sessionStorage.getItem('identityProvider');
+            if (identityProvider) {
+                const authUrls = new AuthUrlProvider().getAuthUrls(identityProvider);
 
-            // Add ID token hint if available
-            if (idToken) {
-                logoutParams.set('id_token_hint', idToken);
+                // Construct logout parameters
+                const logoutParams = new URLSearchParams({
+                    client_id: authUrls.clientId,
+                    post_logout_redirect_uri: window.location.origin,
+                });
+
+                // Add ID token hint if available
+                if (idToken) {
+                    logoutParams.set('id_token_hint', idToken);
+                }
+
+                // Clear local storage and user details
+                removeLocalData('jwt');
+                localStorage.removeItem('id_token');
+
+                // Clear user context
+                if (setUserDetails) {
+                    setUserDetails(null);
+                }
+                // Construct full logout URL
+                const logoutUrl = `${authUrls.logoutUrl}?${logoutParams.toString()}`;
+
+                // Redirect to Okta logout
+                window.location.replace(logoutUrl);
             }
-
-            // Clear local storage and user details
-            removeLocalData('jwt');
-            localStorage.removeItem('id_token');
-
-            // Clear user context
-            if (setUserDetails) {
-                setUserDetails(null);
-            }
-
-            // Construct full logout URL
-            const logoutUrl = `${env.AUTH_CODE_FLOW_LOGOUT_URL}?${logoutParams.toString()}`;
-
-            // Redirect to Okta logout
-            window.location.replace(logoutUrl);
         } catch (error) {
             console.error('Logout failed', error);
 

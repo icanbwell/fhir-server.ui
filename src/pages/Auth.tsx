@@ -3,7 +3,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Buffer } from 'buffer';
 import { setLocalData } from '../utils/localData.utils';
-import EnvironmentContext from '../context/EnvironmentContext';
 import UserContext from '../context/UserContext';
 import { jwtParser } from '../utils/jwtParser';
 import AuthUrlProvider from '../utils/authUrlProvider';
@@ -26,7 +25,6 @@ const generateCodeChallenge = async (codeVerifier: string) => {
 };
 
 const Auth = () => {
-    const env = useContext(EnvironmentContext);
     const { setUserDetails } = useContext(UserContext);
     const location = useLocation();
     const navigate = useNavigate();
@@ -39,7 +37,12 @@ const Auth = () => {
             return;
         }
 
-        const authUrls = new AuthUrlProvider().getAuthUrls('OKTA');
+        const identityProvider = sessionStorage.getItem('identityProvider');
+        if (!identityProvider) {
+            console.error('No identity provider found in session storage');
+            return;
+        }
+        const authUrls = new AuthUrlProvider().getAuthUrls(identityProvider);
         console.log(`Auth URLs: ${JSON.stringify(authUrls)}`);
 
         console.log('Redirecting to login...');
@@ -58,7 +61,7 @@ const Auth = () => {
 
             // Construct authorization parameters
             const authParams = new URLSearchParams({
-                client_id: env.AUTH_CODE_FLOW_CLIENT_ID,
+                client_id: authUrls.clientId,
                 response_type: 'code',
                 scope: 'openid profile email groups',
                 redirect_uri: `${window.location.origin}/authcallback`,
@@ -68,7 +71,7 @@ const Auth = () => {
             });
 
             // Redirect to Okta authorization endpoint
-            window.location.href = `${env.AUTH_CODE_FLOW_AUTHORIZE_URL}?${authParams.toString()}`;
+            window.location.href = `${authUrls.authorizeUrl}?${authParams.toString()}`;
         } catch (error) {
             console.error('Redirect to login failed', error);
             setIsProcessing(false);
@@ -102,14 +105,14 @@ const Auth = () => {
         try {
             const tokenRequestData = new URLSearchParams({
                 grant_type: 'authorization_code',
-                client_id: env.AUTH_CODE_FLOW_CLIENT_ID,
+                client_id: authUrls.clientId,
                 code: code,
                 redirect_uri: `${window.location.origin}/authcallback`,
                 code_verifier: storedVerifier,
             });
 
             const res = await axios.request({
-                url: env.AUTH_CODE_FLOW_TOKEN_URL,
+                url: authUrls.tokenUrl,
                 method: 'POST',
                 data: tokenRequestData,
                 headers: {
@@ -123,14 +126,7 @@ const Auth = () => {
 
             // Parse and set user details
             if (setUserDetails) {
-                setUserDetails(
-                    jwtParser({
-                        customUserName: env.AUTH_CUSTOM_USERNAME,
-                        customGroup: env.AUTH_CUSTOM_GROUP,
-                        customScope: env.AUTH_CUSTOM_SCOPE,
-                        tokenToSendToFhirServer: env.TOKEN_TO_SEND_TO_FHIR_SERVER,
-                    })
-                );
+                setUserDetails(jwtParser());
             }
 
             // Clean up stored code verifier

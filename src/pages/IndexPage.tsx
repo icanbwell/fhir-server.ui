@@ -7,7 +7,8 @@ import {
     Box,
     Button,
     Container,
-    LinearProgress, Tooltip,
+    LinearProgress,
+    Tooltip,
 } from '@mui/material';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -24,13 +25,14 @@ import { TBundle } from '../types/resources/Bundle';
 import UserContext from '../context/UserContext';
 import GridOnIcon from '@mui/icons-material/GridOn'; // New icon for spreadsheet
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import AuthUrlProvider from '../utils/authUrlProvider';
 
 /**
  * IndexPage/home/ubuntu/Documents/code/EFS/fhir-server/src/pages/SearchPage.jsx
  * Note: Any route parameters are available via useParams()
  */
 const IndexPage = ({ search }: { search?: boolean }) => {
-    const { fhirUrl, TOKEN_TO_SEND_TO_FHIR_SERVER } = useContext(EnvironmentContext);
+    const { fhirUrl } = useContext(EnvironmentContext);
     const { setUserDetails } = useContext(UserContext);
     const [resources, setResources] = useState<any>();
     const [bundle, setBundle] = useState<TBundle | undefined>();
@@ -159,7 +161,7 @@ const IndexPage = ({ search }: { search?: boolean }) => {
 
     console.log(
         `id: ${id}, resourceType: ${resourceType}, queryString: ${queryString},` +
-            ` search: ${search}, operation: ${operation}`
+        ` search: ${search}, operation: ${operation}`,
     );
 
     useEffect(() => {
@@ -175,7 +177,17 @@ const IndexPage = ({ search }: { search?: boolean }) => {
             try {
                 setLoading(true);
                 if (fhirUrl) {
-                    const fhirApi = new FhirApi({ fhirUrl, setUserDetails, tokenToSendToFhirServer: TOKEN_TO_SEND_TO_FHIR_SERVER });
+                    const identityProvider = sessionStorage.getItem('identityProvider');
+                    if (!identityProvider) {
+                        // noinspection ExceptionCaughtLocallyJS
+                        throw new Error('Identity provider is not set');
+                    }
+                    const authUrls = new AuthUrlProvider().getAuthUrls(identityProvider);
+                    const fhirApi = new FhirApi({
+                        fhirUrl,
+                        setUserDetails,
+                        tokenToSendToFhirServer: authUrls.tokenToSendToFhirServer,
+                    });
                     const { json, status: statusCode } = await fhirApi.getBundleAsync({
                         resourceType,
                         id,
@@ -224,7 +236,17 @@ const IndexPage = ({ search }: { search?: boolean }) => {
      * @param {SearchFormQuery} searchFormQuery
      */
     const handleSearch = (searchFormQuery: any) => {
-        const fhirApi = new FhirApi({ fhirUrl, setUserDetails, tokenToSendToFhirServer: TOKEN_TO_SEND_TO_FHIR_SERVER });
+        const identityProvider = sessionStorage.getItem('identityProvider');
+        if (!identityProvider) {
+            throw new Error('Identity provider is not set');
+        }
+        const authUrls = new AuthUrlProvider().getAuthUrls(identityProvider);
+
+        const fhirApi = new FhirApi({
+            fhirUrl,
+            setUserDetails,
+            tokenToSendToFhirServer: authUrls.tokenToSendToFhirServer,
+        });
 
         const newUrl: URL = fhirApi.getUrl({
             resourceType: resourceType,

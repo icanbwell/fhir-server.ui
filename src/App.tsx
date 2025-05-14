@@ -22,12 +22,7 @@ import IdentityProviderSelection from './pages/IdentityProviderSelection';
 function App(): React.ReactElement {
     const env = useContext(EnvContext);
     const [userDetails, setUserDetails] = useState<TUserDetails | null>(
-        jwtParser({
-            customUserName: env.AUTH_CUSTOM_USERNAME,
-            customGroup: env.AUTH_CUSTOM_GROUP,
-            customScope: env.AUTH_CUSTOM_SCOPE,
-            tokenToSendToFhirServer: env.TOKEN_TO_SEND_TO_FHIR_SERVER,
-        })
+        jwtParser()
     );
     console.log(`Setting fhirUrl to ${env.fhirUrl}`);
 
