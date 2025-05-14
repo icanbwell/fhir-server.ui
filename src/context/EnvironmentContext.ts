@@ -12,11 +12,7 @@ const EnvContext = createContext<{
     AUTH_CUSTOM_GROUP: string;
     AUTH_CUSTOM_SCOPE: string;
     AUTH_CODE_FLOW_CLIENT_ID: string;
-    AUTH_CODE_FLOW_TOKEN_URL: string;
-    AUTH_CODE_FLOW_AUTHORIZE_URL: string;
-    AUTH_CODE_FLOW_LOGOUT_URL: string;
-    AUTH_WELL_KNOWN_URL: string;
-    AUTH_CODE_FLOW_REDIRECT_URL: string;
+    AUTH_CODE_FLOW_URL: string;
     FHIR_APP_VERSION: string;
     getFhirServerVersion:() => string;
 }>({
@@ -25,12 +21,8 @@ const EnvContext = createContext<{
     AUTH_CUSTOM_GROUP: process.env.REACT_APP_AUTH_CUSTOM_GROUP || '',
     AUTH_CUSTOM_SCOPE: process.env.REACT_APP_AUTH_CUSTOM_SCOPE || '',
     AUTH_CODE_FLOW_CLIENT_ID: process.env.REACT_APP_AUTH_CODE_FLOW_CLIENT_ID || '',
-    AUTH_CODE_FLOW_TOKEN_URL: process.env.REACT_APP_AUTH_CODE_FLOW_TOKEN_URL || '',
-    AUTH_CODE_FLOW_AUTHORIZE_URL: process.env.REACT_APP_AUTH_CODE_FLOW_AUTHORIZE_URL || '',
-    AUTH_CODE_FLOW_LOGOUT_URL: process.env.REACT_APP_AUTH_CODE_FLOW_LOGOUT_URL || '',
+    AUTH_CODE_FLOW_URL: process.env.REACT_APP_AUTH_CODE_FLOW_URL || '',
     FHIR_APP_VERSION: process.env.FHIR_APP_VERSION || 'null',
-    AUTH_WELL_KNOWN_URL: process.env.REACT_APP_AUTH_WELL_KNOWN_URL || '',
-    AUTH_CODE_FLOW_REDIRECT_URL: process.env.REACT_APP_AUTH_CODE_FLOW_REDIRECT_URL || '',
     getFhirServerVersion: () => fhirServerversion,
 });
 
