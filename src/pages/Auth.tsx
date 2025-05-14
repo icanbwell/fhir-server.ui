@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Buffer } from 'buffer';
@@ -30,42 +30,59 @@ const Auth = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const queryParams = new URLSearchParams(location.search);
+    const [isProcessing, setIsProcessing] = useState(false);
 
     const redirectToLogin = async () => {
+        // Prevent multiple simultaneous redirects
+        if (isProcessing) {return;}
+
         console.log('Redirecting to login...');
+        setIsProcessing(true);
 
-        // Generate PKCE parameters
-        const verifier = generateCodeVerifier();
-        const challenge = await generateCodeChallenge(verifier);
+        try {
+            // Generate PKCE parameters
+            const verifier = generateCodeVerifier();
+            const challenge = await generateCodeChallenge(verifier);
 
-        // Store code verifier in sessionStorage for later use
-        sessionStorage.setItem('code_verifier', verifier);
+            // Store code verifier in localStorage (more persistent than sessionStorage)
+            console.log(`Storing code verifier: ${verifier}`);
+            localStorage.setItem('code_verifier', verifier);
 
-        // Determine resource URL from state or default
-        const resourceUrl = location.state?.resourceUrl || '/';
+            // Determine resource URL from state or default
+            const resourceUrl = location.state?.resourceUrl || '/';
 
-        // Construct authorization parameters
-        const authParams = new URLSearchParams({
-            client_id: env.AUTH_CODE_FLOW_CLIENT_ID,
-            response_type: 'code',
-            scope: 'openid profile email',
-            redirect_uri: `${window.location.origin}/authcallback`,
-            state: Buffer.from(resourceUrl).toString('base64'),
-            code_challenge: challenge,
-            code_challenge_method: 'S256',
-        });
+            // Construct authorization parameters
+            const authParams = new URLSearchParams({
+                client_id: env.AUTH_CODE_FLOW_CLIENT_ID,
+                response_type: 'code',
+                scope: 'openid profile email',
+                redirect_uri: `${window.location.origin}/authcallback`,
+                state: Buffer.from(resourceUrl).toString('base64'),
+                code_challenge: challenge,
+                code_challenge_method: 'S256',
+            });
 
-        // Redirect to Okta authorization endpoint
-        window.location.replace(`${env.AUTH_CODE_FLOW_AUTHORIZE_URL}?${authParams.toString()}`);
+            // Redirect to Okta authorization endpoint
+            window.location.href = `${env.AUTH_CODE_FLOW_AUTHORIZE_URL}?${authParams.toString()}`;
+        } catch (error) {
+            console.error('Redirect to login failed', error);
+            setIsProcessing(false);
+        }
     };
 
     const fetchToken = async (code: string) => {
-        console.log('Fetching token....' + queryParams);
+        // Prevent multiple token fetches
+        if (isProcessing) {return;}
+        setIsProcessing(true);
 
-        // Retrieve code verifier from sessionStorage
-        const storedVerifier = sessionStorage.getItem('code_verifier');
+        console.log('Fetching token....');
+
+        // Retrieve code verifier from localStorage
+        console.log('Retrieving code verifier from localStorage');
+        const storedVerifier = localStorage.getItem('code_verifier');
         if (!storedVerifier) {
             console.error('No code verifier found');
+            setIsProcessing(false);
             await redirectToLogin();
             return;
         }
@@ -92,7 +109,7 @@ const Auth = () => {
                 },
             });
 
-            // Store tokens (adjust based on Okta's token response)
+            // Store tokens
             setLocalData('jwt', res.data.access_token);
             setLocalData('id_token', res.data.id_token);
 
@@ -107,24 +124,28 @@ const Auth = () => {
             }
 
             // Clean up stored code verifier
-            sessionStorage.removeItem('code_verifier');
+            localStorage.removeItem('code_verifier');
 
             // Navigate to original resource URL
             navigate(resourceUrl, { replace: true });
         } catch (err) {
             console.error('Token fetch error:', err);
-            await redirectToLogin();
+            setIsProcessing(false);
+            // await redirectToLogin();
         }
     };
 
     useEffect(() => {
+        // Reset processing state when location changes
+        setIsProcessing(false);
+
         const code = queryParams.get('code');
 
         if (!code) {
             console.info('No code received, redirecting to login...');
-            redirectToLogin().then((r) => r);
+            redirectToLogin().then(r => r);
         } else {
-            fetchToken(code).then((r) => r);
+            fetchToken(code).then(r => r);
         }
     }, [location]);
 
