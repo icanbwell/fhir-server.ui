@@ -6,6 +6,7 @@ import { setLocalData } from '../utils/localData.utils';
 import EnvironmentContext from '../context/EnvironmentContext';
 import UserContext from '../context/UserContext';
 import { jwtParser } from '../utils/jwtParser';
+import AuthUrlProvider from '../utils/authUrlProvider';
 
 // PKCE utility functions
 const generateCodeVerifier = (length = 128) => {
@@ -34,7 +35,12 @@ const Auth = () => {
 
     const redirectToLogin = async () => {
         // Prevent multiple simultaneous redirects
-        if (isProcessing) {return;}
+        if (isProcessing) {
+            return;
+        }
+
+        const authUrls = new AuthUrlProvider().getAuthUrls('OKTA');
+        console.log(`Auth URLs: ${JSON.stringify(authUrls)}`);
 
         console.log('Redirecting to login...');
         setIsProcessing(true);
@@ -71,10 +77,14 @@ const Auth = () => {
 
     const fetchToken = async (code: string) => {
         // Prevent multiple token fetches
-        if (isProcessing) {return;}
+        if (isProcessing) {
+            return;
+        }
         setIsProcessing(true);
 
         console.log('Fetching token....');
+        const authUrls = new AuthUrlProvider().getAuthUrls('OKTA');
+        console.log(`Auth URLs: ${JSON.stringify(authUrls)}`);
 
         // Retrieve code verifier from localStorage
         const storedVerifier = localStorage.getItem('code_verifier');
@@ -118,7 +128,7 @@ const Auth = () => {
                         customUserName: env.AUTH_CUSTOM_USERNAME,
                         customGroup: env.AUTH_CUSTOM_GROUP,
                         customScope: env.AUTH_CUSTOM_SCOPE,
-                        tokenToSendToFhirServer: env.TOKEN_TO_SEND_TO_FHIR_SERVER
+                        tokenToSendToFhirServer: env.TOKEN_TO_SEND_TO_FHIR_SERVER,
                     })
                 );
             }
@@ -143,9 +153,9 @@ const Auth = () => {
 
         if (!code) {
             console.info('No code received, redirecting to login...');
-            redirectToLogin().then(r => r);
+            redirectToLogin().then((r) => r);
         } else {
-            fetchToken(code).then(r => r);
+            fetchToken(code).then((r) => r);
         }
     }, [location]);
 

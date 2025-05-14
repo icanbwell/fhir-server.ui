@@ -16,6 +16,13 @@ services:
       REACT_APP_AUTH_CODE_FLOW_LOGOUT_URL: 'https://icanbwell.okta.com/oauth2/v1/logout'
       REACT_APP_AUTH_WELL_KNOWN_URL: 'https://icanbwell.okta.com/.well-known/openid-configuration'
       REACT_APP_TOKEN_TO_SEND_TO_FHIR_SERVER: 'id_token' # other option is `jwt'
+      REACT_APP_AUTH_OKTA_CODE_FLOW_CLIENT_ID: '0oarf29h6x2DaWCkT697'
+      REACT_APP_AUTH_OKTA_AUTHORIZE_URL: 'https://icanbwell.okta.com/oauth2/v1/authorize'
+      REACT_APP_AUTH_OKTA_TOKEN_URL: 'https://icanbwell.okta.com/oauth2/v1/token'
+      REACT_APP_AUTH_OKTA__REDIRECT_URL: 'http://localhost:5051/authcallback'
+      REACT_APP_AUTH_OKTA_LOGOUT_URL: 'https://icanbwell.okta.com/oauth2/v1/logout'
+      REACT_APP_AUTH_OKTA_WELL_KNOWN_URL: 'https://icanbwell.okta.com/.well-known/openid-configuration'
+      REACT_APP_AUTH_OKTA_TOKEN_TO_SEND_TO_FHIR_SERVER: 'id_token' # other option is `jwt'
     ports:
       - "5051:5051"
     volumes:
