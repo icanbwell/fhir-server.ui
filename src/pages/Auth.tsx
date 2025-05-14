@@ -55,7 +55,7 @@ const Auth = () => {
             const authParams = new URLSearchParams({
                 client_id: env.AUTH_CODE_FLOW_CLIENT_ID,
                 response_type: 'code',
-                scope: 'openid profile email',
+                scope: 'openid profile email groups',
                 redirect_uri: `${window.location.origin}/authcallback`,
                 state: Buffer.from(resourceUrl).toString('base64'),
                 code_challenge: challenge,

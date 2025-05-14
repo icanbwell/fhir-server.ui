@@ -10,7 +10,7 @@ import { removeLocalData } from '../utils/localData.utils';
 
 const Header = () => {
     const env = useContext(EnvContext);
-    const { userDetails } = useContext(UserContext);
+    const { userDetails, setUserDetails } = useContext(UserContext);
     const [anchorEl, setAnchorEl] = useState(null);
 
     const handlePopoverOpen = (event: any) => {
@@ -18,14 +18,49 @@ const Header = () => {
     };
 
     const handleLogout = () => {
-        const query = new URLSearchParams();
-        query.set('client_id', env.AUTH_CODE_FLOW_CLIENT_ID);
-        query.set('post_logout_redirect_uri', window.location.origin);
+        try {
+            // Retrieve ID token from local storage
+            const idToken = localStorage.getItem('id_token');
 
-        // signout user locally
-        removeLocalData('jwt');
-        // signout user from cognito
-        window.location.replace(`${env.AUTH_CODE_FLOW_LOGOUT_URL}?${query.toString()}`);
+            // Construct logout parameters
+            const logoutParams = new URLSearchParams({
+                client_id: env.AUTH_CODE_FLOW_CLIENT_ID,
+                post_logout_redirect_uri: window.location.origin,
+            });
+
+            // Add ID token hint if available
+            if (idToken) {
+                logoutParams.set('id_token_hint', idToken);
+            }
+
+            // Clear local storage and user details
+            removeLocalData('jwt');
+            localStorage.removeItem('id_token');
+
+            // Clear user context
+            if (setUserDetails) {
+                setUserDetails(null);
+            }
+
+            // Construct full logout URL
+            const logoutUrl = `${env.AUTH_CODE_FLOW_LOGOUT_URL}?${logoutParams.toString()}`;
+
+            // Redirect to Okta logout
+            window.location.replace(logoutUrl);
+        } catch (error) {
+            console.error('Logout failed', error);
+
+            // Fallback logout
+            removeLocalData('jwt');
+            localStorage.removeItem('id_token');
+
+            if (setUserDetails) {
+                setUserDetails(null);
+            }
+
+            // Redirect to home or login page
+            window.location.replace(window.location.origin);
+        }
     };
 
     return (
@@ -45,7 +80,7 @@ const Header = () => {
                         id="appInfo"
                         onMouseEnter={handlePopoverOpen}
                     >
-                        <InfoIcon/>
+                        <InfoIcon />
                     </IconButton>
                     <Popover
                         open={Boolean(anchorEl)}
@@ -61,7 +96,8 @@ const Header = () => {
                         }}
                     >
                         <Typography sx={{ p: 1, minWidth: '10rem' }}>
-                            FHIR App: {env.FHIR_APP_VERSION}<br/>
+                            FHIR App: {env.FHIR_APP_VERSION}
+                            <br />
                             FHIR Server: {env.getFhirServerVersion()}
                         </Typography>
                     </Popover>
