@@ -7,8 +7,19 @@ services:
       PORT: 5051
       REACT_APP_FHIR_SERVER_URL: 'http://localhost:3000'
       # Each AuthProvider has its own set of environment variables
-      REACT_APP_AUTH_OKTA_CUSTOM_USERNAME: "cognito:username,preferred_username"
-      REACT_APP_AUTH_OKTA_CUSTOM_GROUP: "cognito:groups,groups"
+      REACT_APP_AUTH_COGNITO_CUSTOM_USERNAME: "cognito:username"
+      REACT_APP_AUTH_COGNITO_CUSTOM_GROUP: "cognito:groups"
+      REACT_APP_AUTH_COGNITO_CUSTOM_SCOPE: "custom:scope"
+      REACT_APP_AUTH_COGNITO_CLIENT_ID: '5et51l3beeahp016i4qe6hurtr'
+      REACT_APP_AUTH_COGNITO_AUTHORIZE_URL: 'https://bwell-dev.auth.us-east-1.amazoncognito.com/oauth2/authorize'
+      REACT_APP_AUTH_COGNITO_TOKEN_URL: 'https://bwell-dev.auth.us-east-1.amazoncognito.com/oauth2/token'
+      REACT_APP_AUTH_COGNITO__REDIRECT_URL: 'http://localhost:5051/authcallback'
+      REACT_APP_AUTH_COGNITO_LOGOUT_URL: 'https://bwell-dev.auth.us-east-1.amazoncognito.com/oauth2/logout'
+      REACT_APP_AUTH_COGNITO_WELL_KNOWN_URL: 'https://cognito-idp.us-east-1.amazonaws.com/us-east-1_yV7wvD4xD/.well-known/openid-configuration'
+      REACT_APP_AUTH_COGNITO_TOKEN_TO_SEND_TO_FHIR_SERVER: 'jwt' # other option is 'id_token'
+      # Each AuthProvider has its own set of environment variables
+      REACT_APP_AUTH_OKTA_CUSTOM_USERNAME: "preferred_username"
+      REACT_APP_AUTH_OKTA_CUSTOM_GROUP: "groups"
       REACT_APP_AUTH_OKTA_CUSTOM_SCOPE: "custom:scope"
       REACT_APP_AUTH_OKTA_CLIENT_ID: '0oarf29h6x2DaWCkT697'
       REACT_APP_AUTH_OKTA_AUTHORIZE_URL: 'https://icanbwell.okta.com/oauth2/v1/authorize'

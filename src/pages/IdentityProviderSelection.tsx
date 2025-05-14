@@ -14,8 +14,7 @@ const IdentityProviderSelection = () => {
         <div>
             <h1>Select Identity Provider</h1>
             <button onClick={() => handleProviderSelection('okta')}>Login with Okta</button>
-            <button onClick={() => handleProviderSelection('google')}>Login with Google</button>
-            <button onClick={() => handleProviderSelection('azure')}>Login with Azure</button>
+            <button onClick={() => handleProviderSelection('cognito')}>Login with Cognito</button>
         </div>
     );
 };
