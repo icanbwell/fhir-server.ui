@@ -7,7 +7,8 @@ import BwellIcon from '../dist/images/bwell.png';
 import EnvContext from '../context/EnvironmentContext';
 import UserContext from '../context/UserContext';
 import { removeLocalData } from '../utils/localData.utils';
-import AuthUrlProvider from '../utils/authUrlProvider';
+import { IAuthService } from '../services/IAuthService';
+import AuthServiceFactory from '../services/AuthServiceFactory';
 
 const Header = () => {
     const env = useContext(EnvContext);
@@ -18,25 +19,13 @@ const Header = () => {
         setAnchorEl(event.currentTarget);
     };
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
         try {
-            // Retrieve ID token from local storage
-            const idToken = localStorage.getItem('id_token');
-
             const identityProvider = sessionStorage.getItem('identityProvider');
             if (identityProvider) {
-                const authUrls = new AuthUrlProvider().getAuthUrls(identityProvider);
-
-                // Construct logout parameters
-                const logoutParams = new URLSearchParams({
-                    client_id: authUrls.clientId,
-                    post_logout_redirect_uri: window.location.origin,
-                });
-
-                // Add ID token hint if available
-                if (idToken) {
-                    logoutParams.set('id_token_hint', idToken);
-                }
+                const authService: IAuthService = AuthServiceFactory.getAuthService();
+                // Construct full logout URL
+                const logoutUrl: string = await authService.getLogoutUrl(identityProvider);
 
                 // Clear local storage and user details
                 removeLocalData('jwt');
@@ -46,8 +35,6 @@ const Header = () => {
                 if (setUserDetails) {
                     setUserDetails(null);
                 }
-                // Construct full logout URL
-                const logoutUrl = `${authUrls.logoutUrl}?${logoutParams.toString()}`;
 
                 // Redirect to Okta logout
                 window.location.replace(logoutUrl);

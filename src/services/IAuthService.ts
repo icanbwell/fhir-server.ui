@@ -3,5 +3,8 @@ export interface IAuthService {
     getLoginUrl(identityProvider: string, resourceUrl: string): Promise<string>;
 
     // eslint-disable-next-line no-unused-vars
+    getLogoutUrl(identityProvider: string): Promise<string>;
+
+    // eslint-disable-next-line no-unused-vars
     fetchToken(identityProvider: string, code: string, resourceUrl: string): Promise<any>;
 }

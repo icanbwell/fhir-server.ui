@@ -3,7 +3,7 @@ import axios from 'axios';
 import AuthUrlProvider from '../utils/authUrlProvider';
 import { IAuthService } from './IAuthService';
 
-class OktaAuthService implements IAuthService{
+class OktaAuthService implements IAuthService {
     private authUrlProvider: AuthUrlProvider;
 
     constructor() {
@@ -73,6 +73,21 @@ class OktaAuthService implements IAuthService{
         } catch (error) {
             throw error;
         }
+    }
+
+    async getLogoutUrl(identityProvider: string): Promise<string> {
+        const authUrls = this.authUrlProvider.getAuthUrls(identityProvider);
+        const idToken = localStorage.getItem('id_token');
+        const logoutParams = new URLSearchParams({
+            client_id: authUrls.clientId,
+            post_logout_redirect_uri: window.location.origin,
+        });
+        // Add ID token hint if available
+        if (idToken) {
+            logoutParams.set('id_token_hint', idToken);
+        }
+
+        return `${authUrls.logoutUrl}?${logoutParams.toString()}`;
     }
 }
 

@@ -74,6 +74,16 @@ class CognitoAuthService implements IAuthService {
             throw error;
         }
     }
+
+    async getLogoutUrl(identityProvider: string): Promise<string> {
+        const authUrls = this.authUrlProvider.getAuthUrls(identityProvider);
+        const logoutParams = new URLSearchParams({
+            client_id: authUrls.clientId,
+            logout_uri: `${window.location.origin}`,
+        });
+
+        return `${authUrls.logoutUrl}?${logoutParams.toString()}`;
+    }
 }
 
 export default CognitoAuthService;
