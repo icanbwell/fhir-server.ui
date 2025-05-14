@@ -16,21 +16,31 @@ const Auth = () => {
     const redirectToLogin = (query: URLSearchParams) => {
         console.log('redirecting to login....');
         const resourceUrl = location.state?.resourceUrl || '/';
+        query.set('client_id', env.AUTH_CODE_FLOW_CLIENT_ID);
         query.set('response_type', 'code');
         query.set('state', Buffer.from(resourceUrl).toString('base64'));
+        query.set('scope', 'openid profile email');
 
         // state parameter determines the url that Cognito redirects to: https://docs.aws.amazon.com/cognito/latest/developerguide/authorization-endpoint.html
-        window.location.replace(`${env.AUTH_CODE_FLOW_URL}/login?${query.toString()}`);
+        window.location.replace(`${env.AUTH_CODE_FLOW_AUTHORIZE_URL}?${query.toString()}`);
     };
 
     const fetchToken = async (query: URLSearchParams) => {
-        console.log('Fetching token....');
+        console.log('Fetching token....' + queryParams);
         // if code is present then fetch the JWT token and save it into the localStorage
         const state = queryParams.get('state');
         const resourceUrl = state ? Buffer.from(state, 'base64').toString('ascii') : '/';
-        const tokenUrl = `${env.AUTH_CODE_FLOW_URL}/oauth2/token`;
+        const tokenUrl = `${env.AUTH_CODE_FLOW_TOKEN_URL}`;
 
         query.set('grant_type', 'authorization_code');
+        query.set('client_id', env.AUTH_CODE_FLOW_CLIENT_ID);
+        if (env.AUTH_CODE_FLOW_REDIRECT_URL) {
+            query.set('redirect_uri', env.AUTH_CODE_FLOW_REDIRECT_URL);
+        }
+        const code: string | null = queryParams.get('code');
+        if (code) {
+            query.set('code', code);
+        }
 
         const queryString = query.toString();
 
@@ -46,10 +56,12 @@ const Auth = () => {
 
             setLocalData('jwt', res.data.access_token);
             if (setUserDetails) {
-                setUserDetails(jwtParser({
-                    customGroup: env.AUTH_CUSTOM_GROUP,
-                    customScope: env.AUTH_CUSTOM_SCOPE,
-                }));
+                setUserDetails(
+                    jwtParser({
+                        customGroup: env.AUTH_CUSTOM_GROUP,
+                        customScope: env.AUTH_CUSTOM_SCOPE,
+                    })
+                );
             }
             // redirect to the url user is trying to access and replace it with current url
             window.location.replace(resourceUrl);
@@ -69,6 +81,7 @@ const Auth = () => {
 
         // if code is not present in the queryParams then this if the first redirect send to login page
         if (!code) {
+            console.info(`No code received, redirecting to login... ${queryParams}`);
             redirectToLogin(query);
         } else {
             query.set('code', code);

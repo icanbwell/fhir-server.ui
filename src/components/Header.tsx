@@ -25,7 +25,7 @@ const Header = () => {
         // signout user locally
         removeLocalData('jwt');
         // signout user from cognito
-        window.location.replace(`${env.AUTH_CODE_FLOW_URL}/logout?${query.toString()}`);
+        window.location.replace(`${env.AUTH_CODE_FLOW_LOGOUT_URL}?${query.toString()}`);
     };
 
     return (
