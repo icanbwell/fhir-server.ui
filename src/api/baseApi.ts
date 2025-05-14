@@ -3,6 +3,7 @@ import axios from 'axios';
 import { InternalAxiosRequestConfig } from 'axios';
 import { getLocalData, removeLocalData } from '../utils/localData.utils';
 import { TUserDetails } from '../types/baseTypes';
+import AuthUrlProvider from '../utils/authUrlProvider';
 
 interface GetDataParams {
     urlString: string;
@@ -11,22 +12,20 @@ interface GetDataParams {
 
 class BaseApi {
     private readonly fhirUrl: string | undefined;
-    private readonly setUserDetails: React.Dispatch<React.SetStateAction<TUserDetails|null>> | undefined;
-    private readonly tokenToSendToFhirServer: string | undefined;
+    private readonly setUserDetails:
+        | React.Dispatch<React.SetStateAction<TUserDetails | null>>
+        | undefined;
 
     constructor({
         fhirUrl,
         setUserDetails,
-        tokenToSendToFhirServer,
     }: {
         fhirUrl: string | undefined;
-        setUserDetails: React.Dispatch<React.SetStateAction<TUserDetails|null>> | undefined;
-        tokenToSendToFhirServer: string | undefined;
+        setUserDetails: React.Dispatch<React.SetStateAction<TUserDetails | null>> | undefined;
     }) {
         this.fhirUrl = fhirUrl;
         this.setUserDetails = setUserDetails;
-        this.tokenToSendToFhirServer = tokenToSendToFhirServer;
-        axios.interceptors.request.use(this.requestInterceptorCreator(this.tokenToSendToFhirServer));
+        axios.interceptors.request.use(this.requestInterceptor);
     }
 
     private getBaseUrl(): string {
@@ -58,19 +57,23 @@ class BaseApi {
         }
     }
 
-    requestInterceptorCreator(tokenToSendToFhirServer: string | undefined) {
-        return (req: InternalAxiosRequestConfig<any>): InternalAxiosRequestConfig<any> => {
-            const token = getLocalData(tokenToSendToFhirServer || 'jwt');
-            if (typeof token === 'string') {
-                req.headers.Authorization = `Bearer ${token}`;
-            }
-            req.headers.Accept = 'application/json';
-            req.headers['Cache-Control'] = 'no-cache';
-            req.headers['Pragma'] = 'no-cache';
-            req.headers['Expires'] = '0';
-            req.headers['Origin-Service'] = 'fhir-ui';
-            return req;
-        };
+    requestInterceptor(req: InternalAxiosRequestConfig<any>): InternalAxiosRequestConfig<any> {
+        let tokenToSendToFhirServer = 'jwt';
+        const identityProvider = sessionStorage.getItem('identityProvider');
+        if (identityProvider) {
+            const authUrls = new AuthUrlProvider().getAuthUrls(identityProvider);
+            tokenToSendToFhirServer = authUrls.tokenToSendToFhirServer || tokenToSendToFhirServer;
+        }
+        const token = getLocalData(tokenToSendToFhirServer);
+        if (typeof token === 'string') {
+            req.headers.Authorization = `Bearer ${token}`;
+        }
+        req.headers.Accept = 'application/json';
+        req.headers['Cache-Control'] = 'no-cache';
+        req.headers['Pragma'] = 'no-cache';
+        req.headers['Expires'] = '0';
+        req.headers['Origin-Service'] = 'fhir-ui';
+        return req;
     }
 }
 

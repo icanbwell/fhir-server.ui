@@ -2,7 +2,7 @@ import { createContext } from 'react';
 import FhirApi from '../api/fhirApi';
 
 let fhirServerVersion = 'null';
-new FhirApi({ fhirUrl: process.env.REACT_APP_FHIR_SERVER_URL, setUserDetails: undefined, tokenToSendToFhirServer: process.env.REACT_APP_TOKEN_TO_SEND_TO_FHIR_SERVER })
+new FhirApi({ fhirUrl: process.env.REACT_APP_FHIR_SERVER_URL, setUserDetails: undefined })
     .getVersion()
     .then((version: string) => (fhirServerVersion = version));
 
