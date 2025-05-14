@@ -117,8 +117,10 @@ const Auth = () => {
             if (setUserDetails) {
                 setUserDetails(
                     jwtParser({
+                        customUserName: env.AUTH_CUSTOM_USERNAME,
                         customGroup: env.AUTH_CUSTOM_GROUP,
                         customScope: env.AUTH_CUSTOM_SCOPE,
+                        tokenToSendToFhirServer: env.TOKEN_TO_SEND_TO_FHIR_SERVER
                     })
                 );
             }

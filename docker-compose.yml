@@ -5,8 +5,9 @@ services:
     build: .
     environment:
       PORT: 5051
-      REACT_APP_AUTH_CUSTOM_GROUP: 'cognito:groups'
-      REACT_APP_AUTH_CUSTOM_SCOPE: 'custom:scope'
+      REACT_APP_AUTH_CUSTOM_USERNAME: "cognito:username,preferred_username"
+      REACT_APP_AUTH_CUSTOM_GROUP: "cognito:groups,groups"
+      REACT_APP_AUTH_CUSTOM_SCOPE: "custom:scope"
       REACT_APP_FHIR_SERVER_URL: 'http://localhost:3000'
       REACT_APP_AUTH_CODE_FLOW_CLIENT_ID: '0oarf29h6x2DaWCkT697'
       REACT_APP_AUTH_CODE_FLOW_AUTHORIZE_URL: 'https://icanbwell.okta.com/oauth2/v1/authorize'
