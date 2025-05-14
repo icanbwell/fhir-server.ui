@@ -1,10 +1,10 @@
 import { createContext } from 'react';
 import FhirApi from '../api/fhirApi';
 
-let fhirServerversion = 'null';
+let fhirServerVersion = 'null';
 new FhirApi({ fhirUrl: process.env.REACT_APP_FHIR_SERVER_URL, setUserDetails: undefined })
     .getVersion()
-    .then((version: string) => (fhirServerversion = version));
+    .then((version: string) => (fhirServerVersion = version));
 
 const EnvContext = createContext<{
     fhirUrl: string;
@@ -31,7 +31,7 @@ const EnvContext = createContext<{
     FHIR_APP_VERSION: process.env.FHIR_APP_VERSION || 'null',
     AUTH_WELL_KNOWN_URL: process.env.REACT_APP_AUTH_WELL_KNOWN_URL || '',
     AUTH_CODE_FLOW_REDIRECT_URL: process.env.REACT_APP_AUTH_CODE_FLOW_REDIRECT_URL || '',
-    getFhirServerVersion: () => fhirServerversion,
+    getFhirServerVersion: () => fhirServerVersion,
 });
 
 export default EnvContext;
