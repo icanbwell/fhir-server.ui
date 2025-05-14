@@ -30,7 +30,6 @@ const Auth = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const queryParams = new URLSearchParams(location.search);
-    // const [codeVerifier, setCodeVerifier] = useState<string | null>(null);
 
     const redirectToLogin = async () => {
         console.log('Redirecting to login...');
@@ -67,7 +66,7 @@ const Auth = () => {
         const storedVerifier = sessionStorage.getItem('code_verifier');
         if (!storedVerifier) {
             console.error('No code verifier found');
-            redirectToLogin();
+            await redirectToLogin();
             return;
         }
 
@@ -114,7 +113,7 @@ const Auth = () => {
             navigate(resourceUrl, { replace: true });
         } catch (err) {
             console.error('Token fetch error:', err);
-            redirectToLogin();
+            await redirectToLogin();
         }
     };
 
