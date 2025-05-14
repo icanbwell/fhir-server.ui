@@ -45,7 +45,6 @@ const Auth = () => {
             const challenge = await generateCodeChallenge(verifier);
 
             // Store code verifier in localStorage (more persistent than sessionStorage)
-            console.log(`Storing code verifier: ${verifier}`);
             localStorage.setItem('code_verifier', verifier);
 
             // Determine resource URL from state or default
@@ -78,7 +77,6 @@ const Auth = () => {
         console.log('Fetching token....');
 
         // Retrieve code verifier from localStorage
-        console.log('Retrieving code verifier from localStorage');
         const storedVerifier = localStorage.getItem('code_verifier');
         if (!storedVerifier) {
             console.error('No code verifier found');
