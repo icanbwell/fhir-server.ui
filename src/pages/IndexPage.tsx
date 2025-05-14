@@ -194,7 +194,7 @@ const IndexPage = ({ search }: { search?: boolean }) => {
                     setStatus(statusCode);
                     if (shouldBeJsonFormat) {
                         setResources(json);
-                    } else if (json.entry) {
+                    } else if (json && json.entry) {
                         setResources(json.entry);
                         setBundle(json);
                         if (resourceType) {

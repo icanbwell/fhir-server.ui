@@ -26,7 +26,7 @@ class BaseApi {
         this.fhirUrl = fhirUrl;
         this.setUserDetails = setUserDetails;
         this.tokenToSendToFhirServer = tokenToSendToFhirServer;
-        axios.interceptors.request.use(this.requestInterceptor);
+        axios.interceptors.request.use(this.requestInterceptorCreator(this.tokenToSendToFhirServer));
     }
 
     private getBaseUrl(): string {
@@ -58,17 +58,19 @@ class BaseApi {
         }
     }
 
-    requestInterceptor(req: InternalAxiosRequestConfig<any>): InternalAxiosRequestConfig<any> {
-        const token = getLocalData(this.tokenToSendToFhirServer || 'jwt');
-        if (typeof token === 'string') {
-            req.headers.Authorization = `Bearer ${token}`;
-        }
-        req.headers.Accept = 'application/json';
-        req.headers['Cache-Control'] = 'no-cache';
-        req.headers['Pragma'] = 'no-cache';
-        req.headers['Expires'] = '0';
-        req.headers['Origin-Service'] = 'fhir-ui';
-        return req;
+    requestInterceptorCreator(tokenToSendToFhirServer: string | undefined) {
+        return (req: InternalAxiosRequestConfig<any>): InternalAxiosRequestConfig<any> => {
+            const token = getLocalData(tokenToSendToFhirServer || 'jwt');
+            if (typeof token === 'string') {
+                req.headers.Authorization = `Bearer ${token}`;
+            }
+            req.headers.Accept = 'application/json';
+            req.headers['Cache-Control'] = 'no-cache';
+            req.headers['Pragma'] = 'no-cache';
+            req.headers['Expires'] = '0';
+            req.headers['Origin-Service'] = 'fhir-ui';
+            return req;
+        };
     }
 }
 
