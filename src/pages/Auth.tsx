@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { setLocalData } from '../utils/localData.utils';
 import UserContext from '../context/UserContext';
 import { jwtParser } from '../utils/jwtParser';
-import AuthService from '../services/AuthService';
+import OktaAuthService from '../services/OktaAuthService';
 import { Buffer } from 'buffer';
 
 const Auth = () => {
@@ -12,7 +12,7 @@ const Auth = () => {
     const navigate = useNavigate();
     const queryParams = new URLSearchParams(location.search);
     const [isProcessing, setIsProcessing] = useState(false);
-    const authService = new AuthService();
+    const authService = new OktaAuthService();
 
     const redirectToLogin = async () => {
         if (isProcessing) {

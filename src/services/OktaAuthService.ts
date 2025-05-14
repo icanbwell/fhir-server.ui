@@ -3,7 +3,7 @@ import axios from 'axios';
 import AuthUrlProvider from '../utils/authUrlProvider';
 import { IAuthService } from './IAuthService';
 
-class AuthService implements IAuthService{
+class OktaAuthService implements IAuthService{
     private authUrlProvider: AuthUrlProvider;
 
     constructor() {
@@ -76,4 +76,4 @@ class AuthService implements IAuthService{
     }
 }
 
-export default AuthService;
+export default OktaAuthService;
