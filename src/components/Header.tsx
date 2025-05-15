@@ -25,7 +25,7 @@ const Header = () => {
             if (identityProvider) {
                 const authService: IAuthService = AuthServiceFactory.getAuthService();
                 // Construct full logout URL
-                const logoutUrl: string = await authService.getLogoutUrl(identityProvider);
+                const logoutUrl: string = await authService.getLogoutUrlAsync(identityProvider);
 
                 // Clear local storage and user details
                 removeLocalData('jwt');

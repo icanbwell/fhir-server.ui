@@ -8,8 +8,8 @@ export const jwtParser = (): TUserDetails | null => {
     if (!identityProvider) {
         return null; // no identity provider has been chosen by the user yet
     }
-    const authUrls = new AuthUrlProvider().getAuthUrls(identityProvider);
-    const token = getLocalData(authUrls.tokenToSendToFhirServer || 'jwt');
+    const authInfo = new AuthUrlProvider().getAuthInfo(identityProvider);
+    const token = getLocalData(authInfo.tokenToSendToFhirServer || 'jwt');
     if (!token) {
         return null;
     }
@@ -22,10 +22,13 @@ export const jwtParser = (): TUserDetails | null => {
             return null;
         }
         let scope: string =
-            (decodedToken.scope ? decodedToken.scope : decodedToken[`${authUrls.customScope}`]) || '';
+            (decodedToken.scope ? decodedToken.scope : decodedToken[`${authInfo.customScope}`]) ||
+            '';
 
         // split customGroup into a string array on comma
-        const customGroupArray: string[] = authUrls.customGroup ? authUrls.customGroup.split(',') : [];
+        const customGroupArray: string[] = authInfo.customGroup
+            ? authInfo.customGroup.split(',')
+            : [];
         // see if any of the custom groups are in the token
         const groupsInToken: string[] = customGroupArray
             .map((group) => decodedToken[`${group}`] || null)
@@ -37,7 +40,9 @@ export const jwtParser = (): TUserDetails | null => {
         const isAdmin: boolean = scope.split(' ').some((s) => s.startsWith('admin/'));
 
         // check if any of the custom usernames are in the token
-        const customUserNameArray: string[] = authUrls.customUserName ? authUrls.customUserName.split(',') : [];
+        const customUserNameArray: string[] = authInfo.customUserName
+            ? authInfo.customUserName.split(',')
+            : [];
         // see if any of the custom groups are in the token
         const userNameInToken: string | undefined = customUserNameArray
             .map((group) => decodedToken[`${group}`] || null)

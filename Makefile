@@ -41,7 +41,8 @@ tests:
 .PHONY:lint
 lint:
 	. ${NVM_DIR}/nvm.sh && nvm use && \
-	npm run lint
+	npm run lint && \
+	npm run build:ts
 
 .PHONY:fix-lint
 fix-lint:

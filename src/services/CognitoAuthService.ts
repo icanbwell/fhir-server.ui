@@ -26,15 +26,16 @@ class CognitoAuthService implements IAuthService {
             .replace(/=+$/, '');
     }
 
-    async getLoginUrl(identityProvider: string, resourceUrl: string): Promise<string> {
-        const authUrls = this.authUrlProvider.getAuthUrls(identityProvider);
+    async getLoginUrlAsync(identityProvider: string, resourceUrl: string): Promise<string> {
+        const authUrls = await this.authUrlProvider.getAuthUrlsAsync(identityProvider);
+        const authInfo = this.authUrlProvider.getAuthInfo(identityProvider);
         const verifier = this.generateCodeVerifier();
         const challenge = await this.generateCodeChallenge(verifier);
 
         localStorage.setItem('code_verifier', verifier);
 
         const authParams = new URLSearchParams({
-            client_id: authUrls.clientId,
+            client_id: authInfo.clientId,
             response_type: 'code',
             scope: 'openid profile email',
             redirect_uri: `${window.location.origin}/authcallback`,
@@ -46,9 +47,14 @@ class CognitoAuthService implements IAuthService {
         return `${authUrls.authorizeUrl}?${authParams.toString()}`;
     }
 
-    // eslint-disable-next-line no-unused-vars
-    async fetchToken(identityProvider: string, code: string, resourceUrl: string): Promise<any> {
-        const authUrls = this.authUrlProvider.getAuthUrls(identityProvider);
+    async fetchTokenAsync(
+        identityProvider: string,
+        code: string,
+        // eslint-disable-next-line no-unused-vars
+        resourceUrl: string
+    ): Promise<any> {
+        const authUrls = await this.authUrlProvider.getAuthUrlsAsync(identityProvider);
+        const authInfo = this.authUrlProvider.getAuthInfo(identityProvider);
         const storedVerifier = localStorage.getItem('code_verifier');
 
         if (!storedVerifier) {
@@ -57,7 +63,7 @@ class CognitoAuthService implements IAuthService {
 
         const tokenRequestData = new URLSearchParams({
             grant_type: 'authorization_code',
-            client_id: authUrls.clientId,
+            client_id: authInfo.clientId,
             code: code,
             redirect_uri: `${window.location.origin}/authcallback`,
             code_verifier: storedVerifier,
@@ -75,10 +81,11 @@ class CognitoAuthService implements IAuthService {
         }
     }
 
-    async getLogoutUrl(identityProvider: string): Promise<string> {
-        const authUrls = this.authUrlProvider.getAuthUrls(identityProvider);
+    async getLogoutUrlAsync(identityProvider: string): Promise<string> {
+        const authUrls = await this.authUrlProvider.getAuthUrlsAsync(identityProvider);
+        const authInfo = this.authUrlProvider.getAuthInfo(identityProvider);
         const logoutParams = new URLSearchParams({
-            client_id: authUrls.clientId,
+            client_id: authInfo.clientId,
             logout_uri: `${window.location.origin}`,
         });
 

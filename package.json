@@ -8,6 +8,7 @@
     "build:prod": "DISABLE_ESLINT_PLUGIN='true' node scripts/build.js",
     "start": "NODE_ENV=dev node scripts/start.js",
     "lint": "NODE_ENV=test npm run test:lint",
+    "build:ts": "tsc",
     "test:lint": "NODE_OPTIONS=--max-old-space-size=8096 eslint \"src/**/*.tsx\" \"src/**/*.ts\""
   },
   "keywords": [],
@@ -66,6 +67,7 @@
     "fs-extra": "^10.0.0",
     "html-webpack-plugin": "^5.5.0",
     "jwt-decode": "^4.0.0",
+    "lru-cache": "^11.1.0",
     "mini-css-extract-plugin": "^2.4.5",
     "postcss": "^8.4.39",
     "postcss-flexbugs-fixes": "^5.0.2",

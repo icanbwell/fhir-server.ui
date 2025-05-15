@@ -61,8 +61,8 @@ class BaseApi {
         let tokenToSendToFhirServer = 'jwt';
         const identityProvider = sessionStorage.getItem('identityProvider');
         if (identityProvider) {
-            const authUrls = new AuthUrlProvider().getAuthUrls(identityProvider);
-            tokenToSendToFhirServer = authUrls.tokenToSendToFhirServer || tokenToSendToFhirServer;
+            const authInfo = new AuthUrlProvider().getAuthInfo(identityProvider);
+            tokenToSendToFhirServer = authInfo.tokenToSendToFhirServer || tokenToSendToFhirServer;
         }
         const token = getLocalData(tokenToSendToFhirServer);
         if (typeof token === 'string') {

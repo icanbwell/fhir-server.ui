@@ -30,7 +30,7 @@ const Auth = () => {
 
         try {
             const resourceUrl = location.state?.resourceUrl || '/';
-            window.location.href = await authService.getLoginUrl(identityProvider, resourceUrl); // Use React Router's navigate for redirection
+            window.location.href = await authService.getLoginUrlAsync(identityProvider, resourceUrl); // Use React Router's navigate for redirection
         } catch (error) {
             console.error('Redirect to login failed', error);
             setIsProcessing(false);
@@ -54,13 +54,13 @@ const Auth = () => {
         try {
             const state = queryParams.get('state');
             const resourceUrl = state ? Buffer.from(state, 'base64').toString('ascii') : '/';
-            const tokens = await authService.fetchToken(identityProvider, code, resourceUrl);
+            const tokens = await authService.fetchTokenAsync(identityProvider, code, resourceUrl);
 
             setLocalData('jwt', tokens.access_token);
             setLocalData('id_token', tokens.id_token);
 
             if (setUserDetails) {
-                setUserDetails(jwtParser());
+                setUserDetails(await jwtParser());
             }
 
             navigate(resourceUrl, { replace: true });

@@ -21,9 +21,7 @@ import IdentityProviderSelection from './pages/IdentityProviderSelection';
 
 function App(): React.ReactElement {
     const env = useContext(EnvContext);
-    const [userDetails, setUserDetails] = useState<TUserDetails | null>(
-        jwtParser()
-    );
+    const [userDetails, setUserDetails] = useState<TUserDetails | null>(jwtParser());
     console.log(`Setting fhirUrl to ${env.fhirUrl}`);
 
     // Changed from App to Root
