@@ -581,10 +581,10 @@ module.exports = function (webpackEnv) {
         new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/runtime-.+[.]js/]),
       isEnvProduction && sentryWebpackPlugin({
         // Below environment variables are declared as string here, they will be replaced by their actual values while deploying
-        url: 'process.env.REACT_APP_SENTRY_BASE_URL',
-        org: 'process.env.REACT_APP_SENTRY_ORGANISATION',
-        project: 'process.env.REACT_APP_SENTRY_PROJECT',
-        authToken: 'process.env.REACT_APP_SENTRY_AUTH_TOKEN',
+        url: process.env.REACT_APP_SENTRY_BASE_URL,
+        org: process.env.REACT_APP_SENTRY_ORGANISATION,
+        project: process.env.REACT_APP_SENTRY_PROJECT,
+        authToken: process.env.REACT_APP_SENTRY_AUTH_TOKEN,
       }),
       // Makes some environment variables available in index.html.
       // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
