@@ -60,9 +60,9 @@ const Auth = () => {
             setLocalData('id_token', tokens.id_token);
 
             if (setUserDetails) {
-                setUserDetails(await jwtParser());
+                setUserDetails(jwtParser());
             }
-
+            console.log(`Token Fetched. Redirecting to ${resourceUrl}`);
             navigate(resourceUrl, { replace: true });
         } catch (error) {
             console.error('Token fetch error:', error);

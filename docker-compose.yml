@@ -13,7 +13,7 @@ services:
       REACT_APP_AUTH_COGNITO_CUSTOM_GROUP: "cognito:groups"
       REACT_APP_AUTH_COGNITO_CUSTOM_SCOPE: "custom:scope"
       REACT_APP_AUTH_COGNITO_CLIENT_ID: '5et51l3beeahp016i4qe6hurtr'
-      REACT_APP_AUTH_COGNITO__REDIRECT_URL: 'http://localhost:5051/authcallback'
+      REACT_APP_AUTH_COGNITO_REDIRECT_URL: 'http://localhost:5051/authcallback'
       REACT_APP_AUTH_COGNITO_WELL_KNOWN_URL: 'https://cognito-idp.us-east-1.amazonaws.com/us-east-1_yV7wvD4xD/.well-known/openid-configuration'
       REACT_APP_AUTH_COGNITO_TOKEN_TO_SEND_TO_FHIR_SERVER: 'jwt' # other option is 'id_token'
       # Each AuthProvider has its own set of environment variables
@@ -21,7 +21,7 @@ services:
       REACT_APP_AUTH_OKTA_CUSTOM_GROUP: "groups"
       REACT_APP_AUTH_OKTA_CUSTOM_SCOPE: "custom:scope"
       REACT_APP_AUTH_OKTA_CLIENT_ID: '0oarf29h6x2DaWCkT697'
-      REACT_APP_AUTH_OKTA__REDIRECT_URL: 'http://localhost:5051/authcallback'
+      REACT_APP_AUTH_OKTA_REDIRECT_URL: 'http://localhost:5051/authcallback'
       REACT_APP_AUTH_OKTA_WELL_KNOWN_URL: 'https://icanbwell.okta.com/.well-known/openid-configuration'
       REACT_APP_AUTH_OKTA_TOKEN_TO_SEND_TO_FHIR_SERVER: 'jwt' # other option is `jwt'
     ports:

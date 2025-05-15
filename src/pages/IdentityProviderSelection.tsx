@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Container, Typography, Button, Box } from '@mui/material';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -8,10 +8,14 @@ import EnvContext from '../context/EnvironmentContext';
 const IdentityProviderSelection = () => {
     const env = useContext(EnvContext);
     const navigate = useNavigate();
+    const location = useLocation();
+    const referringUrl = location.state?.resourceUrl || '/'; // Default to '/' if no referring URL is provided
+
+    console.log('Referring URL:', referringUrl);
 
     const handleProviderSelection = (provider: string) => {
         sessionStorage.setItem('identityProvider', provider);
-        navigate('/authcallback');
+        navigate('/authcallback', { state: { resourceUrl: referringUrl } });
     };
 
     const providers: string[] = env.AUTH_PROVIDERS.split(',').map((s) => s.trim());
