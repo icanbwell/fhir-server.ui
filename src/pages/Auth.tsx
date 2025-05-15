@@ -39,7 +39,7 @@ const Auth = () => {
             window.location.href = redirect_to_login_url;
         } catch (error1) {
             console.error('Redirect to login failed', error1);
-            setError(`'Failed to redirect to login: ${redirect_to_login_url}: ${error1}}`);
+            setError(`Failed to redirect to login: ${redirect_to_login_url}: ${error1}`);
             setIsProcessing(false);
         }
     };
