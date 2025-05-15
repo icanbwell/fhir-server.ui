@@ -30,6 +30,7 @@ const Header = () => {
                 // Clear local storage and user details
                 removeLocalData('jwt');
                 localStorage.removeItem('id_token');
+                localStorage.removeItem('identityProvider');
 
                 // Clear user context
                 if (setUserDetails) {
