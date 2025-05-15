@@ -17,15 +17,11 @@ import EnvContext from './context/EnvironmentContext';
 import UserContext from './context/UserContext';
 import { TUserDetails } from './types/baseTypes';
 import { jwtParser } from './utils/jwtParser';
+import IdentityProviderSelection from './pages/IdentityProviderSelection';
 
 function App(): React.ReactElement {
     const env = useContext(EnvContext);
-    const [userDetails, setUserDetails] = useState<TUserDetails | null>(
-        jwtParser({
-            customGroup: env.AUTH_CUSTOM_GROUP,
-            customScope: env.AUTH_CUSTOM_SCOPE,
-        })
-    );
+    const [userDetails, setUserDetails] = useState<TUserDetails | null>(jwtParser());
     console.log(`Setting fhirUrl to ${env.fhirUrl}`);
 
     // Changed from App to Root
@@ -33,6 +29,7 @@ function App(): React.ReactElement {
         return (
             <Routes>
                 <Route path="/" element={<HomePage />} />
+                <Route path="/select-idp" element={<IdentityProviderSelection />} />
                 <Route path="/authcallback" element={<Auth />} />
                 <Route
                     element={
@@ -40,14 +37,13 @@ function App(): React.ReactElement {
                             <Outlet />
                         ) : (
                             <Navigate
-                                to="/authcallback"
+                                to="/select-idp"
                                 state={{ resourceUrl: window.location.href }}
                             />
                         )
                     }
                     children={FhirRoutes}
                 />
-                <Route path="/*" element={<Navigate to="/"/>} />
             </Routes>
         );
     }

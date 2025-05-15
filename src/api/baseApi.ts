@@ -3,6 +3,7 @@ import axios from 'axios';
 import { InternalAxiosRequestConfig } from 'axios';
 import { getLocalData, removeLocalData } from '../utils/localData.utils';
 import { TUserDetails } from '../types/baseTypes';
+import AuthUrlProvider from '../utils/authUrlProvider';
 
 interface GetDataParams {
     urlString: string;
@@ -11,14 +12,16 @@ interface GetDataParams {
 
 class BaseApi {
     private readonly fhirUrl: string | undefined;
-    private readonly setUserDetails: React.Dispatch<React.SetStateAction<TUserDetails|null>> | undefined;
+    private readonly setUserDetails:
+        | React.Dispatch<React.SetStateAction<TUserDetails | null>>
+        | undefined;
 
     constructor({
         fhirUrl,
         setUserDetails,
     }: {
         fhirUrl: string | undefined;
-        setUserDetails: React.Dispatch<React.SetStateAction<TUserDetails|null>> | undefined;
+        setUserDetails: React.Dispatch<React.SetStateAction<TUserDetails | null>> | undefined;
     }) {
         this.fhirUrl = fhirUrl;
         this.setUserDetails = setUserDetails;
@@ -55,7 +58,13 @@ class BaseApi {
     }
 
     requestInterceptor(req: InternalAxiosRequestConfig<any>): InternalAxiosRequestConfig<any> {
-        const token = getLocalData('jwt');
+        let tokenToSendToFhirServer = 'jwt';
+        const identityProvider = sessionStorage.getItem('identityProvider');
+        if (identityProvider) {
+            const authInfo = new AuthUrlProvider().getAuthInfo(identityProvider);
+            tokenToSendToFhirServer = authInfo.tokenToSendToFhirServer || tokenToSendToFhirServer;
+        }
+        const token = getLocalData(tokenToSendToFhirServer);
         if (typeof token === 'string') {
             req.headers.Authorization = `Bearer ${token}`;
         }

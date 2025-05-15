@@ -1,15 +1,15 @@
 import { InvalidTokenError, jwtDecode } from 'jwt-decode';
 import { getLocalData, removeLocalData } from './localData.utils';
 import { TUserDetails } from '../types/baseTypes';
+import AuthUrlProvider from './authUrlProvider';
 
-export const jwtParser = ({
-    customGroup,
-    customScope,
-}: {
-    customGroup: string | undefined;
-    customScope: string | undefined;
-}): TUserDetails|null => {
-    const token: string | null = getLocalData('jwt');
+export const jwtParser = (): TUserDetails | null => {
+    const identityProvider = sessionStorage.getItem('identityProvider');
+    if (!identityProvider) {
+        return null; // no identity provider has been chosen by the user yet
+    }
+    const authInfo = new AuthUrlProvider().getAuthInfo(identityProvider);
+    const token = getLocalData(authInfo.tokenToSendToFhirServer || 'jwt');
     if (!token) {
         return null;
     }
@@ -22,17 +22,36 @@ export const jwtParser = ({
             return null;
         }
         let scope: string =
-            (decodedToken.scope ? decodedToken.scope : decodedToken[`${customScope}`]) || '';
-        scope =
-            (scope ? scope + ' ' : '') +
-            (decodedToken[`${customGroup}`] ? decodedToken[`${customGroup}`] : []).join(' ');
+            (decodedToken.scope ? decodedToken.scope : decodedToken[`${authInfo.customScope}`]) ||
+            '';
+
+        // split customGroup into a string array on comma
+        const customGroupArray: string[] = authInfo.customGroup
+            ? authInfo.customGroup.split(',')
+            : [];
+        // see if any of the custom groups are in the token
+        const groupsInToken: string[] = customGroupArray
+            .map((group) => decodedToken[`${group}`] || null)
+            .filter((g) => g !== null);
+        // adding custom groups to the scope
+        scope = (scope ? scope + ' ' : '') + groupsInToken.join(' ');
 
         // checking admin scopes
         const isAdmin: boolean = scope.split(' ').some((s) => s.startsWith('admin/'));
 
+        // check if any of the custom usernames are in the token
+        const customUserNameArray: string[] = authInfo.customUserName
+            ? authInfo.customUserName.split(',')
+            : [];
+        // see if any of the custom groups are in the token
+        const userNameInToken: string | undefined = customUserNameArray
+            .map((group) => decodedToken[`${group}`] || null)
+            .filter((u) => u !== null)
+            .pop();
+
         return {
             scope,
-            username: decodedToken.username,
+            username: userNameInToken || decodedToken.username,
             isAdmin,
         };
     } catch (err) {

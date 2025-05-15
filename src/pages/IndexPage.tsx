@@ -7,7 +7,8 @@ import {
     Box,
     Button,
     Container,
-    LinearProgress, Tooltip,
+    LinearProgress,
+    Tooltip,
 } from '@mui/material';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -159,7 +160,7 @@ const IndexPage = ({ search }: { search?: boolean }) => {
 
     console.log(
         `id: ${id}, resourceType: ${resourceType}, queryString: ${queryString},` +
-            ` search: ${search}, operation: ${operation}`
+        ` search: ${search}, operation: ${operation}`,
     );
 
     useEffect(() => {
@@ -175,7 +176,15 @@ const IndexPage = ({ search }: { search?: boolean }) => {
             try {
                 setLoading(true);
                 if (fhirUrl) {
-                    const fhirApi = new FhirApi({ fhirUrl, setUserDetails });
+                    const identityProvider = sessionStorage.getItem('identityProvider');
+                    if (!identityProvider) {
+                        // noinspection ExceptionCaughtLocallyJS
+                        throw new Error('Identity provider is not set');
+                    }
+                    const fhirApi = new FhirApi({
+                        fhirUrl,
+                        setUserDetails
+                    });
                     const { json, status: statusCode } = await fhirApi.getBundleAsync({
                         resourceType,
                         id,
@@ -194,7 +203,7 @@ const IndexPage = ({ search }: { search?: boolean }) => {
                     setStatus(statusCode);
                     if (shouldBeJsonFormat) {
                         setResources(json);
-                    } else if (json.entry) {
+                    } else if (json && json.entry) {
                         setResources(json.entry);
                         setBundle(json);
                         if (resourceType) {
@@ -224,7 +233,14 @@ const IndexPage = ({ search }: { search?: boolean }) => {
      * @param {SearchFormQuery} searchFormQuery
      */
     const handleSearch = (searchFormQuery: any) => {
-        const fhirApi = new FhirApi({ fhirUrl, setUserDetails });
+        const identityProvider = sessionStorage.getItem('identityProvider');
+        if (!identityProvider) {
+            throw new Error('Identity provider is not set');
+        }
+        const fhirApi = new FhirApi({
+            fhirUrl,
+            setUserDetails
+        });
 
         const newUrl: URL = fhirApi.getUrl({
             resourceType: resourceType,

@@ -7,25 +7,52 @@ import BwellIcon from '../dist/images/bwell.png';
 import EnvContext from '../context/EnvironmentContext';
 import UserContext from '../context/UserContext';
 import { removeLocalData } from '../utils/localData.utils';
+import { IAuthService } from '../services/IAuthService';
+import AuthServiceFactory from '../services/AuthServiceFactory';
 
 const Header = () => {
     const env = useContext(EnvContext);
-    const { userDetails } = useContext(UserContext);
+    const { userDetails, setUserDetails } = useContext(UserContext);
     const [anchorEl, setAnchorEl] = useState(null);
 
     const handlePopoverOpen = (event: any) => {
         setAnchorEl(event.currentTarget);
     };
 
-    const handleLogout = () => {
-        const query = new URLSearchParams();
-        query.set('client_id', env.AUTH_CODE_FLOW_CLIENT_ID);
-        query.set('logout_uri', window.location.origin);
+    const handleLogout = async () => {
+        try {
+            const identityProvider = sessionStorage.getItem('identityProvider');
+            if (identityProvider) {
+                const authService: IAuthService = AuthServiceFactory.getAuthService();
+                // Construct full logout URL
+                const logoutUrl: string = await authService.getLogoutUrlAsync(identityProvider);
 
-        // signout user locally
-        removeLocalData('jwt');
-        // signout user from cognito
-        window.location.replace(`${env.AUTH_CODE_FLOW_URL}/logout?${query.toString()}`);
+                // Clear local storage and user details
+                removeLocalData('jwt');
+                localStorage.removeItem('id_token');
+
+                // Clear user context
+                if (setUserDetails) {
+                    setUserDetails(null);
+                }
+
+                // Redirect to Okta logout
+                window.location.replace(logoutUrl);
+            }
+        } catch (error) {
+            console.error('Logout failed', error);
+
+            // Fallback logout
+            removeLocalData('jwt');
+            localStorage.removeItem('id_token');
+
+            if (setUserDetails) {
+                setUserDetails(null);
+            }
+
+            // Redirect to home or login page
+            window.location.replace(window.location.origin);
+        }
     };
 
     return (
@@ -45,7 +72,7 @@ const Header = () => {
                         id="appInfo"
                         onMouseEnter={handlePopoverOpen}
                     >
-                        <InfoIcon/>
+                        <InfoIcon />
                     </IconButton>
                     <Popover
                         open={Boolean(anchorEl)}
@@ -61,7 +88,8 @@ const Header = () => {
                         }}
                     >
                         <Typography sx={{ p: 1, minWidth: '10rem' }}>
-                            FHIR App: {env.FHIR_APP_VERSION}<br/>
+                            FHIR App: {env.FHIR_APP_VERSION}
+                            <br />
                             FHIR Server: {env.getFhirServerVersion()}
                         </Typography>
                     </Popover>
