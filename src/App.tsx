@@ -44,7 +44,6 @@ function App(): React.ReactElement {
                     }
                     children={FhirRoutes}
                 />
-                <Route path="/*" element={<Navigate to="/" />} />
             </Routes>
         );
     }

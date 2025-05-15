@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { setLocalData } from '../utils/localData.utils';
 import UserContext from '../context/UserContext';
 import { jwtParser } from '../utils/jwtParser';
@@ -10,7 +10,6 @@ import { IAuthService } from '../services/IAuthService';
 const Auth = () => {
     const { setUserDetails } = useContext(UserContext);
     const location = useLocation();
-    const navigate = useNavigate();
     const queryParams = new URLSearchParams(location.search);
     const [isProcessing, setIsProcessing] = useState(false);
     const authService: IAuthService = AuthServiceFactory.getAuthService();
@@ -63,7 +62,7 @@ const Auth = () => {
                 setUserDetails(jwtParser());
             }
             console.log(`Token Fetched. Redirecting to ${resourceUrl}`);
-            navigate(resourceUrl, { replace: true });
+            window.location.href = resourceUrl;
         } catch (error) {
             console.error('Token fetch error:', error);
             setIsProcessing(false);
@@ -79,7 +78,7 @@ const Auth = () => {
         } else {
             fetchToken(code).catch(console.error);
         }
-    }, [location]);
+    }, []);
 
     return <>Authenticating...</>;
 };
