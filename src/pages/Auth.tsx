@@ -19,7 +19,7 @@ const Auth = () => {
             return;
         }
 
-        const identityProvider = sessionStorage.getItem('identityProvider');
+        const identityProvider = localStorage.getItem('identityProvider');
         if (!identityProvider) {
             console.error('No identity provider found in session storage');
             return;
@@ -43,7 +43,7 @@ const Auth = () => {
 
         setIsProcessing(true);
 
-        const identityProvider = sessionStorage.getItem('identityProvider');
+        const identityProvider = localStorage.getItem('identityProvider');
         if (!identityProvider) {
             console.error('No identity provider found in session storage');
             setIsProcessing(false);

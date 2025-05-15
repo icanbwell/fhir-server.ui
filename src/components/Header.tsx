@@ -21,7 +21,7 @@ const Header = () => {
 
     const handleLogout = async () => {
         try {
-            const identityProvider = sessionStorage.getItem('identityProvider');
+            const identityProvider = localStorage.getItem('identityProvider');
             if (identityProvider) {
                 const authService: IAuthService = AuthServiceFactory.getAuthService();
                 // Construct full logout URL

@@ -4,7 +4,7 @@ import { TUserDetails } from '../types/baseTypes';
 import AuthUrlProvider from './authUrlProvider';
 
 export const jwtParser = (): TUserDetails | null => {
-    const identityProvider = sessionStorage.getItem('identityProvider');
+    const identityProvider = localStorage.getItem('identityProvider');
     if (!identityProvider) {
         return null; // no identity provider has been chosen by the user yet
     }

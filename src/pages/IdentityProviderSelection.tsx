@@ -14,7 +14,7 @@ const IdentityProviderSelection = () => {
     console.log('Referring URL:', referringUrl);
 
     const handleProviderSelection = (provider: string) => {
-        sessionStorage.setItem('identityProvider', provider);
+        localStorage.setItem('identityProvider', provider);
         navigate('/authcallback', { state: { resourceUrl: referringUrl } });
     };
 
