@@ -21,7 +21,7 @@ const Header = () => {
 
     const handleLogout = async () => {
         try {
-            const identityProvider = sessionStorage.getItem('identityProvider');
+            const identityProvider = localStorage.getItem('identityProvider');
             if (identityProvider) {
                 const authService: IAuthService = AuthServiceFactory.getAuthService();
                 // Construct full logout URL
@@ -30,6 +30,7 @@ const Header = () => {
                 // Clear local storage and user details
                 removeLocalData('jwt');
                 localStorage.removeItem('id_token');
+                localStorage.removeItem('identityProvider');
 
                 // Clear user context
                 if (setUserDetails) {

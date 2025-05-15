@@ -176,7 +176,7 @@ const IndexPage = ({ search }: { search?: boolean }) => {
             try {
                 setLoading(true);
                 if (fhirUrl) {
-                    const identityProvider = sessionStorage.getItem('identityProvider');
+                    const identityProvider = localStorage.getItem('identityProvider');
                     if (!identityProvider) {
                         // noinspection ExceptionCaughtLocallyJS
                         throw new Error('Identity provider is not set');
@@ -233,7 +233,7 @@ const IndexPage = ({ search }: { search?: boolean }) => {
      * @param {SearchFormQuery} searchFormQuery
      */
     const handleSearch = (searchFormQuery: any) => {
-        const identityProvider = sessionStorage.getItem('identityProvider');
+        const identityProvider = localStorage.getItem('identityProvider');
         if (!identityProvider) {
             throw new Error('Identity provider is not set');
         }

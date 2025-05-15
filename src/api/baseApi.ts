@@ -59,7 +59,7 @@ class BaseApi {
 
     requestInterceptor(req: InternalAxiosRequestConfig<any>): InternalAxiosRequestConfig<any> {
         let tokenToSendToFhirServer = 'jwt';
-        const identityProvider = sessionStorage.getItem('identityProvider');
+        const identityProvider = localStorage.getItem('identityProvider');
         if (identityProvider) {
             const authInfo = new AuthUrlProvider().getAuthInfo(identityProvider);
             tokenToSendToFhirServer = authInfo.tokenToSendToFhirServer || tokenToSendToFhirServer;

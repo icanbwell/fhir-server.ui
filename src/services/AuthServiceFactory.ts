@@ -4,7 +4,7 @@ import { IAuthService } from './IAuthService';
 
 class AuthServiceFactory {
     static getAuthService(): IAuthService {
-        const identityProvider = sessionStorage.getItem('identityProvider');
+        const identityProvider = localStorage.getItem('identityProvider');
 
         if (!identityProvider) {
             throw new Error('No identity provider found in session storage');
