@@ -12,6 +12,7 @@ const Auth = () => {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const [isProcessing, setIsProcessing] = useState(false);
+    const [error, setError] = useState<string | null>(null);
     const authService: IAuthService = AuthServiceFactory.getAuthService();
 
     const redirectToLogin = async () => {
@@ -22,16 +23,23 @@ const Auth = () => {
         const identityProvider = localStorage.getItem('identityProvider');
         if (!identityProvider) {
             console.error('No identity provider found in session storage');
+            setError('No identity provider found in session storage');
             return;
         }
 
         setIsProcessing(true);
 
+        let redirect_to_login_url: string | undefined;
         try {
             const resourceUrl = location.state?.resourceUrl || '/';
-            window.location.href = await authService.getLoginUrlAsync(identityProvider, resourceUrl); // Use React Router's navigate for redirection
-        } catch (error) {
-            console.error('Redirect to login failed', error);
+            redirect_to_login_url = await authService.getLoginUrlAsync(
+                identityProvider,
+                resourceUrl
+            );
+            window.location.href = redirect_to_login_url;
+        } catch (error1) {
+            console.error('Redirect to login failed', error1);
+            setError(`'Failed to redirect to login: ${redirect_to_login_url}: ${error1}}`);
             setIsProcessing(false);
         }
     };
@@ -46,6 +54,7 @@ const Auth = () => {
         const identityProvider = localStorage.getItem('identityProvider');
         if (!identityProvider) {
             console.error('No identity provider found in session storage');
+            setError('No identity provider found in session storage');
             setIsProcessing(false);
             return;
         }
@@ -63,8 +72,9 @@ const Auth = () => {
             }
             console.log(`Token Fetched. Redirecting to ${resourceUrl}`);
             window.location.href = resourceUrl;
-        } catch (error) {
-            console.error('Token fetch error:', error);
+        } catch (error1) {
+            console.error('Token fetch error:', error1);
+            setError(`Failed to fetch token: ${error1}`);
             setIsProcessing(false);
         }
     };
@@ -80,7 +90,7 @@ const Auth = () => {
         }
     }, []);
 
-    return <>Authenticating...</>;
+    return <>{error ? <div style={{ color: 'red' }}>{error}</div> : <>Authenticating...</>}</>;
 };
 
 export default Auth;
