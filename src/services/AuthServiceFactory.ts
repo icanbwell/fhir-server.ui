@@ -7,7 +7,7 @@ class AuthServiceFactory {
         const identityProvider = localStorage.getItem('identityProvider');
 
         if (!identityProvider) {
-            throw new Error('No identity provider found in session storage');
+            throw new Error('No identity provider found in local storage');
         }
 
         switch (identityProvider.toLowerCase()) {
