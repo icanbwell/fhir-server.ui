@@ -16,7 +16,7 @@ const EnvContext = createContext<{
     fhirUrl: process.env.REACT_APP_FHIR_SERVER_URL || '',
     fhirAdminUrl: process.env.REACT_APP_FHIR_ADMIN_URL || '',
     AUTH_PROVIDERS: process.env.REACT_APP_AUTH_PROVIDERS || '',
-    FHIR_APP_VERSION: process.env.FHIR_APP_VERSION || 'null',
+    FHIR_APP_VERSION: process.env.REACT_APP_VERSION || 'null',
     getFhirServerVersion: () => fhirServerVersion,
 });
 

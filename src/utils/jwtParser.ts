@@ -9,7 +9,7 @@ export const jwtParser = (): TUserDetails | null => {
         return null; // no identity provider has been chosen by the user yet
     }
     const authInfo = new AuthUrlProvider().getAuthInfo(identityProvider);
-    const token = getLocalData(authInfo.tokenToSendToFhirServer || 'jwt');
+    const token = getLocalData(authInfo.tokenForUserDetails || 'jwt');
     if (!token) {
         return null;
     }
