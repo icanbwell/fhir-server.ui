@@ -58,6 +58,7 @@ class AuthUrlProvider {
         customGroup?: string;
         customScope?: string;
         clientId: string;
+        tokenForUserDetails: string;
         tokenToSendToFhirServer?: string;
     } {
         const customUserName =
@@ -65,6 +66,8 @@ class AuthUrlProvider {
         const customGroup = process.env[`REACT_APP_AUTH_${provider.toUpperCase()}_CUSTOM_GROUP`];
         const customScope = process.env[`REACT_APP_AUTH_${provider.toUpperCase()}_CUSTOM_SCOPE`];
         const clientId = process.env[`REACT_APP_AUTH_${provider.toUpperCase()}_CLIENT_ID`];
+        const tokenForUserDetails =
+            process.env[`REACT_APP_AUTH_${provider.toUpperCase()}_TOKEN_FOR_USER_DETAILS`];
 
         if (!customUserName) {
             throw new Error(
@@ -80,6 +83,9 @@ class AuthUrlProvider {
         if (!clientId) {
             throw new Error(`REACT_APP_AUTH_${provider.toUpperCase()}_CLIENT_ID is not defined`);
         }
+        if (!tokenForUserDetails) {
+            throw new Error(`REACT_APP_AUTH_${provider.toUpperCase()}_TOKEN_FOR_USER_DETAILS is not defined`);
+        }
 
         let tokenToSendToFhirServer =
             process.env[`REACT_APP_AUTH_${provider.toUpperCase()}_TOKEN_TO_SEND_TO_FHIR_SERVER`];
@@ -93,6 +99,7 @@ class AuthUrlProvider {
             customGroup,
             customScope,
             clientId,
+            tokenForUserDetails,
             tokenToSendToFhirServer,
         };
     }
