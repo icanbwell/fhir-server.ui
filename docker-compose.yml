@@ -27,6 +27,7 @@ services:
       REACT_APP_AUTH_OKTA_WELL_KNOWN_URL: 'https://icanbwell.okta.com/.well-known/openid-configuration'
       REACT_APP_AUTH_OKTA_TOKEN_TO_SEND_TO_FHIR_SERVER: 'jwt' # other option is `jwt'
       REACT_APP_AUTH_OKTA_TOKEN_FOR_USER_DETAILS: 'id_token'
+      REACT_APP_AUTH_OKTA_REMOVE_SCOPE_PREFIX: 'dev/fhir/'
     ports:
       - "5051:5051"
     volumes:

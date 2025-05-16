@@ -36,6 +36,23 @@ export const jwtParser = (): TUserDetails | null => {
         // adding custom groups to the scope
         scope = (scope ? scope + ' ' : '') + groupsInToken.join(' ');
 
+        scope = scope.replace(/,/g, ' '); // replace commas with spaces
+
+        // remove any prefixes from the scope
+        if (authInfo.scopeRemovePrefix !== undefined) {
+            let scopes = scope.split(' ').map(
+                (s) => {
+                    for (const prefix of authInfo.scopeRemovePrefix ?? []) {
+                        if (s.startsWith(prefix)) {
+                            return s.substring(prefix.length);
+                        }
+                    }
+                    return s;
+                }
+            );
+            scope = scopes.join(' ');
+        }
+
         // checking admin scopes
         const isAdmin: boolean = scope.split(' ').some((s) => s.startsWith('admin/'));
 
