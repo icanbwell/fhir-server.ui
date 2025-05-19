@@ -283,6 +283,9 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                     columnDefs={sheets[`${activeSheet}`].columnDefs}
                     rowData={sheets[`${activeSheet}`].rowData}
                     defaultColDef={defaultColDef}
+                    gridOptions={{
+                        enableCellTextSelection: true
+                    }}
                 />
             </Box>
         </Box>
