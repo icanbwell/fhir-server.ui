@@ -69,6 +69,11 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
 
     const [hideEmptyColumns, setHideEmptyColumns] = useState<boolean>(true);
 
+    // Sort sheets alphabetically by name before rendering
+    const sortedSheets = useMemo(() => {
+        return [...sheets].sort((a, b) => a.name.localeCompare(b.name));
+    }, [sheets]);
+
     // Context
     const { fhirUrl } = useContext(EnvironmentContext);
 
@@ -241,7 +246,7 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                         flexGrow: 1,
                     }}
                 >
-                    {sheets.map((sheet, index) => (
+                    {sortedSheets.map((sheet, index) => (
                         <Tab
                             key={index}
                             label={`${sheet.name} (${sheet.rowData.length})`}
