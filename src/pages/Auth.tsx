@@ -84,6 +84,12 @@ const Auth = () => {
 
         const code = queryParams.get('code');
         if (!code) {
+            if (queryParams.get('error')) {
+                const errorCode = queryParams.get('error');
+                const errorDescription = queryParams.get('error_description');
+                setError(`Authentication error, ${errorCode}: ${errorDescription}`);
+                return;
+            }
             redirectToLogin().catch(console.error);
         } else {
             fetchToken(code).catch(console.error);
