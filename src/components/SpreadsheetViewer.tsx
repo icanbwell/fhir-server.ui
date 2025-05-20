@@ -114,32 +114,38 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
 
                         const [headers, ...dataRows] = rawData;
 
-                        const columnDefs: (ColDef<any> | ColGroupDef<any>)[] = headers.map((header, index) => {
-                            const hasData = dataRows.some(
-                                (row) =>
-                                    row[`${index}`] !== undefined &&
-                                    row[`${index}`] !== null &&
-                                    String(row[`${index}`]).trim() !== ''
-                            );
+                        const columnDefs: (ColDef<any> | ColGroupDef<any>)[] = headers.map(
+                            (header, index) => {
+                                const hasData = dataRows.some(
+                                    (row) =>
+                                        row[`${index}`] !== undefined &&
+                                        row[`${index}`] !== null &&
+                                        String(row[`${index}`]).trim() !== ''
+                                );
 
-                            return {
-                                headerName: String(header),
-                                field: `col${index}`,
-                                editable: false,
-                                filter: true,
-                                floatingFilter: true,
-                                hide: hideEmptyColumns && !hasData,
-                                tooltipField: `col${index}`, // Add tooltip to show full value
-                            };
-                        });
+                                return {
+                                    headerName: String(header),
+                                    field: `col${index}`,
+                                    editable: false,
+                                    filter: true,
+                                    floatingFilter: true,
+                                    hide: hideEmptyColumns && !hasData,
+                                    tooltipField: `col${index}`, // Add tooltip to show full value
+                                };
+                            }
+                        );
 
                         // Add a new column for the FHIR resource link
                         columnDefs.push({
-                            headerName: 'FHIR Resource Link',
+                            headerName: 'FHIR Link',
                             field: 'fhirLink',
                             cellRenderer: (params: ICellRendererParams) => {
                                 const resourceUrl = `${relativeUrl}/${params.data.col0}`; // Assuming `col0` contains the resource ID
-                                return `<a href="${resourceUrl}" target="_blank">Open Resource</a>`;
+                                return (
+                                    <a href={resourceUrl} target="_blank" rel="noopener noreferrer">
+                                        Open Resource
+                                    </a>
+                                );
                             },
                             editable: false,
                             filter: false,
