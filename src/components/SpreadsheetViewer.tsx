@@ -140,10 +140,10 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                             headerName: 'FHIR Link',
                             field: 'fhirLink',
                             cellRenderer: (params: ICellRendererParams) => {
-                                const resourceUrl = `${relativeUrl}/${params.data.col0}`; // Assuming `col0` contains the resource ID
+                                const resourceUrl = `/4_0_0/${sheets[`${activeSheet}`].name}/${params.data.col0}`; // Assuming `col0` contains the resource ID
                                 return (
                                     <a href={resourceUrl} target="_blank" rel="noopener noreferrer">
-                                        Open Resource
+                                        {sheets[`${activeSheet}`].name}/{params.data.col0}
                                     </a>
                                 );
                             },
