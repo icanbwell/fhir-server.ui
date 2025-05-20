@@ -28,6 +28,7 @@ import {
 } from 'ag-grid-community';
 import { themeBalham } from 'ag-grid-community';
 import FileDownload from './FileDownload';
+import type { ColDef, ColGroupDef } from 'ag-grid-community';
 
 ModuleRegistry.registerModules([
     ColumnAutoSizeModule,
@@ -101,49 +102,63 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                     workbook = XLSX.read(arrayBuffer, { type: 'buffer' });
                 }
 
-                const parsedSheets: SheetData[] = workbook.SheetNames.map((sheetName, sheetIndex) => {
-                    const worksheet = workbook.Sheets[`${sheetName}`];
-                    const rawData: any[][] = XLSX.utils.sheet_to_json(worksheet, {
-                        header: 1,
-                        raw: true,
-                        rawNumbers: true,
-                        UTC: true,
-                    });
+                const parsedSheets: SheetData[] = workbook.SheetNames.map(
+                    (sheetName, sheetIndex) => {
+                        const worksheet = workbook.Sheets[`${sheetName}`];
+                        const rawData: any[][] = XLSX.utils.sheet_to_json(worksheet, {
+                            header: 1,
+                            raw: true,
+                            rawNumbers: true,
+                            UTC: true,
+                        });
 
-                    const [headers, ...dataRows] = rawData;
+                        const [headers, ...dataRows] = rawData;
 
-                    const columnDefs = headers.map((header, index) => {
-                        const hasData = dataRows.some(
-                            (row) =>
-                                row[`${index}`] !== undefined &&
-                                row[`${index}`] !== null &&
-                                String(row[`${index}`]).trim() !== ''
+                        const columnDefs: (ColDef<any> | ColGroupDef<any>)[] = headers.map((header, index) => {
+                            const hasData = dataRows.some(
+                                (row) =>
+                                    row[`${index}`] !== undefined &&
+                                    row[`${index}`] !== null &&
+                                    String(row[`${index}`]).trim() !== ''
+                            );
+
+                            return {
+                                headerName: String(header),
+                                field: `col${index}`,
+                                editable: false,
+                                filter: true,
+                                floatingFilter: true,
+                                hide: hideEmptyColumns && !hasData,
+                                tooltipField: `col${index}`, // Add tooltip to show full value
+                            };
+                        });
+
+                        // Add a new column for the FHIR resource link
+                        columnDefs.push({
+                            headerName: 'FHIR Resource Link',
+                            field: 'fhirLink',
+                            cellRenderer: (params: any) => {
+                                const resourceUrl = `${relativeUrl}/${params.data.col0}`; // Assuming `col0` contains the resource ID
+                                return `<a href="${resourceUrl}" target="_blank" rel="noopener noreferrer">Open Resource</a>`;
+                            },
+                            editable: false,
+                            filter: false,
+                        });
+                        const rowData = dataRows.map((row) =>
+                            row.reduce((acc, cell, index) => {
+                                acc[`col${index}`] = cell !== undefined ? String(cell) : '';
+                                return acc;
+                            }, {})
                         );
 
                         return {
-                            headerName: String(header),
-                            field: `col${index}`,
-                            editable: false,
-                            filter: true,
-                            floatingFilter: true,
-                            hide: hideEmptyColumns && !hasData,
+                            id: sheetIndex,
+                            name: sheetName,
+                            columnDefs,
+                            rowData,
                         };
-                    });
-
-                    const rowData = dataRows.map((row) =>
-                        row.reduce((acc, cell, index) => {
-                            acc[`col${index}`] = cell !== undefined ? String(cell) : '';
-                            return acc;
-                        }, {})
-                    );
-
-                    return {
-                        id: sheetIndex,
-                        name: sheetName,
-                        columnDefs,
-                        rowData,
-                    };
-                });
+                    }
+                );
 
                 setSheets(parsedSheets);
                 setIsLoading(false);
@@ -272,6 +287,7 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                     onGridReady={onGridReady}
                     gridOptions={{
                         enableCellTextSelection: true,
+                        enableBrowserTooltips: true, // Enable browser tooltips
                     }}
                 />
             </Box>
