@@ -87,6 +87,7 @@ const Auth = () => {
             if (queryParams.get('error')) {
                 const errorCode = queryParams.get('error');
                 const errorDescription = queryParams.get('error_description');
+                console.error(`Authentication error, ${errorCode}: ${errorDescription}`);
                 setError(`Authentication error, ${errorCode}: ${errorDescription}`);
                 return;
             }
