@@ -28,7 +28,7 @@ import {
 } from 'ag-grid-community';
 import { themeBalham } from 'ag-grid-community';
 import FileDownload from './FileDownload';
-import type { ColDef, ColGroupDef } from 'ag-grid-community';
+import type { ColDef, ColGroupDef, ICellRendererParams } from 'ag-grid-community';
 
 ModuleRegistry.registerModules([
     ColumnAutoSizeModule,
@@ -137,9 +137,9 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                         columnDefs.push({
                             headerName: 'FHIR Resource Link',
                             field: 'fhirLink',
-                            cellRenderer: (params: any) => {
+                            cellRenderer: (params: ICellRendererParams) => {
                                 const resourceUrl = `${relativeUrl}/${params.data.col0}`; // Assuming `col0` contains the resource ID
-                                return `<a href="${resourceUrl}" target="_blank" rel="noopener noreferrer">Open Resource</a>`;
+                                return `<a href="${resourceUrl}" target="_blank">Open Resource</a>`;
                             },
                             editable: false,
                             filter: false,
