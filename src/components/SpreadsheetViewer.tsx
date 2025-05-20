@@ -144,11 +144,10 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                             headerName: 'FHIR Link',
                             field: 'fhirLink',
                             cellRenderer: (params: ICellRendererParams) => {
-                                // const currentTabName = sortedSheets.find(s => s.name === activeSheetName)?.name;
-                                const resourceUrl = `/4_0_0/${activeSheetName}/${params.data.col0}`; // Assuming `col0` contains the resource ID
+                                const resourceUrl = `/4_0_0/${sheetName}/${params.data.col0}`; // Assuming `col0` contains the resource ID
                                 return (
                                     <a href={resourceUrl} target="_blank" rel="noopener noreferrer">
-                                        {activeSheetName}/{params.data.col0}
+                                        {sheetName}/{params.data.col0}
                                     </a>
                                 );
                             },
@@ -180,7 +179,7 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
         };
 
         fetchSpreadsheetData().then((r) => r);
-    }, [relativeUrl, hideEmptyColumns, activeSheetName]);
+    }, [relativeUrl, hideEmptyColumns]);
 
     const defaultColDef = useMemo(
         () => ({
