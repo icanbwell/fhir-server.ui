@@ -192,6 +192,9 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
     );
 
     const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
+        if (newValue === undefined) {
+            return;
+        }
         setActiveSheetName(newValue);
 
         let currentPath = location.pathname;
@@ -213,11 +216,14 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
 
     useEffect(() => {
         // Extract the tab name from the path
-        const pathTabName = location.pathname.split('/').pop();
-        const initialTabId = sortedSheets.find((sheet) => sheet.name === pathTabName)?.id;
+        const pathTabName = location.pathname.includes('$summary')
+            ? location.pathname.split('$summary/')[1]?.split('/')[0]
+            : undefined;
 
-        if (initialTabId !== undefined) {
+        if (pathTabName !== undefined) {
             setActiveSheetName(pathTabName);
+        } else if (sortedSheets.length > 0) {
+            setActiveSheetName(sortedSheets[0].name);
         }
     }, [location.pathname, sortedSheets]);
 
@@ -271,7 +277,7 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
             >
                 <Tabs
                     ref={tabsRef}
-                    value={activeSheetName}
+                    value={activeSheetName !== undefined ? activeSheetName : false}
                     onChange={handleTabChange}
                     variant="scrollable"
                     scrollButtons="auto"
@@ -313,8 +319,8 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
             >
                 <AgGridReact
                     theme={themeBalham}
-                    columnDefs={sortedSheets.find(s => s.name === activeSheetName)?.columnDefs}
-                    rowData={sortedSheets.find(s => s.name === activeSheetName)?.rowData}
+                    columnDefs={sortedSheets.find((s) => s.name === activeSheetName)?.columnDefs}
+                    rowData={sortedSheets.find((s) => s.name === activeSheetName)?.rowData}
                     defaultColDef={defaultColDef}
                     onGridReady={onGridReady}
                     gridOptions={{
