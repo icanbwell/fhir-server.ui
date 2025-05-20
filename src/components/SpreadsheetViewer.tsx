@@ -319,8 +319,8 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
             >
                 <AgGridReact
                     theme={themeBalham}
-                    columnDefs={sortedSheets.find((s) => s.name === activeSheetName)?.columnDefs}
-                    rowData={sortedSheets.find((s) => s.name === activeSheetName)?.rowData}
+                    columnDefs={sortedSheets.find((s) => s.name === activeSheetName)?.columnDefs || []}
+                    rowData={sortedSheets.find((s) => s.name === activeSheetName)?.rowData || []}
                     defaultColDef={defaultColDef}
                     onGridReady={onGridReady}
                     gridOptions={{
