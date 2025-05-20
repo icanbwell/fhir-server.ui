@@ -51,7 +51,7 @@ const ResourceCard = ({
     }, [expanded]);
 
     // List of resource types that should show FileDownload
-    const downloadableResourceTypes = ['Patient', 'Person', 'Practitioner'];
+    const summaryResourceTypes = ['Patient', 'Person', 'Practitioner'];
 
     return (
         <Card key={index}>
@@ -69,7 +69,7 @@ const ResourceCard = ({
                     <Json resource={resource} error={error} />
                     {/* Conditionally render FileDownload based on resource type */}
                     {resource.resourceType &&
-                        downloadableResourceTypes.includes(resource.resourceType.toString()) && (
+                        summaryResourceTypes.includes(resource.resourceType.toString()) && (
                             <Box
                                 sx={{
                                     display: 'flex',
