@@ -66,7 +66,7 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [sheets, setSheets] = useState<SheetData[]>([]);
-    const [activeSheet, setActiveSheet] = useState<number>(0);
+    const [activeSheetName, setActiveSheetName] = useState<string>();
     const [hideEmptyColumns, setHideEmptyColumns] = useState<boolean>(true);
     const navigate = useNavigate(); // Initialize navigate
     const location = useLocation(); // Initialize location
@@ -139,14 +139,16 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                         );
 
                         // Add a new column for the FHIR resource link
+                        // noinspection JSUnusedGlobalSymbols
                         columnDefs.push({
                             headerName: 'FHIR Link',
                             field: 'fhirLink',
                             cellRenderer: (params: ICellRendererParams) => {
-                                const resourceUrl = `/4_0_0/${sheets[`${activeSheet}`].name}/${params.data.col0}`; // Assuming `col0` contains the resource ID
+                                // const currentTabName = sortedSheets.find(s => s.name === activeSheetName)?.name;
+                                const resourceUrl = `/4_0_0/${activeSheetName}/${params.data.col0}`; // Assuming `col0` contains the resource ID
                                 return (
                                     <a href={resourceUrl} target="_blank" rel="noopener noreferrer">
-                                        {sheets[`${activeSheet}`].name}/{params.data.col0}
+                                        {activeSheetName}/{params.data.col0}
                                     </a>
                                 );
                             },
@@ -178,7 +180,7 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
         };
 
         fetchSpreadsheetData().then((r) => r);
-    }, [relativeUrl, hideEmptyColumns, activeSheet]);
+    }, [relativeUrl, hideEmptyColumns, activeSheetName]);
 
     const defaultColDef = useMemo(
         () => ({
@@ -189,19 +191,35 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
         []
     );
 
-    const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
-        setActiveSheet(newValue);
+    const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
+        setActiveSheetName(newValue);
 
-        // Update the URL with the active tab's ID
-        const queryParams = new URLSearchParams(location.search);
-        queryParams.set('activeTab', newValue.toString());
-        navigate(`${location.pathname}?${queryParams.toString()}`, { replace: true });
+        let currentPath = location.pathname;
+        if (currentPath.endsWith('$summary')) {
+            // Append the tab name if $summary is at the end
+            currentPath = `${currentPath}/${newValue}`;
+        } else {
+            // Replace the last segment with the tab name
+            currentPath = currentPath.split('/').slice(0, -1).join('/') + `/${newValue}`;
+        }
+
+        navigate(currentPath, { replace: true });
 
         // Clear filters when switching tabs
         if (gridApiRef.current) {
             gridApiRef.current.setFilterModel(null);
         }
     };
+
+    useEffect(() => {
+        // Extract the tab name from the path
+        const pathTabName = location.pathname.split('/').pop();
+        const initialTabId = sortedSheets.find((sheet) => sheet.name === pathTabName)?.id;
+
+        if (initialTabId !== undefined) {
+            setActiveSheetName(pathTabName);
+        }
+    }, [location.pathname, sortedSheets]);
 
     const onGridReady = (params: any) => {
         gridApiRef.current = params.api; // Store the grid API
@@ -253,7 +271,7 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
             >
                 <Tabs
                     ref={tabsRef}
-                    value={activeSheet}
+                    value={activeSheetName}
                     onChange={handleTabChange}
                     variant="scrollable"
                     scrollButtons="auto"
@@ -261,11 +279,11 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                         flexGrow: 1,
                     }}
                 >
-                    {sortedSheets.map((sheet) => (
+                    {sortedSheets.map((sheet: SheetData) => (
                         <Tab
-                            key={sheet.id}
+                            key={sheet.name}
                             label={`${sheet.name} (${sheet.rowData.length})`}
-                            value={sheet.id}
+                            value={sheet.name}
                             sx={{
                                 textTransform: 'none',
                                 minWidth: 'auto',
@@ -295,8 +313,8 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
             >
                 <AgGridReact
                     theme={themeBalham}
-                    columnDefs={sheets[`${activeSheet}`].columnDefs}
-                    rowData={sheets[`${activeSheet}`].rowData}
+                    columnDefs={sortedSheets.find(s => s.name === activeSheetName)?.columnDefs}
+                    rowData={sortedSheets.find(s => s.name === activeSheetName)?.rowData}
                     defaultColDef={defaultColDef}
                     onGridReady={onGridReady}
                     gridOptions={{
