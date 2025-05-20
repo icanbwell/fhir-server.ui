@@ -277,7 +277,7 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
             >
                 <Tabs
                     ref={tabsRef}
-                    value={activeSheetName || ""}
+                    value={activeSheetName || ''}
                     onChange={handleTabChange}
                     variant="scrollable"
                     scrollButtons="auto"
