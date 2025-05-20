@@ -42,7 +42,6 @@ ModuleRegistry.registerModules([
     ClientSideRowModelModule,
 ]);
 
-// Type definitions
 interface SpreadsheetViewerProps {
     relativeUrl: string;
     format:
@@ -58,26 +57,21 @@ interface SheetData {
 }
 
 const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, format }) => {
-    // Ref for tabs to measure height
     const tabsRef = useRef<HTMLDivElement>(null);
+    const gridApiRef = useRef<any>(null); // Ref to store the grid API
 
-    // State management
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [sheets, setSheets] = useState<SheetData[]>([]);
     const [activeSheet, setActiveSheet] = useState<number>(0);
-
     const [hideEmptyColumns, setHideEmptyColumns] = useState<boolean>(true);
 
-    // Sort sheets alphabetically by name before rendering
     const sortedSheets = useMemo(() => {
         return [...sheets].sort((a, b) => a.name.localeCompare(b.name));
     }, [sheets]);
 
-    // Context
     const { fhirUrl } = useContext(EnvironmentContext);
 
-    // Construct download URL
     const downloadUri: URL = new URL(relativeUrl, fhirUrl);
     downloadUri.searchParams.set('_format', format);
     const queryString = new URLSearchParams(location.search);
@@ -87,24 +81,18 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
         }
     }
 
-    // Fetch and parse spreadsheet
     useEffect(() => {
         const fetchSpreadsheetData = async () => {
             try {
                 setIsLoading(true);
                 setErrorMessage(null);
 
-                console.info(`Fetching spreadsheet from: ${downloadUri.toString()}`);
-
-                // Fetch file
                 const response: AxiosResponse<Blob> = await axios.get(downloadUri.toString(), {
                     responseType: 'blob',
                 });
 
-                // Convert blob to array buffer
                 const arrayBuffer = await response.data.arrayBuffer();
 
-                // Parse file based on format
                 let workbook: XLSX.WorkBook;
                 if (format === 'text/csv') {
                     workbook = XLSX.read(arrayBuffer, { type: 'buffer', codepage: 65001 });
@@ -112,10 +100,8 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                     workbook = XLSX.read(arrayBuffer, { type: 'buffer' });
                 }
 
-                // Transform workbook to AG-Grid format
                 const parsedSheets: SheetData[] = workbook.SheetNames.map((sheetName) => {
                     const worksheet = workbook.Sheets[`${sheetName}`];
-                    // Convert worksheet to 2D array
                     const rawData: any[][] = XLSX.utils.sheet_to_json(worksheet, {
                         header: 1,
                         raw: true,
@@ -123,12 +109,9 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                         UTC: true,
                     });
 
-                    // Extract headers and data
                     const [headers, ...dataRows] = rawData;
 
-                    // Generate column definitions with data check
                     const columnDefs = headers.map((header, index) => {
-                        // Check if any row in this column has non-empty data
                         const hasData = dataRows.some(
                             (row) =>
                                 row[`${index}`] !== undefined &&
@@ -142,11 +125,10 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                             editable: false,
                             filter: true,
                             floatingFilter: true,
-                            hide: hideEmptyColumns && !hasData, // Conditional hiding based on state
+                            hide: hideEmptyColumns && !hasData,
                         };
                     });
 
-                    // Transform data rows
                     const rowData = dataRows.map((row) =>
                         row.reduce((acc, cell, index) => {
                             acc[`col${index}`] = cell !== undefined ? String(cell) : '';
@@ -161,15 +143,9 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                     };
                 });
 
-                console.log(
-                    'Parsed Sheet Names:',
-                    parsedSheets.map((sheet) => sheet.name)
-                );
-
                 setSheets(parsedSheets);
                 setIsLoading(false);
             } catch (error) {
-                console.error('Error fetching spreadsheet:', error);
                 setErrorMessage(`Failed to load spreadsheet: ${(error as Error).message}`);
                 setIsLoading(false);
             }
@@ -178,7 +154,6 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
         fetchSpreadsheetData().then((r) => r);
     }, [relativeUrl, hideEmptyColumns]);
 
-    // AG-Grid default options
     const defaultColDef = useMemo(
         () => ({
             resizable: true,
@@ -188,7 +163,19 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
         []
     );
 
-    // Loading state
+    const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+        setActiveSheet(newValue);
+
+        // Clear filters when switching tabs
+        if (gridApiRef.current) {
+            gridApiRef.current.setFilterModel(null);
+        }
+    };
+
+    const onGridReady = (params: any) => {
+        gridApiRef.current = params.api; // Store the grid API
+    };
+
     if (isLoading) {
         return (
             <Box
@@ -206,7 +193,6 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
         );
     }
 
-    // Error state
     if (errorMessage) {
         return (
             <Alert severity="error" sx={{ width: '100%' }}>
@@ -215,7 +201,6 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
         );
     }
 
-    // Main render
     return (
         <Box
             sx={{
@@ -225,7 +210,6 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                 flexDirection: 'column',
             }}
         >
-            {/* Sheet Tabs */}
             <Box
                 sx={{
                     display: 'flex',
@@ -239,7 +223,7 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                 <Tabs
                     ref={tabsRef}
                     value={activeSheet}
-                    onChange={(e, newValue) => setActiveSheet(newValue)}
+                    onChange={handleTabChange}
                     variant="scrollable"
                     scrollButtons="auto"
                     sx={{
@@ -273,18 +257,18 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
             </Box>
             <Box
                 sx={{
-                    flexGrow: 1, // This makes the grid take up remaining space
+                    flexGrow: 1,
                     width: '100%',
                 }}
             >
-                {/* AG-Grid Spreadsheet */}
                 <AgGridReact
                     theme={themeBalham}
                     columnDefs={sheets[`${activeSheet}`].columnDefs}
                     rowData={sheets[`${activeSheet}`].rowData}
                     defaultColDef={defaultColDef}
+                    onGridReady={onGridReady}
                     gridOptions={{
-                        enableCellTextSelection: true
+                        enableCellTextSelection: true,
                     }}
                 />
             </Box>
