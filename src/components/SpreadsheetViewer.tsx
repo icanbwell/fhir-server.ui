@@ -175,7 +175,7 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
         };
 
         fetchSpreadsheetData().then((r) => r);
-    }, [relativeUrl, hideEmptyColumns]);
+    }, [relativeUrl, hideEmptyColumns, activeSheet]);
 
     const defaultColDef = useMemo(
         () => ({
