@@ -29,6 +29,7 @@ import {
 import { themeBalham } from 'ag-grid-community';
 import FileDownload from './FileDownload';
 import type { ColDef, ColGroupDef, ICellRendererParams } from 'ag-grid-community';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 ModuleRegistry.registerModules([
     ColumnAutoSizeModule,
@@ -67,6 +68,8 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
     const [sheets, setSheets] = useState<SheetData[]>([]);
     const [activeSheet, setActiveSheet] = useState<number>(0);
     const [hideEmptyColumns, setHideEmptyColumns] = useState<boolean>(true);
+    const navigate = useNavigate(); // Initialize navigate
+    const location = useLocation(); // Initialize location
 
     const sortedSheets = useMemo(() => {
         return [...sheets].sort((a, b) => a.name.localeCompare(b.name));
@@ -188,6 +191,11 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
 
     const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
         setActiveSheet(newValue);
+
+        // Update the URL with the active tab's ID
+        const queryParams = new URLSearchParams(location.search);
+        queryParams.set('activeTab', newValue.toString());
+        navigate(`${location.pathname}?${queryParams.toString()}`, { replace: true });
 
         // Clear filters when switching tabs
         if (gridApiRef.current) {
