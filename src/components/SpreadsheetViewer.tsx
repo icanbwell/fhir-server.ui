@@ -51,6 +51,7 @@ interface SpreadsheetViewerProps {
 }
 
 interface SheetData {
+    id: number; // Add id property
     name: string;
     columnDefs: any[];
     rowData: any[];
@@ -100,7 +101,7 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                     workbook = XLSX.read(arrayBuffer, { type: 'buffer' });
                 }
 
-                const parsedSheets: SheetData[] = workbook.SheetNames.map((sheetName) => {
+                const parsedSheets: SheetData[] = workbook.SheetNames.map((sheetName, sheetIndex) => {
                     const worksheet = workbook.Sheets[`${sheetName}`];
                     const rawData: any[][] = XLSX.utils.sheet_to_json(worksheet, {
                         header: 1,
@@ -137,6 +138,7 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                     );
 
                     return {
+                        id: sheetIndex,
                         name: sheetName,
                         columnDefs,
                         rowData,
