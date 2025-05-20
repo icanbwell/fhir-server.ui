@@ -80,7 +80,7 @@ const ResourceCard = ({
                             >
                                 <Tooltip title="Open Summary in New Spreadsheet Tab">
                                     <Link
-                                        to={`/excel/4_0_0/${resource.resourceType}/${resource.id}/$summary`}
+                                        to={`/excel/4_0_0/${resource.resourceType}/${resource.id}/$summary/${resource.resourceType}`}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         style={{
