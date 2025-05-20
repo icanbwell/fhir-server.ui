@@ -246,10 +246,11 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                         flexGrow: 1,
                     }}
                 >
-                    {sortedSheets.map((sheet, index) => (
+                    {sortedSheets.map((sheet) => (
                         <Tab
-                            key={index}
+                            key={sheet.id}
                             label={`${sheet.name} (${sheet.rowData.length})`}
+                            value={sheet.id}
                             sx={{
                                 textTransform: 'none',
                                 minWidth: 'auto',
