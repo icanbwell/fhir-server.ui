@@ -145,6 +145,7 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                 };
             });
 
+            // noinspection JSUnusedGlobalSymbols
             columnDefs.push({
                 headerName: 'FHIR Link',
                 field: 'fhirLink',
@@ -293,6 +294,21 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
         gridApiRef.current = params.api;
     };
 
+    // Optional: Add a method to force grid refresh
+    const refreshGrid = () => {
+        // Reset grid when tab changes
+        if (gridApiRef.current) {
+            gridApiRef.current.purgeInfiniteCache();
+            gridApiRef.current.refreshInfiniteCache();
+            gridApiRef.current.setFilterModel(null);
+        }
+    };
+
+    // Call this when active sheet changes
+    useEffect(() => {
+        refreshGrid();
+    }, [activeSheetName]);
+
     if (isLoading) {
         return (
             <Box
@@ -390,7 +406,8 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                     cacheOverflowSize={2}
                     maxConcurrentDatasourceRequests={1}
                     pagination={true}
-                    paginationAutoPageSize={true}
+                    paginationPageSize={1}
+                    paginationPageSizeSelector={[1]}
                     onGridReady={onGridReady}
                     gridOptions={{
                         enableCellTextSelection: true,
