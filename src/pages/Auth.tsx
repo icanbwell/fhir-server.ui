@@ -80,8 +80,12 @@ const Auth = () => {
         } catch (error1: any) {
             // error1 is of type AxiosError
             const axiosError = error1 as AxiosError;
-            console.error('Token fetch error:', axiosError.toJSON());
-            setError(`Failed to fetch token: ${axiosError.toJSON()}`);
+            console.error('Token fetch error:', {
+                message: axiosError.message,
+                status: axiosError.response?.status,
+                data: axiosError.response?.data,
+            });
+            setError(`Failed to fetch token: ${axiosError.message}`);
             setIsProcessing(false);
         } finally {
             isFetchingToken.current = false;
