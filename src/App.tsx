@@ -31,9 +31,9 @@ function App(): React.ReactElement {
 
         return (
             <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/select-idp" element={<IdentityProviderSelection />} />
-                <Route path="/authcallback" element={<Auth />} />
+                <Route key="home" path="/" element={<HomePage />} />
+                <Route key="identityProvider" path="/select-idp" element={<IdentityProviderSelection />} />
+                <Route key="authcallback" path="/authcallback" element={<Auth />} />
                 <Route
                     element={
                         userDetails ? (
@@ -43,6 +43,7 @@ function App(): React.ReactElement {
                         )
                     }
                     children={FhirRoutes}
+                    key="fhirRoutes"
                 />
             </Routes>
         );

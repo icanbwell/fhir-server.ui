@@ -9,13 +9,13 @@ import SearchPage from '../pages/SearchPage';
 import ExcelViewerPage from '../pages/ExcelViewerPage';
 
 export default [
-    <Route path="/about" element={<AboutPage />} />,
-    <Route path="/patientTimeline" element={<PatientTimeline />} />,
-    <Route path="/observationGraph" element={<ObservationGraph />} />,
-    <Route path="/observationTimeline" element={<ObservationTimeline />} />,
-    <Route path="/4_0_0/:resourceType/_search/*" element={<SearchPage />} />,
-    <Route path="/4_0_0/:resourceType/:id?/:operation?/*" element={<IndexPage />} />,
-    <Route path="/4_0_0/:resourceType/:operation?/*" element={<IndexPage />} />,
-    <Route path="/excel/4_0_0/:resourceType/:id?/:operation?/*" element={<ExcelViewerPage />} />,
-    <Route path="/excel/4_0_0/:resourceType/:operation?/*" element={<ExcelViewerPage />} />,
+    <Route key="about" path="/about" element={<AboutPage />} />,
+    <Route key="patientTimeline" path="/patientTimeline" element={<PatientTimeline />} />,
+    <Route key="ObservationGraph" path="/observationGraph" element={<ObservationGraph />} />,
+    <Route key="observationTimeline" path="/observationTimeline" element={<ObservationTimeline />} />,
+    <Route key="search" path="/4_0_0/:resourceType/_search/*" element={<SearchPage />} />,
+    <Route key="idOperation" path="/4_0_0/:resourceType/:id?/:operation?/*" element={<IndexPage />} />,
+    <Route key="operation" path="/4_0_0/:resourceType/:operation?/*" element={<IndexPage />} />,
+    <Route key="excelIdOperation" path="/excel/4_0_0/:resourceType/:id?/:operation?/*" element={<ExcelViewerPage />} />,
+    <Route key="excelOperation" path="/excel/4_0_0/:resourceType/:operation?/*" element={<ExcelViewerPage />} />,
 ];
