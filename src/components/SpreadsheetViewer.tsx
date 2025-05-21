@@ -134,6 +134,7 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                                     floatingFilter: true,
                                     hide: hideEmptyColumns && !hasData,
                                     tooltipField: `col${index}`, // Add tooltip to show full value
+                                    sort: header === 'lastUpdated' ? 'desc' : undefined, // Sort by lastUpdated column
                                 };
                             }
                         );
