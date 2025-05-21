@@ -79,6 +79,9 @@ const ResourceCard = ({
                                 }}
                             >
                                 <Tooltip title="Open Summary in New Spreadsheet Tab">
+                                    {/* The resource type is included twice in the URL to meet API requirements:
+                                        - The first occurrence specifies the resource type and ID for the main resource.
+                                        - The second occurrence in `$summary/{resourceType}` specifies the summary type. */}
                                     <Link
                                         to={`/excel/4_0_0/${resource.resourceType}/${resource.id}/$summary/${resource.resourceType}`}
                                         target="_blank"
