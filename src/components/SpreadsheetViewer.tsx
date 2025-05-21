@@ -81,6 +81,7 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
     const activeSheetNameRef = useRef<string | undefined>();
     const [hideEmptyColumns, setHideEmptyColumns] = useState<boolean>(true);
     const [cachedSheetData, setCachedSheetData] = useState<Record<string, any[]>>({});
+    const cachedSheetDataRef = useRef<Record<string, any[]>>({});
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -99,6 +100,10 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
     useEffect(() => {
         activeSheetNameRef.current = activeSheetName;
     }, [activeSheetName]);
+
+    useEffect(() => {
+        cachedSheetDataRef.current = cachedSheetData;
+    }, [cachedSheetData]);
 
     const sortedSheets = useMemo(() => {
         return [...sheets].sort((a, b) => a.name.localeCompare(b.name));
@@ -205,7 +210,8 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                     return;
                 }
 
-                const cachedRows = cachedSheetData[`${activeSheet}`] || [];
+                const cachedSheetData1 = cachedSheetDataRef.current;
+                const cachedRows = cachedSheetData1[`${activeSheet}`] || [];
 
                 const startRow = params.startRow;
                 const endRow = params.endRow;
@@ -230,7 +236,7 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                     }));
 
                     const rows =
-                        cachedSheetData[`${activeSheet}`]?.slice(startRow, endRow) || newSheetData;
+                        cachedSheetData1[`${activeSheet}`]?.slice(startRow, endRow) || newSheetData;
 
                     params.successCallback(rows, cachedRows.length + newSheetData.length);
                 } else {
