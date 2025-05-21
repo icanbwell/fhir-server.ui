@@ -25,10 +25,19 @@ import {
     DateFilterModule,
     QuickFilterModule,
     ClientSideRowModelModule,
+    InfiniteRowModelModule,
+    ValidationModule,
+    PaginationModule,
 } from 'ag-grid-community';
 import { themeBalham } from 'ag-grid-community';
 import FileDownload from './FileDownload';
-import type { ColDef, ColGroupDef, ICellRendererParams } from 'ag-grid-community';
+import type {
+    ColDef,
+    ColGroupDef,
+    ICellRendererParams,
+    IDatasource,
+    IGetRowsParams,
+} from 'ag-grid-community';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 ModuleRegistry.registerModules([
@@ -42,6 +51,9 @@ ModuleRegistry.registerModules([
     DateFilterModule,
     QuickFilterModule,
     ClientSideRowModelModule,
+    InfiniteRowModelModule,
+    ValidationModule,
+    PaginationModule,
 ]);
 
 interface SpreadsheetViewerProps {
@@ -53,32 +65,30 @@ interface SpreadsheetViewerProps {
 }
 
 interface SheetData {
-    id: number; // Add id property
+    id: number;
     name: string;
-    columnDefs: any[];
+    columnDefs: (ColDef<any> | ColGroupDef<any>)[];
     rowData: any[];
 }
 
 const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, format }) => {
     const tabsRef = useRef<HTMLDivElement>(null);
-    const gridApiRef = useRef<any>(null); // Ref to store the grid API
-
+    const gridApiRef = useRef<any>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [sheets, setSheets] = useState<SheetData[]>([]);
     const [activeSheetName, setActiveSheetName] = useState<string>();
+    const activeSheetNameRef = useRef<string | undefined>();
     const [hideEmptyColumns, setHideEmptyColumns] = useState<boolean>(true);
-    const navigate = useNavigate(); // Initialize navigate
-    const location = useLocation(); // Initialize location
+    const [cachedSheetData, setCachedSheetData] = useState<Record<string, any[]>>({});
 
-    const sortedSheets = useMemo(() => {
-        return [...sheets].sort((a, b) => a.name.localeCompare(b.name));
-    }, [sheets]);
-
+    const navigate = useNavigate();
+    const location = useLocation();
     const { fhirUrl } = useContext(EnvironmentContext);
 
     const downloadUri: URL = new URL(relativeUrl, fhirUrl);
     downloadUri.searchParams.set('_format', format);
+
     const queryString = new URLSearchParams(location.search);
     for (const [key, value] of queryString.entries()) {
         if (key !== '_format') {
@@ -87,135 +97,158 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
     }
 
     useEffect(() => {
-        const fetchSpreadsheetData = async () => {
-            try {
-                setIsLoading(true);
-                setErrorMessage(null);
+        activeSheetNameRef.current = activeSheetName;
+    }, [activeSheetName]);
 
-                const response: AxiosResponse<Blob> = await axios.get(downloadUri.toString(), {
-                    responseType: 'blob',
-                });
+    const sortedSheets = useMemo(() => {
+        return [...sheets].sort((a, b) => a.name.localeCompare(b.name));
+    }, [sheets]);
 
-                const arrayBuffer = await response.data.arrayBuffer();
+    async function getSheetsFromResponse(response: AxiosResponse<Blob>): Promise<SheetData[]> {
+        const arrayBuffer = await response.data.arrayBuffer();
+        let workbook: XLSX.WorkBook;
 
-                let workbook: XLSX.WorkBook;
-                if (format === 'text/csv') {
-                    workbook = XLSX.read(arrayBuffer, { type: 'buffer', codepage: 65001 });
-                } else {
-                    workbook = XLSX.read(arrayBuffer, { type: 'buffer' });
-                }
+        if (format === 'text/csv') {
+            workbook = XLSX.read(arrayBuffer, { type: 'buffer', codepage: 65001 });
+        } else {
+            workbook = XLSX.read(arrayBuffer, { type: 'buffer' });
+        }
 
-                const parsedSheets: SheetData[] = workbook.SheetNames.map(
-                    (sheetName, sheetIndex) => {
-                        const worksheet = workbook.Sheets[`${sheetName}`];
-                        const rawData: any[][] = XLSX.utils.sheet_to_json(worksheet, {
-                            header: 1,
-                            raw: true,
-                            rawNumbers: true,
-                            UTC: true,
-                        });
+        // noinspection UnnecessaryLocalVariableJS
+        const parsedSheets: SheetData[] = workbook.SheetNames.map((sheetName, sheetIndex) => {
+            const worksheet = workbook.Sheets[`${sheetName}`];
+            const rawData: any[][] = XLSX.utils.sheet_to_json(worksheet, {
+                header: 1,
+                raw: true,
+                rawNumbers: true,
+                UTC: true,
+            });
 
-                        const [headers, ...dataRows] = rawData;
-
-                        const columnDefs: (ColDef<any> | ColGroupDef<any>)[] = headers.map(
-                            (header, index) => {
-                                const hasData = dataRows.some(
-                                    (row) =>
-                                        row[`${index}`] !== undefined &&
-                                        row[`${index}`] !== null &&
-                                        String(row[`${index}`]).trim() !== ''
-                                );
-
-                                return {
-                                    headerName: String(header),
-                                    field: `col${index}`,
-                                    editable: false,
-                                    filter: true,
-                                    floatingFilter: true,
-                                    hide: hideEmptyColumns && !hasData,
-                                    tooltipField: `col${index}`, // Add tooltip to show full value
-                                    sort: header === 'lastUpdated' ? 'desc' : undefined, // Sort by lastUpdated column
-                                };
-                            }
-                        );
-
-                        // Add a new column for the FHIR resource link
-                        // noinspection JSUnusedGlobalSymbols
-                        columnDefs.push({
-                            headerName: 'FHIR Link',
-                            field: 'fhirLink',
-                            cellRenderer: (params: ICellRendererParams) => {
-                                const resourceUrl = `/4_0_0/${sheetName}/${params.data.col0}`; // Assuming `col0` contains the resource ID
-                                return (
-                                    <a href={resourceUrl} target="_blank" rel="noopener noreferrer">
-                                        {sheetName}/{params.data.col0}
-                                    </a>
-                                );
-                            },
-                            editable: false,
-                            filter: false,
-                        });
-                        const rowData = dataRows.map((row) =>
-                            row.reduce((acc, cell, index) => {
-                                acc[`col${index}`] = cell !== undefined ? String(cell) : '';
-                                return acc;
-                            }, {})
-                        );
-
-                        return {
-                            id: sheetIndex,
-                            name: sheetName,
-                            columnDefs,
-                            rowData,
-                        };
-                    }
+            const [headers, ...dataRows] = rawData;
+            const columnDefs: (ColDef<any> | ColGroupDef<any>)[] = headers.map((header, index) => {
+                const hasData = dataRows.some(
+                    (row) =>
+                        row[`${index}`] !== undefined &&
+                        row[`${index}`] !== null &&
+                        String(row[`${index}`]).trim() !== ''
                 );
 
-                setSheets(parsedSheets);
-                setIsLoading(false);
-            } catch (error) {
-                setErrorMessage(`Failed to load spreadsheet: ${(error as Error).message}`);
-                setIsLoading(false);
-            }
-        };
+                return {
+                    headerName: String(header),
+                    field: `col${index}`,
+                    editable: false,
+                    filter: true,
+                    floatingFilter: true,
+                    hide: hideEmptyColumns && !hasData,
+                    tooltipField: `col${index}`,
+                    sort: header === 'lastUpdated' ? 'desc' : undefined,
+                };
+            });
 
-        fetchSpreadsheetData().then((r) => r);
-    }, [relativeUrl, hideEmptyColumns]);
+            columnDefs.push({
+                headerName: 'FHIR Link',
+                field: 'fhirLink',
+                cellRenderer: (params: ICellRendererParams) => {
+                    const resourceUrl = `/4_0_0/${sheetName}/${params.data.col0}`;
+                    return (
+                        <a href={resourceUrl} target="_blank" rel="noopener noreferrer">
+                            {sheetName}/{params.data.col0}
+                        </a>
+                    );
+                },
+                editable: false,
+                filter: false,
+            });
 
-    const defaultColDef = useMemo(
-        () => ({
-            resizable: true,
-            sortable: true,
-            filter: true,
-        }),
-        []
-    );
+            const rowData = dataRows.map((row) =>
+                row.reduce((acc, cell, index) => {
+                    acc[`col${index}`] = cell !== undefined ? String(cell) : '';
+                    return acc;
+                }, {})
+            );
 
-    const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
-        if (newValue === undefined) {
-            return;
-        }
-        setActiveSheetName(newValue);
+            return {
+                id: sheetIndex,
+                name: sheetName,
+                columnDefs,
+                rowData,
+            };
+        });
 
-        let currentPath = location.pathname;
-        if (currentPath.endsWith('$summary')) {
-            // Append the tab name if $summary is at the end
-            currentPath = `${currentPath}/${newValue}`;
-        } else {
-            // Replace the last segment with the tab name
-            currentPath = currentPath.split('/').slice(0, -1).join('/') + `/${newValue}`;
-        }
+        return parsedSheets;
+    }
 
-        navigate(currentPath, { replace: true });
+    const fetchAndLoadSpreadsheetDataAsync = async (fhirUri: URL) => {
+        try {
+            setIsLoading(true);
+            setErrorMessage(null);
+            const response: AxiosResponse<Blob> = await axios.get(fhirUri.toString(), {
+                responseType: 'blob',
+            });
 
-        // Clear filters when switching tabs
-        if (gridApiRef.current) {
-            gridApiRef.current.setFilterModel(null);
+            const parsedSheets: SheetData[] = await getSheetsFromResponse(response);
+            setSheets(parsedSheets);
+            setIsLoading(false);
+        } catch (error) {
+            setErrorMessage(`Failed to load spreadsheet: ${(error as Error).message}`);
+            setIsLoading(false);
         }
     };
 
+    const dataSource: IDatasource = {
+        getRows: async (params: IGetRowsParams) => {
+            try {
+                const activeSheet = activeSheetNameRef.current;
+                if (!activeSheet) {
+                    params.failCallback();
+                    return;
+                }
+
+                const cachedRows = cachedSheetData[`${activeSheet}`] || [];
+
+                const startRow = params.startRow;
+                const endRow = params.endRow;
+                const pageSize = endRow - startRow;
+
+                if (cachedRows.length < endRow) {
+                    const pagedUri = new URL(downloadUri.toString());
+                    pagedUri.searchParams.set('_getpagesoffset', startRow.toString());
+                    pagedUri.searchParams.set('_count', pageSize.toString());
+
+                    const response: AxiosResponse<Blob> = await axios.get(pagedUri.toString(), {
+                        responseType: 'blob',
+                    });
+
+                    const parsedSheets: SheetData[] = await getSheetsFromResponse(response);
+                    const newSheetData =
+                        parsedSheets.find((s) => s.name === activeSheet)?.rowData || [];
+
+                    setCachedSheetData((prev) => ({
+                        ...prev,
+                        [activeSheet]: [...(prev[`${activeSheet}`] || []), ...newSheetData],
+                    }));
+
+                    const rows =
+                        cachedSheetData[`${activeSheet}`]?.slice(startRow, endRow) || newSheetData;
+
+                    params.successCallback(rows, cachedRows.length + newSheetData.length);
+                } else {
+                    const rows = cachedRows.slice(startRow, endRow);
+                    params.successCallback(rows, cachedRows.length);
+                }
+            } catch (error) {
+                console.error('Failed to fetch rows:', error);
+                params.failCallback();
+            }
+        },
+    };
+
     useEffect(() => {
-        // Extract the tab name from the path
+        setCachedSheetData({});
+        fetchAndLoadSpreadsheetDataAsync(downloadUri).then((r) => r);
+    }, [relativeUrl, hideEmptyColumns]);
+
+    useEffect(() => {
         const pathTabName = location.pathname.includes('$summary')
             ? location.pathname.split('$summary/')[1]?.split('/')[0]
             : undefined;
@@ -227,8 +260,37 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
         }
     }, [location.pathname, sortedSheets]);
 
+    const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
+        if (newValue === undefined) {
+            return;
+        }
+        setActiveSheetName(newValue);
+
+        let currentPath = location.pathname;
+        if (currentPath.endsWith('$summary')) {
+            currentPath = `${currentPath}/${newValue}`;
+        } else {
+            currentPath = currentPath.split('/').slice(0, -1).join('/') + `/${newValue}`;
+        }
+
+        navigate(currentPath, { replace: true });
+
+        if (gridApiRef.current) {
+            gridApiRef.current.setFilterModel(null);
+        }
+    };
+
+    const defaultColDef = useMemo(
+        () => ({
+            resizable: true,
+            sortable: true,
+            filter: true,
+        }),
+        []
+    );
+
     const onGridReady = (params: any) => {
-        gridApiRef.current = params.api; // Store the grid API
+        gridApiRef.current = params.api;
     };
 
     if (isLoading) {
@@ -277,7 +339,7 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
             >
                 <Tabs
                     ref={tabsRef}
-                    value={activeSheetName || ''}
+                    value={activeSheetName || sortedSheets[0]?.name}
                     onChange={handleTabChange}
                     variant="scrollable"
                     scrollButtons="auto"
@@ -319,13 +381,21 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
             >
                 <AgGridReact
                     theme={themeBalham}
-                    columnDefs={sortedSheets.find((s) => s.name === activeSheetName)?.columnDefs || []}
-                    rowData={sortedSheets.find((s) => s.name === activeSheetName)?.rowData || []}
+                    columnDefs={
+                        sortedSheets.find((s) => s.name === activeSheetName)?.columnDefs || []
+                    }
                     defaultColDef={defaultColDef}
+                    rowModelType={'infinite'}
+                    cacheBlockSize={100}
+                    cacheOverflowSize={2}
+                    maxConcurrentDatasourceRequests={1}
+                    pagination={true}
+                    paginationAutoPageSize={true}
                     onGridReady={onGridReady}
                     gridOptions={{
                         enableCellTextSelection: true,
-                        enableBrowserTooltips: true, // Enable browser tooltips
+                        enableBrowserTooltips: true,
+                        datasource: dataSource,
                     }}
                 />
             </Box>
