@@ -210,7 +210,8 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                     return;
                 }
 
-                const cachedSheetData1 = cachedSheetDataRef.current;
+                // Use the ref to get the most current cached data
+                const cachedSheetData1 = { ...cachedSheetDataRef.current };
                 const cachedRows = cachedSheetData1[`${activeSheet}`] || [];
 
                 const startRow = params.startRow;
@@ -230,13 +231,21 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                     const newSheetData =
                         parsedSheets.find((s) => s.name === activeSheet)?.rowData || [];
 
-                    setCachedSheetData((prev) => ({
-                        ...prev,
-                        [activeSheet]: [...(prev[`${activeSheet}`] || []), ...newSheetData],
-                    }));
+                    // Use functional update to ensure we're working with the most recent state
+                    setCachedSheetData((prevCachedData) => {
+                        const existingRows = prevCachedData[`${activeSheet}`] || [];
+                        const updatedRows = [...existingRows, ...newSheetData];
 
+                        return {
+                            ...prevCachedData,
+                            [activeSheet]: updatedRows,
+                        };
+                    });
+
+                    // Use the most recently cached data
+                    const updatedCachedData = { ...cachedSheetDataRef.current };
                     const rows =
-                        cachedSheetData1[`${activeSheet}`]?.slice(startRow, endRow) || newSheetData;
+                        updatedCachedData[`${activeSheet}`]?.slice(startRow, endRow) || newSheetData;
 
                     params.successCallback(rows, cachedRows.length + newSheetData.length);
                 } else {
