@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { setLocalData } from '../utils/localData.utils';
 import UserContext from '../context/UserContext';
@@ -6,6 +6,7 @@ import { jwtParser } from '../utils/jwtParser';
 import { Buffer } from 'buffer';
 import AuthServiceFactory from '../services/AuthServiceFactory';
 import { IAuthService } from '../services/IAuthService';
+import { AxiosError } from 'axios';
 
 const Auth = () => {
     const { setUserDetails } = useContext(UserContext);
@@ -14,6 +15,7 @@ const Auth = () => {
     const [isProcessing, setIsProcessing] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const authService: IAuthService = AuthServiceFactory.getAuthService();
+    const isFetchingToken = useRef(false);
 
     const redirectToLogin = async () => {
         if (isProcessing) {
@@ -44,18 +46,21 @@ const Auth = () => {
         }
     };
 
-    const fetchToken = async (code: string) => {
-        if (isProcessing) {
+    const fetchTokenAsync = async (code: string) => {
+        if (isProcessing || isFetchingToken.current) {
             return;
         }
-
+        isFetchingToken.current = true;
         setIsProcessing(true);
+
+        console.info(`Fetching token with code: ${code}`);
 
         const identityProvider = localStorage.getItem('identityProvider');
         if (!identityProvider) {
             console.error('No identity provider found in local storage');
             setError('No identity provider found in local storage');
             setIsProcessing(false);
+            isFetchingToken.current = false;
             return;
         }
 
@@ -72,10 +77,18 @@ const Auth = () => {
             }
             console.log(`Token Fetched. Redirecting to ${resourceUrl}`);
             window.location.href = resourceUrl;
-        } catch (error1) {
-            console.error('Token fetch error:', error1);
-            setError(`Failed to fetch token: ${error1}`);
+        } catch (error1: any) {
+            // error1 is of type AxiosError
+            const axiosError = error1 as AxiosError;
+            console.error('Token fetch error:', {
+                message: axiosError.message,
+                status: axiosError.response?.status,
+                data: axiosError.response?.data,
+            });
+            setError(`Failed to fetch token: ${axiosError.message}`);
             setIsProcessing(false);
+        } finally {
+            isFetchingToken.current = false;
         }
     };
 
@@ -87,12 +100,13 @@ const Auth = () => {
             if (queryParams.get('error')) {
                 const errorCode = queryParams.get('error');
                 const errorDescription = queryParams.get('error_description');
+                console.error(`Authentication error, ${errorCode}: ${errorDescription}`);
                 setError(`Authentication error, ${errorCode}: ${errorDescription}`);
                 return;
             }
             redirectToLogin().catch(console.error);
         } else {
-            fetchToken(code).catch(console.error);
+            fetchTokenAsync(code).catch(console.error);
         }
     }, []);
 

@@ -18,6 +18,7 @@ import UserContext from './context/UserContext';
 import { TUserDetails } from './types/baseTypes';
 import { jwtParser } from './utils/jwtParser';
 import IdentityProviderSelection from './pages/IdentityProviderSelection';
+import { useLocation } from 'react-router-dom';
 
 function App(): React.ReactElement {
     const env = useContext(EnvContext);
@@ -26,23 +27,23 @@ function App(): React.ReactElement {
 
     // Changed from App to Root
     function Root() {
+        const location = useLocation();
+
         return (
             <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/select-idp" element={<IdentityProviderSelection />} />
-                <Route path="/authcallback" element={<Auth />} />
+                <Route key="home" path="/" element={<HomePage />} />
+                <Route key="identityProvider" path="/select-idp" element={<IdentityProviderSelection />} />
+                <Route key="authcallback" path="/authcallback" element={<Auth />} />
                 <Route
                     element={
                         userDetails ? (
                             <Outlet />
                         ) : (
-                            <Navigate
-                                to="/select-idp"
-                                state={{ resourceUrl: window.location.href }}
-                            />
+                            <Navigate to="/select-idp" state={{ resourceUrl: `${location.pathname}${location.search}` }} />
                         )
                     }
                     children={FhirRoutes}
+                    key="fhirRoutes"
                 />
             </Routes>
         );

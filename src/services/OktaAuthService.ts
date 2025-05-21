@@ -1,5 +1,5 @@
 import { Buffer } from 'buffer';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import AuthUrlProvider from '../utils/authUrlProvider';
 import { IAuthService } from './IAuthService';
 
@@ -69,10 +69,18 @@ class OktaAuthService implements IAuthService {
             code_verifier: storedVerifier,
         });
 
+        console.info(
+            `Calling token url: ${authUrls.tokenUrl} with request data: ${tokenRequestData.toString()}`
+        );
+
         try {
-            const response = await axios.post(authUrls.tokenUrl, tokenRequestData, {
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            });
+            const response: AxiosResponse = await axios.post(
+                authUrls.tokenUrl,
+                tokenRequestData,
+                {
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                }
+            );
 
             localStorage.removeItem('code_verifier');
             return response.data;

@@ -28,6 +28,8 @@ import {
 } from 'ag-grid-community';
 import { themeBalham } from 'ag-grid-community';
 import FileDownload from './FileDownload';
+import type { ColDef, ColGroupDef, ICellRendererParams } from 'ag-grid-community';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 ModuleRegistry.registerModules([
     ColumnAutoSizeModule,
@@ -42,7 +44,6 @@ ModuleRegistry.registerModules([
     ClientSideRowModelModule,
 ]);
 
-// Type definitions
 interface SpreadsheetViewerProps {
     relativeUrl: string;
     format:
@@ -52,27 +53,30 @@ interface SpreadsheetViewerProps {
 }
 
 interface SheetData {
+    id: number; // Add id property
     name: string;
     columnDefs: any[];
     rowData: any[];
 }
 
 const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, format }) => {
-    // Ref for tabs to measure height
     const tabsRef = useRef<HTMLDivElement>(null);
+    const gridApiRef = useRef<any>(null); // Ref to store the grid API
 
-    // State management
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [sheets, setSheets] = useState<SheetData[]>([]);
-    const [activeSheet, setActiveSheet] = useState<number>(0);
-
+    const [activeSheetName, setActiveSheetName] = useState<string>();
     const [hideEmptyColumns, setHideEmptyColumns] = useState<boolean>(true);
+    const navigate = useNavigate(); // Initialize navigate
+    const location = useLocation(); // Initialize location
 
-    // Context
+    const sortedSheets = useMemo(() => {
+        return [...sheets].sort((a, b) => a.name.localeCompare(b.name));
+    }, [sheets]);
+
     const { fhirUrl } = useContext(EnvironmentContext);
 
-    // Construct download URL
     const downloadUri: URL = new URL(relativeUrl, fhirUrl);
     downloadUri.searchParams.set('_format', format);
     const queryString = new URLSearchParams(location.search);
@@ -82,24 +86,18 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
         }
     }
 
-    // Fetch and parse spreadsheet
     useEffect(() => {
         const fetchSpreadsheetData = async () => {
             try {
                 setIsLoading(true);
                 setErrorMessage(null);
 
-                console.info(`Fetching spreadsheet from: ${downloadUri.toString()}`);
-
-                // Fetch file
                 const response: AxiosResponse<Blob> = await axios.get(downloadUri.toString(), {
                     responseType: 'blob',
                 });
 
-                // Convert blob to array buffer
                 const arrayBuffer = await response.data.arrayBuffer();
 
-                // Parse file based on format
                 let workbook: XLSX.WorkBook;
                 if (format === 'text/csv') {
                     workbook = XLSX.read(arrayBuffer, { type: 'buffer', codepage: 65001 });
@@ -107,64 +105,75 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                     workbook = XLSX.read(arrayBuffer, { type: 'buffer' });
                 }
 
-                // Transform workbook to AG-Grid format
-                const parsedSheets: SheetData[] = workbook.SheetNames.map((sheetName) => {
-                    const worksheet = workbook.Sheets[`${sheetName}`];
-                    // Convert worksheet to 2D array
-                    const rawData: any[][] = XLSX.utils.sheet_to_json(worksheet, {
-                        header: 1,
-                        raw: true,
-                        rawNumbers: true,
-                        UTC: true,
-                    });
+                const parsedSheets: SheetData[] = workbook.SheetNames.map(
+                    (sheetName, sheetIndex) => {
+                        const worksheet = workbook.Sheets[`${sheetName}`];
+                        const rawData: any[][] = XLSX.utils.sheet_to_json(worksheet, {
+                            header: 1,
+                            raw: true,
+                            rawNumbers: true,
+                            UTC: true,
+                        });
 
-                    // Extract headers and data
-                    const [headers, ...dataRows] = rawData;
+                        const [headers, ...dataRows] = rawData;
 
-                    // Generate column definitions with data check
-                    const columnDefs = headers.map((header, index) => {
-                        // Check if any row in this column has non-empty data
-                        const hasData = dataRows.some(
-                            (row) =>
-                                row[`${index}`] !== undefined &&
-                                row[`${index}`] !== null &&
-                                String(row[`${index}`]).trim() !== ''
+                        const columnDefs: (ColDef<any> | ColGroupDef<any>)[] = headers.map(
+                            (header, index) => {
+                                const hasData = dataRows.some(
+                                    (row) =>
+                                        row[`${index}`] !== undefined &&
+                                        row[`${index}`] !== null &&
+                                        String(row[`${index}`]).trim() !== ''
+                                );
+
+                                return {
+                                    headerName: String(header),
+                                    field: `col${index}`,
+                                    editable: false,
+                                    filter: true,
+                                    floatingFilter: true,
+                                    hide: hideEmptyColumns && !hasData,
+                                    tooltipField: `col${index}`, // Add tooltip to show full value
+                                    sort: header === 'lastUpdated' ? 'desc' : undefined, // Sort by lastUpdated column
+                                };
+                            }
+                        );
+
+                        // Add a new column for the FHIR resource link
+                        // noinspection JSUnusedGlobalSymbols
+                        columnDefs.push({
+                            headerName: 'FHIR Link',
+                            field: 'fhirLink',
+                            cellRenderer: (params: ICellRendererParams) => {
+                                const resourceUrl = `/4_0_0/${sheetName}/${params.data.col0}`; // Assuming `col0` contains the resource ID
+                                return (
+                                    <a href={resourceUrl} target="_blank" rel="noopener noreferrer">
+                                        {sheetName}/{params.data.col0}
+                                    </a>
+                                );
+                            },
+                            editable: false,
+                            filter: false,
+                        });
+                        const rowData = dataRows.map((row) =>
+                            row.reduce((acc, cell, index) => {
+                                acc[`col${index}`] = cell !== undefined ? String(cell) : '';
+                                return acc;
+                            }, {})
                         );
 
                         return {
-                            headerName: String(header),
-                            field: `col${index}`,
-                            editable: false,
-                            filter: true,
-                            floatingFilter: true,
-                            hide: hideEmptyColumns && !hasData, // Conditional hiding based on state
+                            id: sheetIndex,
+                            name: sheetName,
+                            columnDefs,
+                            rowData,
                         };
-                    });
-
-                    // Transform data rows
-                    const rowData = dataRows.map((row) =>
-                        row.reduce((acc, cell, index) => {
-                            acc[`col${index}`] = cell !== undefined ? String(cell) : '';
-                            return acc;
-                        }, {})
-                    );
-
-                    return {
-                        name: sheetName,
-                        columnDefs,
-                        rowData,
-                    };
-                });
-
-                console.log(
-                    'Parsed Sheet Names:',
-                    parsedSheets.map((sheet) => sheet.name)
+                    }
                 );
 
                 setSheets(parsedSheets);
                 setIsLoading(false);
             } catch (error) {
-                console.error('Error fetching spreadsheet:', error);
                 setErrorMessage(`Failed to load spreadsheet: ${(error as Error).message}`);
                 setIsLoading(false);
             }
@@ -173,7 +182,6 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
         fetchSpreadsheetData().then((r) => r);
     }, [relativeUrl, hideEmptyColumns]);
 
-    // AG-Grid default options
     const defaultColDef = useMemo(
         () => ({
             resizable: true,
@@ -183,7 +191,46 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
         []
     );
 
-    // Loading state
+    const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
+        if (newValue === undefined) {
+            return;
+        }
+        setActiveSheetName(newValue);
+
+        let currentPath = location.pathname;
+        if (currentPath.endsWith('$summary')) {
+            // Append the tab name if $summary is at the end
+            currentPath = `${currentPath}/${newValue}`;
+        } else {
+            // Replace the last segment with the tab name
+            currentPath = currentPath.split('/').slice(0, -1).join('/') + `/${newValue}`;
+        }
+
+        navigate(currentPath, { replace: true });
+
+        // Clear filters when switching tabs
+        if (gridApiRef.current) {
+            gridApiRef.current.setFilterModel(null);
+        }
+    };
+
+    useEffect(() => {
+        // Extract the tab name from the path
+        const pathTabName = location.pathname.includes('$summary')
+            ? location.pathname.split('$summary/')[1]?.split('/')[0]
+            : undefined;
+
+        if (pathTabName !== undefined) {
+            setActiveSheetName(pathTabName);
+        } else if (sortedSheets.length > 0) {
+            setActiveSheetName(sortedSheets[0].name);
+        }
+    }, [location.pathname, sortedSheets]);
+
+    const onGridReady = (params: any) => {
+        gridApiRef.current = params.api; // Store the grid API
+    };
+
     if (isLoading) {
         return (
             <Box
@@ -201,7 +248,6 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
         );
     }
 
-    // Error state
     if (errorMessage) {
         return (
             <Alert severity="error" sx={{ width: '100%' }}>
@@ -210,7 +256,6 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
         );
     }
 
-    // Main render
     return (
         <Box
             sx={{
@@ -220,7 +265,6 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                 flexDirection: 'column',
             }}
         >
-            {/* Sheet Tabs */}
             <Box
                 sx={{
                     display: 'flex',
@@ -233,18 +277,19 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
             >
                 <Tabs
                     ref={tabsRef}
-                    value={activeSheet}
-                    onChange={(e, newValue) => setActiveSheet(newValue)}
+                    value={activeSheetName || ''}
+                    onChange={handleTabChange}
                     variant="scrollable"
                     scrollButtons="auto"
                     sx={{
                         flexGrow: 1,
                     }}
                 >
-                    {sheets.map((sheet, index) => (
+                    {sortedSheets.map((sheet: SheetData) => (
                         <Tab
-                            key={index}
+                            key={sheet.name}
                             label={`${sheet.name} (${sheet.rowData.length})`}
+                            value={sheet.name}
                             sx={{
                                 textTransform: 'none',
                                 minWidth: 'auto',
@@ -268,16 +313,20 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
             </Box>
             <Box
                 sx={{
-                    flexGrow: 1, // This makes the grid take up remaining space
+                    flexGrow: 1,
                     width: '100%',
                 }}
             >
-                {/* AG-Grid Spreadsheet */}
                 <AgGridReact
                     theme={themeBalham}
-                    columnDefs={sheets[`${activeSheet}`].columnDefs}
-                    rowData={sheets[`${activeSheet}`].rowData}
+                    columnDefs={sortedSheets.find((s) => s.name === activeSheetName)?.columnDefs || []}
+                    rowData={sortedSheets.find((s) => s.name === activeSheetName)?.rowData || []}
                     defaultColDef={defaultColDef}
+                    onGridReady={onGridReady}
+                    gridOptions={{
+                        enableCellTextSelection: true,
+                        enableBrowserTooltips: true, // Enable browser tooltips
+                    }}
                 />
             </Box>
         </Box>

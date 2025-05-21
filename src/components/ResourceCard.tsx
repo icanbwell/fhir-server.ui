@@ -51,7 +51,7 @@ const ResourceCard = ({
     }, [expanded]);
 
     // List of resource types that should show FileDownload
-    const downloadableResourceTypes = ['Patient', 'Person', 'Practitioner'];
+    const summaryResourceTypes = ['Patient', 'Person', 'Practitioner'];
 
     return (
         <Card key={index}>
@@ -69,7 +69,7 @@ const ResourceCard = ({
                     <Json resource={resource} error={error} />
                     {/* Conditionally render FileDownload based on resource type */}
                     {resource.resourceType &&
-                        downloadableResourceTypes.includes(resource.resourceType.toString()) && (
+                        summaryResourceTypes.includes(resource.resourceType.toString()) && (
                             <Box
                                 sx={{
                                     display: 'flex',
@@ -79,8 +79,11 @@ const ResourceCard = ({
                                 }}
                             >
                                 <Tooltip title="Open Summary in New Spreadsheet Tab">
+                                    {/* The resource type is included twice in the URL to meet API requirements:
+                                        - The first occurrence specifies the resource type and ID for the main resource.
+                                        - The second occurrence in `$summary/{resourceType}` specifies the summary type. */}
                                     <Link
-                                        to={`/excel/4_0_0/${resource.resourceType}/${resource.id}/$summary`}
+                                        to={`/excel/4_0_0/${resource.resourceType}/${resource.id}/$summary/${resource.resourceType}`}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         style={{

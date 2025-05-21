@@ -81,6 +81,7 @@ export default function SearchContainer({
                     />
                     {formData.map((data: TFieldInfo) => (
                         <TextField
+                            key={data.name}
                             name={data.name}
                             label={data.label}
                             type="text"
@@ -91,6 +92,7 @@ export default function SearchContainer({
                     ))}
                     {advSearchFormData.map((data: TFieldInfo) => (
                         <TextField
+                            key={data.name}
                             name={data.name}
                             label={data.label}
                             type="text"

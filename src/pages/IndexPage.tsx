@@ -108,6 +108,27 @@ const IndexPage = ({ search }: { search?: boolean }) => {
                         />
                     </Alert>
                 )}
+                <Tooltip title="Open Search Results in New Spreadsheet Tab" arrow>
+                    <Link
+                        to={'/excel' + location.pathname + location.search}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 8,
+                            textDecoration: 'none',
+                            color: 'inherit',
+                        }}
+                    >
+                        <GridOnIcon color="primary" fontSize="small" />
+                        <Typography variant="body1" color="primary">
+                            Open Search Results as Spreadsheet
+                        </Typography>
+                        <OpenInNewIcon color="primary" />
+                    </Link>
+                </Tooltip>
+
                 {resources?.map((fullResource: any, index: number) => {
                     const resource = fullResource.resource || fullResource;
                     const error = resource.resourceType === 'OperationOutcome';
@@ -125,43 +146,9 @@ const IndexPage = ({ search }: { search?: boolean }) => {
                         />
                     );
                 })}
-                <Box
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 2,
-                        mt: 2,
-                    }}
-                >
-                    <Tooltip title="Open Search Results in New Spreadsheet Tab" arrow>
-                        <Link
-                            to={'/excel' + location.pathname + location.search}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: 8,
-                                textDecoration: 'none',
-                                color: 'inherit',
-                            }}
-                        >
-                            <GridOnIcon color="primary" fontSize="small" />
-                            <Typography variant="body1" color="primary">
-                                Open Search Results as Spreadsheet
-                            </Typography>
-                            <OpenInNewIcon color="primary" />
-                        </Link>
-                    </Tooltip>
-                </Box>
             </>
         );
     }
-
-    console.log(
-        `id: ${id}, resourceType: ${resourceType}, queryString: ${queryString},` +
-        ` search: ${search}, operation: ${operation}`,
-    );
 
     useEffect(() => {
         if (id) {
@@ -183,7 +170,7 @@ const IndexPage = ({ search }: { search?: boolean }) => {
                     }
                     const fhirApi = new FhirApi({
                         fhirUrl,
-                        setUserDetails
+                        setUserDetails,
                     });
                     const { json, status: statusCode } = await fhirApi.getBundleAsync({
                         resourceType,
@@ -239,7 +226,7 @@ const IndexPage = ({ search }: { search?: boolean }) => {
         }
         const fhirApi = new FhirApi({
             fhirUrl,
-            setUserDetails
+            setUserDetails,
         });
 
         const newUrl: URL = fhirApi.getUrl({
