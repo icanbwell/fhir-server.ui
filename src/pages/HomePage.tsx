@@ -63,7 +63,6 @@ const Home = () => {
                                                 className="description-icon"
                                                 target="_blank"
                                                 rel="noreferrer"
-                                                onClick={(e) => e.stopPropagation()}
                                             >
                                                 <DescriptionIcon />
                                             </Link>

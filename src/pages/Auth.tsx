@@ -6,6 +6,7 @@ import { jwtParser } from '../utils/jwtParser';
 import { Buffer } from 'buffer';
 import AuthServiceFactory from '../services/AuthServiceFactory';
 import { IAuthService } from '../services/IAuthService';
+import { AxiosError } from 'axios';
 
 const Auth = () => {
     const { setUserDetails } = useContext(UserContext);
@@ -72,9 +73,11 @@ const Auth = () => {
             }
             console.log(`Token Fetched. Redirecting to ${resourceUrl}`);
             window.location.href = resourceUrl;
-        } catch (error1) {
-            console.error('Token fetch error:', error1);
-            setError(`Failed to fetch token: ${error1}`);
+        } catch (error1: any) {
+            // error1 is of type AxiosError
+            const axiosError = error1 as AxiosError;
+            console.error('Token fetch error:', axiosError.toJSON());
+            setError(`Failed to fetch token: ${axiosError.toJSON()}`);
             setIsProcessing(false);
         }
     };
