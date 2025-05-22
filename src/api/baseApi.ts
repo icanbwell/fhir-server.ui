@@ -10,6 +10,13 @@ interface GetDataParams {
     params?: any;
 }
 
+interface RequestParams {
+    urlString: string;
+    params?: any;
+    method: 'GET' | 'POST' | 'DELETE';
+    data?: any;
+}
+
 class BaseApi {
     private readonly fhirUrl: string | undefined;
     private readonly setUserDetails:
@@ -47,6 +54,28 @@ class BaseApi {
 
         try {
             const response = await axios.get(url.toString());
+            return { status: response.status, json: response.data };
+        } catch (err: any) {
+            if (err.response?.status === 401 && this.setUserDetails) {
+                removeLocalData('jwt');
+                this.setUserDetails(null);
+            }
+            return { status: err.response?.status, json: err.response?.data };
+        }
+    }
+
+    async request({ urlString, params, method, data }: RequestParams): Promise<any> {
+        try {
+            const response = await axios.request({
+                baseURL: this.getBaseUrl(),
+                url: urlString,
+                method,
+                params,
+                data,
+                headers: {
+                    'Content-Type': 'application/fhir+json'
+                }
+            });
             return { status: response.status, json: response.data };
         } catch (err: any) {
             if (err.response?.status === 401 && this.setUserDetails) {

@@ -13,12 +13,16 @@ import HomePage from './pages/HomePage';
 import ErrorPage from './pages/ErrorPage';
 import Auth from './pages/Auth';
 import FhirRoutes from './routes/fhirRoutes';
+import AdminRoutes from './routes/adminRoutes';
+import AdminIndexPage from './admin/index';
 import EnvContext from './context/EnvironmentContext';
 import UserContext from './context/UserContext';
 import { TUserDetails } from './types/baseTypes';
 import { jwtParser } from './utils/jwtParser';
 import IdentityProviderSelection from './pages/IdentityProviderSelection';
 import { useLocation } from 'react-router-dom';
+import NotFoundPage from './pages/NotFoundPage';
+import AccessDenied from './pages/AccessDenied';
 
 function App(): React.ReactElement {
     const env = useContext(EnvContext);
@@ -42,9 +46,18 @@ function App(): React.ReactElement {
                             <Navigate to="/select-idp" state={{ resourceUrl: `${location.pathname}${location.search}` }} />
                         )
                     }
-                    children={FhirRoutes}
-                    key="fhirRoutes"
-                />
+                >
+                    {FhirRoutes}
+
+                    <Route path="admin" element={
+                        userDetails?.isAdmin ? <Outlet /> : <AccessDenied />
+                    }>
+                        <Route index element={<AdminIndexPage />} />
+                        {AdminRoutes}
+                    </Route>
+                </Route>
+
+                <Route key="notFoundPage" path="/*" element={<NotFoundPage />} />
             </Routes>
         );
     }

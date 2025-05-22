@@ -41,7 +41,7 @@ const ExportStatus = ({ resource }: { resource: TExportStatus }): React.ReactEle
 
     return (
         <>
-            <Link title="Direct link to Resource" to={`/${resource.resourceType}/${uuid}`}>
+            <Link title="Direct link to Resource" to={`/admin/${resource.resourceType}/${uuid}`}>
                 {resource.resourceType}/{uuid}
             </Link>
             {
@@ -52,6 +52,7 @@ const ExportStatus = ({ resource }: { resource: TExportStatus }): React.ReactEle
                     resourceType={resource.resourceType}
                     id={uuid}
                     searchParameter='meta'
+                    isAdminPage={true}
                 />
             }
             {
@@ -62,6 +63,7 @@ const ExportStatus = ({ resource }: { resource: TExportStatus }): React.ReactEle
                     resourceType={resource.resourceType}
                     id={uuid}
                     searchParameter='identifier'
+                    isAdminPage={true}
                 />
             }
             {
@@ -94,7 +96,7 @@ const ExportStatus = ({ resource }: { resource: TExportStatus }): React.ReactEle
             }
             <div>
                 <Typography variant="h5" sx={{ mt: 2 }}>Raw Json</Typography>
-                <Link to={`/ExportStatus/${uuid}?_format=json`}>
+                <Link to={`/admin/ExportStatus/${uuid}?_format=json`}>
                     /ExportStatus/{uuid}?_format=json
                 </Link>
             </div>

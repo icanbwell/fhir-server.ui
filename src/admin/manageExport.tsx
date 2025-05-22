@@ -28,8 +28,9 @@ const manageExportPage: React.FC = () => {
     const [searchTabExpanded, setSearchTabExpanded] = useState(false);
 
     const navigate = useNavigate();
+    const resourceType = 'ExportStatus';
 
-    const { id, resourceType = '' } = useParams();
+    const { id } = useParams();
 
     const handleExpand = () => {
         setSearchTabExpanded(!searchTabExpanded);
@@ -49,7 +50,7 @@ const manageExportPage: React.FC = () => {
             queryParameters: searchFormQuery.getQueryParameters(),
             fhirUrl: fhirUrl
         });
-        const relativePath = '/' + resourceType + newUrl.search + newUrl.hash;
+        const relativePath = '/admin/' + resourceType + newUrl.search + newUrl.hash;
         console.info(`Navigating to ${relativePath}`);
         navigate(relativePath);
     };

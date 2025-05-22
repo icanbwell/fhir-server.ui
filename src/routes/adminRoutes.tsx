@@ -17,5 +17,5 @@ export default [
     <Route key="indexes" path="/admin/indexes/*" element={<Indexes />} />,
     <Route key="indexProblems" path="/admin/indexProblems/*" element={<Indexes />} />,
     <Route key="synchronizeIndexes" path="/admin/synchronizeIndexes/*" element={<SynchronizeIndexes />} />,
-    <Route key="manageExport" path="/admin/:resourceType/:id?/*" element={<ManageExport />} />,
+    <Route key="manageExport" path="/admin/ExportStatus/:id?/*" element={<ManageExport />} />,
 ];

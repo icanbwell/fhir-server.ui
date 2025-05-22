@@ -16,13 +16,11 @@ import { TPerson } from '../../types/resources/Person';
 
 // Import all the partial resource
 import Partials from '../../partials';
-import EnvironmentContext from '../../context/EnvironmentContext';
 import UserContext from '../../context/UserContext';
 import { IdentifierSystem } from '../../utils/identifierSystem';
 
 const Person = ({ resource }: { resource: TPerson }): React.ReactElement => {
     const { userDetails } = React.useContext(UserContext);
-    const { fhirAdminUrl } = useContext(EnvironmentContext);
     const tagUUID = resource?.meta?.tag?.find((s) => s.system === IdentifierSystem.uuid)?.code;
     const uuid = tagUUID ? tagUUID : resource.id;
 
@@ -170,7 +168,7 @@ const Person = ({ resource }: { resource: TPerson }): React.ReactElement => {
                     field='target'
                 />
             }
-            <Typography variant="h4" sx={{ mt: 1 }}>
+            <Typography variant="h6" color="text.secondary" sx={{ mt: 1 }}>
                 Resources Related to Linked Patient Resources
             </Typography>
             <Partials.ReverseReference
@@ -342,15 +340,15 @@ const Person = ({ resource }: { resource: TPerson }): React.ReactElement => {
                     <Typography variant="h4" sx={{ mt: 1 }}>Admin Functions</Typography>
                     <div>
                         <Typography variant="h5">Connected Person-Patient Graph</Typography>
-                        <a href={`${fhirAdminUrl}/personPatientLink?bwellPersonId=${uuid}`}>
-                            {fhirAdminUrl}/personPatientLink?bwellPersonId={uuid}
-                        </a>
+                        <Link to={`/admin/personPatientLink?bwellPersonId=${uuid}`}>
+                            /admin/personPatientLink?bwellPersonId={uuid}
+                        </Link>
                     </div>
                     <div>
                         <Typography variant="h5" sx={{ mt: 1 }}>Delete all data</Typography>
-                        <a href={`${fhirAdminUrl}/patientData?personId=${uuid}`}>
-                            {fhirAdminUrl}/patientData?personId={uuid}
-                        </a>
+                        <Link to={`/admin/patientData?personId=${uuid}`}>
+                            /admin/patientData?personId={uuid}
+                        </Link>
                     </div>
                 </>
             )}

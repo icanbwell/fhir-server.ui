@@ -144,6 +144,7 @@ import TestScript from '../pages/resources/TestScript';
 import ValueSet from '../pages/resources/ValueSet';
 import VerificationResult from '../pages/resources/VerificationResult';
 import VisionPrescription from '../pages/resources/VisionPrescription';
+import ExportStatus from '../pages/customResources/ExportStatus';
 
 type TResourceItemProps = {
   resourceType: String|undefined;
@@ -435,6 +436,8 @@ const ResourceItem = ({ resourceType, resource }: TResourceItemProps) => {
             return <VerificationResult resource={resource}/>;
         case 'VisionPrescription':
             return <VisionPrescription resource={resource}/>;
+        case 'ExportStatus':
+            return <ExportStatus resource={resource} />;
         default:
             return <DomainResource resource={resource}/>;
     }

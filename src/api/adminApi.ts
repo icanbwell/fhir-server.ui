@@ -207,7 +207,7 @@ class AdminApi extends BaseApi {
         if (audit) {
             params['audit'] = true;
         }
-        return await this.request({ urlString: '/admin' + url, params, method: 'GET' });
+        return await this.request({ urlString: url, params, method: 'GET' });
     }
 }
 

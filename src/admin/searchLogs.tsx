@@ -34,7 +34,7 @@ const SearchLogsPage: React.FC = () => {
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        navigate(`/searchLogResults?id=${id}`);
+        navigate(`/admin/searchLogResults?id=${id}`);
     };
 
     return (
