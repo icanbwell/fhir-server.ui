@@ -10,7 +10,7 @@ export const resourceDefinitions: TResourceDefinition[] = [
     {
         name: '{{- fhir_entity.fhir_name -}}',
         description: '{{- fhir_entity.documentation[0] | replace("'", "\\'") | replace('\n', ' ') -}}',
-        url: 'https://www.hl7.org/fhir/{{- fhir_entity.fhir_name -}}.html'
+        url: 'https://www.hl7.org/fhir/R4B/{{- fhir_entity.fhir_name|lower -}}.html'
     },
 {% endif %}
 {% endfor %}
