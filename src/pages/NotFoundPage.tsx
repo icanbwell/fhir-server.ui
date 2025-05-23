@@ -11,7 +11,7 @@ const NotFoundPage = () => {
                 <Header />
                 <div id="not-found-page">
                     <h2>Oops!</h2>
-                    <p>You seems to have entered an incorrect path.</p>
+                    <p>You seem to have entered an incorrect path.</p>
                 </div>
             </div>
             <Footer />
