@@ -22,12 +22,15 @@ import { TMeta } from '../types/partials/Meta';
 
 type TMetaProps = TBaseResourceProps & {
     meta: TMeta | undefined;
+    isAdminPage?: boolean;
 };
 
-function Meta({ meta, resourceType, id }: TMetaProps) {
+function Meta({ meta, resourceType, id, isAdminPage }: TMetaProps) {
     if (!meta) {
         return null;
     }
+
+    const basehref = isAdminPage ? '/admin/' : '/4_0_0/';
 
     const formatDate = (date: Date) => new Date(date).toISOString();
 
@@ -39,7 +42,7 @@ function Meta({ meta, resourceType, id }: TMetaProps) {
                     label="On This Date"
                     size="small"
                     component="a"
-                    href={`/4_0_0/${resourceType}?_lastUpdated=eq.${datePrefix}`}
+                    href={`${basehref}${resourceType}?_lastUpdated=eq.${datePrefix}`}
                     clickable
                 />
             </Tooltip>
@@ -49,7 +52,7 @@ function Meta({ meta, resourceType, id }: TMetaProps) {
                     label="Before This"
                     size="small"
                     component="a"
-                    href={`/4_0_0/${resourceType}?_lastUpdated=lt${formattedDate.split('.')[0] + 'Z'}`}
+                    href={`${basehref}${resourceType}?_lastUpdated=lt${formattedDate.split('.')[0] + 'Z'}`}
                     clickable
                 />
             </Tooltip>
@@ -59,7 +62,7 @@ function Meta({ meta, resourceType, id }: TMetaProps) {
                     label="After This"
                     size="small"
                     component="a"
-                    href={`/4_0_0/${resourceType}?_lastUpdated=gt${formattedDate.split('.')[0] + 'Z'}`}
+                    href={`${basehref}${resourceType}?_lastUpdated=gt${formattedDate.split('.')[0] + 'Z'}`}
                     clickable
                 />
             </Tooltip>
@@ -101,7 +104,7 @@ function Meta({ meta, resourceType, id }: TMetaProps) {
                             label="History"
                             size="small"
                             component="a"
-                            href={`/4_0_0/${resourceType}/${id}/_history`}
+                            href={`${basehref}${resourceType}/${id}/_history`}
                             clickable
                         />
                     </Tooltip>
@@ -111,7 +114,7 @@ function Meta({ meta, resourceType, id }: TMetaProps) {
                     <Typography variant="body2" color="text.secondary">
                         <b>Source:</b>{' '}
                         <Link
-                            href={`/4_0_0/${resourceType}?source=${encodeURIComponent(meta.source?.toString() ?? '')}`}
+                            href={`${basehref}${resourceType}?source=${encodeURIComponent(meta.source?.toString() ?? '')}`}
                             color="primary"
                         >
                             {meta.source}
@@ -140,7 +143,7 @@ function Meta({ meta, resourceType, id }: TMetaProps) {
                                         <TableCell>{security.id}</TableCell>
                                         <TableCell>
                                             <Link
-                                                href={`/4_0_0/${resourceType}?_security=${encodeURIComponent(security.system?.toString() ?? '')}|${encodeURIComponent(security.code?.toString() ?? '')}`}
+                                                href={`${basehref}${resourceType}?_security=${encodeURIComponent(security.system?.toString() ?? '')}|${encodeURIComponent(security.code?.toString() ?? '')}`}
                                                 color="primary"
                                             >
                                                 {security.code}

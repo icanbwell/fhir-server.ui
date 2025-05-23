@@ -23,7 +23,6 @@ import {{ '{ T' + fhir_entity.cleaned_name + ' }' }} from '../../types/resources
 // Import all the partial resource
 import Partials from '../../partials';
 {% if fhir_entity.cleaned_name == 'Person' %}
-import EnvironmentContext from '../../context/EnvironmentContext';
 import UserContext from '../../context/UserContext';
 {% endif %}
 import { IdentifierSystem } from '../../utils/identifierSystem';
@@ -31,7 +30,6 @@ import { IdentifierSystem } from '../../utils/identifierSystem';
 const {{ fhir_entity.cleaned_name }} = ({ resource }: { resource: {{ 'T' + fhir_entity.cleaned_name + ' ' -}}}): React.ReactElement => {
 {% if fhir_entity.cleaned_name == 'Person' %}
     const { userDetails } = React.useContext(UserContext);
-    const { fhirAdminUrl } = useContext(EnvironmentContext);
 {% endif %}
     const tagUUID = resource?.meta?.tag?.find((s) => s.system === IdentifierSystem.uuid)?.code;
     const uuid = tagUUID ? tagUUID : resource.id;
@@ -93,7 +91,7 @@ const {{ fhir_entity.cleaned_name }} = ({ resource }: { resource: {{ 'T' + fhir_
     {% endif %}
     {%  endfor %}
     {% if reverse_references.get(fhir_entity.cleaned_name) %}
-            <Typography variant="h4" sx={{- '{{ mt: 1 }}' -}}>
+            <Typography variant="h6" color="text.secondary" sx={{- '{{ mt: 1 }}' -}}>
             {% if fhir_entity.cleaned_name == "Person" %}
                 Resources Related to Linked Patient Resources
             {% else %}
@@ -123,15 +121,15 @@ const {{ fhir_entity.cleaned_name }} = ({ resource }: { resource: {{ 'T' + fhir_
                     <Typography variant="h4" sx={{- '{{ mt: 1 }}' -}}>Admin Functions</Typography>
                     <div>
                         <Typography variant="h5">Connected Person-Patient Graph</Typography>
-                        <a href={`${fhirAdminUrl}/personPatientLink?bwellPersonId=${uuid}`}>
-                            {fhirAdminUrl}/personPatientLink?bwellPersonId={uuid}
-                        </a>
+                        <Link to={`/admin/personPatientLink?bwellPersonId=${uuid}`}>
+                            /admin/personPatientLink?bwellPersonId={uuid}
+                        </Link>
                     </div>
                     <div>
                         <Typography variant="h5" sx={{- '{{ mt: 1 }}' -}}>Delete all data</Typography>
-                        <a href={`${fhirAdminUrl}/patientData?personId=${uuid}`}>
-                            {fhirAdminUrl}/patientData?personId={uuid}
-                        </a>
+                        <Link to={`/admin/patientData?personId=${uuid}`}>
+                            /admin/patientData?personId={uuid}
+                        </Link>
                     </div>
                 </>
             )}

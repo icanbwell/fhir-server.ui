@@ -7,6 +7,7 @@
 import {{ fhir_entity.fhir_name }} from '../pages/resources/{{- fhir_entity.fhir_name -}}';
 {% endif %}
 {% endfor %}
+import ExportStatus from '../pages/customResources/ExportStatus';
 
 type TResourceItemProps = {
   resourceType: String|undefined;
@@ -22,6 +23,8 @@ const ResourceItem = ({ resourceType, resource }: TResourceItemProps) => {
             return <{{-fhir_entity.fhir_name}} resource={resource}/>;
     {% endif %}
     {% endfor %}
+        case 'ExportStatus':
+            return <ExportStatus resource={resource} />;
         default:
             return <DomainResource resource={resource}/>;
     }

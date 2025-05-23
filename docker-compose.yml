@@ -7,6 +7,7 @@ services:
       PORT: 5051
       REACT_APP_VERSION: 'local'
       REACT_APP_FHIR_SERVER_URL: 'http://localhost:3000'
+      REACT_APP_AWS_REGION: 'us-east-1'
       # list of AuthProviders
       REACT_APP_AUTH_PROVIDERS: 'cognito,okta'
       # Each AuthProvider has its own set of environment variables
@@ -27,7 +28,7 @@ services:
       REACT_APP_AUTH_OKTA_WELL_KNOWN_URL: 'https://icanbwell.okta.com/.well-known/openid-configuration'
       REACT_APP_AUTH_OKTA_TOKEN_TO_SEND_TO_FHIR_SERVER: 'jwt' # other option is `jwt'
       REACT_APP_AUTH_OKTA_TOKEN_FOR_USER_DETAILS: 'id_token'
-      REACT_APP_AUTH_OKTA_REMOVE_SCOPE_PREFIX: 'dev/fhir/'
+      REACT_APP_AUTH_OKTA_REMOVE_SCOPE_PREFIX: 'fhir/dev/'
     ports:
       - "5051:5051"
     volumes:

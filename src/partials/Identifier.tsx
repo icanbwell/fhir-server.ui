@@ -12,9 +12,10 @@ import { TCoding } from '../types/partials/Coding';
 
 type TIdentifierProps = TBaseResourceProps & {
   identifier: TIdentifier|TIdentifier[]|undefined;
+  isAdminPage?: boolean;
 };
 
-function Identifier({ identifier: identifiers, resourceType, name }: TIdentifierProps) {
+function Identifier({ identifier: identifiers, resourceType, name, isAdminPage }: TIdentifierProps) {
   if (identifiers && !Array.isArray(identifiers)) {
     identifiers = [identifiers];
   }
@@ -22,6 +23,8 @@ function Identifier({ identifier: identifiers, resourceType, name }: TIdentifier
   if (!identifiers || identifiers.length === 0) {
     return <></>;
   }
+
+  const basehref = isAdminPage ? '/admin/' : '/4_0_0/';
 
   return (
     <React.Fragment>
@@ -47,7 +50,7 @@ function Identifier({ identifier: identifiers, resourceType, name }: TIdentifier
                       <TableCell>
                         <a
                           title={`Search for ${identifier.value}`}
-                          href={`/4_0_0/${resourceType}?identifier=${encodeURIComponent(identifier.system?.toString() ?? '')}|${encodeURIComponent(identifier.value?.toString() ?? '')}`}
+                          href={`${basehref}${resourceType}?identifier=${encodeURIComponent(identifier.system?.toString() ?? '')}|${encodeURIComponent(identifier.value?.toString() ?? '')}`}
                         >
                           {identifier.value}
                         </a>
