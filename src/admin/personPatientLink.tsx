@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { Button, TextField, Container, Typography, Box } from '@mui/material';
+import { useLocation } from 'react-router-dom';
+import { Button, TextField, Container, Typography, Box, LinearProgress } from '@mui/material';
 import AdminApi from '../api/adminApi';
 import EnvironmentContext from '../context/EnvironmentContext';
 import PreJson from '../components/PreJson';
@@ -13,9 +13,12 @@ const PersonPatientLinkPage: React.FC = () => {
     const { setUserDetails } = useContext(UserContext);
     const adminApi = new AdminApi({ fhirUrl, setUserDetails });
 
+    const [isLoading, setIsLoading] = useState(false);
+
     const [showLinkGraphData, setShowLinkGraphData] = useState({
         bwellPersonId: '',
         results: '',
+        highlighted: false
     });
 
     const [createPersonToPersonLinkData, setCreatePersonToPersonLinkData] = useState({
@@ -56,64 +59,105 @@ const PersonPatientLinkPage: React.FC = () => {
 
     const handleShowLinkGraph = async (event: React.FormEvent) => {
         event.preventDefault();
+        setIsLoading(true);
+        setShowLinkGraphData({
+            ...showLinkGraphData,
+            results: '',
+        });
         const data = await adminApi.showPersonToPersonLink(showLinkGraphData.bwellPersonId);
         setShowLinkGraphData({ ...showLinkGraphData, results: data.json });
+        setIsLoading(false);
     };
 
     const handleCreatePersonToPersonLink = async (event: React.FormEvent) => {
         event.preventDefault();
+        setIsLoading(true);
+        setCreatePersonToPersonLinkData({
+            ...createPersonToPersonLinkData,
+            results: '',
+        });
         const data = await adminApi.createPersonToPersonLink(
             createPersonToPersonLinkData.bwellPersonId,
             createPersonToPersonLinkData.externalPersonId
         );
         setCreatePersonToPersonLinkData({ ...createPersonToPersonLinkData, results: data.json });
+        setIsLoading(false);
     };
 
     const handleRemovePersonToPersonLink = async (event: React.FormEvent) => {
         event.preventDefault();
+        setIsLoading(true);
+        setRemovePersonToPersonLinkData({
+            ...removePersonToPersonLinkData,
+            results: '',
+        });
         const data = await adminApi.removePersonToPersonLink(
             removePersonToPersonLinkData.bwellPersonId,
             removePersonToPersonLinkData.externalPersonId
         );
         setRemovePersonToPersonLinkData({ ...removePersonToPersonLinkData, results: data.json });
+        setIsLoading(false);
     };
 
     const handleCreatePersonToPatientLink = async (event: React.FormEvent) => {
         event.preventDefault();
+        setIsLoading(true);
+        setCreatePersonToPatientLinkData({
+            ...createPersonToPatientLinkData,
+            results: '',
+        });
         const data = await adminApi.createPersonToPatientLink(
             createPersonToPatientLinkData.externalPersonId,
             createPersonToPatientLinkData.patientId
         );
         setCreatePersonToPatientLinkData({ ...createPersonToPatientLinkData, results: data.json });
+        setIsLoading(false);
     };
 
     const handleRemovePersonToPatientLink = async (event: React.FormEvent) => {
         event.preventDefault();
+        setIsLoading(true);
+        setRemovePersonToPatientLinkData({
+            ...removePersonToPatientLinkData,
+            results: '',
+        });
         const data = await adminApi.removePersonToPatientLink(
             removePersonToPatientLinkData.personId,
             removePersonToPatientLinkData.patientId
         );
         setRemovePersonToPatientLinkData({ ...removePersonToPatientLinkData, results: data.json });
+        setIsLoading(false);
     };
 
     const handleUpdatePatientReference = async (event: React.FormEvent) => {
         event.preventDefault();
+        setIsLoading(true);
+        setUpdatePatientReferenceData({
+            ...updatePatientReferenceData,
+            results: '',
+        });
         const data = await adminApi.updatePatientReference(
             updatePatientReferenceData.resourceType,
             updatePatientReferenceData.resourceId,
             updatePatientReferenceData.patientId
         );
         setUpdatePatientReferenceData({ ...updatePatientReferenceData, results: data.json });
+        setIsLoading(false);
     };
 
     const handleDeletePerson = async (event: React.FormEvent) => {
         event.preventDefault();
+        setIsLoading(true);
+        setDeleteBwellPersonData({
+            ...deleteBwellPersonData,
+            results: '',
+        });
         const data = await adminApi.deletePerson(deleteBwellPersonData.personId);
         setDeleteBwellPersonData({ ...deleteBwellPersonData, results: data.json });
+        setIsLoading(false);
     };
 
     const location = useLocation();
-    const navigate = useNavigate();
     useEffect(() => {
         let bwellPersonId: string = '';
         if (location.search) {
@@ -121,29 +165,21 @@ const PersonPatientLinkPage: React.FC = () => {
             const paramValue = queryParams.get('bwellPersonId');
             if (paramValue !== null) {
                 bwellPersonId = paramValue;
-                navigate(location.pathname, { state: { bwellPersonId: bwellPersonId }, replace: true });
-                return;
             }
         }
-        if (location.state?.bwellPersonId) {
-            bwellPersonId = location.state.bwellPersonId;
-        }
         if (bwellPersonId) {
-            new AdminApi({ fhirUrl, setUserDetails })
-                .showPersonToPersonLink(bwellPersonId)
-                .then((data: any) => {
-                    setShowLinkGraphData({
-                        bwellPersonId: bwellPersonId,
-                        results: data.json,
-                    });
-                    window.history.replaceState({}, document.title);
-                });
+            setShowLinkGraphData({
+                bwellPersonId: bwellPersonId,
+                results: '',
+                highlighted: true,
+            });
         }
     }, [location.state, location.search]);
 
     return (
         <Container maxWidth={false}>
             <Header />
+            {isLoading && <LinearProgress />}
             <Box sx={{ mt: 1, mb: 2 }}>
                 <Typography variant="h5">Show Link Graph from b.well Person</Typography>
                 <Typography style={{ color: '#494949' }}>
@@ -162,6 +198,7 @@ const PersonPatientLinkPage: React.FC = () => {
                         }
                         sx={{ minWidth: '22rem', mr: 1, mt: 1 }}
                         size="small"
+                        focused={showLinkGraphData.highlighted ? true : undefined}
                     />
                     <Button
                         type="submit"
@@ -181,6 +218,7 @@ const PersonPatientLinkPage: React.FC = () => {
                             setShowLinkGraphData({
                                 bwellPersonId: '',
                                 results: '',
+                                highlighted: false,
                             })
                         }
                     >
