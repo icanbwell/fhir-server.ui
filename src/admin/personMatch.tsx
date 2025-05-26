@@ -9,6 +9,7 @@ import {
     MenuItem,
     FormControl,
     InputLabel,
+    LinearProgress,
 } from '@mui/material';
 import AdminApi from '../api/adminApi';
 import EnvironmentContext from '../context/EnvironmentContext';
@@ -26,9 +27,12 @@ const PersonMatchPage: React.FC = () => {
     const [targetId, setTargetId] = useState<string>('');
     const [targetType, setTargetType] = useState<string>('Patient');
     const [results, setResults] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
+        setIsLoading(true);
+        setResults('');
         const data = await adminApi.runPersonMatch({
             sourceId,
             sourceType,
@@ -36,12 +40,14 @@ const PersonMatchPage: React.FC = () => {
             targetType,
         });
         setResults(data.json);
+        setIsLoading(false);
     };
 
     return (
         <Container maxWidth={false}>
             <div style={{ minHeight: '92vh' }}>
                 <Header />
+                {isLoading && <LinearProgress />}
                 <Box sx={{ mt: 1, mb: 2 }}>
                     <Typography variant="h5">Run a Person Match diagnostic test</Typography>
                     <Typography style={{ color: '#494949' }}>

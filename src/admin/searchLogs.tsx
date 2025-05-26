@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Button, TextField, Typography, Container } from '@mui/material';
+import { Button, TextField, Typography, Container, LinearProgress } from '@mui/material';
 import AdminApi from '../api/adminApi';
 import EnvironmentContext from '../context/EnvironmentContext';
 import PreJson from '../components/PreJson';
@@ -16,16 +16,22 @@ const SearchLogsPage: React.FC = () => {
     const adminApi = new AdminApi({ fhirUrl, setUserDetails });
     const [id, setId] = useState<string>('');
     const [results, setResults] = useState<String | Object | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         const queryParams = new URLSearchParams(location.search);
         const pathname = location.pathname;
         if (pathname.includes('searchLogResults')) {
             if (queryParams.has('id') && queryParams.get('id')) {
+                setIsLoading(true);
+                setResults(null);
                 setId(queryParams.get('id') || '');
                 adminApi
                     .searchLogs(queryParams.get('id') || '')
-                    .then((data) => setResults(data.json));
+                    .then((data) => {
+                        setIsLoading(false);
+                        setResults(data.json);
+                    });
             } else {
                 setResults({ message: 'No id passed' });
             }
@@ -41,6 +47,7 @@ const SearchLogsPage: React.FC = () => {
         <Container maxWidth={false}>
             <div style={{ minHeight: '92vh' }}>
                 <Header />
+                {isLoading && <LinearProgress />}
                 <Typography variant="h5" sx={{ mt: 2 }}>
                     Search Logs
                 </Typography>

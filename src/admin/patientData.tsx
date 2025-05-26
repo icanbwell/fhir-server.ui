@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { Button, TextField, Container, Typography, Box } from '@mui/material';
+import { useLocation } from 'react-router-dom';
+import { Button, TextField, Container, Typography, Box, LinearProgress } from '@mui/material';
 import AdminApi from '../api/adminApi';
 import EnvironmentContext from '../context/EnvironmentContext';
 import PreJson from '../components/PreJson';
@@ -13,6 +13,8 @@ const PatientDataPage: React.FC = () => {
     const { setUserDetails } = useContext(UserContext);
     const adminApi = new AdminApi({ fhirUrl, setUserDetails });
 
+    const [isLoading, setIsLoading] = useState(false);
+
     const [patientDataForSearch, setPatientDataForSearch] = useState({
         patientId: '',
         results: '',
@@ -22,34 +24,45 @@ const PatientDataPage: React.FC = () => {
         results: '',
     });
     const [personDataForSearch, setPersonDataForSearch] = useState({ personId: '', results: '' });
-    const [personDataForDelete, setPersonDataForDelete] = useState({ personId: '', results: '' });
+    const [personDataForDelete, setPersonDataForDelete] = useState({ personId: '', results: '', highlighted: false });
 
     const handlePatientDataSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
+        setIsLoading(true);
+        setPatientDataForSearch({ ...patientDataForSearch, results: '' });
         const data = await adminApi.getEverythingForPatient(patientDataForSearch.patientId);
         setPatientDataForSearch({ ...patientDataForSearch, results: data.json });
+        setIsLoading(false);
     };
 
     const handleDeletePatientDataSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
+        setIsLoading(true);
+        setPatientDataForDelete({ ...patientDataForDelete, results: '' });
         const data = await adminApi.deletePatient(patientDataForDelete.patientId);
         setPatientDataForDelete({ ...patientDataForDelete, results: data.json });
+        setIsLoading(false);
     };
 
     const handlePersonDataSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
+        setIsLoading(true);
+        setPersonDataForSearch({ ...personDataForSearch, results: '' });
         const data = await adminApi.getEverythingForPerson(personDataForSearch.personId);
         setPersonDataForSearch({ ...personDataForSearch, results: data.json });
+        setIsLoading(false);
     };
 
     const handleDeletePersonDataSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
+        setIsLoading(true);
+        setPersonDataForDelete({ ...personDataForDelete, results: '', highlighted: false });
         const data = await adminApi.deletePerson(personDataForDelete.personId);
-        setPersonDataForDelete({ ...personDataForDelete, results: data.json });
+        setPersonDataForDelete({ ...personDataForDelete, results: data.json, highlighted: false });
+        setIsLoading(false);
     };
 
     const location = useLocation();
-    const navigate = useNavigate();
     useEffect(() => {
         let personId: string = '';
         if (location.search) {
@@ -57,18 +70,10 @@ const PatientDataPage: React.FC = () => {
             const paramValue = queryParams.get('personId');
             if (paramValue !== null) {
                 personId = paramValue;
-                navigate(location.pathname, { state: { personId: personId }, replace: true });
-                return;
             }
         }
-        if (location.state?.personId) {
-            personId = location.state.personId;
-        }
         if (personId) {
-            adminApi.deletePerson(personId).then((data: any) => {
-                setPersonDataForDelete({ personId: personId, results: data.json });
-                window.history.replaceState({}, document.title);
-            });
+            setPersonDataForDelete({ personId: personId, results: '', highlighted: true });
         }
     }, [location.state, location.search]);
 
@@ -76,6 +81,7 @@ const PatientDataPage: React.FC = () => {
         <Container maxWidth={false}>
             <div style={{ minHeight: '92vh' }}>
                 <Header />
+                {isLoading && <LinearProgress />}
                 <Box sx={{ mt: 1, mb: 2 }}>
                     <Typography variant="h5">Show Patient Data Graph</Typography>
                     <Typography style={{ color: '#494949' }}>
@@ -224,10 +230,12 @@ const PatientDataPage: React.FC = () => {
                                 setPersonDataForDelete({
                                     ...personDataForDelete,
                                     personId: e.target.value.split(' ').join(''),
+                                    highlighted: false
                                 })
                             }
                             size="small"
                             sx={{ minWidth: '22rem', mr: 1, mt: 1 }}
+                            focused={personDataForDelete.highlighted ? true : undefined}
                         />
                         <Button
                             type="submit"
@@ -246,6 +254,7 @@ const PatientDataPage: React.FC = () => {
                                 setPersonDataForDelete({
                                     personId: '',
                                     results: '',
+                                    highlighted: false
                                 })
                             }
                         >

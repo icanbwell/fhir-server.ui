@@ -242,7 +242,16 @@ const IndexPage = ({ search }: { search?: boolean }) => {
     };
 
     if (shouldBeJsonFormat) {
-        return <PreJson data={resources} />;
+        return (
+            <Container maxWidth={false}>
+                <div style={{ minHeight: '92vh' }}>
+                    <Header />
+                    {loading && <LinearProgress />}
+                    <PreJson data={resources} />
+                </div>
+                <Footer/>
+            </Container>
+        );
     }
 
     return (
