@@ -30,6 +30,7 @@ import { themeBalham } from 'ag-grid-community';
 import FileDownload from './FileDownload';
 import type { ColDef, ColGroupDef, ICellRendererParams } from 'ag-grid-community';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useTheme } from '../context/ThemeContext';
 
 ModuleRegistry.registerModules([
     ColumnAutoSizeModule,
@@ -71,20 +72,37 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
     const navigate = useNavigate(); // Initialize navigate
     const location = useLocation(); // Initialize location
 
+    const { isDarkMode } = useTheme(); // Get dark mode state
+
     const sortedSheets = useMemo(() => {
         return [...sheets].sort((a, b) => a.name.localeCompare(b.name));
     }, [sheets]);
 
     const { fhirUrl } = useContext(EnvironmentContext);
 
-    const downloadUri: URL = new URL(relativeUrl, fhirUrl);
-    downloadUri.searchParams.set('_format', format);
-    const queryString = new URLSearchParams(location.search);
-    for (const [key, value] of queryString.entries()) {
-        if (key !== '_format') {
-            downloadUri.searchParams.set(key, value);
+    // Select the appropriate ag-grid theme based on dark mode
+    const gridTheme = useMemo(() => {
+        if (isDarkMode) {
+            return themeBalham.withParams({
+                backgroundColor: '#1e1e1e',
+                foregroundColor: '#ffffff',
+                borderColor: '#444444',
+            });
         }
-    }
+        return themeBalham;
+    }, [isDarkMode]);
+
+    const downloadUri = useMemo(() => {
+        const uri = new URL(relativeUrl, fhirUrl);
+        uri.searchParams.set('_format', format);
+        const queryString = new URLSearchParams(location.search);
+        for (const [key, value] of queryString.entries()) {
+            if (key !== '_format') {
+                uri.searchParams.set(key, value);
+            }
+        }
+        return uri;
+    }, [relativeUrl, fhirUrl, format, location.search]);
 
     useEffect(() => {
         const fetchSpreadsheetData = async () => {
@@ -180,7 +198,7 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
         };
 
         fetchSpreadsheetData().then((r) => r);
-    }, [relativeUrl, hideEmptyColumns]);
+    }, [relativeUrl, hideEmptyColumns, downloadUri, format]);
 
     const defaultColDef = useMemo(
         () => ({
@@ -318,7 +336,7 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                 }}
             >
                 <AgGridReact
-                    theme={themeBalham}
+                    theme={gridTheme}
                     columnDefs={sortedSheets.find((s) => s.name === activeSheetName)?.columnDefs || []}
                     rowData={sortedSheets.find((s) => s.name === activeSheetName)?.rowData || []}
                     defaultColDef={defaultColDef}

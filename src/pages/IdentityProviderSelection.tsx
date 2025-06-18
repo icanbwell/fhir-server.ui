@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Container, Typography, Button, Box } from '@mui/material';
 import Header from '../components/Header';
@@ -32,6 +32,7 @@ const IdentityProviderSelection = () => {
                     justifyContent: 'center',
                     height: '60vh',
                     textAlign: 'center',
+                    minHeight: '85vh'
                 }}
             >
                 <Typography variant="h4" gutterBottom>

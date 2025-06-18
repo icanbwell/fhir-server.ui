@@ -50,15 +50,34 @@ export default function SearchContainer({
         <Box
             component="form"
             sx={{
-                '& .MuiTextField-root': { ml: 1, width: { xs: '90%', sm: '25ch' } },
-                '& .MuiButton-root': { ml: 1, width: { xs: '90%', sm: '10ch' } },
+                '& .MuiTextField-root': {
+                    ml: 1,
+                    mr: 1,
+                    mb: 1,
+                    width: { xs: 'calc(100% - 16px)', sm: '25ch' },
+                    minWidth: { sm: '200px' }
+                },
+                '& .MuiButton-root': {
+                    ml: 1,
+                    mr: 1,
+                    mb: 1,
+                    width: { xs: 'calc(50% - 16px)', sm: 'auto' },
+                    minWidth: { sm: '120px' }
+                },
+                '& .MuiFormControl-root': {
+                    ml: 1,
+                    mr: 1,
+                    mb: 1,
+                    width: { xs: 'calc(100% - 16px)', sm: '25ch' },
+                    minWidth: { sm: '200px' }
+                }
             }}
             noValidate
             autoComplete="on"
             onSubmit={handleSearch}
         >
-            <Grid container spacing={2}>
-                <Grid item xs={12}>
+            <Grid container spacing={1}>
+                <Grid size={12}>
                     <DatePicker
                         label="Last Updated After"
                         value={searchParams.start}
@@ -66,6 +85,16 @@ export default function SearchContainer({
                             field: {
                                 clearable: true,
                             },
+                            textField: {
+                                size: 'small',
+                                sx: {
+                                    ml: 1,
+                                    mr: 1,
+                                    mb: 1,
+                                    width: { xs: 'calc(100% - 16px)', sm: '25ch' },
+                                    minWidth: { sm: '200px' }
+                                }
+                            }
                         }}
                         onChange={(newValue) => setSearchParams({ ...searchParams, start: newValue })}
                     />
@@ -76,6 +105,16 @@ export default function SearchContainer({
                             field: {
                                 clearable: true,
                             },
+                            textField: {
+                                size: 'small',
+                                sx: {
+                                    ml: 1,
+                                    mr: 1,
+                                    mb: 1,
+                                    width: { xs: 'calc(100% - 16px)', sm: '25ch' },
+                                    minWidth: { sm: '200px' }
+                                }
+                            }
                         }}
                         onChange={(newValue) => setSearchParams({ ...searchParams, end: newValue })}
                     />
@@ -85,9 +124,9 @@ export default function SearchContainer({
                             name={data.name}
                             label={data.label}
                             type="text"
+                            size="small"
                             value={searchParams[`${data.name}`]}
                             onChange={handleChange}
-                            fullWidth
                         />
                     ))}
                     {advSearchFormData.map((data: TFieldInfo) => (
@@ -96,13 +135,13 @@ export default function SearchContainer({
                             name={data.name}
                             label={data.label}
                             type="text"
+                            size="small"
                             value={searchParams[`${data.name}`]}
                             onChange={handleChange}
-                            fullWidth
                         />
                     ))}
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={12}>
                     <Button variant="outlined" color="secondary" onClick={resetFields}>
                         Reset
                     </Button>

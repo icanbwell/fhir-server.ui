@@ -18,8 +18,8 @@ const OperationOutcomeIssue = ({ operationOutcomeIssue: issues }: TOperationOutc
   }
   return (
     <>
-      {issues.map((issue: TOperationOutcomeIssue) => (
-        <Box>
+      {issues.map((issue: TOperationOutcomeIssue, index) => (
+        <Box key={index}>
           <Typography variant="body1" component="div">
             <Code code={issue.code} name="Code" />
             <Code code={issue.severity} name="Severity" />

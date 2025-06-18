@@ -11,8 +11,8 @@ function Uri({ name, uri }: TUriProps) {
     uri = [uri];
   }
   return (
-    uri && uri.map((value: TUri) => (
-      <Box>
+    uri && uri.map((value: TUri, index) => (
+      <Box key={index}>
         <Typography variant="body1" display="inline">
           <b>{name}:</b>&nbsp;
         </Typography>

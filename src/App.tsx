@@ -17,6 +17,7 @@ import AdminRoutes from './routes/adminRoutes';
 import AdminIndexPage from './admin/index';
 import EnvContext from './context/EnvironmentContext';
 import UserContext from './context/UserContext';
+import { ThemeContextProvider } from './context/ThemeContext';
 import { TUserDetails } from './types/baseTypes';
 import { jwtParser } from './utils/jwtParser';
 import IdentityProviderSelection from './pages/IdentityProviderSelection';
@@ -68,9 +69,11 @@ function App(): React.ReactElement {
     );
 
     return (
-        <UserContext.Provider value={{ userDetails, setUserDetails }}>
-            <RouterProvider router={router} />
-        </UserContext.Provider>
+        <ThemeContextProvider>
+            <UserContext.Provider value={{ userDetails, setUserDetails }}>
+                <RouterProvider router={router} />
+            </UserContext.Provider>
+        </ThemeContextProvider>
     );
 }
 

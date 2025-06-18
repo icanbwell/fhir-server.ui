@@ -12,8 +12,8 @@ const Canonical = ({ canonical, name }: TCanonicalProps) => {
   }
   return (
     canonical && (
-      canonical.map((value: TCanonical) => (
-        <Box>
+      canonical.map((value: TCanonical, index: number) => (
+        <Box key={index}>
           <Typography variant="body1" component="b">
               <b>{`${name}:`}</b>&nbsp;
           </Typography>

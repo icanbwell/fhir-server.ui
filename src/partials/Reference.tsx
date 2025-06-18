@@ -35,7 +35,7 @@ function Reference({ reference: references = [], name, field }: TReferenceProps)
                 })
                 .filter((u: TReference) => u.reference)
         );
-    }, [references]);
+    }, [references, field]);
 
     return uuidReferences && uuidReferences.length > 0 && uuidReferences[0] ? (
         <Box>

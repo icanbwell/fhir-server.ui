@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import EnvContext from '../context/EnvironmentContext';
 import AdminApi from '../api/adminApi';
@@ -10,13 +10,15 @@ const SynchronizeIndexes = () => {
     const { setUserDetails } = useContext(UserContext);
     const navigate = useNavigate();
     const location = useLocation();
-    const adminApi = new AdminApi({ fhirUrl, setUserDetails });
+    const adminApi = useMemo(() => {
+        return new AdminApi({ fhirUrl, setUserDetails });
+    }, [fhirUrl, setUserDetails]);
 
     useEffect(() => {
         adminApi.indexApi(location.pathname, location.search.includes('audit')).then(() => {
             setTimeout(() => navigate('/admin'), 5000);
         });
-    }, []);
+    }, [adminApi, location.pathname, location.search, navigate]);
 
     return <MessagePage message='Started Synchronizing indexes. Web page redirects after 5 seconds.' />;
 };

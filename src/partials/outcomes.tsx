@@ -46,7 +46,7 @@ function Outcomes({ outcomes, name }: TOutcomesProps) {
                                                 <a
                                                     title={`S3 File ${navigateUrl}`}
                                                     href={navigateUrl}
-                                                    target="_blank"
+                                                    target="_blank" rel="noreferrer"
                                                 >
                                                     {navigateUrl}
                                                 </a>

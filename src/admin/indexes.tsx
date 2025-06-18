@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import EnvContext from '../context/EnvironmentContext';
 import AdminApi from '../api/adminApi';
@@ -17,7 +17,9 @@ type TIndexCollectionEntries = {
 const Indexes = () => {
     const { fhirUrl } = useContext(EnvContext);
     const { setUserDetails } = useContext(UserContext);
-    const adminApi = new AdminApi({ fhirUrl, setUserDetails });
+    const adminApi = useMemo(() => {
+        return new AdminApi({ fhirUrl, setUserDetails });
+    }, [fhirUrl, setUserDetails]);
     const location = useLocation();
     const [isLoading, setIsLoading] = useState(true);
     const [indexes, setIndexes] = useState<TIndexCollectionEntries[]>([]);
@@ -44,7 +46,7 @@ const Indexes = () => {
             setIndexes(newData);
             setIsLoading(false);
         });
-    }, []);
+    }, [adminApi, location.pathname, location.search]);
 
     return (
         <Container maxWidth={false}>

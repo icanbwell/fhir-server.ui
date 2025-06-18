@@ -18,7 +18,12 @@ if (process.env.REACT_APP_SENTRY_DSN) {
   Sentry.init({
     dsn: process.env.REACT_APP_SENTRY_DSN,
     environment: process.env.REACT_APP_ENVIRONMENT,
-    autoSessionTracking: false
+    // https://docs.sentry.io/platforms/javascript/guides/react/configuration/integrations/#removing-a-default-integration
+    integrations: function (integrations) {
+      return integrations.filter(function (integration) {
+        return integration.name !== Sentry.browserSessionIntegration.name;
+      });
+    },
   });
 }
 

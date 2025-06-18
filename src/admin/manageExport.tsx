@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useMemo } from 'react';
 import { Accordion, Box, Button, Container, LinearProgress } from '@mui/material';
 import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import AdminApi from '../api/adminApi';
@@ -15,11 +15,13 @@ import SearchContainer from '../components/SearchContainer';
 import { TBundle } from '../types/resources/Bundle';
 import PreJson from '../components/PreJson';
 
-const manageExportPage: React.FC = () => {
+const ManageExportPage: React.FC = () => {
 
     const { fhirUrl } = useContext(EnvironmentContext);
     const { setUserDetails } = useContext(UserContext);
-    const adminApi = new AdminApi({ fhirUrl, setUserDetails });
+    const adminApi = useMemo(() => {
+        return new AdminApi({ fhirUrl, setUserDetails });
+    }, [fhirUrl, setUserDetails]);
     const [resources, setResources] = useState<any>();
     const [bundle, setBundle] = useState<TBundle | undefined>();
     const [status, setStatus] = useState<number | undefined>();
@@ -144,7 +146,7 @@ const manageExportPage: React.FC = () => {
             }
         };
         callApi().catch(console.error);
-    }, [id, queryString]);
+    }, [adminApi, fhirUrl, id, location.search, queryString, setUserDetails]);
 
     if (shouldBeJsonFormat) {
         return <PreJson data={resources} />;
@@ -173,4 +175,4 @@ const manageExportPage: React.FC = () => {
     );
 };
 
-export default manageExportPage;
+export default ManageExportPage;

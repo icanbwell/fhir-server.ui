@@ -13,8 +13,8 @@ const Markdown = ({ name, markdown }: TMarkdownProps) => {
   if (markdown !== undefined) {
     return (
       <Box>
-        {markdown.map((value: TMarkdown) => (
-          <Typography variant="body1" component="div">
+        {markdown.map((value: TMarkdown, index: number) => (
+          <Typography variant="body1" component="div" key={index}>
             <b>{name}:</b>&nbsp;{value}
           </Typography>
         ))}

@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   VerticalTimeline as OriginalVerticalTimeline,
   VerticalTimelineElement as OriginalVerticalTimelineElement,
