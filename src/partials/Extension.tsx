@@ -37,7 +37,7 @@ const Extension = ({ extension: extensions }: TExtensionProps) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {extensions.map((extension) => {
+            {extensions.map((extension, index) => {
               if (extension && extension.extension) {
                 return extension.extension
                   .filter((e) => e)
@@ -71,7 +71,7 @@ const Extension = ({ extension: extensions }: TExtensionProps) => {
                   </TableRow>
                 );
               } else {
-                return <span></span>;
+                return <span key={index}></span>;
               }
             })}
           </TableBody>

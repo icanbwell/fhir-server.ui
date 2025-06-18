@@ -2,10 +2,13 @@ import React, { useContext, useState } from 'react';
 import { AppBar, Toolbar, Typography, IconButton, Button, Popover } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
 import LogoutIcon from '@mui/icons-material/Logout';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { Link } from 'react-router-dom';
 import BwellIcon from '../dist/images/bwell.png';
 import EnvContext from '../context/EnvironmentContext';
 import UserContext from '../context/UserContext';
+import { useTheme } from '../context/ThemeContext';
 import { removeLocalData } from '../utils/localData.utils';
 import { IAuthService } from '../services/IAuthService';
 import AuthServiceFactory from '../services/AuthServiceFactory';
@@ -13,6 +16,7 @@ import AuthServiceFactory from '../services/AuthServiceFactory';
 const Header = () => {
     const env = useContext(EnvContext);
     const { userDetails, setUserDetails } = useContext(UserContext);
+    const { isDarkMode, toggleDarkMode } = useTheme();
     const [anchorEl, setAnchorEl] = useState(null);
 
     const handlePopoverOpen = (event: any) => {
@@ -67,6 +71,14 @@ const Header = () => {
                     <Typography variant="h5" style={{ flexGrow: 1, fontWeight: 500 }}>
                         FHIR Server
                     </Typography>
+                    <IconButton
+                        color="inherit"
+                        aria-label="toggle dark mode"
+                        onClick={toggleDarkMode}
+                        title={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+                    >
+                        {isDarkMode ? <Brightness7Icon /> : <Brightness4Icon />}
+                    </IconButton>
                     <IconButton
                         color="inherit"
                         aria-label="information"

@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button, TextField, Typography, Container, LinearProgress } from '@mui/material';
 import AdminApi from '../api/adminApi';
@@ -13,7 +13,9 @@ const SearchLogsPage: React.FC = () => {
     const { setUserDetails } = useContext(UserContext);
     const location = useLocation();
     const navigate = useNavigate();
-    const adminApi = new AdminApi({ fhirUrl, setUserDetails });
+    const adminApi = useMemo(() => {
+        return new AdminApi({ fhirUrl, setUserDetails });
+    }, [fhirUrl, setUserDetails]);
     const [id, setId] = useState<string>('');
     const [results, setResults] = useState<String | Object | null>(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -36,7 +38,7 @@ const SearchLogsPage: React.FC = () => {
                 setResults({ message: 'No id passed' });
             }
         }
-    }, [location]);
+    }, [adminApi, location]);
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();

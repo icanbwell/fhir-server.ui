@@ -1,4 +1,3 @@
-import React from 'react';
 import {Typography, Table, TableHead, TableBody, TableRow, TableCell, Box, Link} from '@mui/material';
 import CodeableConcept from './CodeableConcept';
 import InvoicePriceComponent from './InvoicePriceComponent';
@@ -26,9 +25,9 @@ const InvoiceLineItem = ({ invoiceLineItem: lineItems, name }: TInvoiceLineItemP
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {lineItems.map((lineItem: TInvoiceLineItem) => {
+                        {lineItems.map((lineItem: TInvoiceLineItem, index: number) => {
                             return (
-                                <TableRow>
+                                <TableRow key={index}>
                                     <TableCell>
                                         <Link href={`/4_0_0/${lineItem.chargeItemReference?.reference}`} >
                                             {lineItem.chargeItemReference?.reference}

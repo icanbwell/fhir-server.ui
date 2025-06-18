@@ -108,6 +108,7 @@ const Auth = () => {
         } else {
             fetchTokenAsync(code).catch(console.error);
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return <>{error ? <div style={{ color: 'red' }}>{error}</div> : <>Authenticating...</>}</>;

@@ -1,4 +1,3 @@
-import React from 'react';
 import {Typography, Table, TableHead, TableBody, TableRow, TableCell, Box} from '@mui/material';
 import CodeableConcept from './CodeableConcept';
 import Money from './Money';

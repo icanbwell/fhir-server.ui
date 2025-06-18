@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import {
     Accordion,
@@ -213,7 +213,7 @@ const IndexPage = ({ search }: { search?: boolean }) => {
             }
         };
         callApi().catch(console.error);
-    }, [id, queryString, resourceType, search, operation]);
+    }, [id, queryString, resourceType, search, operation, fhirUrl, setUserDetails, location.search, shouldBeJsonFormat]);
 
     /**
      * Handle search event from child component

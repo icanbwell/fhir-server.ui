@@ -1,5 +1,5 @@
 // HomePage.js
-import React, { useContext, useEffect, useState, useMemo } from 'react';
+import { useContext, useEffect, useState, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
     Table,
@@ -75,7 +75,6 @@ const Home = () => {
                     {userDetails?.isAdmin && (
                         <Button
                             variant="contained"
-                            color="primary"
                             component={Link}
                             to="/admin"
                             sx={{ ml: 2, height: '40px' }}
@@ -93,7 +92,7 @@ const Home = () => {
                                 <TableCell></TableCell>
                             </TableRow>
                         </TableHead>
-                        <TableBody className='home-table'>
+                        <TableBody>
                             {resourcesToDisplay.map((resource) => (
                                 <TableRow
                                     key={resource.name}

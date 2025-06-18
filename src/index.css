@@ -22,14 +22,6 @@ code {
     cursor: pointer;
 }
 
-.home-table tr:nth-child(odd) {
-    background-color: #f2f2f2;
-}
-
-.home-table tr:nth-child(even) {
-    background-color: #ffffff;
-}
-
 .resource-header {
     font-size: '1.5em';
 }

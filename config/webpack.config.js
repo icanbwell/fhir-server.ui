@@ -728,15 +728,8 @@ module.exports = function (webpackEnv) {
           ),
           // ESLint class options
           cwd: paths.appPath,
-          resolvePluginsRelativeTo: __dirname,
-          baseConfig: {
-            extends: [require.resolve('eslint-config-react-app/base')],
-            rules: {
-              ...(!hasJsxRuntime && {
-                'react/react-in-jsx-scope': 'error',
-              }),
-            },
-          },
+          // Use the eslint.config.js file instead of inline configuration
+          overrideConfigFile: path.resolve(paths.appPath, 'eslint.config.js'),
         }),
     ].filter(Boolean),
     // Turn off performance processing because we utilize
