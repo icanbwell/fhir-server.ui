@@ -7,12 +7,13 @@ const reactHooks = require('eslint-plugin-react-hooks');
 
 module.exports = defineConfig([
     globalIgnores([
+        '**/*.json',
         'src/config',
         'src/scripts',
         '**/*.config.js',
         'dist/*',
-        '**/node_modules',
-        'build/*',
+        '**/node_modules/**',
+        'build/**',
     ]),
     reactHooks.configs['recommended-latest'],
     {
