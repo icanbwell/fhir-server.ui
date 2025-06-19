@@ -580,7 +580,9 @@ module.exports = function (webpackEnv) {
         shouldInlineRuntimeChunk &&
         new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/runtime-.+[.]js/]),
       isEnvProduction && sentryWebpackPlugin({
-        // Below environment variables are declared as string here, they will be replaced by their actual values while deploying
+        release: {
+          name: process.env.REACT_APP_VERSION,
+        },
         url: process.env.REACT_APP_SENTRY_BASE_URL,
         org: process.env.REACT_APP_SENTRY_ORGANISATION,
         project: process.env.REACT_APP_SENTRY_PROJECT,
