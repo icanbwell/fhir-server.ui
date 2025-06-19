@@ -582,6 +582,9 @@ module.exports = function (webpackEnv) {
       isEnvProduction && sentryWebpackPlugin({
         release: {
           name: process.env.REACT_APP_VERSION,
+          deploy: {
+            env: process.env.REACT_APP_ENVIRONMENT,
+          }
         },
         url: process.env.REACT_APP_SENTRY_BASE_URL,
         org: process.env.REACT_APP_SENTRY_ORGANISATION,
