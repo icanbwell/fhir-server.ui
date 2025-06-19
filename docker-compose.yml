@@ -30,5 +30,6 @@ services:
     ports:
       - "5051:5051"
     volumes:
-      - ./:/app/
+      - ./src:/app/src/
+      - ./public:/app/public/
     command: yarn start
