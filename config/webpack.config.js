@@ -435,7 +435,6 @@ module.exports = function (webpackEnv) {
                   [
                     require.resolve('@babel/preset-env'),
                     {
-                      helpers: true,
                       modules: 'auto'
                     },
                   ],
