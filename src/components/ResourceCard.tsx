@@ -74,40 +74,18 @@ const ResourceCard = ({
                             <Box
                                 sx={{
                                     display: 'flex',
-                                    alignItems: 'center',
+                                    flexDirection: 'column',
                                     gap: 2,
                                     mt: 2,
                                 }}
                             >
-                                <Tooltip title="Open Summary in New Spreadsheet Tab">
-                                    {/* The resource type is included twice in the URL to meet API requirements:
-                                        - The first occurrence specifies the resource type and ID for the main resource.
-                                        - The second occurrence in `$everything/{resourceType}` specifies the summary type. */}
-                                    <Link
-                                        to={`/excel/4_0_0/${resource.resourceType}/${resource.id}/$everything/${resource.resourceType}`}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        style={{
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            gap: 8,
-                                            textDecoration: 'none',
-                                            color: 'inherit',
-                                        }}
-                                    >
-                                        <GridOnIcon color="primary" fontSize="small" />
-                                        <Typography variant="body1" color="primary">
-                                            Open as Spreadsheet
-                                        </Typography>
-                                        <OpenInNewIcon color="primary" />
-                                    </Link>
-                                </Tooltip>
-
-                                {/* Only show IPS link for Patient resources */}
-                                {resource.resourceType === 'Patient' && (
-                                    <Tooltip title="View Patient Summary (IPS Format)">
+                                <Box>
+                                    <Tooltip title="Open Summary in New Spreadsheet Tab">
+                                        {/* The resource type is included twice in the URL to meet API requirements:
+                                            - The first occurrence specifies the resource type and ID for the main resource.
+                                            - The second occurrence in `$everything/{resourceType}` specifies the summary type. */}
                                         <Link
-                                            to={`/ips/4_0_0/${resource.resourceType}/${resource.id}/$summary`}
+                                            to={`/excel/4_0_0/${resource.resourceType}/${resource.id}/$everything/${resource.resourceType}`}
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             style={{
@@ -116,16 +94,41 @@ const ResourceCard = ({
                                                 gap: 8,
                                                 textDecoration: 'none',
                                                 color: 'inherit',
-                                                marginLeft: '16px'
                                             }}
                                         >
-                                            <DescriptionIcon color="primary" fontSize="small" />
+                                            <GridOnIcon color="primary" fontSize="small" />
                                             <Typography variant="body1" color="primary">
-                                                View Patient Summary (IPS)
+                                                Open as Spreadsheet
                                             </Typography>
                                             <OpenInNewIcon color="primary" />
                                         </Link>
                                     </Tooltip>
+                                </Box>
+
+                                {/* Only show IPS link for Patient resources */}
+                                {resource.resourceType === 'Patient' && (
+                                    <Box>
+                                        <Tooltip title="View Patient Summary (IPS Format)">
+                                            <Link
+                                                to={`/ips/4_0_0/${resource.resourceType}/${resource.id}/$summary`}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                style={{
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    gap: 8,
+                                                    textDecoration: 'none',
+                                                    color: 'inherit',
+                                                }}
+                                            >
+                                                <DescriptionIcon color="primary" fontSize="small" />
+                                                <Typography variant="body1" color="primary">
+                                                    View Patient Summary (IPS)
+                                                </Typography>
+                                                <OpenInNewIcon color="primary" />
+                                            </Link>
+                                        </Tooltip>
+                                    </Box>
                                 )}
                             </Box>
                         )}
