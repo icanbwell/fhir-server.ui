@@ -11,12 +11,14 @@ import {
     List,
     ListItem,
     Paper,
-    Divider
+    Divider,
+    Tooltip
 } from '@mui/material';
 import axios from 'axios';
 import EnvironmentContext from '../context/EnvironmentContext';
 import { useLocation } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
+import CodeIcon from '@mui/icons-material/Code';
 
 interface IPSViewerProps {
     relativeUrl: string;
@@ -119,9 +121,22 @@ const IPSViewer: React.FC<IPSViewerProps> = ({ relativeUrl }) => {
 
     return (
         <Box sx={{ width: '100%', mb: 4 }}>
-            <Typography variant="h5" sx={{ mb: 2 }}>
-                International Patient Summary
-            </Typography>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+                <Typography variant="h5">
+                    International Patient Summary
+                </Typography>
+                <Tooltip title="View the raw JSON of this bundle" arrow>
+                    <Link
+                        href={`${downloadUri}${downloadUri.includes('?') ? '&' : '?'}_format=json`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        sx={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}
+                    >
+                        <CodeIcon sx={{ mr: 0.5 }} />
+                        View Raw Bundle
+                    </Link>
+                </Tooltip>
+            </Box>
 
             {/* Render the HTML content from the Composition */}
             {compositionHtml && (
