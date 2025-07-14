@@ -216,7 +216,7 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
         setActiveSheetName(newValue);
 
         let currentPath = location.pathname;
-        if (currentPath.endsWith('$everything')) {
+        if (currentPath.endsWith(EVERYTHING_IDENTIFIER)) {
             // Append the tab name if $everything is at the end
             currentPath = `${currentPath}/${newValue}`;
         } else {
