@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import GridOnIcon from '@mui/icons-material/GridOn';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import DescriptionIcon from '@mui/icons-material/Description';
 
 type TResourceCardProps = {
     index: number;
@@ -101,6 +102,31 @@ const ResourceCard = ({
                                         <OpenInNewIcon color="primary" />
                                     </Link>
                                 </Tooltip>
+
+                                {/* Only show IPS link for Patient resources */}
+                                {resource.resourceType === 'Patient' && (
+                                    <Tooltip title="View Patient Summary (IPS Format)">
+                                        <Link
+                                            to={`/ips/4_0_0/${resource.resourceType}/${resource.id}/$summary`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            style={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: 8,
+                                                textDecoration: 'none',
+                                                color: 'inherit',
+                                                marginLeft: '16px'
+                                            }}
+                                        >
+                                            <DescriptionIcon color="primary" fontSize="small" />
+                                            <Typography variant="body1" color="primary">
+                                                View Patient Summary (IPS)
+                                            </Typography>
+                                            <OpenInNewIcon color="primary" />
+                                        </Link>
+                                    </Tooltip>
+                                )}
                             </Box>
                         )}
                 </CardContent>
