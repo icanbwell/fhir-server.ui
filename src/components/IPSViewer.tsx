@@ -150,7 +150,6 @@ const IPSViewer: React.FC<IPSViewerProps> = ({ relativeUrl }) => {
                     }}
                     className={isDarkMode ? 'dark-mode' : ''}
                 >
-                    <Typography variant="h6" sx={{ mb: 2 }}>Document View</Typography>
                     <Box
                         dangerouslySetInnerHTML={{ __html: compositionHtml }}
                         className="ips-narrative-container"
