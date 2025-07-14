@@ -12,7 +12,7 @@ import {
     ListItem,
     Paper,
     Divider,
-    Tooltip
+    Tooltip,
 } from '@mui/material';
 import axios from 'axios';
 import EnvironmentContext from '../context/EnvironmentContext';
@@ -28,6 +28,7 @@ interface IPSViewerProps {
 interface Resource {
     resourceType: string;
     id: string;
+
     [key: string]: any;
 }
 
@@ -38,6 +39,7 @@ interface Bundle {
         resource: Resource;
         [key: string]: any;
     }>;
+
     [key: string]: any;
 }
 
@@ -71,7 +73,7 @@ const IPSViewer: React.FC<IPSViewerProps> = ({ relativeUrl }) => {
 
                 // Extract the HTML content from the first Composition resource
                 const compositionEntry = response.data.entry?.find(
-                    entry => entry.resource?.resourceType === 'Composition'
+                    (entry) => entry.resource?.resourceType === 'Composition'
                 );
 
                 if (compositionEntry) {
@@ -108,11 +110,28 @@ const IPSViewer: React.FC<IPSViewerProps> = ({ relativeUrl }) => {
         return <Alert severity="error">{errorMessage}</Alert>;
     }
 
+    // Find the first Composition resource
+    const firstCompositionEntry = bundle?.entry?.find(
+        (entry) => entry.resource?.resourceType === 'Composition'
+    );
+
+    const firstCompositionId = firstCompositionEntry?.resource?.id;
+
     // Group resources by type for better organization
     const resourcesByType: { [key: string]: Resource[] } = {};
-    bundle?.entry?.forEach(entry => {
+    bundle?.entry?.forEach((entry) => {
         if (entry.resource) {
-            const { resourceType } = entry.resource;
+            const { resourceType, id } = entry.resource;
+
+            // Skip the first Composition resource in the bundle
+            if (
+                resourceType === 'Composition' &&
+                id === firstCompositionId &&
+                entry === firstCompositionEntry
+            ) {
+                return;
+            }
+
             if (!resourcesByType[`${resourceType}`]) {
                 resourcesByType[`${resourceType}`] = [];
             }
@@ -122,10 +141,15 @@ const IPSViewer: React.FC<IPSViewerProps> = ({ relativeUrl }) => {
 
     return (
         <Box sx={{ width: '100%', mb: 4 }}>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-                <Typography variant="h5">
-                    International Patient Summary
-                </Typography>
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    mb: 2,
+                }}
+            >
+                <Typography variant="h5">International Patient Summary</Typography>
                 <Tooltip title="View the raw JSON of this bundle" arrow>
                     <Link
                         href={`${downloadUri}${downloadUri.includes('?') ? '&' : '?'}_format=json`}
@@ -146,7 +170,7 @@ const IPSViewer: React.FC<IPSViewerProps> = ({ relativeUrl }) => {
                         p: 3,
                         mb: 4,
                         backgroundColor: isDarkMode ? '#282c34' : '#f5f5f5',
-                        color: isDarkMode ? '#ffffff' : 'inherit'
+                        color: isDarkMode ? '#ffffff' : 'inherit',
                     }}
                     className={isDarkMode ? 'dark-mode' : ''}
                 >
@@ -155,7 +179,7 @@ const IPSViewer: React.FC<IPSViewerProps> = ({ relativeUrl }) => {
                         className="ips-narrative-container"
                         sx={{
                             '& a': {
-                                color: isDarkMode ? '#90caf9' : '#1976d2'
+                                color: isDarkMode ? '#90caf9' : '#1976d2',
                             },
                             '--table-header-bg': isDarkMode ? '#3a3a3a' : '#f0f0f0',
                             '--table-header-color': isDarkMode ? '#f0f0f0' : '#333',
@@ -193,10 +217,15 @@ const IPSViewer: React.FC<IPSViewerProps> = ({ relativeUrl }) => {
                                         rel="noopener noreferrer"
                                     >
                                         {resource.id}
-                                        {resource.resourceType === 'Patient' && resource.name &&
-                                            ` - ${resource.name.map((n: any) =>
-                                                n.family ? `${n.given?.join(' ') || ''} ${n.family}` : '').join(', ')}`
-                                        }
+                                        {resource.resourceType === 'Patient' &&
+                                            resource.name &&
+                                            ` - ${resource.name
+                                                .map((n: any) =>
+                                                    n.family
+                                                        ? `${n.given?.join(' ') || ''} ${n.family}`
+                                                        : ''
+                                                )
+                                                .join(', ')}`}
                                     </Link>
                                 </ListItem>
                             ))}
