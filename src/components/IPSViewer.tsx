@@ -19,6 +19,7 @@ import EnvironmentContext from '../context/EnvironmentContext';
 import { useLocation } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 import CodeIcon from '@mui/icons-material/Code';
+import './IPSNarrative.css'; // Import the CSS file for styling the IPS narrative
 
 interface IPSViewerProps {
     relativeUrl: string;
@@ -147,14 +148,26 @@ const IPSViewer: React.FC<IPSViewerProps> = ({ relativeUrl }) => {
                         backgroundColor: isDarkMode ? '#282c34' : '#f5f5f5',
                         color: isDarkMode ? '#ffffff' : 'inherit'
                     }}
+                    className={isDarkMode ? 'dark-mode' : ''}
                 >
                     <Typography variant="h6" sx={{ mb: 2 }}>Document View</Typography>
                     <Box
                         dangerouslySetInnerHTML={{ __html: compositionHtml }}
+                        className="ips-narrative-container"
                         sx={{
                             '& a': {
                                 color: isDarkMode ? '#90caf9' : '#1976d2'
-                            }
+                            },
+                            '--table-header-bg': isDarkMode ? '#3a3a3a' : '#f0f0f0',
+                            '--table-header-color': isDarkMode ? '#f0f0f0' : '#333',
+                            '--table-border-color': isDarkMode ? '#555' : '#ddd',
+                            '--table-stripe-color': isDarkMode ? '#2c2c2c' : '#f9f9f9',
+                            '--text-color': isDarkMode ? '#e0e0e0' : 'inherit',
+                            '--heading-color': isDarkMode ? '#e0e0e0' : '#333',
+                            '--link-color': isDarkMode ? '#90caf9' : '#0066cc',
+                            '--section-border-color': isDarkMode ? '#444' : '#eaeaea',
+                            '--highlight-bg': isDarkMode ? '#665500' : '#fff3cd',
+                            '--code-bg': isDarkMode ? '#1f2937' : '#f6f8fa',
                         }}
                     />
                 </Paper>
