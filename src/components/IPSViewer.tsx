@@ -1,0 +1,184 @@
+// filepath: /Users/imranqureshi/git/fhir-server.ui/src/components/IPSViewer.tsx
+import React, { useContext, useState, useEffect } from 'react';
+import {
+    Typography,
+    Box,
+    CircularProgress,
+    Alert,
+    Card,
+    CardContent,
+    Link,
+    List,
+    ListItem,
+    Paper,
+    Divider
+} from '@mui/material';
+import axios from 'axios';
+import EnvironmentContext from '../context/EnvironmentContext';
+import { useLocation } from 'react-router-dom';
+import { useTheme } from '../context/ThemeContext';
+
+interface IPSViewerProps {
+    relativeUrl: string;
+}
+
+interface Resource {
+    resourceType: string;
+    id: string;
+    [key: string]: any;
+}
+
+interface Bundle {
+    resourceType: 'Bundle';
+    type: string;
+    entry: Array<{
+        resource: Resource;
+        [key: string]: any;
+    }>;
+    [key: string]: any;
+}
+
+const IPSViewer: React.FC<IPSViewerProps> = ({ relativeUrl }) => {
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const [bundle, setBundle] = useState<Bundle | null>(null);
+    const [compositionHtml, setCompositionHtml] = useState<string>('');
+    const location = useLocation();
+    const { isDarkMode } = useTheme();
+
+    const { fhirUrl } = useContext(EnvironmentContext);
+
+    const downloadUri = React.useMemo(() => {
+        const uri = new URL(relativeUrl, fhirUrl);
+        const queryString = new URLSearchParams(location.search);
+        for (const [key, value] of queryString.entries()) {
+            uri.searchParams.set(key, value);
+        }
+        return uri.toString();
+    }, [relativeUrl, fhirUrl, location.search]);
+
+    useEffect(() => {
+        const fetchBundle = async () => {
+            setIsLoading(true);
+            setErrorMessage(null);
+
+            try {
+                const response = await axios.get<Bundle>(downloadUri);
+                setBundle(response.data);
+
+                // Extract the HTML content from the first Composition resource
+                const compositionEntry = response.data.entry?.find(
+                    entry => entry.resource?.resourceType === 'Composition'
+                );
+
+                if (compositionEntry) {
+                    const composition = compositionEntry.resource;
+                    if (composition.text?.div) {
+                        // Extract the div content from the composition
+                        setCompositionHtml(composition.text.div);
+                    } else {
+                        setErrorMessage('No HTML content found in the Composition resource');
+                    }
+                } else {
+                    setErrorMessage('No Composition resource found in the bundle');
+                }
+            } catch (error) {
+                console.error('Error fetching IPS bundle:', error);
+                setErrorMessage('Failed to load the International Patient Summary');
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchBundle();
+    }, [downloadUri]);
+
+    if (isLoading) {
+        return (
+            <Box sx={{ display: 'flex', justifyContent: 'center', my: 4 }}>
+                <CircularProgress />
+            </Box>
+        );
+    }
+
+    if (errorMessage) {
+        return <Alert severity="error">{errorMessage}</Alert>;
+    }
+
+    // Group resources by type for better organization
+    const resourcesByType: { [key: string]: Resource[] } = {};
+    bundle?.entry?.forEach(entry => {
+        if (entry.resource) {
+            const { resourceType } = entry.resource;
+            if (!resourcesByType[`${resourceType}`]) {
+                resourcesByType[`${resourceType}`] = [];
+            }
+            resourcesByType[`${resourceType}`].push(entry.resource);
+        }
+    });
+
+    return (
+        <Box sx={{ width: '100%', mb: 4 }}>
+            <Typography variant="h5" sx={{ mb: 2 }}>
+                International Patient Summary
+            </Typography>
+
+            {/* Render the HTML content from the Composition */}
+            {compositionHtml && (
+                <Paper
+                    sx={{
+                        p: 3,
+                        mb: 4,
+                        backgroundColor: isDarkMode ? '#282c34' : '#f5f5f5',
+                        color: isDarkMode ? '#ffffff' : 'inherit'
+                    }}
+                >
+                    <Typography variant="h6" sx={{ mb: 2 }}>Document View</Typography>
+                    <Box
+                        dangerouslySetInnerHTML={{ __html: compositionHtml }}
+                        sx={{
+                            '& a': {
+                                color: isDarkMode ? '#90caf9' : '#1976d2'
+                            }
+                        }}
+                    />
+                </Paper>
+            )}
+
+            {/* List all resources in the bundle */}
+            <Typography variant="h6" sx={{ mt: 4, mb: 2 }}>
+                Bundle Resources
+            </Typography>
+
+            {Object.keys(resourcesByType).map((resourceType) => (
+                <Card key={resourceType} sx={{ mb: 2 }}>
+                    <CardContent>
+                        <Typography variant="h6" sx={{ mb: 1 }}>
+                            {resourceType} ({resourcesByType[`${resourceType}`].length})
+                        </Typography>
+                        <Divider sx={{ mb: 2 }} />
+                        <List dense>
+                            {resourcesByType[`${resourceType}`].map((resource) => (
+                                <ListItem key={resource.id}>
+                                    <Link
+                                        href={`/4_0_0/${resourceType}/${resource.id}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        {resource.id}
+                                        {resource.resourceType === 'Patient' && resource.name &&
+                                            ` - ${resource.name.map((n: any) =>
+                                                n.family ? `${n.given?.join(' ') || ''} ${n.family}` : '').join(', ')}`
+                                        }
+                                    </Link>
+                                </ListItem>
+                            ))}
+                        </List>
+                    </CardContent>
+                </Card>
+            ))}
+        </Box>
+    );
+};
+
+export default IPSViewer;
