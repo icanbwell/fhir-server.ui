@@ -7,6 +7,7 @@ import ObservationTimeline from '../ObservationTimeline';
 import PatientTimeline from '../PatientTimeline';
 import SearchPage from '../pages/SearchPage';
 import ExcelViewerPage from '../pages/ExcelViewerPage';
+import IPSViewerPage from '../pages/IPSViewerPage';
 
 export default [
     <Route key="about" path="/about" element={<AboutPage />} />,
@@ -18,4 +19,6 @@ export default [
     <Route key="operation" path="/4_0_0/:resourceType/:operation?/*" element={<IndexPage />} />,
     <Route key="excelIdOperation" path="/excel/4_0_0/:resourceType/:id?/:operation?/*" element={<ExcelViewerPage />} />,
     <Route key="excelOperation" path="/excel/4_0_0/:resourceType/:operation?/*" element={<ExcelViewerPage />} />,
+    <Route key="ipsIdOperation" path="/ips/4_0_0/:resourceType/:id?/:operation?/*" element={<IPSViewerPage />} />,
+    <Route key="ipsOperation" path="/ips/4_0_0/:resourceType/:operation?/*" element={<IPSViewerPage />} />,
 ];
