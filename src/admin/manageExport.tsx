@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useMemo } from 'react';
-import { Accordion, Box, Button, Container, LinearProgress } from '@mui/material';
+import { Accordion, Box, Button, LinearProgress } from '@mui/material';
 import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import AdminApi from '../api/adminApi';
 import EnvironmentContext from '../context/EnvironmentContext';
@@ -149,11 +149,22 @@ const ManageExportPage: React.FC = () => {
     }, [adminApi, fhirUrl, id, location.search, queryString, setUserDetails]);
 
     if (shouldBeJsonFormat) {
-        return <PreJson data={resources} />;
+        return (
+            <div style={{ width: '100%', padding: 0, margin: 0 }}>
+                <div style={{ minHeight: '92vh' }}>
+                    <Header />
+                    {loading && <LinearProgress />}
+                    <div style={{ padding: '0 10px' }}>
+                        <PreJson data={resources} />
+                    </div>
+                </div>
+                <Footer />
+            </div>
+        );
     }
 
     return (
-        <Container maxWidth={false}>
+        <div style={{ width: '100%', padding: 0, margin: 0 }}>
             <div style={{ minHeight: '92vh' }}>
                 <Header />
                 <Accordion expanded={searchTabExpanded} onChange={handleExpand}>
@@ -168,10 +179,12 @@ const ManageExportPage: React.FC = () => {
                         <SearchContainer resourceType={resourceType} onSearch={handleSearch}></SearchContainer>
                     </AccordionDetails>
                 </Accordion>
-                <Box my={2}>{getBox()}</Box>
+                <div style={{ padding: '0 10px' }}>
+                    <Box my={2}>{getBox()}</Box>
+                </div>
             </div>
             <Footer requestId={bundle?.id} links={bundle?.link} />
-        </Container>
+        </div>
     );
 };
 

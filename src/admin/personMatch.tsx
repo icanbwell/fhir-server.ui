@@ -2,7 +2,6 @@ import React, { useContext, useState } from 'react';
 import {
     Button,
     TextField,
-    Container,
     Typography,
     Box,
     Select,
@@ -44,11 +43,12 @@ const PersonMatchPage: React.FC = () => {
     };
 
     return (
-        <Container maxWidth={false}>
+        <div style={{ width: '100%', padding: 0, margin: 0 }}>
             <div style={{ minHeight: '92vh' }}>
                 <Header />
                 {isLoading && <LinearProgress />}
-                <Box sx={{ mt: 1, mb: 2 }}>
+                <div style={{ padding: '0 10px' }}>
+                    <Box sx={{ mt: 1, mb: 2 }}>
                     <Typography variant="h5">Run a Person Match diagnostic test</Typography>
                     <Typography style={{ color: '#494949' }}>
                         Calls Person Matching service to give a diagnostic report on trying to match
@@ -121,9 +121,10 @@ const PersonMatchPage: React.FC = () => {
                     </Box>
                     <PreJson data={results} />
                 </Box>
+                </div>
             </div>
             <Footer />
-        </Container>
+        </div>
     );
 };
 

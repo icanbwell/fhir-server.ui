@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { setLocalData } from '../utils/localData.utils';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { getLocalData, setLocalData } from '../utils/localData.utils';
 import UserContext from '../context/UserContext';
 import { jwtParser } from '../utils/jwtParser';
 import { Buffer } from 'buffer';
@@ -11,6 +11,7 @@ import { AxiosError } from 'axios';
 const Auth = () => {
     const { setUserDetails } = useContext(UserContext);
     const location = useLocation();
+    const navigate = useNavigate();
     const queryParams = new URLSearchParams(location.search);
     const [isProcessing, setIsProcessing] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -22,7 +23,7 @@ const Auth = () => {
             return;
         }
 
-        const identityProvider = localStorage.getItem('identityProvider');
+        const identityProvider = getLocalData('identityProvider');
         if (!identityProvider) {
             console.error('No identity provider found in local storage');
             setError('No identity provider found in local storage');
@@ -53,9 +54,9 @@ const Auth = () => {
         isFetchingToken.current = true;
         setIsProcessing(true);
 
-        console.info(`Fetching token with code: ${code}`);
+        console.info('Fetching token');
 
-        const identityProvider = localStorage.getItem('identityProvider');
+        const identityProvider = getLocalData('identityProvider');
         if (!identityProvider) {
             console.error('No identity provider found in local storage');
             setError('No identity provider found in local storage');
@@ -76,7 +77,7 @@ const Auth = () => {
                 setUserDetails(jwtParser());
             }
             console.log(`Token Fetched. Redirecting to ${resourceUrl}`);
-            window.location.href = resourceUrl;
+            navigate(resourceUrl);
         } catch (error1: any) {
             // error1 is of type AxiosError
             const axiosError = error1 as AxiosError;
@@ -94,6 +95,12 @@ const Auth = () => {
 
     useEffect(() => {
         setIsProcessing(false);
+
+        // Check if we already have a valid token to avoid re-processing
+        const existingJwt = getLocalData('jwt');
+        if (existingJwt) {
+            return;
+        }
 
         const code = queryParams.get('code');
         if (!code) {

@@ -2,7 +2,7 @@ import { useContext, useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import EnvContext from '../context/EnvironmentContext';
 import AdminApi from '../api/adminApi';
-import { Box, Container, LinearProgress, Typography } from '@mui/material';
+import { Box, LinearProgress, Typography } from '@mui/material';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import TableComponent from '../components/Table';
@@ -49,34 +49,36 @@ const Indexes = () => {
     }, [adminApi, location.pathname, location.search]);
 
     return (
-        <Container maxWidth={false}>
+        <div style={{ width: '100%', padding: 0, margin: 0 }}>
             <div style={{ minHeight: '92vh' }}>
                 <Header />
-                {isLoading ? (
-                    <LinearProgress />
-                ) : indexes.length ? (
-                    indexes?.map(
-                        (
-                            { collectionName, indexTableEntry }: TIndexCollectionEntries,
-                            index: number
-                        ) => (
-                            <Box sx={{ mt: 1 }} key={index}>
-                                <TableComponent
-                                    rows={indexTableEntry}
-                                    columns={['name', 'keys', 'options', 'missing', 'extra']}
-                                    name={collectionName}
-                                />
-                            </Box>
+                <div style={{ padding: '0 10px' }}>
+                    {isLoading ? (
+                        <LinearProgress />
+                    ) : indexes.length ? (
+                        indexes?.map(
+                            (
+                                { collectionName, indexTableEntry }: TIndexCollectionEntries,
+                                index: number
+                            ) => (
+                                <Box sx={{ mt: 1 }} key={index}>
+                                    <TableComponent
+                                        rows={indexTableEntry}
+                                        columns={['name', 'keys', 'options', 'missing', 'extra']}
+                                        name={collectionName}
+                                    />
+                                </Box>
+                            )
                         )
-                    )
-                ) : (
-                    <Typography variant="h5" sx={{ textAlign: 'center', mt: 2 }}>
-                        No Index Problems
-                    </Typography>
-                )}
+                    ) : (
+                        <Typography variant="h5" sx={{ textAlign: 'center', mt: 2 }}>
+                            No Index Problems
+                        </Typography>
+                    )}
+                </div>
             </div>
             <Footer />
-        </Container>
+        </div>
     );
 };
 

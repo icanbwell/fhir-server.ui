@@ -1,9 +1,10 @@
 import React from 'react';
 import axios from 'axios';
 import { InternalAxiosRequestConfig } from 'axios';
-import { getLocalData, removeLocalData } from '../utils/localData.utils';
+import { getLocalData } from '../utils/localData.utils';
 import { TUserDetails } from '../types/baseTypes';
 import AuthUrlProvider from '../utils/authUrlProvider';
+import { logout } from '../utils/auth.utils';
 
 interface GetDataParams {
     urlString: string;
@@ -57,8 +58,7 @@ class BaseApi {
             return { status: response.status, json: response.data };
         } catch (err: any) {
             if (err.response?.status === 401 && this.setUserDetails) {
-                removeLocalData('jwt');
-                this.setUserDetails(null);
+                await logout(this.setUserDetails);
             }
             return { status: err.response?.status, json: err.response?.data };
         }
@@ -79,8 +79,7 @@ class BaseApi {
             return { status: response.status, json: response.data };
         } catch (err: any) {
             if (err.response?.status === 401 && this.setUserDetails) {
-                removeLocalData('jwt');
-                this.setUserDetails(null);
+                await logout(this.setUserDetails);
             }
             return { status: err.response?.status, json: err.response?.data };
         }
@@ -88,7 +87,7 @@ class BaseApi {
 
     requestInterceptor(req: InternalAxiosRequestConfig<any>): InternalAxiosRequestConfig<any> {
         let tokenToSendToFhirServer = 'jwt';
-        const identityProvider = localStorage.getItem('identityProvider');
+        const identityProvider = getLocalData('identityProvider');
         if (identityProvider) {
             const authInfo = new AuthUrlProvider().getAuthInfo(identityProvider);
             tokenToSendToFhirServer = authInfo.tokenToSendToFhirServer || tokenToSendToFhirServer;

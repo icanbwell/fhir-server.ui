@@ -15,7 +15,7 @@ const Json = ({ resource, error }: { resource: TResource; error?: boolean }) => 
 
     const pathName = error
         ? window.location.pathname
-        : `/4_0_0/${resource.resourceType}/${resource.id}`;
+        : `/${window.location.pathname.includes('admin') ? 'admin' : '4_0_0'}/${resource.resourceType}/${resource.id}`;
     return (
         <React.Fragment>
             <Box

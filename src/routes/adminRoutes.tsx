@@ -9,13 +9,13 @@ import SynchronizeIndexes from '../admin/synchronizeIndexes';
 import ManageExport from '../admin/manageExport';
 
 export default [
-    <Route key="personMatch" path="/admin/personMatch/*" element={<PersonMatchPage />} />,
-    <Route key="patientData" path="/admin/patientData/*" element={<PatientDataPage />} />,
-    <Route key="personPatientLink" path="/admin/personPatientLink/*" element={<PersonPatientLinkPage />} />,
-    <Route key="searchLog" path="/admin/searchLog/*" element={<SearchLogsPage />} />,
-    <Route key="searchLogResults" path="/admin/searchLogResults/*" element={<SearchLogsPage />} />,
-    <Route key="indexes" path="/admin/indexes/*" element={<Indexes />} />,
-    <Route key="indexProblems" path="/admin/indexProblems/*" element={<Indexes />} />,
-    <Route key="synchronizeIndexes" path="/admin/synchronizeIndexes/*" element={<SynchronizeIndexes />} />,
-    <Route key="manageExport" path="/admin/ExportStatus/:id?/*" element={<ManageExport />} />,
+    <Route key="personMatch" path="personMatch/*" element={<PersonMatchPage />} />,
+    <Route key="patientData" path="patientData/*" element={<PatientDataPage />} />,
+    <Route key="personPatientLink" path="personPatientLink/*" element={<PersonPatientLinkPage />} />,
+    <Route key="searchLog" path="searchLog/*" element={<SearchLogsPage />} />,
+    <Route key="searchLogResults" path="searchLogResults/*" element={<SearchLogsPage />} />,
+    <Route key="indexes" path="indexes/*" element={<Indexes />} />,
+    <Route key="indexProblems" path="indexProblems/*" element={<Indexes />} />,
+    <Route key="synchronizeIndexes" path="synchronizeIndexes/*" element={<SynchronizeIndexes />} />,
+    <Route key="manageExport" path="ExportStatus/:id?/*" element={<ManageExport />} />,
 ];

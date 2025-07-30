@@ -4,7 +4,7 @@ import { TUserDetails } from '../types/baseTypes';
 import AuthUrlProvider from './authUrlProvider';
 
 export const jwtParser = (): TUserDetails | null => {
-    const identityProvider = localStorage.getItem('identityProvider');
+    const identityProvider = getLocalData('identityProvider');
     if (!identityProvider) {
         return null; // no identity provider has been chosen by the user yet
     }
@@ -18,7 +18,12 @@ export const jwtParser = (): TUserDetails | null => {
         const decodedToken: any = jwtDecode(token);
 
         if (decodedToken.exp < new Date().getTime() / 1000) {
+            // Clear local storage and user details
             removeLocalData('jwt');
+            removeLocalData('id_token');
+            removeLocalData('identityProvider');
+            removeLocalData('code_verifier');
+
             return null;
         }
         let scope: string =

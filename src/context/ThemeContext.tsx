@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
+import { getLocalData, setLocalData } from '../utils/localData.utils';
 
 interface ThemeContextType {
     isDarkMode: boolean;
@@ -24,13 +25,13 @@ interface ThemeContextProviderProps {
 export const ThemeContextProvider: React.FC<ThemeContextProviderProps> = ({ children }) => {
     const [isDarkMode, setIsDarkMode] = useState(() => {
         // Get initial theme from localStorage or default to false (light mode)
-        const savedTheme = localStorage.getItem('darkMode');
+        const savedTheme = getLocalData('darkMode');
         return savedTheme ? JSON.parse(savedTheme) : false;
     });
 
     useEffect(() => {
         // Save theme preference to localStorage whenever it changes
-        localStorage.setItem('darkMode', JSON.stringify(isDarkMode));
+        setLocalData('darkMode', JSON.stringify(isDarkMode));
     }, [isDarkMode]);
 
     const toggleDarkMode = () => {

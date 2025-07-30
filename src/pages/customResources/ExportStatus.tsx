@@ -6,7 +6,7 @@ import Meta from '../../partials/Meta';
 import Code from '../../partials/Code';
 import DateTime from '../../partials/DateTime';
 import Identifier from '../../partials/Identifier';
-import { Button, Typography } from '@mui/material';
+import { Button } from '@mui/material';
 import UserContext from '../../context/UserContext';
 import AdminApi from '../../api/adminApi';
 import EnvContext from '../../context/EnvironmentContext';
@@ -94,12 +94,6 @@ const ExportStatus = ({ resource }: { resource: TExportStatus }): React.ReactEle
                     outcomes={resource.errors}
                 />
             }
-            <div>
-                <Typography variant="h5" sx={{ mt: 2 }}>Raw Json</Typography>
-                <Link to={`/admin/ExportStatus/${uuid}?_format=json`}>
-                    /ExportStatus/{uuid}?_format=json
-                </Link>
-            </div>
             {
                 <Button
                     style={{ marginBottom: '2vh', marginTop: '2vh' }}
