@@ -2,6 +2,14 @@ import { getLocalData, removeLocalData } from './localData.utils';
 import { IAuthService } from '../services/IAuthService';
 import AuthServiceFactory from '../services/AuthServiceFactory';
 
+
+export const removeAuthData = (): void => {
+    removeLocalData('jwt');
+    removeLocalData('id_token');
+    removeLocalData('identityProvider');
+    removeLocalData('code_verifier');
+};
+
 export const logout = async (setUserDetails?: (_userDetails: any) => void): Promise<void> => {
     try {
         const identityProvider = getLocalData('identityProvider');
@@ -11,10 +19,7 @@ export const logout = async (setUserDetails?: (_userDetails: any) => void): Prom
             const logoutUrl: string = await authService.getLogoutUrlAsync(identityProvider);
 
             // Clear local storage and user details
-            removeLocalData('jwt');
-            removeLocalData('id_token');
-            removeLocalData('identityProvider');
-            removeLocalData('code_verifier');
+            removeAuthData();
 
             // Clear user context
             if (setUserDetails) {
@@ -26,9 +31,7 @@ export const logout = async (setUserDetails?: (_userDetails: any) => void): Prom
         }
         else {
             // If no identity provider is set, just clear local storage and redirect to home
-            removeLocalData('jwt');
-            removeLocalData('id_token');
-            removeLocalData('code_verifier');
+            removeAuthData();
             if (setUserDetails) {
                 setUserDetails(null);
             }
@@ -38,9 +41,7 @@ export const logout = async (setUserDetails?: (_userDetails: any) => void): Prom
         console.error('Logout failed', error);
 
         // Fallback logout
-        removeLocalData('jwt');
-        removeLocalData('id_token');
-        removeLocalData('code_verifier');
+        removeAuthData();
 
         if (setUserDetails) {
             setUserDetails(null);

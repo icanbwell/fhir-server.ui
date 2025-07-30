@@ -1,7 +1,8 @@
 import { InvalidTokenError, jwtDecode } from 'jwt-decode';
-import { getLocalData, removeLocalData } from './localData.utils';
+import { getLocalData } from './localData.utils';
 import { TUserDetails } from '../types/baseTypes';
 import AuthUrlProvider from './authUrlProvider';
+import { removeAuthData } from './auth.utils';
 
 export const jwtParser = (): TUserDetails | null => {
     const identityProvider = getLocalData('identityProvider');
@@ -19,11 +20,7 @@ export const jwtParser = (): TUserDetails | null => {
 
         if (decodedToken.exp < new Date().getTime() / 1000) {
             // Clear local storage and user details
-            removeLocalData('jwt');
-            removeLocalData('id_token');
-            removeLocalData('identityProvider');
-            removeLocalData('code_verifier');
-
+            removeAuthData();
             return null;
         }
         let scope: string =
