@@ -1,9 +1,10 @@
 import { useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Container, Typography, Button, Box } from '@mui/material';
+import { Typography, Button, Box } from '@mui/material';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import EnvContext from '../context/EnvironmentContext';
+import { setLocalData } from '../utils/localData.utils';
 
 const IdentityProviderSelection = () => {
     const env = useContext(EnvContext);
@@ -14,25 +15,27 @@ const IdentityProviderSelection = () => {
     console.log('Referring URL:', referringUrl);
 
     const handleProviderSelection = (provider: string) => {
-        localStorage.setItem('identityProvider', provider);
+        setLocalData('identityProvider', provider);
         navigate('/authcallback', { state: { resourceUrl: referringUrl } });
     };
 
     const providers: string[] = env.AUTH_PROVIDERS.split(',').map((s) => s.trim());
 
     return (
-        <Container maxWidth={false}>
+        <div style={{ width: '100%', padding: 0, margin: 0 }}>
             <Header />
-            <Container
-                maxWidth="sm"
-                sx={{
+            <div
+                style={{
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'center',
                     height: '60vh',
                     textAlign: 'center',
-                    minHeight: '85vh'
+                    minHeight: '85vh',
+                    maxWidth: '600px',
+                    margin: '0 auto',
+                    padding: '0 10px'
                 }}
             >
                 <Typography variant="h4" gutterBottom>
@@ -51,9 +54,9 @@ const IdentityProviderSelection = () => {
                         </Button>
                     ))}
                 </Box>
-            </Container>
+            </div>
             <Footer />
-        </Container>
+        </div>
     );
 };
 

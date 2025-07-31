@@ -1,21 +1,20 @@
 // AccessDenied.js
-import { Container } from '@mui/material';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 const AccessDenied = () => {
     document.title = 'Helix FHIR Server';
     return (
-        <Container maxWidth={false}>
+        <div style={{ width: '100%', padding: 0, margin: 0 }}>
             <div style={{ minHeight: '92vh' }}>
                 <Header />
-                <div id="access-denied-page">
+                <div id="access-denied-page" style={{ padding: '0 10px' }}>
                     <h2>Access Denied</h2>
                     <p>You do not have permission to view this page.</p>
                 </div>
             </div>
             <Footer />
-        </Container>
+        </div>
     );
 };
 

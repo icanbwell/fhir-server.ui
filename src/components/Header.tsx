@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { AppBar, Toolbar, Typography, IconButton, Button, Popover } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
 import LogoutIcon from '@mui/icons-material/Logout';
+import LoginIcon from '@mui/icons-material/Login';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { Link } from 'react-router-dom';
@@ -9,9 +10,7 @@ import BwellIcon from '../dist/images/bwell.png';
 import EnvContext from '../context/EnvironmentContext';
 import UserContext from '../context/UserContext';
 import { useTheme } from '../context/ThemeContext';
-import { removeLocalData } from '../utils/localData.utils';
-import { IAuthService } from '../services/IAuthService';
-import AuthServiceFactory from '../services/AuthServiceFactory';
+import { logout } from '../utils/auth.utils';
 
 const Header = () => {
     const env = useContext(EnvContext);
@@ -24,58 +23,36 @@ const Header = () => {
     };
 
     const handleLogout = async () => {
-        try {
-            const identityProvider = localStorage.getItem('identityProvider');
-            if (identityProvider) {
-                const authService: IAuthService = AuthServiceFactory.getAuthService();
-                // Construct full logout URL
-                const logoutUrl: string = await authService.getLogoutUrlAsync(identityProvider);
-
-                // Clear local storage and user details
-                removeLocalData('jwt');
-                localStorage.removeItem('id_token');
-                localStorage.removeItem('identityProvider');
-
-                // Clear user context
-                if (setUserDetails) {
-                    setUserDetails(null);
-                }
-
-                // Redirect to Okta logout
-                window.location.replace(logoutUrl);
-            }
-        } catch (error) {
-            console.error('Logout failed', error);
-
-            // Fallback logout
-            removeLocalData('jwt');
-            localStorage.removeItem('id_token');
-
-            if (setUserDetails) {
-                setUserDetails(null);
-            }
-
-            // Redirect to home or login page
-            window.location.replace(window.location.origin);
-        }
+        await logout(setUserDetails);
     };
 
     return (
         <React.Fragment>
             <AppBar position="static">
                 <Toolbar>
-                    <IconButton color="inherit" aria-label="home" id="home" component={Link} to="/">
+                    <Button
+                        color="inherit"
+                        aria-label="home"
+                        id="home"
+                        component={Link}
+                        to="/"
+                        sx={{
+                            textTransform: 'none',
+                            gap: 1
+                        }}
+                    >
                         <img src={BwellIcon} alt="b.well Icon" style={{ height: 28 }} />
-                    </IconButton>
-
-                    <Typography variant="h5" style={{ flexGrow: 1, fontWeight: 500 }}>
-                        FHIR Server
-                    </Typography>
+                        <Typography variant="h5" style={{ fontWeight: 500 }}>
+                            FHIR Server
+                        </Typography>
+                    </Button>
+                    <div style={{ flexGrow: 1 }} />
                     <IconButton
                         color="inherit"
                         aria-label="toggle dark mode"
                         onClick={toggleDarkMode}
                         title={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+                        sx={{ ml: 1 }}
                     >
                         {isDarkMode ? <Brightness7Icon /> : <Brightness4Icon />}
                     </IconButton>
@@ -83,7 +60,8 @@ const Header = () => {
                         color="inherit"
                         aria-label="information"
                         id="appInfo"
-                        onMouseEnter={handlePopoverOpen}
+                        onClick={handlePopoverOpen}
+                        sx={{ ml: 1 }}
                     >
                         <InfoIcon />
                     </IconButton>
@@ -106,14 +84,26 @@ const Header = () => {
                             FHIR Server: {env.getFhirServerVersion()}
                         </Typography>
                     </Popover>
-                    {userDetails && (
+                    {userDetails ? (
                         <Button
                             color="inherit"
                             startIcon={<LogoutIcon />}
                             id="btnLogout"
                             onClick={handleLogout}
+                            sx={{ ml: 1 }}
                         >
                             Logout
+                        </Button>
+                    ) : (
+                        <Button
+                            color="inherit"
+                            startIcon={<LoginIcon />}
+                            component={Link}
+                            to="/select-idp"
+                            id="btnLogin"
+                            sx={{ ml: 1 }}
+                        >
+                            Login
                         </Button>
                     )}
                 </Toolbar>

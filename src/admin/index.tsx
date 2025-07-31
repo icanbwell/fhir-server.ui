@@ -1,5 +1,6 @@
 import React from 'react';
-import { List, ListItem, Divider, Box, Container, Typography, Link, Button, Paper } from '@mui/material';
+import { List, ListItem, Divider, Box, Typography, Button, Paper } from '@mui/material';
+import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
@@ -25,7 +26,7 @@ const AdminIndexPage: React.FC = () => {
     document.title = 'Helix FHIR Server - Admin';
 
   return (
-    <Container maxWidth={false}>
+    <div style={{ width: '100%', padding: 0, margin: 0 }}>
       <div style={{ minHeight: '92vh' }}>
         <Header />
         <br />
@@ -36,29 +37,30 @@ const AdminIndexPage: React.FC = () => {
             justifyContent: 'space-between',
             mb: 2,
             width: '100%',
+            px: 3,
           }}
         >
           <Typography variant="h5" sx={{ fontWeight: 600 }}>
             Admin Dashboard
           </Typography>
         </Box>
-        <Paper variant="outlined" sx={{ p: 3 }}>
+        <Paper variant="outlined" sx={{ p: 3, mx: 3 }}>
           <List>
             {adminLinks.map((item, idx) =>
               item.divider ? (
                 <Divider key={idx} sx={{ my: 2 }} />
               ) : (
                 <ListItem key={item.href} disablePadding sx={{ mb: 1 }}>
-                  <Button
-                    component={Link}
-                    href={item.href}
-                    variant="outlined"
-                    color="primary"
-                    fullWidth
-                    sx={{ justifyContent: 'flex-start', textTransform: 'none', fontWeight: 500 }}
-                  >
-                    {item.label}
-                  </Button>
+                  <Link to={item.href!} style={{ width: '100%', textDecoration: 'none' }}>
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      fullWidth
+                      sx={{ justifyContent: 'flex-start', textTransform: 'none', fontWeight: 500 }}
+                    >
+                      {item.label}
+                    </Button>
+                  </Link>
                 </ListItem>
               )
             )}
@@ -66,7 +68,7 @@ const AdminIndexPage: React.FC = () => {
         </Paper>
       </div>
       <Footer />
-    </Container>
+    </div>
   );
 };
 

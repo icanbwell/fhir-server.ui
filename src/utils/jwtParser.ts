@@ -1,10 +1,11 @@
 import { InvalidTokenError, jwtDecode } from 'jwt-decode';
-import { getLocalData, removeLocalData } from './localData.utils';
+import { getLocalData } from './localData.utils';
 import { TUserDetails } from '../types/baseTypes';
 import AuthUrlProvider from './authUrlProvider';
+import { removeAuthData } from './auth.utils';
 
 export const jwtParser = (): TUserDetails | null => {
-    const identityProvider = localStorage.getItem('identityProvider');
+    const identityProvider = getLocalData('identityProvider');
     if (!identityProvider) {
         return null; // no identity provider has been chosen by the user yet
     }
@@ -18,7 +19,8 @@ export const jwtParser = (): TUserDetails | null => {
         const decodedToken: any = jwtDecode(token);
 
         if (decodedToken.exp < new Date().getTime() / 1000) {
-            removeLocalData('jwt');
+            // Clear local storage and user details
+            removeAuthData();
             return null;
         }
         let scope: string =

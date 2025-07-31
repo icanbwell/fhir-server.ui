@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect, useMemo } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Button, TextField, Typography, Container, LinearProgress } from '@mui/material';
+import { Button, TextField, Typography, LinearProgress } from '@mui/material';
 import AdminApi from '../api/adminApi';
 import EnvironmentContext from '../context/EnvironmentContext';
 import PreJson from '../components/PreJson';
@@ -46,9 +46,9 @@ const SearchLogsPage: React.FC = () => {
     };
 
     return (
-        <Container maxWidth={false}>
-            <div style={{ minHeight: '92vh' }}>
-                <Header />
+        <div style={{ width: '100%', padding: 0, margin: 0 }}>
+            <Header />
+            <div style={{ minHeight: '85vh', padding: '0 10px' }}>
                 {isLoading && <LinearProgress />}
                 <Typography variant="h5" sx={{ mt: 2 }}>
                     Search Logs
@@ -76,7 +76,7 @@ const SearchLogsPage: React.FC = () => {
                 <PreJson data={results} />
             </div>
             <Footer />
-        </Container>
+        </div>
     );
 };
 

@@ -37,7 +37,17 @@ function App(): React.ReactElement {
         return (
             <Routes>
                 <Route key="home" path="/" element={<HomePage />} />
-                <Route key="identityProvider" path="/select-idp" element={<IdentityProviderSelection />} />
+                <Route
+                    element={
+                        !userDetails ? (
+                            <Outlet />
+                        ) : (
+                            <Navigate to="/" />
+                        )
+                    }
+                >
+                    <Route key="identityProvider" path="/select-idp" element={<IdentityProviderSelection />} />
+                </Route>
                 <Route key="authcallback" path="/authcallback" element={<Auth />} />
                 <Route
                     element={

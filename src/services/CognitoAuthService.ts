@@ -2,6 +2,7 @@ import { Buffer } from 'buffer';
 import axios from 'axios';
 import AuthUrlProvider from '../utils/authUrlProvider';
 import { IAuthService } from './IAuthService';
+import { getLocalData, removeLocalData, setLocalData } from '../utils/localData.utils';
 
 class CognitoAuthService implements IAuthService {
     private authUrlProvider: AuthUrlProvider;
@@ -32,7 +33,7 @@ class CognitoAuthService implements IAuthService {
         const verifier = this.generateCodeVerifier();
         const challenge = await this.generateCodeChallenge(verifier);
 
-        localStorage.setItem('code_verifier', verifier);
+        setLocalData('code_verifier', verifier);
 
         const authParams = new URLSearchParams({
             client_id: authInfo.clientId,
@@ -55,7 +56,7 @@ class CognitoAuthService implements IAuthService {
     ): Promise<any> {
         const authUrls = await this.authUrlProvider.getAuthUrlsAsync(identityProvider);
         const authInfo = this.authUrlProvider.getAuthInfo(identityProvider);
-        const storedVerifier = localStorage.getItem('code_verifier');
+        const storedVerifier = getLocalData('code_verifier');
 
         if (!storedVerifier) {
             throw new Error('No code verifier found');
@@ -74,7 +75,7 @@ class CognitoAuthService implements IAuthService {
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             });
 
-            localStorage.removeItem('code_verifier');
+            removeLocalData('code_verifier');
             return response.data;
         } catch (error) {
             throw error;

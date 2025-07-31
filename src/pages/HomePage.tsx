@@ -9,7 +9,6 @@ import {
     TableHead,
     TableRow,
     IconButton,
-    Container,
     Paper,
     Button,
     TextField,
@@ -52,10 +51,10 @@ const Home = () => {
     }, []);
 
     return (
-        <Container maxWidth={false}>
-            <div style={{ minHeight: '92vh' }}>
-                <Header />
-                <br />
+        <div style={{ width: '100%', padding: 0, margin: 0 }}>
+            <Header />
+            <br />
+            <div style={{ minHeight: '92vh', margin: '0 10px' }}>
                 <Box
                     sx={{
                         display: 'flex',
@@ -63,6 +62,7 @@ const Home = () => {
                         justifyContent: 'space-between',
                         mb: 2,
                         width: '100%',
+                        px: 3,
                     }}
                 >
                     <TextField
@@ -83,10 +83,10 @@ const Home = () => {
                         </Button>
                     )}
                 </Box>
-                <TableContainer component={Paper} variant="outlined">
-                    <Table stickyHeader className="sticky-table">
-                        <TableHead>
-                            <TableRow>
+                    <TableContainer component={Paper} variant="outlined">
+                        <Table stickyHeader className="sticky-table">
+                            <TableHead>
+                                <TableRow>
                                 <TableCell>Resource</TableCell>
                                 <TableCell>Description</TableCell>
                                 <TableCell></TableCell>
@@ -127,7 +127,7 @@ const Home = () => {
                 </TableContainer>
             </div>
             <Footer />
-        </Container>
+        </div>
     );
 };
 

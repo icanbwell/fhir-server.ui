@@ -1,15 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
-import {
-    Accordion,
-    Alert,
-    AlertTitle,
-    Box,
-    Button,
-    Container,
-    LinearProgress,
-    Tooltip,
-} from '@mui/material';
+import { Accordion, Alert, AlertTitle, Box, Button, LinearProgress, Tooltip } from '@mui/material';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -25,6 +16,7 @@ import { TBundle } from '../types/resources/Bundle';
 import UserContext from '../context/UserContext';
 import GridOnIcon from '@mui/icons-material/GridOn'; // New icon for spreadsheet
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import { getLocalData } from '../utils/localData.utils';
 
 /**
  * IndexPage/home/ubuntu/Documents/code/EFS/fhir-server/src/pages/SearchPage.jsx
@@ -163,7 +155,7 @@ const IndexPage = ({ search }: { search?: boolean }) => {
             try {
                 setLoading(true);
                 if (fhirUrl) {
-                    const identityProvider = localStorage.getItem('identityProvider');
+                    const identityProvider = getLocalData('identityProvider');
                     if (!identityProvider) {
                         // noinspection ExceptionCaughtLocallyJS
                         throw new Error('Identity provider is not set');
@@ -213,14 +205,24 @@ const IndexPage = ({ search }: { search?: boolean }) => {
             }
         };
         callApi().catch(console.error);
-    }, [id, queryString, resourceType, search, operation, fhirUrl, setUserDetails, location.search, shouldBeJsonFormat]);
+    }, [
+        id,
+        queryString,
+        resourceType,
+        search,
+        operation,
+        fhirUrl,
+        setUserDetails,
+        location.search,
+        shouldBeJsonFormat,
+    ]);
 
     /**
      * Handle search event from child component
      * @param {SearchFormQuery} searchFormQuery
      */
     const handleSearch = (searchFormQuery: any) => {
-        const identityProvider = localStorage.getItem('identityProvider');
+        const identityProvider = getLocalData('identityProvider');
         if (!identityProvider) {
             throw new Error('Identity provider is not set');
         }
@@ -243,19 +245,21 @@ const IndexPage = ({ search }: { search?: boolean }) => {
 
     if (shouldBeJsonFormat) {
         return (
-            <Container maxWidth={false}>
+            <div style={{ width: '100%', padding: 0, margin: 0 }}>
                 <div style={{ minHeight: '92vh' }}>
                     <Header />
                     {loading && <LinearProgress />}
-                    <PreJson data={resources} />
+                    <div style={{ padding: '0 10px' }}>
+                        <PreJson data={resources} />
+                    </div>
                 </div>
-                <Footer/>
-            </Container>
+                <Footer />
+            </div>
         );
     }
 
     return (
-        <Container maxWidth={false}>
+        <div style={{ width: '100%', padding: 0, margin: 0 }}>
             <div style={{ minHeight: '92vh' }}>
                 <Header />
                 <Accordion expanded={searchTabExpanded} onChange={handleExpand}>
@@ -275,10 +279,12 @@ const IndexPage = ({ search }: { search?: boolean }) => {
                         ></SearchContainer>
                     </AccordionDetails>
                 </Accordion>
-                <Box my={2}>{getBox()}</Box>
+                <div style={{ padding: '0 10px' }}>
+                    <Box my={2}>{getBox()}</Box>
+                </div>
             </div>
             <Footer requestId={bundle?.id} links={bundle?.link} />
-        </Container>
+        </div>
     );
 };
 

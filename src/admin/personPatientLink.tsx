@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Button, TextField, Container, Typography, Box, LinearProgress } from '@mui/material';
+import { Button, TextField, Typography, Box, LinearProgress } from '@mui/material';
 import AdminApi from '../api/adminApi';
 import EnvironmentContext from '../context/EnvironmentContext';
 import PreJson from '../components/PreJson';
@@ -177,10 +177,11 @@ const PersonPatientLinkPage: React.FC = () => {
     }, [location.state, location.search]);
 
     return (
-        <Container maxWidth={false}>
+        <div style={{ width: '100%', padding: 0, margin: 0 }}>
             <Header />
             {isLoading && <LinearProgress />}
-            <Box sx={{ mt: 1, mb: 2 }}>
+            <div style={{ minHeight: '92vh', padding: '0 10px' }}>
+                <Box sx={{ mt: 1, mb: 2 }}>
                 <Typography variant="h5">Show Link Graph from b.well Person</Typography>
                 <Typography style={{ color: '#494949' }}>
                     See linked Person and Patient resources from a b.well Person (recursive)
@@ -573,8 +574,9 @@ const PersonPatientLinkPage: React.FC = () => {
                 </form>
                 <PreJson data={deleteBwellPersonData.results} />
             </Box>
+            </div>
             <Footer />
-        </Container>
+        </div>
     );
 };
 
