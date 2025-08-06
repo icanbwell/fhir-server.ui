@@ -61,6 +61,7 @@ class AuthUrlProvider {
         tokenForUserDetails: string;
         tokenToSendToFhirServer?: string;
         scopeRemovePrefix?: string[];
+        loginScopes?: string;
     } {
         const customUserName =
             process.env[`REACT_APP_AUTH_${provider.toUpperCase()}_CUSTOM_USERNAME`];
@@ -74,6 +75,7 @@ class AuthUrlProvider {
         const scopeRemovePrefix = scopeRemovePrefixValue
             ? scopeRemovePrefixValue.split(',').map((s) => s.trim())
             : undefined;
+        const loginScopes = process.env[`REACT_APP_AUTH_${provider.toUpperCase()}_LOGIN_SCOPES`];
 
         if (!customUserName) {
             throw new Error(
@@ -108,6 +110,7 @@ class AuthUrlProvider {
             tokenForUserDetails,
             tokenToSendToFhirServer,
             scopeRemovePrefix,
+            loginScopes
         };
     }
 }

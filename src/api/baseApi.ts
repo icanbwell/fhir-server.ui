@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from 'axios';
+import axios, { AxiosInstance } from 'axios';
 import { InternalAxiosRequestConfig } from 'axios';
 import { getLocalData } from '../utils/localData.utils';
 import { TUserDetails } from '../types/baseTypes';
@@ -23,6 +23,7 @@ class BaseApi {
     private readonly setUserDetails:
         | React.Dispatch<React.SetStateAction<TUserDetails | null>>
         | undefined;
+    private readonly axiosInstance: AxiosInstance;
 
     constructor({
         fhirUrl,
@@ -33,7 +34,10 @@ class BaseApi {
     }) {
         this.fhirUrl = fhirUrl;
         this.setUserDetails = setUserDetails;
-        axios.interceptors.request.use(this.requestInterceptor);
+
+        // Create a dedicated axios instance for this BaseApi instance
+        this.axiosInstance = axios.create();
+        this.axiosInstance.interceptors.request.use(this.requestInterceptor);
     }
 
     private getBaseUrl(): string {
@@ -54,7 +58,7 @@ class BaseApi {
         }
 
         try {
-            const response = await axios.get(url.toString());
+            const response = await this.axiosInstance.get(url.toString());
             return { status: response.status, json: response.data };
         } catch (err: any) {
             if (err.response?.status === 401 && this.setUserDetails) {
@@ -66,7 +70,7 @@ class BaseApi {
 
     async request({ urlString, params, method, data }: RequestParams): Promise<any> {
         try {
-            const response = await axios.request({
+            const response = await this.axiosInstance.request({
                 baseURL: this.getBaseUrl(),
                 url: urlString,
                 method,
@@ -82,6 +86,24 @@ class BaseApi {
                 await logout(this.setUserDetails);
             }
             return { status: err.response?.status, json: err.response?.data };
+        }
+    }
+
+    async downloadFile(url: string): Promise<any> {
+        try {
+            const response = await this.axiosInstance.get(url, {
+                responseType: 'blob',
+            });
+            return {
+                status: response.status,
+                data: response.data,
+                headers: response.headers
+            };
+        } catch (err: any) {
+            if (err.response?.status === 401 && this.setUserDetails) {
+                await logout(this.setUserDetails);
+            }
+            throw err;
         }
     }
 

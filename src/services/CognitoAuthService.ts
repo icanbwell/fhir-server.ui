@@ -38,7 +38,7 @@ class CognitoAuthService implements IAuthService {
         const authParams = new URLSearchParams({
             client_id: authInfo.clientId,
             response_type: 'code',
-            scope: 'openid profile email',
+            scope: authInfo.loginScopes ?? 'openid profile email',
             redirect_uri: `${window.location.origin}/authcallback`,
             state: Buffer.from(resourceUrl).toString('base64'),
             code_challenge: challenge,
