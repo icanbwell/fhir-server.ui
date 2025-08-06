@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect, useMemo, useRef } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import * as XLSX from 'xlsx';
-import axios, { AxiosResponse } from 'axios';
 import {
     Typography,
     Box,
@@ -13,6 +12,8 @@ import {
     Checkbox,
 } from '@mui/material';
 import EnvironmentContext from '../context/EnvironmentContext';
+import UserContext from '../context/UserContext';
+import BaseApi from '../api/baseApi';
 import {
     ModuleRegistry,
     ColumnAutoSizeModule,
@@ -74,11 +75,17 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
 
     const { isDarkMode } = useTheme(); // Get dark mode state
 
+    const { fhirUrl } = useContext(EnvironmentContext);
+    const { setUserDetails } = useContext(UserContext);
+
+    const baseApi = React.useMemo(
+        () => new BaseApi({ fhirUrl, setUserDetails }),
+        [fhirUrl, setUserDetails]
+    );
+
     const sortedSheets = useMemo(() => {
         return [...sheets].sort((a, b) => a.name.localeCompare(b.name));
     }, [sheets]);
-
-    const { fhirUrl } = useContext(EnvironmentContext);
 
     // Select the appropriate ag-grid theme based on dark mode
     const gridTheme = useMemo(() => {
@@ -110,9 +117,11 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
                 setIsLoading(true);
                 setErrorMessage(null);
 
-                const response: AxiosResponse<Blob> = await axios.get(downloadUri.toString(), {
-                    responseType: 'blob',
-                });
+                const response = await baseApi.downloadFile(downloadUri.toString());
+
+                if (response.status !== 200) {
+                    throw new Error(`HTTP ${response.status}: Failed to fetch spreadsheet`);
+                }
 
                 const arrayBuffer = await response.data.arrayBuffer();
 
@@ -198,7 +207,7 @@ const SpreadsheetViewer: React.FC<SpreadsheetViewerProps> = ({ relativeUrl, form
         };
 
         fetchSpreadsheetData().then((r) => r);
-    }, [relativeUrl, hideEmptyColumns, downloadUri, format]);
+    }, [relativeUrl, hideEmptyColumns, downloadUri, format, baseApi]);
 
     const defaultColDef = useMemo(
         () => ({

@@ -1,9 +1,10 @@
 import React, { useContext, useState } from 'react';
 import { Link, Alert, Tooltip } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
-import axios, { AxiosResponse } from 'axios';
 import { saveAs } from 'file-saver';
 import EnvironmentContext from '../context/EnvironmentContext';
+import UserContext from '../context/UserContext';
+import BaseApi from '../api/baseApi';
 
 interface FileDownloadProps {
     relativeUrl: string;
@@ -14,6 +15,8 @@ const FileDownload: React.FC<FileDownloadProps> = ({ relativeUrl, format }) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const { fhirUrl } = useContext(EnvironmentContext);
+    const { setUserDetails } = useContext(UserContext);
+    const baseApi = new BaseApi({ fhirUrl, setUserDetails });
 
     const downloadUri: URL = new URL(relativeUrl, fhirUrl);
     downloadUri.searchParams.set('_format', format);
@@ -35,9 +38,7 @@ const FileDownload: React.FC<FileDownloadProps> = ({ relativeUrl, format }) => {
         setIsLoading(true);
         setErrorMessage(null); // Clear any previous error message
         try {
-            const response: AxiosResponse<Blob> = await axios.get(downloadUri.toString(), {
-                responseType: 'blob',
-            });
+            const response = await baseApi.downloadFile(downloadUri.toString());
 
             const contentDisposition = response.headers['content-disposition'];
             if (!contentDisposition) {

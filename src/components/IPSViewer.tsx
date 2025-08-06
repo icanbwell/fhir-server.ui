@@ -14,8 +14,9 @@ import {
     Divider,
     Tooltip,
 } from '@mui/material';
-import axios from 'axios';
 import EnvironmentContext from '../context/EnvironmentContext';
+import UserContext from '../context/UserContext';
+import BaseApi from '../api/baseApi';
 import { useLocation } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 import CodeIcon from '@mui/icons-material/Code';
@@ -52,6 +53,12 @@ const IPSViewer: React.FC<IPSViewerProps> = ({ relativeUrl }) => {
     const { isDarkMode } = useTheme();
 
     const { fhirUrl } = useContext(EnvironmentContext);
+    const { setUserDetails } = useContext(UserContext);
+
+    const baseApi = React.useMemo(
+        () => new BaseApi({ fhirUrl, setUserDetails }),
+        [fhirUrl, setUserDetails]
+    );
 
     const downloadUri = React.useMemo(() => {
         const uri = new URL(relativeUrl, fhirUrl);
@@ -68,11 +75,12 @@ const IPSViewer: React.FC<IPSViewerProps> = ({ relativeUrl }) => {
             setErrorMessage(null);
 
             try {
-                const response = await axios.get<Bundle>(downloadUri);
-                setBundle(response.data);
+                const response = await baseApi.getData({ urlString: downloadUri });
+                const bundleData: Bundle = response.json;
+                setBundle(bundleData);
 
                 // Extract the HTML content from the first Composition resource
-                const compositionEntry = response.data.entry?.find(
+                const compositionEntry = bundleData.entry?.find(
                     (entry) => entry.resource?.resourceType === 'Composition'
                 );
 
@@ -96,7 +104,7 @@ const IPSViewer: React.FC<IPSViewerProps> = ({ relativeUrl }) => {
         };
 
         fetchBundle();
-    }, [downloadUri]);
+    }, [downloadUri, baseApi]);
 
     if (isLoading) {
         return (
