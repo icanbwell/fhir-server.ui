@@ -16,7 +16,10 @@ const FileDownload: React.FC<FileDownloadProps> = ({ relativeUrl, format }) => {
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const { fhirUrl } = useContext(EnvironmentContext);
     const { setUserDetails } = useContext(UserContext);
-    const baseApi = new BaseApi({ fhirUrl, setUserDetails });
+    const baseApi = React.useMemo(
+        () => new BaseApi({ fhirUrl, setUserDetails }),
+        [fhirUrl, setUserDetails]
+    );
 
     const downloadUri: URL = new URL(relativeUrl, fhirUrl);
     downloadUri.searchParams.set('_format', format);
