@@ -61,7 +61,7 @@
 .ips-narrative-container h2,
 .ips-narrative-container h3,
 .ips-narrative-container h4 {
-  margin-top: 1.5rem;
+  margin-top: 0.5rem;
   margin-bottom: 0.75rem;
   font-weight: 600;
   color: var(--heading-color, inherit);
@@ -124,4 +124,42 @@
 
 .dark-mode .ips-narrative-container code {
   background-color: var(--code-bg, #1f2937);
+}
+
+/* Collapsible sections */
+.ips-section-header {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  margin-bottom: 10px;
+}
+
+.ips-section-header h2 {
+  margin: 0;
+  margin-right: 10px;
+}
+
+.ips-collapse-icon {
+  font-size: 1.2em;
+  transition: transform 0.2s ease;
+}
+
+.ips-collapse-icon.collapsed {
+  transform: rotate(-90deg);
+}
+
+.ips-section-content {
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.ips-section-content.collapsed {
+  max-height: 0;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.ips-section-content:not(.collapsed) {
+  max-height: none;
 }
