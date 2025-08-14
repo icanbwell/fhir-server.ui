@@ -57,7 +57,7 @@ const IPSViewer: React.FC<IPSViewerProps> = ({ relativeUrl }) => {
     const [sectionData, setSectionData] = useState<Array<{id: string, title: string, headings: HTMLElement[], tables: HTMLTableElement[], content: string}>>([]);
     const [collapsedResourceTypes, setCollapsedResourceTypes] = useState<Set<string>>(new Set());
     const [bundleResourcesCollapsed, setBundleResourcesCollapsed] = useState<boolean>(true);
-    const [dateFilter, setDateFilter] = useState<string>('6months');
+    const [dateFilter, setDateFilter] = useState<string>('');
     const location = useLocation();
     const navigate = useNavigate();
     const { isDarkMode } = useTheme();
@@ -254,7 +254,7 @@ const IPSViewer: React.FC<IPSViewerProps> = ({ relativeUrl }) => {
             : '6months';
 
         // Only update dateFilter if it's different from what we expect
-        if (dateFilter !== targetFilter) {
+        if (dateFilter !== targetFilter && !queryParams.has('_lastUpdated')) {
             setDateFilter(targetFilter);
             // Don't fetch data yet, let the effect re-run with the new dateFilter
             return;
@@ -268,6 +268,7 @@ const IPSViewer: React.FC<IPSViewerProps> = ({ relativeUrl }) => {
     const handleDateFilterChange = (newFilter: string) => {
         // Update URL with dateFilter parameter
         const queryParams = new URLSearchParams(location.search);
+        queryParams.delete('_lastUpdated');
         queryParams.set('dateFilter', newFilter);
 
         const newSearch = queryParams.toString();
