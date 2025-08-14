@@ -13,11 +13,15 @@ import {
     Paper,
     Divider,
     Tooltip,
+    FormControl,
+    Select,
+    MenuItem,
+    InputLabel,
 } from '@mui/material';
 import EnvironmentContext from '../context/EnvironmentContext';
 import UserContext from '../context/UserContext';
 import BaseApi from '../api/baseApi';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 import CodeIcon from '@mui/icons-material/Code';
 import './IPSNarrative.css'; // Import the CSS file for styling the IPS narrative
@@ -53,7 +57,9 @@ const IPSViewer: React.FC<IPSViewerProps> = ({ relativeUrl }) => {
     const [sectionData, setSectionData] = useState<Array<{id: string, title: string, content: string}>>([]);
     const [collapsedResourceTypes, setCollapsedResourceTypes] = useState<Set<string>>(new Set());
     const [bundleResourcesCollapsed, setBundleResourcesCollapsed] = useState<boolean>(true);
+    const [dateFilter, setDateFilter] = useState<string>('6months');
     const location = useLocation();
+    const navigate = useNavigate();
     const { isDarkMode } = useTheme();
 
     const { fhirUrl } = useContext(EnvironmentContext);
@@ -67,11 +73,35 @@ const IPSViewer: React.FC<IPSViewerProps> = ({ relativeUrl }) => {
     const downloadUri = React.useMemo(() => {
         const uri = new URL(relativeUrl, fhirUrl);
         const queryString = new URLSearchParams(location.search);
-        for (const [key, value] of queryString.entries()) {
-            uri.searchParams.set(key, value);
+
+        uri.searchParams.delete('dateFilter');
+
+        if (queryString.has('_lastUpdated')) {
+            return uri.toString();
+        }
+
+        // Add date filter parameter
+        if (dateFilter !== 'all') {
+            const today = new Date();
+            let filterDate: Date;
+
+            if (dateFilter === '6months') {
+                filterDate = new Date(today.getFullYear(), today.getMonth() - 6, today.getDate());
+            } else if (dateFilter === '1year') {
+                filterDate = new Date(today.getFullYear() - 1, today.getMonth(), today.getDate());
+            } else {
+                // Default case, shouldn't reach here
+                return uri.toString();
+            }
+
+            const formattedDate = filterDate.toISOString().split('T')[0];
+            uri.searchParams.set('_lastUpdated', `gt${formattedDate}`);
+        } else {
+            // Remove the parameter for 'All Time'
+            uri.searchParams.delete('_lastUpdated');
         }
         return uri.toString();
-    }, [relativeUrl, fhirUrl, location.search]);
+    }, [relativeUrl, fhirUrl, location.search, dateFilter]);
 
     const toggleSection = (sectionId: string) => {
         setCollapsedSections(prev => {
@@ -197,8 +227,36 @@ const IPSViewer: React.FC<IPSViewerProps> = ({ relativeUrl }) => {
             }
         };
 
+        // Initialize dateFilter from URL parameters
+        const queryParams = new URLSearchParams(location.search);
+        const filterFromUrl = queryParams.get('dateFilter');
+
+        const targetFilter = (filterFromUrl && ['all', '6months', '1year'].includes(filterFromUrl))
+            ? filterFromUrl
+            : '6months';
+
+        // Only update dateFilter if it's different from what we expect
+        if (dateFilter !== targetFilter) {
+            setDateFilter(targetFilter);
+            // Don't fetch data yet, let the effect re-run with the new dateFilter
+            return;
+        }
+
+        // Only fetch data when dateFilter is properly set
         fetchBundle();
-    }, [downloadUri, baseApi]);
+    }, [downloadUri, baseApi, location.search, dateFilter]);
+
+    // Handle date filter change
+    const handleDateFilterChange = (newFilter: string) => {
+        // Update URL with dateFilter parameter
+        const queryParams = new URLSearchParams(location.search);
+        queryParams.set('dateFilter', newFilter);
+
+        const newSearch = queryParams.toString();
+        const newUrl = newSearch ? `${location.pathname}?${newSearch}` : location.pathname;
+        navigate(newUrl, { replace: true });
+    };
+
 
     if (isLoading) {
         return (
@@ -223,17 +281,34 @@ const IPSViewer: React.FC<IPSViewerProps> = ({ relativeUrl }) => {
                 }}
             >
                 <Typography variant="h5">International Patient Summary</Typography>
-                <Tooltip title="View the raw JSON of this bundle" arrow>
-                    <Link
-                        href={`${downloadUri}${downloadUri.includes('?') ? '&' : '?'}_format=json`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        sx={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}
-                    >
-                        <CodeIcon sx={{ mr: 0.5 }} />
-                        View Raw Bundle
-                    </Link>
-                </Tooltip>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                    <Tooltip title="Filter clinical resources by lastUpdated" arrow placement="top">
+                        <FormControl size="small" sx={{ minWidth: 140 }}>
+                            <InputLabel id="date-filter-label">Date Filter</InputLabel>
+                            <Select
+                                labelId="date-filter-label"
+                                value={dateFilter}
+                                label="Date Filter"
+                                onChange={(e) => handleDateFilterChange(e.target.value)}
+                            >
+                                <MenuItem value="6months">Last 6 Months</MenuItem>
+                                <MenuItem value="1year">Past Year</MenuItem>
+                                <MenuItem value="all">All Time</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Tooltip>
+                    <Tooltip title="View the raw JSON of this bundle" arrow placement="top">
+                        <Link
+                            href={`${downloadUri}${downloadUri.includes('?') ? '&' : '?'}_format=json`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            sx={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}
+                        >
+                            <CodeIcon sx={{ mr: 0.5 }} />
+                            View Raw Bundle
+                        </Link>
+                    </Tooltip>
+                </Box>
             </Box>
 
             {/* Render the HTML content from the Composition */}
