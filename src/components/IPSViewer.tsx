@@ -1,4 +1,3 @@
-// filepath: /Users/imranqureshi/git/fhir-server.ui/src/components/IPSViewer.tsx
 import React, { useContext, useState, useEffect } from 'react';
 import {
     Typography,
@@ -13,13 +12,18 @@ import {
     Paper,
     Divider,
     Tooltip,
+    FormControl,
+    Select,
+    MenuItem,
+    InputLabel,
 } from '@mui/material';
 import EnvironmentContext from '../context/EnvironmentContext';
 import UserContext from '../context/UserContext';
 import BaseApi from '../api/baseApi';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 import CodeIcon from '@mui/icons-material/Code';
+import PaginatedTable from './PaginatedTable';
 import './IPSNarrative.css'; // Import the CSS file for styling the IPS narrative
 
 interface IPSViewerProps {
@@ -50,10 +54,12 @@ const IPSViewer: React.FC<IPSViewerProps> = ({ relativeUrl }) => {
     const [bundle, setBundle] = useState<Bundle | null>(null);
     const [compositionHtml, setCompositionHtml] = useState<string>('');
     const [collapsedSections, setCollapsedSections] = useState<Set<string>>(new Set());
-    const [sectionData, setSectionData] = useState<Array<{id: string, title: string, content: string}>>([]);
+    const [sectionData, setSectionData] = useState<Array<{id: string, title: string, headings: HTMLElement[], tables: HTMLTableElement[], content: string}>>([]);
     const [collapsedResourceTypes, setCollapsedResourceTypes] = useState<Set<string>>(new Set());
     const [bundleResourcesCollapsed, setBundleResourcesCollapsed] = useState<boolean>(true);
+    const [dateFilter, setDateFilter] = useState<string>('');
     const location = useLocation();
+    const navigate = useNavigate();
     const { isDarkMode } = useTheme();
 
     const { fhirUrl } = useContext(EnvironmentContext);
@@ -67,11 +73,34 @@ const IPSViewer: React.FC<IPSViewerProps> = ({ relativeUrl }) => {
     const downloadUri = React.useMemo(() => {
         const uri = new URL(relativeUrl, fhirUrl);
         const queryString = new URLSearchParams(location.search);
-        for (const [key, value] of queryString.entries()) {
-            uri.searchParams.set(key, value);
+
+        uri.searchParams.delete('dateFilter');
+
+        if (queryString.has('_lastUpdated')) {
+            return uri.toString();
+        }
+
+        // Add date filter parameter
+        if (dateFilter !== 'all') {
+            const filterDate = new Date();
+
+            if (dateFilter === '6months') {
+                filterDate.setMonth(filterDate.getMonth() - 6);
+            } else if (dateFilter === '1year') {
+                filterDate.setFullYear(filterDate.getFullYear() - 1);
+            } else {
+                // Default case, shouldn't reach here
+                return uri.toString();
+            }
+
+            const formattedDate = filterDate.toISOString().split('T')[0];
+            uri.searchParams.set('_lastUpdated', `gt${formattedDate}`);
+        } else {
+            // Remove the parameter for 'All Time'
+            uri.searchParams.delete('_lastUpdated');
         }
         return uri.toString();
-    }, [relativeUrl, fhirUrl, location.search]);
+    }, [relativeUrl, fhirUrl, location.search, dateFilter]);
 
     const toggleSection = (sectionId: string) => {
         setCollapsedSections(prev => {
@@ -128,6 +157,18 @@ const IPSViewer: React.FC<IPSViewerProps> = ({ relativeUrl }) => {
         return grouped;
     }, [bundle]);
 
+    // Helper function to extract tables from HTML content
+    const extractTablesFromHtml = (htmlContent: string): {tables: HTMLTableElement[], headings: HTMLElement[]} => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(htmlContent, 'text/html');
+
+        // Find all tables, including those nested in divs
+        const tables = Array.from(doc.querySelectorAll('table')) as HTMLTableElement[];
+        const tableHeadings = Array.from(doc.querySelectorAll('h3')) as HTMLElement[];
+
+        return { tables, headings: tableHeadings };
+    };
+
     useEffect(() => {
         const fetchBundle = async () => {
             setIsLoading(true);
@@ -154,16 +195,22 @@ const IPSViewer: React.FC<IPSViewerProps> = ({ relativeUrl }) => {
                         baseHtml += composition.text.div;
 
                         const sections = composition.section || [];
-                        const sectionsData: Array<{id: string, title: string, content: string}> = [];
+                        const sectionsData: Array<{id: string, title: string, tables: HTMLTableElement[], headings: HTMLElement[], content: string}> = [];
                         const allSectionIds = new Set<string>();
 
                         sections.forEach((section: any, index: number) => {
                             if (section.text?.div) {
                                 const sectionId = `section-${index}`;
                                 allSectionIds.add(sectionId);
+
+                                // Extract tables from the section content
+                                const { tables, headings } = extractTablesFromHtml(section.text.div);
+
                                 sectionsData.push({
                                     id: sectionId,
                                     title: section.title || `Section ${index + 1}`,
+                                    tables,
+                                    headings,
                                     content: section.text.div
                                 });
                             }
@@ -197,8 +244,37 @@ const IPSViewer: React.FC<IPSViewerProps> = ({ relativeUrl }) => {
             }
         };
 
+        // Initialize dateFilter from URL parameters
+        const queryParams = new URLSearchParams(location.search);
+        const filterFromUrl = queryParams.get('dateFilter');
+
+        const targetFilter = (filterFromUrl && ['all', '6months', '1year'].includes(filterFromUrl))
+            ? filterFromUrl
+            : '6months';
+
+        // Only update dateFilter if it's different from what we expect
+        if (dateFilter !== targetFilter && !queryParams.has('_lastUpdated')) {
+            setDateFilter(targetFilter);
+            // Don't fetch data yet, let the effect re-run with the new dateFilter
+            return;
+        }
+
+        // Only fetch data when dateFilter is properly set
         fetchBundle();
-    }, [downloadUri, baseApi]);
+    }, [downloadUri, baseApi, location.search, dateFilter]);
+
+    // Handle date filter change
+    const handleDateFilterChange = (newFilter: string) => {
+        // Update URL with dateFilter parameter
+        const queryParams = new URLSearchParams(location.search);
+        queryParams.delete('_lastUpdated');
+        queryParams.set('dateFilter', newFilter);
+
+        const newSearch = queryParams.toString();
+        const newUrl = newSearch ? `${location.pathname}?${newSearch}` : location.pathname;
+        navigate(newUrl, { replace: true });
+    };
+
 
     if (isLoading) {
         return (
@@ -223,17 +299,34 @@ const IPSViewer: React.FC<IPSViewerProps> = ({ relativeUrl }) => {
                 }}
             >
                 <Typography variant="h5">International Patient Summary</Typography>
-                <Tooltip title="View the raw JSON of this bundle" arrow>
-                    <Link
-                        href={`${downloadUri}${downloadUri.includes('?') ? '&' : '?'}_format=json`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        sx={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}
-                    >
-                        <CodeIcon sx={{ mr: 0.5 }} />
-                        View Raw Bundle
-                    </Link>
-                </Tooltip>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                    <Tooltip title="Filter clinical resources by lastUpdated" arrow placement="top">
+                        <FormControl size="small" sx={{ minWidth: 140 }}>
+                            <InputLabel id="date-filter-label">Date Filter</InputLabel>
+                            <Select
+                                labelId="date-filter-label"
+                                value={dateFilter}
+                                label="Date Filter"
+                                onChange={(e) => handleDateFilterChange(e.target.value)}
+                            >
+                                <MenuItem value="6months">Last 6 Months</MenuItem>
+                                <MenuItem value="1year">Past Year</MenuItem>
+                                <MenuItem value="all">All Time</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </Tooltip>
+                    <Tooltip title="View the raw JSON of this bundle" arrow placement="top">
+                        <Link
+                            href={`${downloadUri}${downloadUri.includes('?') ? '&' : '?'}_format=json`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            sx={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}
+                        >
+                            <CodeIcon sx={{ mr: 0.5 }} />
+                            View Raw Bundle
+                        </Link>
+                    </Tooltip>
+                </Box>
             </Box>
 
             {/* Render the HTML content from the Composition */}
@@ -304,10 +397,25 @@ const IPSViewer: React.FC<IPSViewerProps> = ({ relativeUrl }) => {
                                     </span>
                                 </div>
                                 {!collapsedSections.has(section.id) && (
-                                    <div
-                                        className="ips-section-content"
-                                        dangerouslySetInnerHTML={{ __html: section.content }}
-                                    />
+                                    <div className="ips-section-content">
+                                        {/* Render extracted tables with pagination */}
+                                        {section.tables.length > 0 && section.tables.map((table, tableIndex) => (
+                                            <PaginatedTable
+                                                key={`${section.id}-table-${tableIndex}`}
+                                                tableElement={table}
+                                                // eslint-disable-next-line security/detect-object-injection
+                                                title={section.headings[tableIndex]?.innerText}
+                                            />
+                                        ))}
+                                        {
+                                            section.tables.length === 0 &&
+                                            // set content received
+                                            <div
+                                                className="ips-section-content"
+                                                dangerouslySetInnerHTML={{ __html: section.content }}
+                                            />
+                                        }
+                                    </div>
                                 )}
                             </div>
                         ))}
