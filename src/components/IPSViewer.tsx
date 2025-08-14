@@ -82,13 +82,12 @@ const IPSViewer: React.FC<IPSViewerProps> = ({ relativeUrl }) => {
 
         // Add date filter parameter
         if (dateFilter !== 'all') {
-            const today = new Date();
-            let filterDate: Date;
+            const filterDate = new Date();
 
             if (dateFilter === '6months') {
-                filterDate = new Date(today.getFullYear(), today.getMonth() - 6, today.getDate());
+                filterDate.setMonth(filterDate.getMonth() - 6);
             } else if (dateFilter === '1year') {
-                filterDate = new Date(today.getFullYear() - 1, today.getMonth(), today.getDate());
+                filterDate.setFullYear(filterDate.getFullYear() - 1);
             } else {
                 // Default case, shouldn't reach here
                 return uri.toString();

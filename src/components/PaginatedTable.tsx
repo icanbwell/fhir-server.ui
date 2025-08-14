@@ -71,16 +71,6 @@ const PaginatedTable: React.FC<PaginatedTableProps> = ({ tableElement, title }) 
             cells.forEach((cell) => {
                 // Handle nested elements in cells
                 let cellText = cell.textContent?.trim() || '';
-                // If cell contains links, preserve the text but not the HTML
-                if (cell.querySelector('a')) {
-                    const links = cell.querySelectorAll('a');
-                    links.forEach((link) => {
-                        const linkText = link.textContent?.trim() || '';
-                        if (linkText) {
-                            cellText = cellText.replace(linkText, linkText);
-                        }
-                    });
-                }
                 rowData.push(cellText);
             });
             if (rowData.some((cell) => cell.length > 0)) {
