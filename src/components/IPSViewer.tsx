@@ -1,4 +1,3 @@
-// filepath: /Users/imranqureshi/git/fhir-server.ui/src/components/IPSViewer.tsx
 import React, { useContext, useState, useEffect } from 'react';
 import {
     Typography,
@@ -24,6 +23,7 @@ import BaseApi from '../api/baseApi';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 import CodeIcon from '@mui/icons-material/Code';
+import PaginatedTable from './PaginatedTable';
 import './IPSNarrative.css'; // Import the CSS file for styling the IPS narrative
 
 interface IPSViewerProps {
@@ -54,7 +54,7 @@ const IPSViewer: React.FC<IPSViewerProps> = ({ relativeUrl }) => {
     const [bundle, setBundle] = useState<Bundle | null>(null);
     const [compositionHtml, setCompositionHtml] = useState<string>('');
     const [collapsedSections, setCollapsedSections] = useState<Set<string>>(new Set());
-    const [sectionData, setSectionData] = useState<Array<{id: string, title: string, content: string}>>([]);
+    const [sectionData, setSectionData] = useState<Array<{id: string, title: string, headings: HTMLElement[], tables: HTMLTableElement[], content: string}>>([]);
     const [collapsedResourceTypes, setCollapsedResourceTypes] = useState<Set<string>>(new Set());
     const [bundleResourcesCollapsed, setBundleResourcesCollapsed] = useState<boolean>(true);
     const [dateFilter, setDateFilter] = useState<string>('6months');
@@ -158,6 +158,18 @@ const IPSViewer: React.FC<IPSViewerProps> = ({ relativeUrl }) => {
         return grouped;
     }, [bundle]);
 
+    // Helper function to extract tables from HTML content
+    const extractTablesFromHtml = (htmlContent: string): {tables: HTMLTableElement[], headings: HTMLElement[]} => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(htmlContent, 'text/html');
+
+        // Find all tables, including those nested in divs
+        const tables = Array.from(doc.querySelectorAll('table')) as HTMLTableElement[];
+        const tableHeadings = Array.from(doc.querySelectorAll('h3')) as HTMLElement[];
+
+        return { tables, headings: tableHeadings };
+    };
+
     useEffect(() => {
         const fetchBundle = async () => {
             setIsLoading(true);
@@ -184,16 +196,22 @@ const IPSViewer: React.FC<IPSViewerProps> = ({ relativeUrl }) => {
                         baseHtml += composition.text.div;
 
                         const sections = composition.section || [];
-                        const sectionsData: Array<{id: string, title: string, content: string}> = [];
+                        const sectionsData: Array<{id: string, title: string, tables: HTMLTableElement[], headings: HTMLElement[], content: string}> = [];
                         const allSectionIds = new Set<string>();
 
                         sections.forEach((section: any, index: number) => {
                             if (section.text?.div) {
                                 const sectionId = `section-${index}`;
                                 allSectionIds.add(sectionId);
+
+                                // Extract tables from the section content
+                                const { tables, headings } = extractTablesFromHtml(section.text.div);
+
                                 sectionsData.push({
                                     id: sectionId,
                                     title: section.title || `Section ${index + 1}`,
+                                    tables,
+                                    headings,
                                     content: section.text.div
                                 });
                             }
@@ -379,10 +397,25 @@ const IPSViewer: React.FC<IPSViewerProps> = ({ relativeUrl }) => {
                                     </span>
                                 </div>
                                 {!collapsedSections.has(section.id) && (
-                                    <div
-                                        className="ips-section-content"
-                                        dangerouslySetInnerHTML={{ __html: section.content }}
-                                    />
+                                    <div className="ips-section-content">
+                                        {/* Render extracted tables with pagination */}
+                                        {section.tables.length > 0 && section.tables.map((table, tableIndex) => (
+                                            <PaginatedTable
+                                                key={`${section.id}-table-${tableIndex}`}
+                                                tableElement={table}
+                                                // eslint-disable-next-line security/detect-object-injection
+                                                title={section.headings[tableIndex]?.innerText}
+                                            />
+                                        ))}
+                                        {
+                                            section.tables.length === 0 &&
+                                            // set content received
+                                            <div
+                                                className="ips-section-content"
+                                                dangerouslySetInnerHTML={{ __html: section.content }}
+                                            />
+                                        }
+                                    </div>
                                 )}
                             </div>
                         ))}
