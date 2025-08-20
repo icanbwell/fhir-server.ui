@@ -84,7 +84,9 @@ const IPSViewer: React.FC<IPSViewerProps> = ({ relativeUrl }) => {
         if (dateFilter !== 'all') {
             const filterDate = new Date();
 
-            if (dateFilter === '6months') {
+            if (dateFilter === '1month') {
+                filterDate.setMonth(filterDate.getMonth() - 1);
+            } else if (dateFilter === '6months') {
                 filterDate.setMonth(filterDate.getMonth() - 6);
             } else if (dateFilter === '1year') {
                 filterDate.setFullYear(filterDate.getFullYear() - 1);
@@ -248,7 +250,7 @@ const IPSViewer: React.FC<IPSViewerProps> = ({ relativeUrl }) => {
         const queryParams = new URLSearchParams(location.search);
         const filterFromUrl = queryParams.get('dateFilter');
 
-        const targetFilter = (filterFromUrl && ['all', '6months', '1year'].includes(filterFromUrl))
+        const targetFilter = (filterFromUrl && ['all', '1month', '6months', '1year'].includes(filterFromUrl))
             ? filterFromUrl
             : '6months';
 
@@ -309,6 +311,7 @@ const IPSViewer: React.FC<IPSViewerProps> = ({ relativeUrl }) => {
                                 label="Date Filter"
                                 onChange={(e) => handleDateFilterChange(e.target.value)}
                             >
+                                <MenuItem value="1month">Last Month</MenuItem>
                                 <MenuItem value="6months">Last 6 Months</MenuItem>
                                 <MenuItem value="1year">Past Year</MenuItem>
                                 <MenuItem value="all">All Time</MenuItem>
