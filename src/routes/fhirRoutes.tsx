@@ -15,6 +15,7 @@ export default [
     <Route key="ObservationGraph" path="/observationGraph" element={<ObservationGraph />} />,
     <Route key="observationTimeline" path="/observationTimeline" element={<ObservationTimeline />} />,
     <Route key="search" path="/4_0_0/:resourceType/_search/*" element={<SearchPage />} />,
+    <Route key="historyByVersionId" path="/4_0_0/:resourceType/:id/_history/:vid" element={<IndexPage />} />,
     <Route key="idOperation" path="/4_0_0/:resourceType/:id?/:operation?/*" element={<IndexPage />} />,
     <Route key="operation" path="/4_0_0/:resourceType/:operation?/*" element={<IndexPage />} />,
     <Route key="excelIdOperation" path="/excel/4_0_0/:resourceType/:id?/:operation?/*" element={<ExcelViewerPage />} />,

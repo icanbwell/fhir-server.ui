@@ -31,7 +31,7 @@ const IndexPage = ({ search }: { search?: boolean }) => {
     const [loading, setLoading] = useState(false);
     const [indexStart, setIndexStart] = useState(0);
 
-    const { id, resourceType = '', operation } = useParams();
+    const { id, resourceType = '', operation, vid } = useParams();
 
     const [searchTabExpanded, setSearchTabExpanded] = useState(false);
     const [resourceCardExpanded, setResourceCardExpanded] = useState(false);
@@ -168,7 +168,7 @@ const IndexPage = ({ search }: { search?: boolean }) => {
                         resourceType,
                         id,
                         queryString,
-                        operation,
+                        operation: vid ? `_history/${vid}` : operation,
                     });
 
                     // set indexStart
@@ -211,6 +211,7 @@ const IndexPage = ({ search }: { search?: boolean }) => {
         resourceType,
         search,
         operation,
+        vid,
         fhirUrl,
         setUserDetails,
         location.search,
