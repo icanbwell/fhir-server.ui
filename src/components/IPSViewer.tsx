@@ -25,6 +25,7 @@ import { useTheme } from '../context/ThemeContext';
 import CodeIcon from '@mui/icons-material/Code';
 import PaginatedTable from './PaginatedTable';
 import './IPSNarrative.css'; // Import the CSS file for styling the IPS narrative
+import PreJson from './PreJson';
 
 interface IPSViewerProps {
     relativeUrl: string;
@@ -52,6 +53,7 @@ const IPSViewer: React.FC<IPSViewerProps> = ({ relativeUrl }) => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [bundle, setBundle] = useState<Bundle | null>(null);
+    const [rawResponse, setRawResponse] = useState<Object | null>(null);
     const [compositionHtml, setCompositionHtml] = useState<string>('');
     const [collapsedSections, setCollapsedSections] = useState<Set<string>>(new Set());
     const [sectionData, setSectionData] = useState<Array<{id: string, title: string, headings: HTMLElement[], tables: HTMLTableElement[], content: string}>>([]);
@@ -179,6 +181,7 @@ const IPSViewer: React.FC<IPSViewerProps> = ({ relativeUrl }) => {
             try {
                 const response = await baseApi.getData({ urlString: downloadUri });
                 const bundleData: Bundle = response.json;
+                setRawResponse(bundleData);
 
                 // Extract the HTML content from the first Composition resource
                 const compositionEntry = bundleData.entry?.find(
@@ -287,7 +290,12 @@ const IPSViewer: React.FC<IPSViewerProps> = ({ relativeUrl }) => {
     }
 
     if (errorMessage) {
-        return <Alert severity="error">{errorMessage}</Alert>;
+        return (
+            <>
+                <Alert severity="error">{errorMessage}</Alert>
+                {rawResponse && <PreJson data={rawResponse} />}
+            </>
+        );
     }
 
     return (
