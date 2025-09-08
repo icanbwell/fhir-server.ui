@@ -48,9 +48,10 @@ class FhirApi extends BaseApi {
     addMissingRequiredParams({
         queryParams,
         id,
-        resourceType
-    }: { queryParams: URLSearchParams; id?: string, resourceType: string }) {
-        if (!id && !queryParams.has('_count')) {
+        resourceType,
+        operation
+    }: { queryParams: URLSearchParams; id?: string, resourceType: string, operation?: string | undefined }) {
+        if ((!id || id === '_history' || operation === '_history') && !queryParams.has('_count')) {
             queryParams.append('_count', '10');
         }
         if (!queryParams.has('_metaUuid')) {
@@ -99,7 +100,7 @@ class FhirApi extends BaseApi {
                 url.searchParams.append(name, value);
             });
         }
-        this.addMissingRequiredParams({ queryParams: url.searchParams, id, resourceType });
+        this.addMissingRequiredParams({ queryParams: url.searchParams, id, resourceType, operation });
         return url;
     }
 }

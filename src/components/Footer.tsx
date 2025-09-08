@@ -24,6 +24,7 @@ function Footer({ links, requestId }: { links?: TBundleLink[]; requestId?: Strin
         ? links.some((link: TBundleLink) => link.relation === 'next')
         : false;
     const showPagination: boolean = Boolean(url && !url.includes('/_search') && links);
+    const historySearch: boolean = Boolean(url && url.includes('/_history'));
 
     useEffect(() => {
         setUserName(userDetails?.username);
@@ -31,6 +32,16 @@ function Footer({ links, requestId }: { links?: TBundleLink[]; requestId?: Strin
     }, [userDetails]);
 
     const handleChange = (newPage: number) => {
+        if (historySearch) {
+            const nextUrl = links?.find((link: TBundleLink) => link.relation === 'next')?.url;
+            if (nextUrl) {
+                const nextPageParams = new URLSearchParams(nextUrl.split('?')[1]);
+                if (nextPageParams) {
+                    navigate(location.pathname + '?' + nextPageParams.toString());
+                }
+            }
+            return;
+        }
         if (newPage > 1) {
             queryParams.set('_getpagesoffset', `${newPage - 1}`);
         } else if (newPage === 1 && queryParams.has('_getpagesoffset')) {
@@ -60,7 +71,7 @@ function Footer({ links, requestId }: { links?: TBundleLink[]; requestId?: Strin
                         size="medium"
                         variant="text"
                         onClick={() => handleChange(page - 1)}
-                        disabled={!hasPrev}
+                        disabled={!hasPrev || historySearch}
                     />
                     <PaginationItem
                         type="page"
