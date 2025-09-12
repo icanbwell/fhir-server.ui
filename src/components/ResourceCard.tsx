@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import GridOnIcon from '@mui/icons-material/GridOn';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import DescriptionIcon from '@mui/icons-material/Description';
+import { IdentifierSystem } from '../utils/identifierSystem';
 
 type TResourceCardProps = {
     index: number;
@@ -18,6 +19,39 @@ type TResourceCardProps = {
     setExpandAll: React.Dispatch<React.SetStateAction<boolean>>;
     setCollapseAll: React.Dispatch<React.SetStateAction<boolean>>;
     error?: boolean;
+};
+
+type TGetIPSLinkProps = {
+    resource: TResource;
+    uuid?: string;
+};
+
+const getIPSLink = ({
+    resource,
+    uuid,
+}: TGetIPSLinkProps) => {
+    return (
+        <Tooltip title="View International Patient Summary">
+            <Link
+                to={`/ips/4_0_0/Patient/${resource.resourceType === 'Person' ? 'person.' : ''}${uuid}/$summary`}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 4,
+                    textDecoration: 'none',
+                    color: 'inherit',
+                }}
+            >
+                <DescriptionIcon color="primary" fontSize="small" />
+                <Typography variant="body2" color="primary">
+                    IPS
+                </Typography>
+                <OpenInNewIcon color="primary" fontSize="small" />
+            </Link>
+        </Tooltip>
+    );
 };
 
 const ResourceCard = ({
@@ -52,15 +86,26 @@ const ResourceCard = ({
     }, [expanded]);
 
     // List of resource types that should show FileDownload
-    const summaryResourceTypes = ['Patient', 'Person', 'Practitioner'];
+    const spreadSheetResourceTypes = ['Patient', 'Person', 'Practitioner'];
+    const summaryResourceTypes = ['Patient', 'Person'];
+
+    const tagUUID = resource?.meta?.tag?.find((s) => s.system === IdentifierSystem.uuid)?.code;
+    const uuid = tagUUID ? tagUUID : resource.id;
 
     return (
         <Card key={index}>
             <CardHeader
                 onClick={handleOpen}
                 style={{ cursor: 'pointer' }}
-                title={`(${index + 1}) ${resource.resourceType}/${resource.id ?? ''}`}
-                action={<Button>{open ? 'Close' : 'Open'}</Button>}
+                title={`(${index + 1}) ${resource.resourceType}/${uuid ?? ''}`}
+                action={
+                    <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+                        {resource.resourceType &&
+                            summaryResourceTypes.includes(resource.resourceType.toString()) &&
+                            getIPSLink({ resource, uuid: uuid?.toString() })}
+                        <Button>{open ? 'Close' : 'Open'}</Button>
+                    </Box>
+                }
             ></CardHeader>
             <Collapse in={open}>
                 <CardContent>
@@ -70,7 +115,7 @@ const ResourceCard = ({
                     <Json resource={resource} error={error} />
                     {/* Conditionally render FileDownload based on resource type */}
                     {resource.resourceType &&
-                        summaryResourceTypes.includes(resource.resourceType.toString()) && (
+                        spreadSheetResourceTypes.includes(resource.resourceType.toString()) && (
                             <Box
                                 sx={{
                                     display: 'flex',
@@ -105,31 +150,9 @@ const ResourceCard = ({
                                     </Tooltip>
                                 </Box>
 
-                                {/* Only show IPS link for Patient resources */}
-                                {resource.resourceType === 'Patient' && (
-                                    <Box>
-                                        <Tooltip title="View Patient Summary (IPS Format)">
-                                            <Link
-                                                to={`/ips/4_0_0/${resource.resourceType}/${resource.id}/$summary`}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                style={{
-                                                    display: 'flex',
-                                                    alignItems: 'center',
-                                                    gap: 8,
-                                                    textDecoration: 'none',
-                                                    color: 'inherit',
-                                                }}
-                                            >
-                                                <DescriptionIcon color="primary" fontSize="small" />
-                                                <Typography variant="body1" color="primary">
-                                                    View Patient Summary (IPS)
-                                                </Typography>
-                                                <OpenInNewIcon color="primary" />
-                                            </Link>
-                                        </Tooltip>
-                                    </Box>
-                                )}
+                                {summaryResourceTypes.includes(
+                                    resource.resourceType.toString()
+                                ) && <Box>{getIPSLink({ resource, uuid: uuid?.toString() })}</Box>}
                             </Box>
                         )}
                 </CardContent>
