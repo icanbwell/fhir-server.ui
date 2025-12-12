@@ -16,7 +16,6 @@ import {
 import EnvironmentContext from '../context/EnvironmentContext';
 import UserContext from '../context/UserContext';
 import BaseApi from '../api/baseApi';
-import { useLocation } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 import CodeIcon from '@mui/icons-material/Code';
 import PaginatedTable from './PaginatedTable';
@@ -55,7 +54,6 @@ const IPSViewer: React.FC<IPSViewerProps> = ({ relativeUrl }) => {
     const [sectionData, setSectionData] = useState<Array<{id: string, title: string, headings: HTMLElement[], tables: HTMLTableElement[], content: string}>>([]);
     const [collapsedResourceTypes, setCollapsedResourceTypes] = useState<Set<string>>(new Set());
     const [bundleResourcesCollapsed, setBundleResourcesCollapsed] = useState<boolean>(true);
-    const location = useLocation();
     const { isDarkMode } = useTheme();
 
     const { fhirUrl } = useContext(EnvironmentContext);
