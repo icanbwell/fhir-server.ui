@@ -16,6 +16,11 @@ interface GetUrlParams {
     fhirUrl?: string;
 }
 
+interface InvalidateCacheParams {
+    resourceId: string;
+    resourceType: string;
+}
+
 class AdminApi extends BaseApi {
     async runPersonMatch({
         sourceId,
@@ -208,6 +213,18 @@ class AdminApi extends BaseApi {
             params['audit'] = true;
         }
         return await this.request({ urlString: url, params, method: 'GET' });
+    }
+
+    async invalidateCache({
+        resourceId,
+        resourceType,
+    }: InvalidateCacheParams): Promise<any> {
+        const urlString = '/admin/invalidateCache';
+        const data = {
+            resourceId,
+            resourceType,
+        };
+        return await this.request({ urlString, data, method: 'POST' });
     }
 }
 

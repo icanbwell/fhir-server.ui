@@ -7,6 +7,7 @@ import SearchLogsPage from '../admin/searchLogs';
 import Indexes from '../admin/indexes';
 import SynchronizeIndexes from '../admin/synchronizeIndexes';
 import ManageExport from '../admin/manageExport';
+import InvalidateCache from '../admin/InvalidateCache';
 
 export default [
     <Route key="personMatch" path="personMatch/*" element={<PersonMatchPage />} />,
@@ -18,4 +19,5 @@ export default [
     <Route key="indexProblems" path="indexProblems/*" element={<Indexes />} />,
     <Route key="synchronizeIndexes" path="synchronizeIndexes/*" element={<SynchronizeIndexes />} />,
     <Route key="manageExport" path="ExportStatus/:id?/*" element={<ManageExport />} />,
+    <Route key="InvalidateCache" path="InvalidateCache/*" element={<InvalidateCache />} />,
 ];
