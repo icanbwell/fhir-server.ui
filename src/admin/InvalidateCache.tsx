@@ -12,10 +12,11 @@ import {
 } from '@mui/material';
 import AdminApi from '../api/adminApi';
 import EnvironmentContext from '../context/EnvironmentContext';
-import PreJson from '../components/PreJson';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import UserContext from '../context/UserContext';
+import SelectableTable from '../components/SelectableTable';
+import PreJson from '../components/PreJson';
 
 const InvalidateCache: React.FC = () => {
     const { fhirUrl } = useContext(EnvironmentContext);
@@ -23,19 +24,41 @@ const InvalidateCache: React.FC = () => {
     const adminApi = new AdminApi({ fhirUrl, setUserDetails });
     const [resourceId, setResourceId] = useState<string>('');
     const [resourceType, setResourceType] = useState<string>('Patient');
+    const [cacheKeys, setCacheKeys] = useState<string[]>([]);
+    const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
     const [results, setResults] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
+    const handleInvalidateCache = async () => {
+        setResults('');
+        setIsLoading(true);
+        const data = await adminApi.invalidateCache({
+            cacheKeys: selectedKeys,
+        });
+        setResults(data);
+        setIsLoading(false);
+    };
+
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        setIsLoading(true);
         setResults('');
-        const data = await adminApi.invalidateCache({
+        setIsLoading(true);
+        setCacheKeys([]);
+        const data = await adminApi.getAllCacheKeys({
             resourceId,
             resourceType,
         });
-        setResults(data.json);
+        if (data && data.json && data.json.cacheKeys) {
+            setCacheKeys(data.json.cacheKeys);
+        }
+        if (data && data.status && data.status !== 200) {
+            setResults(data);
+        }
         setIsLoading(false);
+    };
+
+    const handleSelectionChange = (selectedRows: any[]) => {
+        setSelectedKeys(selectedRows);
     };
 
     return (
@@ -82,10 +105,24 @@ const InvalidateCache: React.FC = () => {
                             />
                         </Box>
                         <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
-                            Invalidate Cache
+                            Get Cache Keys
                         </Button>
                     </Box>
-                    <PreJson data={results} />
+                    {cacheKeys.length > 0 && (
+                        <Box sx={{ mt: 3 }}>
+                            <SelectableTable
+                                name="Cache Keys"
+                                rows={cacheKeys.map((key) => ({ key }))}
+                                columns={['key']}
+                                onSelectionChange={handleSelectionChange}
+                                getRowId={(row) => row.key}
+                            />
+                            <Button disabled={!selectedKeys.length || isLoading} onClick={handleInvalidateCache} variant="contained" sx={{ mt: 3, mb: 2 }}>
+                                Invalidate cache
+                            </Button>
+                        </Box>
+                    )}
+                <PreJson data={results} />
                 </Box>
                 </div>
             </div>

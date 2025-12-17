@@ -16,9 +16,13 @@ interface GetUrlParams {
     fhirUrl?: string;
 }
 
-interface InvalidateCacheParams {
+interface GetCacheKeysParams {
     resourceId: string;
     resourceType: string;
+}
+
+interface InvalidateCacheParams {
+    cacheKeys: string[];
 }
 
 class AdminApi extends BaseApi {
@@ -215,15 +219,17 @@ class AdminApi extends BaseApi {
         return await this.request({ urlString: url, params, method: 'GET' });
     }
 
+    async getAllCacheKeys({resourceId, resourceType}: GetCacheKeysParams): Promise<any> {
+        const urlString = '/admin/getCacheKeys';
+        const params = { resourceId, resourceType };
+        return await this.request({ urlString, params, method: 'GET' });
+    }
+
     async invalidateCache({
-        resourceId,
-        resourceType,
+        cacheKeys,
     }: InvalidateCacheParams): Promise<any> {
         const urlString = '/admin/invalidateCache';
-        const data = {
-            resourceId,
-            resourceType,
-        };
+        const data = {cacheKeys: cacheKeys};
         return await this.request({ urlString, data, method: 'POST' });
     }
 }
