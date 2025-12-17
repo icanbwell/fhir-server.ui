@@ -20,6 +20,7 @@ const adminLinks = [
   { label: 'Synchronize Audit Indexes (Clicking this will kick off the process)', href: '/admin/synchronizeIndexes?audit=1' },
   { divider: true },
   { label: 'Manage Export', href: '/admin/ExportStatus' },
+  { label: 'Invalidate Cache', href: '/admin/InvalidateCache' },
 ];
 
 const AdminIndexPage: React.FC = () => {
