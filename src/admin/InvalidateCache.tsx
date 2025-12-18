@@ -28,6 +28,7 @@ const InvalidateCache: React.FC = () => {
     const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
     const [results, setResults] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [searchPerformed, setSearchPerformed] = useState(false);
 
     const handleInvalidateCache = async () => {
         setResults('');
@@ -44,6 +45,7 @@ const InvalidateCache: React.FC = () => {
         setResults('');
         setIsLoading(true);
         setCacheKeys([]);
+        setSearchPerformed(true);
         const data = await adminApi.getAllCacheKeys({
             resourceId,
             resourceType,
@@ -108,6 +110,13 @@ const InvalidateCache: React.FC = () => {
                             Get Cache Keys
                         </Button>
                     </Box>
+                    {cacheKeys.length === 0 && !isLoading && searchPerformed && (
+                        <Box sx={{ mt: 3 }}>
+                            <Typography variant="body1" color="text.secondary">
+                                No cache keys found for {resourceType}: {resourceId}
+                            </Typography>
+                        </Box>
+                    )}
                     {cacheKeys.length > 0 && (
                         <Box sx={{ mt: 3 }}>
                             <SelectableTable
