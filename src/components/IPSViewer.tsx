@@ -424,15 +424,6 @@ const IPSViewer: React.FC<IPSViewerProps> = ({ relativeUrl }) => {
                                                 rel="noopener noreferrer"
                                             >
                                                 {resource.id}
-                                                {resource.resourceType === 'Patient' &&
-                                                    resource.name &&
-                                                    ` - ${resource.name
-                                                        .map((n: any) =>
-                                                            n.family
-                                                                ? `${n.given?.join(' ') || ''} ${n.family}`
-                                                                : ''
-                                                        )
-                                                        .join(', ')}`}
                                             </Link>
                                         </ListItem>
                                     ))}

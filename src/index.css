@@ -12,6 +12,20 @@ code {
     monospace;
 }
 
+/* Global link styles - exclude MUI Button links */
+a:not(.MuiButton-root):not(.MuiButtonBase-root) {
+  color: #1976d2;
+  text-decoration: underline;
+}
+
+a:not(.MuiButton-root):not(.MuiButtonBase-root):visited {
+  color: #1976d2;
+}
+
+a:not(.MuiButton-root):not(.MuiButtonBase-root):hover {
+  color: #1565c0;
+}
+
 /* Format for answer divs */
 .answer {
   color: rgb(30, 70, 32);
