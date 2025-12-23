@@ -5,7 +5,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { Paper, Typography } from '@mui/material';
+import { Paper, Typography, Link } from '@mui/material';
 import { TBaseResourceProps } from '../types/baseTypes';
 import { TIdentifier } from '../types/partials/Identifier';
 import { TCoding } from '../types/partials/Coding';
@@ -48,12 +48,12 @@ function Identifier({ identifier: identifiers, resourceType, name, isAdminPage }
                     <TableRow key={`${identifier.id}`}>
                       <TableCell>{identifier.id}</TableCell>
                       <TableCell>
-                        <a
+                        <Link
                           title={`Search for ${identifier.value}`}
                           href={`${basehref}${resourceType}?identifier=${encodeURIComponent(identifier.system?.toString() ?? '')}|${encodeURIComponent(identifier.value?.toString() ?? '')}`}
                         >
                           {identifier.value}
-                        </a>
+                        </Link>
                       </TableCell>
                       <TableCell>{identifier.system}</TableCell>
                       <TableCell>

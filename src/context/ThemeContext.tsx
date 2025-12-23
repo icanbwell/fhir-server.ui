@@ -32,6 +32,13 @@ export const ThemeContextProvider: React.FC<ThemeContextProviderProps> = ({ chil
     useEffect(() => {
         // Save theme preference to localStorage whenever it changes
         setLocalData('darkMode', JSON.stringify(isDarkMode));
+
+        // Add or remove dark-mode class from body element
+        if (isDarkMode) {
+            document.body.classList.add('dark-mode');
+        } else {
+            document.body.classList.remove('dark-mode');
+        }
     }, [isDarkMode]);
 
     const toggleDarkMode = () => {
@@ -176,6 +183,20 @@ export const ThemeContextProvider: React.FC<ThemeContextProviderProps> = ({ chil
                                 borderColor: isDarkMode ? '#666' : '#b0b0b0',
                                 backgroundColor: isDarkMode ? 'rgba(255, 255, 255, 0.04)' : 'rgba(25, 118, 210, 0.04)',
                             },
+                        },
+                    },
+                },
+            },
+            MuiLink: {
+                styleOverrides: {
+                    root: {
+                        color: '#1976d2',
+                        textDecoration: 'underline',
+                        '&:visited': {
+                            color: '#1976d2',
+                        },
+                        '&:hover': {
+                            color: '#1565c0',
                         },
                     },
                 },

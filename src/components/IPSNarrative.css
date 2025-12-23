@@ -79,16 +79,17 @@
 
 /* Links */
 .ips-narrative-container a {
-  color: var(--link-color, #0066cc);
-  text-decoration: none;
-}
-
-.ips-narrative-container a:hover {
+  color: var(--link-color, #1976d2);
   text-decoration: underline;
 }
 
-.dark-mode .ips-narrative-container a {
-  color: var(--link-color, #90caf9);
+.ips-narrative-container a:visited {
+  color: var(--link-color, #1976d2);
+}
+
+.ips-narrative-container a:hover {
+  color: var(--link-color, #1565c0);
+  text-decoration: underline;
 }
 
 /* Div containers and sections */
